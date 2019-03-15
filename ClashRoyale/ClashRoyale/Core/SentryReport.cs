@@ -8,19 +8,22 @@ namespace ClashRoyale.Core
     {
         public SentryReport()
         {
-            Client = new RavenClient("") // Instert your own api url here
+            /*Client = new RavenClient("") // Instert your own api url here
             {
                 Logger = "ClashRoyale",
                 IgnoreBreadcrumbs = true
             };
 
-            Client.Tags.Add("contentVersion", Resources.Fingerprint.GetVersion);
+            Client.Tags.Add("contentVersion", Resources.Fingerprint.GetVersion);*/
         }
 
         public RavenClient Client { get; set; }
 
         public async void Report(string message, Type type, ErrorLevel level)
         {
+            if (Client == null)
+                return;
+
             try
             {
                 var sentryEvent = new SentryEvent(message)
