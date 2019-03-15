@@ -93,7 +93,7 @@ namespace ClashRoyale.Protocol.Commands.Server
 
                     attackBuffer.WriteVInt(1); // IsAttack
                     {
-                        Data.WriteVInt(Card.Id(TroopType, TroopId));
+                        attackBuffer.WriteVInt(Card.Id(TroopType, TroopId));
                     }
 
                     attackBuffer.WriteVInt(TroopLevel);
