@@ -34,7 +34,7 @@ namespace ClashRoyale.Core.Network
                     pipeline.AddLast("PacketProcessor", new PacketHandler());
                 }));
 
-            var boundChannel = await ServerBootstrap.BindAsync(9339);
+            var boundChannel = await ServerBootstrap.BindAsync(Resources.Configuration.ServerPort);
 
             Logger.Log($"Listening on {((IPEndPoint) boundChannel.LocalAddress).Port} with DotNetty!", GetType());
         }
