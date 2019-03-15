@@ -1,0 +1,16 @@
+Name,Location,NPC,TID,ButtonTID,FinishRequirement,Chest,WaitTimeMS,FileName,PopupCorner,PopupExportName,BubbleExportName,Sound,Darkening,BubbleObject,OverlayExportName,SpellDragExportName,SpellToCast,ForceSpellTile,DisableOtherSpells,SpellTileX,SpellTileY,DisableSpells,HideCombatUI,DisableTroopMovement,DisableLeaderMovement,DisableSpawnPoints,DisableOpponentSpells,PauseCombat,Dependency,Priority,Taunt,HighlightTargetsOnManaFull,DisableBattleStartScreen,NpcMatchesPlayed,DisableBattleMenu,CloseAutomaticallyAfterSeconds,GroupMod,GroupValue
+String,String,String,String,String,String,String,int,String,int,String,String,String,boolean,String,String,String,String,boolean,boolean,int,int,boolean,boolean,boolean,boolean,boolean,boolean,boolean,String,int,String,boolean,boolean,int,boolean,int,int,int
+UpgradeSpell,,,,,FuseSpell,,,,,,,,,,,,,,,,,,,,,,,,,0,,,,,true,,,
+AskName,,Npc6,,,EnterName,,,,,,,,,,,,,,,,,,,,,,,,,5,,,,6,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+OpenFirstChest,,,,,OpenChest,Newbie1,,,,,,,,,,,,,,,,,,,,,,,,3,,,,1,,,,
+ClaimFirstChest,,,,,ClaimChest,Newbie1,,,,,,,,,,,,,,,,,,,,,,,OpenFirstChest,2,,,,1,,,,
+StartSecondNPC,,Npc2,,,StartNPC,,,,,,,,,,,,,,,,,,,,,,,,UpgradeSpell,1,,,,1,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+DISABLED1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,999,-1
+DISABLED2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,999,-1
+DISABLED3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,999,-1
+OpenFirstChest2,,,,,OpenChest,Newbie5_1,,,,,,,,,,,,,,,,,,,,,,,,3,,,,1,,,,
+ClaimFirstChest2,,,,,ClaimChest,Newbie5_1,,,,,,,,,,,,,,,,,,,,,,,OpenFirstChest2,2,,,,1,,,,
+StartSecondNPC2,,Npc2_2,,,StartNPC,,,,,,,,,,,,,,,,,,,,,,,,UpgradeSpell,1,,,,1,,,,
+AskName2,,Npc4_2,,,EnterName,,,,,,,,,,,,,,,,,,,,,,,,,5,,,,4,,,,

@@ -1,0 +1,17 @@
+Name,Chest,NPC,PvE_Tutorial
+String,String,String,String
+Wins7,Newbie1,Npc1,
+,Newbie2,Npc2,
+,NewbieRandom,Npc3,
+,NewbieFixedEpic,Npc4,
+,NewbieRandom,Npc5,
+,NewbieRandom,Npc6,
+,Silver,Npc7,
+Wins5,Newbie5_1,Npc1_2,
+,Newbie5_2,Npc2_2,Tutorial1
+,Newbie5_3,Npc3_2,Tutorial2
+,Newbie5_Random,Npc4_2,
+,Silver,Npc5_2,
+Wins3,Newbie3_1,Npc1,
+,Newbie3_2,Npc2,
+,Silver,Npc7,

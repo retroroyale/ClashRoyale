@@ -1,0 +1,10 @@
+"Name","FileName","PlayerExportName","EnemyExportName","NoDamagePlayerExportName","NoDamageEnemyExportName","MinimumHitpointValue","ShowOwnAlways","ShowEnemyAlways","YOffset","ShowAsShield"
+"String","String","String","String","String","String","int","boolean","boolean","int","boolean"
+"Small","sc/ui.sc","hp_player_small","hp_enemy_small","hp_player_number","hp_enemy_number",0,,"true",,
+"Medium","sc/ui.sc","hp_player_medium","hp_enemy_medium","hp_player_number","hp_enemy_number",75,,"true",,
+"High","sc/ui.sc","hp_player_high","hp_enemy_high","hp_player_number","hp_enemy_number",150,,"true",,
+"Tower","sc/ui.sc","hp_player_tower_withNumber","hp_enemy_tower_withNumber","hp_player_tower_withNumber","hp_enemy_tower_withNumber",,,"true",,
+"Summoner","sc/ui.sc","hp_player_wizard","hp_enemy_wizard","hp_player_wizard","hp_enemy_wizard",,"true","true",20,
+"Shield","sc/ui.sc","hp_shield_player_medium","hp_shield_enemy_medium","hp_shield_player_number","hp_shield_enemy_number",,,"true",,
+"Shield_small","sc/ui.sc","hp_shield_player_small","hp_shield_enemy_small","hp_shield_player_number","hp_shield_enemy_number",,,"true",,
+"MediumShield","sc/ui.sc","hp_shield_player_medium","hp_shield_enemy_medium","hp_shield_player_number","hp_shield_enemy_number",,,"true",,TRUE

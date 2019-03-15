@@ -1,0 +1,14 @@
+"Name","Rarity","LifeDuration","LifeDurationIncreasePerLevel","LifeDurationIncreaseAfterTournamentCap","AffectsHidden","Radius","LoopingEffect","OneShotEffect","ScaledEffect","HitEffect","Pushback","MaximumTargets","HitSpeed","Damage","NoEffectToCrownTowers","CrownTowerDamagePercent","HitBiggestTargets","Buff","BuffTime","BuffTimeIncreasePerLevel","BuffTimeIncreaseAfterTournamentCap","CapBuffTimeToAreaEffectTime","BuffNumber","OnlyEnemies","OnlyOwnTroops","IgnoreBuildings","Projectile","SpawnCharacter","SpawnInterval","SpawnEffect","SpawnDeployBaseAnim","SpawnTime","SpawnCharacterLevelIndex","SpawnInitialDelay","SpawnMaxCount","HitsGround","HitsAir","ProjectileStartHeight","ProjectilesToCenter","SpawnsAEO","ControlsBuff","Clone","AttractPercentage"
+"string","String","int","int","int","boolean","int","string","string","string","string","int","int","int","int","boolean","int","boolean","string","int","int","int","boolean","int","boolean","boolean","boolean","string","String","int","String","String","int","int","int","int","boolean","boolean","int","boolean","String","boolean","boolean","int"
+"Rage","Epic",6000,500,500,,5000,"Spell_rage_loop","Spell_rage_effect","Spell_rage_ground",,,,300,,,,,"Rage",2000,,,"TRUE",1,,"TRUE",,,,,,,,,,,"TRUE","TRUE",,,,,,
+"Freeze","Epic",4000,300,300,"TRUE",3000,"Spell_freeze_loop",,"Spell_freeze_ground",,,,,,,,,"Freeze",4000,300,300,,1,"TRUE",,,,,,,,,,,,"TRUE","TRUE",,,,,,
+"Lightning","Epic",1500,,,,3500,,,,,,,460,,,,"TRUE",,,,,,,"TRUE",,,"LighningSpell",,,,,,,,,"TRUE","TRUE",10,,,,,
+"Zap","Common",1,,,,2500,,"Spell_zap_effect",,,,,,75,,-60,,"ZapFreeze",500,,,,,"TRUE",,,,,,,,,,,,"TRUE","TRUE",,,,,,
+"Poison","Epic",8000,,,,3500,"Spell_poison_loop","Spell_poison_effect","Spell_poison_ground",,,,250,,,,,"Poison",1000,,,,1,"TRUE",,,,,,,,,,,,"TRUE","TRUE",,,,,,
+"BarbarianRage","Legendary",7500,500,500,,5000,"Spell_rage_loop","Spell_rage_effect","Spell_rage_ground",,,,300,,,,,"Rage",2000,,,"TRUE",1,,"TRUE",,,,,,,,,,,"TRUE","TRUE",,,,,,
+"Graveyard","Legendary",10000,,,,5000,,,"Spell_graveyard_ground",,,,,,,,,,,,,"TRUE",1,,"TRUE",,,"Skeleton",500,"Graveyard_appear","filter_deploy_unit_skeleton",400,8,1500,,"TRUE","TRUE",,,,,,
+"FreezeIceGolemite","Rare",2000,,,"TRUE",2000,,"IceGolem_slow_loop","IceGolem_slow_ground",,,,,,,,,"IceWizardSlowDown",2000,,,,1,"TRUE",,,,,,,,,,,,"TRUE","TRUE",,,,,,
+"Tornado","Epic",2550,,,,5500,,,"Spell_tornado_deploy",,,,50,,,,,"Tornado",500,,,,,"TRUE",,"TRUE",,,,,,,,,,"TRUE","TRUE",,,,"TRUE",,220
+"Clone","Epic",1000,,,,3000,,,"spell_clone_ground",,,,,,,,,"Clone",500,,,,,,"TRUE","TRUE",,,,,"filter_hologram",,,,,"TRUE","TRUE",,,,,"TRUE",
+"NOT_IN_USE","Epic",1000,,,,3000,,,"spell_clone_ground",,,,,,,,,"Clone",500,,,,,,"TRUE","TRUE",,,,,"filter_hologram",,,,,"TRUE","TRUE",,,,,"TRUE",
+"Heal","Rare",3050,,,,3000,,,"Healing",,,,50,,,,,"Heal",500,,,,1,,"TRUE","TRUE",,,,,,,,,,"TRUE","TRUE",,,,,,

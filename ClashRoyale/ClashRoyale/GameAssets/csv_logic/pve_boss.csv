@@ -1,0 +1,13 @@
+Name,Waves,WaveDuration,Repeat
+String,String,int,boolean
+Boss1,Boss1Def,100,
+,Boss1Hogs,200,
+,Boss1FunkTown,300,
+Tutorial1,Nothing,50,
+,TutorialDefendIntro,250,
+,TutorialDefendLeft,250,TRUE
+,TutorialDefendRight,300,TRUE
+Tutorial2,Nothing,60,
+,TutorialGoblins,200,TRUE
+,Tutorial2WaveHard,300,TRUE
+,TutorialGoblins,200,TRUE

@@ -1,0 +1,5 @@
+"Name","TID","Resource","Amount","IconFile"
+"String","String","String","int","string"
+"Gold1","TID_RESOURCE_PACK_GOLD_SMALL","Gold",1000,"shop_gold01"
+"Gold2","TID_RESOURCE_PACK_GOLD_MEDIUM","Gold",10000,"shop_gold02"
+"Gold3","TID_RESOURCE_PACK_GOLD_BIG","Gold",100000,"shop_gold03"

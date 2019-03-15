@@ -1,0 +1,11 @@
+"Name","Rarity","TID","IconFileName","IconExportName","ChangeControl","NoEffectToCrownTowers","CrownTowerDamagePercent","DamagePerSecond","HitFrequency","DamageReduction","HealPerSecond","ImmuneToAntiMagic","HitSpeedMultiplier","SpeedMultiplier","SpawnSpeedMultiplier","NegatesBuffs","ImmunityToBuffs","Invisible","RemoveOnAttack","RemoveOnHeal","DamageMultiplier","Panic","Effect","FilterFile","FilterExportName","FilterAffectsTransformation","FilterInheritLifeDuration","SizeMultiplier","StaticTarget","IgnorePushBack","MarkEffect","AudioPitchModifier","PortalSpell","AttractPercentage","ControlledByParent","Clone","Scale","EnableStacking"
+"String","String","String","String","String","Boolean","Boolean","int","int","int","int","int","Boolean","int","int","int","String","String","Boolean","Boolean","Boolean","int","boolean","String","String","String","boolean","boolean","int","boolean","boolean","String","int","String","int","boolean","boolean","int","boolean"
+"Rage","Epic","TID_SPELL_RAGE",,,,,,,,,,,135,135,135,,,,,,,,"Spell_rage_hit_effect","sc/effects.sc","filter_rage",,,,,,"Healing",125,,,,,,
+"Freeze","Epic","TID_SPELL_FREEZE",,,,,,,,,,"TRUE",-100,-100,-100,,,,,,,,,"sc/effects.sc","filter_cold",,,,,,,,,,,,,
+"Poison","Epic","TID_SPELL_POISON",,,,,-60,57,1000,,,"TRUE",,,,,,,,,,,"PoisonSteam","sc/effects.sc","filter_poison",,,,,,,,,,,,,TRUE
+"IceWizardSlowDown","Legendary",,,,,,,,,,,,-35,-35,-35,,,,,,,,,"sc/effects.sc","filter_cold",,,,,,"Healing",75,,,,,,
+"ZapFreeze","Common","TID_SPELL_ZAP_FREEZE",,,,,,,,,,"TRUE",-100,-100,-100,,,,,,,,,"sc/effects.sc","filter_cold",,,,,,,,,,,,,
+"Tornado","Epic","TID_SPELL_TORNADO",,,,,-100,44,500,,,,,,,,,,,,,,,"sc/effects.sc","filter_poison",,,,,,"Healing",,,220,"true",,,TRUE
+"Clone","Epic","TID_SPELL_CLONE",,,,,,,,,,,-100,-100,-100,,,,,,,,,,,,,,,,,,,,,"true",,
+"Heal","Rare",,,,,,,,500,,100,,,,,,,,,,,,,,,,,,,,,,,,,,,TRUE
+"Stun","Legendary",,,,,,,,,,,"TRUE",-100,-100,-100,,,,,,,,,,,,,,,,,,,,,,,

@@ -1,0 +1,3 @@
+"Name","ID","Enabled","TID","InfoTID","ItemSWF","ItemExportName","IconSWF","IconExportName","ImageSWF","ImageExportName","ButtonUrl","ButtonTID"
+"String","int","Boolean","String","String","String","String","String","String","String","String","String","String"
+"Update",121,"TRUE","TID_NEWS_UPDATE_TITLE","TID_NEWS_UPDATE_TEXT","sc/ui.sc","news_item",,,,,"http://clashroyale.com/blog/news/upcoming-balance-changes","TID_NEWS_ITEM_BUTTON"

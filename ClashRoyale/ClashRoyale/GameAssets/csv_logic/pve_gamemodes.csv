@@ -1,0 +1,44 @@
+"Name","Waves","VictoryCondition","ForcedCards","Location","ComputerPlayerType","TowerRules"
+"String","String","String","String","String","String","String"
+"Puzzle1 – Sparky","SparkyGiant","DestroyAllUnits","Cannon","PvE_training","Puzzle","Survive"
+,,,"Barbarians",,,
+,,,"Zap",,,
+"Puzzle2 – Hogs","Hogs","DestroyAllUnits","Tombstone","PvE_training","Puzzle","Survive"
+,,,"Barbarians",,,
+,,,"IceSpirits",,,
+"Puzzle3 – Rocket Hogs","DoubleHogs","DestroyAllUnits","Rocket","PvE_training","Puzzle","Survive"
+,,,"Rocket",,,
+,,,"Rocket",,,
+,,,"Rocket",,,
+"Puzzle4 – Wat","Lightning","DestroyAllUnits","Barbarians","PvE_training","Puzzle","Survive"
+"Puzzle5 – Barmy Skarmy","Skarmy","DestroyAllUnits","Zap","PvE_training","Puzzle","Survive"
+,,,"Log",,,
+,,,"IceSpirits",,,
+"Puzzle6 – Ham Ice Cream","HogFreeze","DestroyAllUnits","Barbarians","PvE_training","Puzzle","Survive"
+,,,"IceSpirits",,,
+"Puzzle7 – Floater","RageBalloon","DestroyAllUnits","Cannon","PvE_training","Puzzle","Survive"
+,,,"Cannon",,,
+,,,"Cannon",,,
+,,,"Cannon",,,
+,,,"Cannon",,,
+"Puzzle8 – Red Carpet","AngryBarbarians","DestroyAllUnits","ZapMachine","PvE_training","Puzzle","Survive"
+,,,"Tornado",,,
+,,,"IceGolemite",,,
+"Puzzle9 – Witchhunt","NightW","DestroyAllUnits","DarkWitch","PvE_training","Puzzle","Survive"
+"Puzzle10 – Minority Report","Princess","DestroyAllUnits","Skeletons","PvE_training","Puzzle","Survive"
+"Puzzle11 – Minority Report II","Princesses","DestroyAllUnits","Skeletons","PvE_training","Puzzle","Survive"
+,,,"Skeletons",,,
+,,,"Skeletons",,,
+,,,"Skeletons",,,
+"Puzzle12 – Shadowstep","Archers","DestroyAllUnits","Assassin","PvE_training","Puzzle","Survive"
+,,,"Clone",,,
+"Puzzle13 – Dance","PEKKA","DestroyAllUnits","IceGolemite","PvE_training","Puzzle","Survive"
+,,,"Musketeer",,,
+"Puzzle14 – Dance II","PEKKASKELLY","DestroyAllUnits","IceGolemite","PvE_training","Puzzle","Survive"
+,,,"Musketeer",,,
+"Puzzle15 – Is It A Bird-Plane?","BirdPlane","DestroyAllUnits","Arrows","PvE_training","Puzzle","Survive"
+"Puzzle16 – Hipster Barrel","HipsterBarrel","DestroyAllUnits","Arrows","PvE_training","Puzzle","Survive"
+,,,"Arrows",,,
+"Boss1","Boss1","DestroyAllUnits",,"PvE_training","Boss","Survive"
+"Tutorial1","Tutorial1","DestroyAllTowers",,"FirstMatch","Tutorial","Tutorial"
+"Tutorial2","Tutorial2","DestroyAllTowers",,"FirstMatch","Tutorial","Tutorial"

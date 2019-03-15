@@ -1,0 +1,4 @@
+Name,MetadataType,MetadataPath,EvaluationLocation,ParameterName,ParameterType,IsRequired,ObjectType,MatchingRuleType
+string,string,string,string,string,string,boolean,string,string
+ByTag,TargetingMetadata,Tags,SERVER,Tag,ENUMERATION,TRUE,Tags,IsInStringList
+ByCountry,InGameMetadata,Country,SERVER,Country,LIST,TRUE,STRING,ContainsString

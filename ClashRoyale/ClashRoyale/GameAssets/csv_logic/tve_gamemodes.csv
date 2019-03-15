@@ -1,0 +1,13 @@
+"Name","PrimarySpells","SecondarySpells","CastSpells","RandomWaves","ElixirPerWave","WaveCount","TimePerWave","TimeToFirstWave","ForcedCards1","ForcedCards2","RotateDecks"
+"String","String","String","String","boolean","int","int","int","int","String","String","boolean"
+"Puzzle1","Giant","Balloon","Fireball",FALSE,10,4,16000,6000,"Goblins","Poison",FALSE
+,"Prince","GoblinGang","Arrows",,,,,,"BabyDragon","Tombstone",
+,"Pekka","Minions",,,,,,,"MiniPekka","Tesla",
+,"DarkPrince","Goblins",,,,,,,"Knight","Log",
+"Puzzle2","BabyDragon","Minions",,FALSE,,4,16000,7000,"Skeletons","Skeletons",FALSE
+,"DarkPrince","Minions",,,,,,,"Skeletons","Skeletons",
+,"HogRider","Minions",,,,,,,"Skeletons","Skeletons",
+,"AngryBarbarians","Minions",,,,,,,"Wizard","SkeletonArmy",
+"Puzzle3","HogRider","Barbarians",,FALSE,,3,16000,8000,"Mirror","Bowler",FALSE
+,"MinionHorde","Goblins",,,,,,,"Zap","Zap",
+,"HogRider","AngryBarbarians",,,,,,,"Cannon","Mirror",
