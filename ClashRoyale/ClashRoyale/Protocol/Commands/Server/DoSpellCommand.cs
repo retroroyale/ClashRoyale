@@ -75,9 +75,12 @@ namespace ClashRoyale.Protocol.Commands.Server
 
             if (battle != null)
             {
+                var data = new byte[Data.ReadableBytes];
+                Data.GetBytes(Data.ReaderIndex, data);
+
                 var buffer = Unpooled.Buffer();
                 {
-                    buffer.WriteBuffer(Data.Array);
+                    buffer.WriteBuffer(data);
 
                     buffer.WriteVInt(TroopLevel);
 
@@ -89,7 +92,7 @@ namespace ClashRoyale.Protocol.Commands.Server
 
                 var attackBuffer = Unpooled.Buffer();
                 {
-                    attackBuffer.WriteBuffer(Data.Array);
+                    attackBuffer.WriteBuffer(data);
 
                     attackBuffer.WriteVInt(1); // IsAttack
                     {
