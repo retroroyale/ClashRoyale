@@ -67,9 +67,12 @@ namespace ClashRoyale.Protocol.Messages.Client
                             Logger.Log(exception, GetType(), ErrorLevel.Error);
                         }
                     else
+                    {
                         Logger.Log(
-                            $"Command {type} is unhandled.\nData: {BitConverter.ToString(Buffer.ReadBytes(Buffer.ReadableBytes).Array).Replace("-", "")}",
+                            $"Command {type} is unhandled.",
                             GetType(), ErrorLevel.Warning);
+                        break;
+                    }
                 }
         }
     }

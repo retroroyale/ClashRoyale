@@ -1,4 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using ClashRoyale.Files;
+using ClashRoyale.Files.CsvLogic;
+using ClashRoyale.Logic.Home.Chests.Items;
+using ClashRoyale.Logic.Home.Decks.Items;
+using Newtonsoft.Json;
 
 namespace ClashRoyale.Logic.Home.Chests
 {
@@ -6,7 +11,7 @@ namespace ClashRoyale.Logic.Home.Chests
     {
         [JsonIgnore] public Home Home { get; set; }
 
-        /*public Chest BuyChest(int instanceId, Chest.ChestType type)
+        public Chest BuyChest(int instanceId, Chest.ChestType type)
         {
             var chests = Csv.Tables.Get(Csv.Types.TreasureChests);
             var mainchest = chests.GetDataWithInstanceId<TreasureChests>(instanceId);
@@ -20,39 +25,121 @@ namespace ClashRoyale.Logic.Home.Chests
                 Type = type
             };
 
-            for (var i = 0; i < baseChest.RandomSpells / 2; i++)
+            // Common
             {
-                var card = Card.Random(Card.Rarity.Common);
-                card.Count = random.Next(40, 60);
+                if (type == Chest.ChestType.Shop)
+                {
+                    for (var i = 0; i < random.Next(4, 7); i++)
+                        if (random.Next(1, 2) == 1)
+                        {
+                            var card = Card.Random(Card.Rarity.Common);
+                            card.Count = random.Next(40, 60);
 
-                chest.Add(card);
+                            chest.Add(card);
+                            Home.Deck.Add(card);
+                        }
+                }
+                else
+                {
+                    for (var i = 0; i < random.Next(2, 5); i++)
+                        if (random.Next(1, 2) == 1)
+                        {
+                            var card = Card.Random(Card.Rarity.Common);
+                            card.Count = random.Next(10, 20);
+
+                            chest.Add(card);
+                            Home.Deck.Add(card);
+                        }
+                }
             }
 
-            for (var i = 0; i < baseChest.RandomSpells / 3; i++)
+            // Rare
             {
-                var card = Card.Random(Card.Rarity.Rare);
-                card.Count = random.Next(5, 10);
+                if (type == Chest.ChestType.Shop)
+                {
+                    for (var i = 0; i < random.Next(1, 5); i++)
+                        if (random.Next(1, 2) == 1)
+                        {
+                            var card = Card.Random(Card.Rarity.Rare);
+                            card.Count = random.Next(10, 30);
 
-                chest.Add(card);
+                            chest.Add(card);
+                            Home.Deck.Add(card);
+                        }
+                }
+                else
+                {
+                    for (var i = 0; i < random.Next(1, 3); i++)
+                        if (random.Next(1, 4) == 1)
+                        {
+                            var card = Card.Random(Card.Rarity.Rare);
+                            card.Count = random.Next(5, 15);
+
+                            chest.Add(card);
+                            Home.Deck.Add(card);
+                        }
+                }
             }
 
             // Epic
             { 
-                var card = Card.Random(Card.Rarity.Epic);
-                card.Count = random.Next(1, 5);
+                if (type == Chest.ChestType.Shop)
+                {
+                    for (var i = 0; i < random.Next(1, 2); i++)
+                        if (random.Next(1, 3) == 1)
+                        {
+                            var card = Card.Random(Card.Rarity.Epic);
+                            card.Count = random.Next(1, 8);
 
-                chest.Add(card);
+                            chest.Add(card);
+                            Home.Deck.Add(card);
+                        }
+                }
+                else
+                {
+                    if (random.Next(1, 20) == 1)
+                    {
+                        var card = Card.Random(Card.Rarity.Epic);
+                        card.Count = random.Next(1, 5);
+
+                        chest.Add(card);
+                        Home.Deck.Add(card);
+                    }
+                }
             }
 
             // Legendary
             {
-                var card = Card.Random(Card.Rarity.Legendary);
-                card.Count = 1;
+                if (type == Chest.ChestType.Shop)
+                {
+                    if (random.Next(1, 5) == 1)
+                    {
+                        var card = Card.Random(Card.Rarity.Legendary);
+                        card.Count = 1;
 
-                chest.Add(card);
+                        chest.Add(card);
+                        Home.Deck.Add(card);
+                    }
+                }
+                else
+                {
+                    if (random.Next(1, 50) == 1)
+                    {
+                        var card = Card.Random(Card.Rarity.Legendary);
+                        card.Count = 1;
+
+                        chest.Add(card);
+                        Home.Deck.Add(card);
+                    }
+                }
+            }
+
+            if (type == Chest.ChestType.Shop)
+            {
+                // TODO: Cost
             }
 
             return chest;
-        }*/
+        }
     }
 }

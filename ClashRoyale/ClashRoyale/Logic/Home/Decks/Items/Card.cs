@@ -181,44 +181,44 @@ namespace ClashRoyale.Logic.Home.Decks.Items
             Card card = null;
 
             var random = new Random();
-            var result = random.Next(26, 29);
-
-            if (rarity == Rarity.Legendary && result == 28)
-                result = random.Next(26, 28);
+            var result = rarity == Rarity.Legendary ? random.Next(1, 3) : random.Next(1, 4);
 
             switch (result)
             {
-                case 26:
+                case 1:
                 {
                     var datas = Csv.Tables.Get(Csv.Types.SpellsCharacters).GetDatas()
                         .Where(s => !((SpellsCharacters) s).NotInUse &&
                                     ((SpellsCharacters) s).Rarity == rarity.ToString());
 
-                    if (datas.ElementAt(random.Next(0, datas.Count())) is SpellsCharacters c)
+                    var enumerable = datas.ToList();
+                    if (enumerable.ElementAt(random.Next(0, enumerable.Count)) is SpellsCharacters c)
                         card = new Card(26, c.GetInstanceId(), false);
 
                     break;
                 }
 
-                case 27:
+                case 2:
                 {
-                    var datas = Csv.Tables.Get(Csv.Types.SpellsBuildings).GetDatas()
-                        .Where(s => !((SpellsBuildings) s).NotInUse &&
-                                    ((SpellsBuildings) s).Rarity == rarity.ToString());
+                    var datas = Csv.Tables.Get(Csv.Types.SpellsOther).GetDatas()
+                        .Where(s => !((SpellsOther)s).NotInUse && ((SpellsOther)s).Rarity == rarity.ToString());
 
-                    if (datas.ElementAt(random.Next(0, datas.Count())) is SpellsBuildings c)
-                        card = new Card(27, c.GetInstanceId(), false);
+                    var enumerable = datas.ToList();
+                    if (enumerable.ElementAt(random.Next(0, enumerable.Count)) is SpellsOther c)
+                        card = new Card(28, c.GetInstanceId(), false);
 
                     break;
                 }
 
-                case 28:
-                {
-                    var datas = Csv.Tables.Get(Csv.Types.SpellsOther).GetDatas()
-                        .Where(s => !((SpellsOther) s).NotInUse && ((SpellsOther) s).Rarity == rarity.ToString());
+                case 3:
+                {            
+                    var datas = Csv.Tables.Get(Csv.Types.SpellsBuildings).GetDatas()
+                        .Where(s => !((SpellsBuildings)s).NotInUse &&
+                                    ((SpellsBuildings)s).Rarity == rarity.ToString());
 
-                    if (datas.ElementAt(random.Next(0, datas.Count())) is SpellsOther c)
-                        card = new Card(28, c.GetInstanceId(), false);
+                    var enumerable = datas.ToList();
+                    if (enumerable.ElementAt(random.Next(0, enumerable.Count)) is SpellsBuildings c)
+                        card = new Card(27, c.GetInstanceId(), false);
 
                     break;
                 }

@@ -70,7 +70,7 @@ namespace ClashRoyale.Logic
                             }
                             catch (Exception exception)
                             {
-                                Logger.Log(exception, GetType(), ErrorLevel.Error);
+                                Logger.Log($"Failed to process {identifier}: " + exception, GetType(), ErrorLevel.Error);
                             }
 
                         if (buffer.ReadableBytes >= 7) continue;

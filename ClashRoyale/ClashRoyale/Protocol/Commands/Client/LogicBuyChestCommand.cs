@@ -1,5 +1,7 @@
 ﻿using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
+using ClashRoyale.Logic.Home.Chests.Items;
+using ClashRoyale.Protocol.Commands.Server;
 using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
 
@@ -24,7 +26,7 @@ namespace ClashRoyale.Protocol.Commands.Client
 
         public override async void Process()
         {
-            /*var chest = Device.Player.Home.Chests.BuyChest(InstanceId, Chest.ChestType.Shop);
+            var chest = Device.Player.Home.Chests.BuyChest(InstanceId, Chest.ChestType.Shop);
 
             await new AvailableServerCommand(Device)
             {
@@ -32,9 +34,7 @@ namespace ClashRoyale.Protocol.Commands.Client
                 {
                     Chest = chest
                 }
-            }.Send();*/
-
-            await new OutOfSyncMessage(Device).Send();
+            }.Send();
         }
     }
 }
