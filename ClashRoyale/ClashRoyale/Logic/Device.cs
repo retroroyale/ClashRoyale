@@ -36,25 +36,24 @@ namespace ClashRoyale.Logic
         /// <returns></returns>
         public async Task Process(IByteBuffer buffer)
         {
-            if (buffer.ReadableBytes > 6)
+            while (true)
             {
-                var identifier = buffer.ReadUnsignedShort();
-                var length = (ushort) buffer.ReadUnsignedMedium();
-
-                if (identifier >= 10000 && identifier < 20000)
+                if (buffer.ReadableBytes > 6)
                 {
-                    if (!LogicScrollMessageFactory.Messages.ContainsKey(identifier))
-                    {
-                        Logger.Log($"Message {identifier} is not known.", GetType(), ErrorLevel.Warning);
+                    var identifier = buffer.ReadUnsignedShort();
+                    var length = (ushort) buffer.ReadUnsignedMedium();
 
-                        await Disconnect();
-                    }
-                    else
+                    if (identifier >= 10000 && identifier < 20000)
                     {
-                        if (Activator.CreateInstance(LogicScrollMessageFactory.Messages[identifier], this,
-                                buffer) is
-                            PiranhaMessage
-                            message)
+                        if (!LogicScrollMessageFactory.Messages.ContainsKey(identifier))
+                        {
+                            Logger.Log($"Message {identifier} is not known.", GetType(), ErrorLevel.Warning);
+
+                            await Disconnect();
+                            break;
+                        }
+
+                        if (Activator.CreateInstance(LogicScrollMessageFactory.Messages[identifier], this, buffer) is PiranhaMessage message)
                             try
                             {
                                 message.Id = identifier;
@@ -65,24 +64,24 @@ namespace ClashRoyale.Logic
                                 message.Decode();
                                 message.Process();
 
-                                Logger.Log($"[C] Message {identifier} has been handled.", GetType(),
-                                    ErrorLevel.Debug);
+                                Logger.Log($"[C] Message {identifier} has been handled.", GetType(), ErrorLevel.Debug);
 
-                                if (message.Save && CurrentState == State.Home)
-                                    Player.Save();
+                                if (message.Save && CurrentState == State.Home) Player.Save();
                             }
                             catch (Exception exception)
                             {
                                 Logger.Log(exception, GetType(), ErrorLevel.Error);
                             }
-                    }
 
-                    if (buffer.ReadableBytes >= 7) await Process(buffer);
+                        if (buffer.ReadableBytes >= 7) continue;
+                    }
+                    else
+                    {
+                        await Disconnect();
+                    }
                 }
-                else
-                {
-                    await Disconnect();
-                }
+
+                break;
             }
         }
 
