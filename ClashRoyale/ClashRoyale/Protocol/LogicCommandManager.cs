@@ -23,7 +23,8 @@ namespace ClashRoyale.Protocol
                 {516, typeof(LogicBuyChestCommand)},
                 {517, typeof(LogicBuyResourcesCommand)},
                 {518, typeof(LogicBuySpellCommand)},
-                {525, typeof(StartMatchmakeCommand)}
+                {525, typeof(StartMatchmakeCommand)},
+               // {557, typeof()} // NewLeaguesSeen
             };
         }
     }

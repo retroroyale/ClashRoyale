@@ -35,10 +35,13 @@ namespace ClashRoyale.Logic
             {
                 packet.WriteVInt(4597);
                 packet.WriteVInt(1816);
+
                 packet.WriteVInt(1584540);
                 packet.WriteVInt(1645300);
-                packet.WriteVInt(1500268361);
-                packet.WriteVInt(0);
+
+                packet.WriteVInt(1500268361); // Last Login
+
+                packet.WriteByte(0);
             }
 
             // Decks
@@ -170,7 +173,8 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(63);
-            packet.WriteVInt(15);
+
+            packet.WriteVInt(15); // Tutorial?
 
             for (var i = 0; i < 7; i++)
                 packet.WriteVInt(0);
@@ -313,7 +317,7 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(1);
             packet.WriteVInt(54000010); // New Arena
 
-            packet.WriteVInt(0);
+            packet.WriteVInt(0); // Session Reward = 2
             packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
@@ -324,7 +328,7 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
             packet.WriteVInt(0);
 
-            packet.WriteVInt(7); // Tutorials                  
+            packet.WriteVInt(7); // ?           
         }
 
         public void LogicClientAvatar(IByteBuffer packet)
@@ -340,20 +344,20 @@ namespace ClashRoyale.Logic
             // Name
             {
                 packet.WriteScString(Home.Name);
-                packet.WriteVInt(0);
+                packet.WriteBoolean(false); // Name changed
             }
 
-            // Arena
+            // Profile
             {
-                packet.WriteVInt(12); // Arena
-                packet.WriteVInt(3800); // Trophies 
+                packet.WriteVInt(12); // Arena 
+                packet.WriteVInt(6400); // Trophies 
 
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);
 
-                packet.WriteVInt(0); // Legendary Trophies
-                packet.WriteVInt(0); // Current Session
+                packet.WriteVInt(100); // Legendary Trophies
 
+                packet.WriteVInt(0); // Current Session Trophies
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);
@@ -466,10 +470,10 @@ namespace ClashRoyale.Logic
 
             // Battle Statistics
             {
+                packet.WriteVInt(0); 
+                packet.WriteVInt(0); // Tournament Matches Played
                 packet.WriteVInt(0);
-                packet.WriteVInt(0);
-                packet.WriteVInt(0);
-                packet.WriteVInt(0);
+                packet.WriteVInt(0); // Wins
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);
             }

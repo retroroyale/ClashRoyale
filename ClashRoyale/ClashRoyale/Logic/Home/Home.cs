@@ -11,12 +11,14 @@ namespace ClashRoyale.Logic.Home
         public Chests.Chests Chests = new Chests.Chests();
         public Deck Deck = new Deck();
         public Shop.Shop Shop = new Shop.Shop();
+        public Arena Arena = new Arena();
 
         public Home()
         {
             Deck.Home = this;
             Shop.Home = this;
             Chests.Home = this;
+            Arena.Home = this;
         }
 
         public Home(long id, string token)
@@ -131,10 +133,7 @@ namespace ClashRoyale.Logic.Home
 
         public void AddCrowns(int crowns)
         {
-            if (Crowns + crowns <= 20)
-            {
-                NewCrowns += crowns;
-            }
+            if (Crowns + crowns <= 20) NewCrowns += crowns;
         }
 
         /// <summary>
