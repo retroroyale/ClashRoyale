@@ -350,7 +350,7 @@ namespace ClashRoyale.Logic
             // Profile
             {
                 packet.WriteVInt(12); // Arena 
-                packet.WriteVInt(6400); // Trophies 
+                packet.WriteVInt(3800); // Trophies 
 
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);
