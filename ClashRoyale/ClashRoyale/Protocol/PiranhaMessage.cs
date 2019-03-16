@@ -79,7 +79,7 @@ namespace ClashRoyale.Protocol
             buffer.WriteUnsignedShort(Length);
             buffer.WriteUnsignedShort(Version);
 
-            buffer.WriteBuffer(Packet.Array);
+            buffer.WriteBytes(Packet);
 
             await Device.Handler.Channel.WriteAndFlushAsync(buffer);
 

@@ -57,6 +57,8 @@ namespace ClashRoyale.Database
 
         public static async Task CachePlayer(Player player)
         {
+            if (player == null) return;
+
             try
             {
                 await _players.StringSetAsync(player.Home.PlayerId.ToString(),

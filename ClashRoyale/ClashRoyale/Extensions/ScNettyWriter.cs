@@ -39,37 +39,38 @@ namespace ClashRoyale.Extensions
         /// <param name="value"></param>
         public static void WriteVInt(this IByteBuffer buffer, int value)
         {
-            if (value > 0x3F)
+            try
             {
-                buffer.WriteByte((byte) ((value & 0x3F) | 0x80));
-                if (value > 0x1FFF)
+                if (value > 0x3F)
                 {
-                    buffer.WriteByte((byte) ((value >> 0x6) | 0x80));
-                    if (value > 0xFFFFF)
+                    buffer.WriteByte((byte) ((value & 0x3F) | 0x80));
+                    if (value > 0x1FFF)
                     {
-                        buffer.WriteByte((byte) ((value >> 0xD) | 0x80));
-                        if (value > 0x7FFFFFF)
+                        buffer.WriteByte((byte) ((value >> 0x6) | 0x80));
+                        if (value > 0xFFFFF)
                         {
-                            buffer.WriteByte((byte) ((value >> 0x14) | 0x80));
-                            value >>= 0x1B & 0x7F;
+                            buffer.WriteByte((byte) ((value >> 0xD) | 0x80));
+                            if (value > 0x7FFFFFF)
+                            {
+                                buffer.WriteByte((byte) ((value >> 0x14) | 0x80));
+                                value >>= 0x1B & 0x7F;
+                            }
+                            else
+                                value >>= 0x14 & 0x7F;
                         }
                         else
-                        {
-                            value >>= 0x14 & 0x7F;
-                        }
+                            value >>= 0xD & 0x7F;
                     }
                     else
-                    {
-                        value >>= 0xD & 0x7F;
-                    }
+                        value >>= 0x6 & 0x7F;
                 }
-                else
-                {
-                    value >>= 0x6 & 0x7F;
-                }
-            }
 
-            buffer.WriteByte((byte) value);
+                buffer.WriteByte((byte) value);
+            }
+            catch (IndexOutOfRangeException)
+            {
+               // Ignored.
+            }
         }
 
         /// <summary>

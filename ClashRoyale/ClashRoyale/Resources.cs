@@ -1,4 +1,6 @@
-﻿using ClashRoyale.Core;
+﻿using System.Threading.Tasks;
+using ClashRoyale.Core;
+using ClashRoyale.Core.Leaderboards;
 using ClashRoyale.Core.Network;
 using ClashRoyale.Database;
 using ClashRoyale.Database.Cache;
@@ -13,6 +15,7 @@ namespace ClashRoyale
         public static Configuration Configuration { get; set; }
         public static PlayerDb PlayerDb { get; set; }
         public static Redis Redis { get; set; }
+        public static Leaderboard Leaderboard { get; set; }
 
         public static NettyService Netty { get; set; }
 
@@ -39,8 +42,11 @@ namespace ClashRoyale
             Battles = new Battles();
             Players = new Players();
 
+            Leaderboard = new Leaderboard();
+
             Netty = new NettyService();
-            await Netty.RunServerAsync();
+
+            await Task.Factory.StartNew(Netty.RunServerAsync);
         }
     }
 }

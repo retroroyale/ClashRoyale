@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Logic;
+﻿using System;
+using ClashRoyale.Logic;
 using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
 
@@ -20,6 +21,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override async void Process()
         {
+            Console.WriteLine(UserId);
             await new VisitedHomeDataMessage(Device)
             {
                 UserId = UserId

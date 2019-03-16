@@ -38,7 +38,7 @@ namespace ClashRoyale.Logic
         {
             while (true)
             {
-                if (buffer.ReadableBytes > 6)
+                if (buffer.ReadableBytes >= 7)
                 {
                     var identifier = buffer.ReadUnsignedShort();
                     var length = (ushort) buffer.ReadUnsignedMedium();

@@ -25,7 +25,51 @@ namespace ClashRoyale.Logic
 
         [JsonIgnore] public Device Device { get; set; }
 
-        [JsonIgnore] public bool IsEmpty => Home == null;
+        public void RankingEntry(IByteBuffer packet)
+        {
+            packet.WriteVInt(Home.ExpLevel);
+
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+
+            packet.WriteScString("DE");
+            packet.WriteLong(Home.PlayerId);
+
+            packet.WriteVInt(0);
+            packet.WriteVInt(0);
+            packet.WriteVInt(0);
+            packet.WriteVInt(32);
+            packet.WriteVInt(0);
+
+            packet.WriteVInt(0);
+            packet.WriteVInt(0);
+            packet.WriteVInt(0);
+
+            //packet.WriteVInt(0); // Has Clan
+            packet.WriteVInt(0); // Has League
+        }
 
         public void LogicClientHome(IByteBuffer packet)
         {

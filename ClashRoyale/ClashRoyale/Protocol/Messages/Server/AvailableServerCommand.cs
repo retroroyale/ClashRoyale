@@ -17,7 +17,7 @@ namespace ClashRoyale.Protocol.Messages.Server
             Command.Encode();
 
             Packet.WriteVInt(Command.Type);
-            Packet.WriteBuffer(Command.Data.Array);
+            Packet.WriteBytes(Command.Data);
         }
     }
 }

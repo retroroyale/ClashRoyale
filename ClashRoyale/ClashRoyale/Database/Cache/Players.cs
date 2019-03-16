@@ -38,11 +38,11 @@ namespace ClashRoyale.Database.Cache
 
         public async Task<Player> GetPlayer(long userId, bool onlineOnly = false)
         {
-            if (ContainsKey(userId))
-                lock (SyncObject)
-                {
+            lock (SyncObject)
+            {
+                if (ContainsKey(userId))
                     return this[userId];
-                }
+            }
 
             if (onlineOnly) return null;
 
