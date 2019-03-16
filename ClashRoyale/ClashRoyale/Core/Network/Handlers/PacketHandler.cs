@@ -18,8 +18,6 @@ namespace ClashRoyale.Core.Network.Handlers
 
         public override async void ChannelRead(IChannelHandlerContext context, object message)
         {
-            Channel = context.Channel;
-
             var buffer = (IByteBuffer) message;
             if (buffer == null) return;
 
