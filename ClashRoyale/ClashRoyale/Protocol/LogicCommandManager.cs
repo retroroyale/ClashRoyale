@@ -17,6 +17,8 @@ namespace ClashRoyale.Protocol
                 {500, typeof(LogicSwapSpellsCommand)},
                 {501, typeof(LogicSelectDeckCommand)},
                 {504, typeof(LogicFuseSpellsCommand)},
+               // {509, typeof()}, // OpenFreeChest
+               // {511, typeof()}, // OpenCrownChest
                 {513, typeof(LogicFreeWorkerCommand)},
                 {516, typeof(LogicBuyChestCommand)},
                 {517, typeof(LogicBuyResourcesCommand)},

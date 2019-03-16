@@ -47,15 +47,24 @@ namespace ClashRoyale.Logic.Home
         public string IpAddress { get; set; }
         public int HighId { get; set; }
         public int LowId { get; set; }
-        public int Trophies { get; set; }
-        public int Diamonds { get; set; }
-        public int Gold { get; set; }
-        public int ExpLevel { get; set; }
-        public int ExpPoints { get; set; }
         public string PreferredDeviceLanguage { get; set; }
         public string FacebookId { get; set; }
-        public int Crowns { get; set; }
+
+        // Shop
         public int ShopDay { get; set; }
+
+        // Resources
+        public int Diamonds { get; set; }
+        public int Gold { get; set; }
+
+        // Crownchest
+        public int Crowns { get; set; }
+        public int NewCrowns { get; set; }
+
+        // Player Stats
+        public int Trophies { get; set; }
+        public int ExpLevel { get; set; }
+        public int ExpPoints { get; set; }
 
         [JsonIgnore]
         public long PlayerId
@@ -123,7 +132,18 @@ namespace ClashRoyale.Logic.Home
         public void AddCrowns(int crowns)
         {
             if (Crowns + crowns <= 20)
-                Crowns += crowns;
+            {
+                NewCrowns += crowns;
+            }
+        }
+
+        /// <summary>
+        /// This will be called when a user is in home state
+        /// </summary>
+        public void Reset()
+        {
+            Crowns += NewCrowns;
+            NewCrowns = 0;
         }
     }
 }

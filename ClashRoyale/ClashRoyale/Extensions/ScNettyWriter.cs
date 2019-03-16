@@ -99,9 +99,9 @@ namespace ClashRoyale.Extensions
         /// </summary>
         /// <param name="buffer"></param>
         /// <param name="bytes"></param>
-        public static async void WriteBuffer(this IByteBuffer buffer, byte[] bytes)
+        public static void WriteBuffer(this IByteBuffer buffer, byte[] bytes)
         {
-            await buffer.WriteBytesAsync(new MemoryStream(bytes), bytes.Length);
+            buffer.WriteBytes(Unpooled.WrappedBuffer(bytes));
         }
 
         /// <summary>

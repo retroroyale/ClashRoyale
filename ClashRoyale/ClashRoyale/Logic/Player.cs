@@ -385,9 +385,9 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(3);
                 packet.WriteVInt(2);
 
-                packet.WriteVInt(5); // Crownchest?
+                packet.WriteVInt(5); // New Crowns
                 packet.WriteVInt(4);
-                packet.WriteVInt(Home.Crowns);
+                packet.WriteVInt(Home.NewCrowns);
 
                 packet.WriteVInt(5);
                 packet.WriteVInt(5);

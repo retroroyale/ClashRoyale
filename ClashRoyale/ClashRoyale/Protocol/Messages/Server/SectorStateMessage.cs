@@ -44,8 +44,28 @@ namespace ClashRoyale.Protocol.Messages.Server
                 }
 
                 Packet.WriteScString(Player1.Home.Name);
-                Packet.WriteVInt(13); // Level
-                Packet.WriteVInt(3800);
+                Packet.WriteVInt(Player1.Home.ExpLevel); // Level
+                Packet.WriteVInt(Player1.Home.Trophies);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+
                 Packet.WriteVInt(0);
                 Packet.WriteVInt(0);
                 Packet.WriteVInt(0);
@@ -55,37 +75,25 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Packet.WriteVInt(0);
                 Packet.WriteVInt(0);
 
-                Packet.WriteVInt(32);
-                Packet.WriteVInt(0);
+                //
+                Packet.WriteVInt(2); // Has Clan = 2
 
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
+                Packet.WriteVInt(0); // HighId
+                Packet.WriteVInt(2); // LowId
+                Packet.WriteScString("Test 2"); // Name 
+                Packet.WriteVInt(5); // Badge 
+                //
 
-                Packet.WriteVInt(8);
-                Packet.WriteVInt(0);
-
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(1);
-
-                Packet.WriteVInt(0);
                 Packet.WriteVInt(29);
                 Packet.WriteVInt(0);
                 Packet.WriteVInt(0);
                 Packet.WriteVInt(2);
+
                 Packet.WriteVInt(2);
                 Packet.WriteVInt(1);
                 Packet.WriteVInt(5);
                 Packet.WriteVInt(0);
+
                 Packet.WriteVInt(0);
                 Packet.WriteVInt(0);
                 Packet.WriteVInt(1);
@@ -101,8 +109,28 @@ namespace ClashRoyale.Protocol.Messages.Server
                 }
 
                 Packet.WriteScString(Player2.Home.Name); // Player 2 Name
-                Packet.WriteVInt(13); // Level
-                Packet.WriteVInt(3800);
+                Packet.WriteVInt(Player2.Home.ExpLevel); // Level
+                Packet.WriteVInt(Player2.Home.Trophies);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+                Packet.WriteVInt(0);
+
                 Packet.WriteVInt(0);
                 Packet.WriteVInt(0);
                 Packet.WriteVInt(0);
@@ -112,35 +140,16 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Packet.WriteVInt(0);
                 Packet.WriteVInt(0);
 
-                Packet.WriteVInt(32);
-                Packet.WriteVInt(0);
-
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-
-                Packet.WriteVInt(8);
-                Packet.WriteVInt(0);
-
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(2);
-                Packet.WriteVInt(2);
+                //
+                Packet.WriteVInt(2); // Has Clan = 2
 
                 Packet.WriteVInt(0); // HighId
                 Packet.WriteVInt(1); // LowId
                 Packet.WriteScString("Test"); // Name 
-                Packet.WriteVInt(4); // Badge 
-                Packet.WriteVInt(3); // Role
+                Packet.WriteVInt(6); // Badge 
+                //
 
+                Packet.WriteVInt(3);
                 Packet.WriteVInt(0);
                 Packet.WriteVInt(0);
                 Packet.WriteVInt(2);
@@ -149,6 +158,7 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Packet.WriteVInt(2);
                 Packet.WriteVInt(5);
                 Packet.WriteVInt(0);
+
                 Packet.WriteVInt(0);
                 Packet.WriteVInt(0);
                 Packet.WriteVInt(1);
@@ -252,7 +262,7 @@ namespace ClashRoyale.Protocol.Messages.Server
 
             Packet.WriteHex("000504077F7D7F0400050401007F7F0000");
             Packet.WriteVInt(0); // Ms before regen mana
-            Packet.WriteVInt(8); // Mana Start 
+            Packet.WriteVInt(6); // Mana Start 
             Packet.WriteVInt(0);
             Packet.WriteVInt(0);
             Packet.WriteVInt(0);
@@ -268,7 +278,7 @@ namespace ClashRoyale.Protocol.Messages.Server
 
             Packet.WriteHex("00050401047D010400040706007F7F0000");
             Packet.WriteVInt(0); // Ms before regen mana
-            Packet.WriteVInt(8); // Elexir Start Enemy
+            Packet.WriteVInt(6); // Elexir Start Enemy
             Packet.WriteVInt(0);
             Packet.WriteVInt(0);
             Packet.WriteVInt(0);

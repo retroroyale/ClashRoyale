@@ -36,8 +36,10 @@ namespace ClashRoyale.Protocol.Messages.Client
                 {
                     var battle = Device.Player.Battle;
 
-                    if (battle != null)
-                        await new BattleEventData(battle.GetEnemy(Device.Player.Home.PlayerId))
+                    var enemy = battle?.GetEnemy(Device.Player.Home.PlayerId);
+
+                    if(enemy != null)
+                        await new BattleEventData(enemy)
                         {
                             EventId = EventId,
                             Tick = Tick,
@@ -45,6 +47,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                             HighId = Device.Player.Home.HighId,
                             LowId = Device.Player.Home.LowId
                         }.Send();
+
                     break;
                 }
             }

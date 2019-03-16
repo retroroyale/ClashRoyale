@@ -14,6 +14,8 @@ namespace ClashRoyale.Protocol.Messages.Server
         {
             Device.Player.LogicClientHome(Packet);
             Device.Player.LogicClientAvatar(Packet);
+
+            Device.Player.Home.Reset();
         }
     }
 }
