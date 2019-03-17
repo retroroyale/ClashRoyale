@@ -23,7 +23,7 @@ namespace ClashRoyale.Logic.Home.Chests.Items
         public void Encode(IByteBuffer packet)
         {
             packet.WriteVInt(1);
-            packet.WriteVInt(IsDraft ? 1 : 0);
+            packet.WriteBoolean(IsDraft);
 
             packet.WriteVInt(Count);
 

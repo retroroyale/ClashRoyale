@@ -29,6 +29,8 @@ namespace ClashRoyale.Core.Leaderboards
 
             foreach (var locales in Csv.Tables.Get(Csv.Types.Locales).GetDatas())
                 LocalPlayers.Add(((Locales) locales).Name, new List<Player>(200));
+
+            TimerCallback(null, null);
         }
 
         public async void TimerCallback(object state, ElapsedEventArgs args)

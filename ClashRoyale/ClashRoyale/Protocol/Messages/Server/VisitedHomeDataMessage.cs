@@ -1,5 +1,4 @@
-﻿using System;
-using ClashRoyale.Extensions;
+﻿using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 
 namespace ClashRoyale.Protocol.Messages.Server
@@ -11,32 +10,26 @@ namespace ClashRoyale.Protocol.Messages.Server
             Id = 24113;
         }
 
-        public long UserId { get; set; }
+        public Player Player { get; set; }
 
-        public override async void Encode()
+        public override void Encode()
         {
-            var player = await Resources.Players.GetPlayer(UserId);
-
-            if (player == null)
-            {
+            if (Player == null)
                 return;
-            }
 
             Packet.WriteVInt(8);
-
-            Packet.WriteHex("00FF");
-
+            Packet.WriteShort(255);
             Packet.WriteVInt(1);
 
-            foreach (var card in player.Home.Deck.GetRange(0, 8))
+            foreach (var card in Player.Home.Deck.GetRange(0, 8))
                 card.Encode(Packet);
 
-            Packet.WriteLong(UserId);
+            Packet.WriteLong(Player.Home.PlayerId);
             Packet.WriteVInt(0);
             Packet.WriteVInt(0);
             Packet.WriteVInt(1);
 
-            player.LogicClientAvatar(Packet);
+            Player.LogicClientAvatar(Packet);
         }
     }
 }
