@@ -29,7 +29,7 @@ namespace ClashRoyale.Logic.Home.Chests
             {
                 if (type == Chest.ChestType.Shop)
                 {
-                    for (var i = 0; i < random.Next(4, 7); i++)
+                    for (var i = 0; i < random.Next(2, 5); i++)
                         if (random.Next(1, 2) == 1)
                         {
                             var card = Card.Random(Card.Rarity.Common);
@@ -41,7 +41,7 @@ namespace ClashRoyale.Logic.Home.Chests
                 }
                 else
                 {
-                    for (var i = 0; i < random.Next(2, 5); i++)
+                    for (var i = 0; i < random.Next(2, 4); i++)
                         if (random.Next(1, 2) == 1)
                         {
                             var card = Card.Random(Card.Rarity.Common);
@@ -57,7 +57,7 @@ namespace ClashRoyale.Logic.Home.Chests
             {
                 if (type == Chest.ChestType.Shop)
                 {
-                    for (var i = 0; i < random.Next(1, 5); i++)
+                    for (var i = 0; i < random.Next(1, 4); i++)
                         if (random.Next(1, 2) == 1)
                         {
                             var card = Card.Random(Card.Rarity.Rare);
@@ -69,7 +69,7 @@ namespace ClashRoyale.Logic.Home.Chests
                 }
                 else
                 {
-                    for (var i = 0; i < random.Next(1, 3); i++)
+                    for (var i = 0; i < random.Next(1, 2); i++)
                         if (random.Next(1, 4) == 1)
                         {
                             var card = Card.Random(Card.Rarity.Rare);
@@ -137,7 +137,18 @@ namespace ClashRoyale.Logic.Home.Chests
             if (type == Chest.ChestType.Shop)
             {
                 // TODO: Cost
+
+                if (random.Next(1, 5) == 1) chest.Gems = random.Next(5, 15);
+                if (random.Next(1, 4) == 1) chest.Gold = random.Next(75, 150);           
             }
+            else
+            {
+                if (random.Next(1, 10) == 1) chest.Gems = random.Next(1, 5);
+                if (random.Next(1, 8) == 1) chest.Gold = random.Next(10, 75);
+            }
+
+            Home.Gold += chest.Gold;
+            Home.Diamonds += chest.Gems;
 
             return chest;
         }

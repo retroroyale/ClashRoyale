@@ -305,22 +305,12 @@ namespace ClashRoyale.Protocol.Messages.Server
             for (var index = 0; index < count; index++)
                 Packet.WriteHex("00000000000000A401A401");
 
-            Packet.WriteHex("FF01");
-            /*for (var i = 0; i < 8; i++)
-            {
-                Packet.WriteVInt(i + 1 + 30);
-                Packet.WriteVInt(4);
-            }*/
+            Packet.WriteShort(-255);
             Player1.Home.Deck.EncodeAttack(Packet);
 
             Packet.WriteVInt(0);
 
-            Packet.WriteHex("FE03");
-            /*for (var i = 0; i < 8; i++)
-            {
-                Packet.WriteVInt(i + 1 + 10);
-                Packet.WriteVInt(4);
-            }*/
+            Packet.WriteShort(-509);
             Player2.Home.Deck.EncodeAttack(Packet);
 
             Packet.WriteVInt(0);

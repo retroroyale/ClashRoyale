@@ -57,15 +57,15 @@ namespace ClashRoyale.Logic
             packet.WriteScString("DE");
             packet.WriteLong(Home.PlayerId);
 
-            packet.WriteVInt(0);
-            packet.WriteVInt(0);
-            packet.WriteVInt(0);
-            packet.WriteVInt(32);
-            packet.WriteVInt(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
 
-            packet.WriteVInt(0);
-            packet.WriteVInt(0);
-            packet.WriteVInt(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
+            packet.WriteByte(0);
 
             //packet.WriteVInt(0); // Has Clan
             packet.WriteVInt(0); // Has League
@@ -268,7 +268,7 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
             packet.WriteVInt(1);
 
-            packet.WriteHex("F807");
+            packet.WriteShort(-2041);
 
             packet.WriteVInt(1);
             packet.WriteVInt(1);
