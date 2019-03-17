@@ -77,15 +77,27 @@ namespace ClashRoyale.Protocol.Messages.Client
             }
             else
             {
-                Device.Player = await Resources.Players.GetPlayer(UserId);
+                var player = await Resources.Players.GetPlayer(UserId);
 
-                Device.Player.Device = Device;
+                if (player != null)
+                {
+                    Device.Player = player;
+                    player.Device = Device;
 
-                Resources.Players.Login(Device.Player);
+                    Resources.Players.Login(Device.Player);
 
-                await new LoginOkMessage(Device).Send();
+                    await new LoginOkMessage(Device).Send();
 
-                await new OwnHomeDataMessage(Device).Send();
+                    await new OwnHomeDataMessage(Device).Send();
+                }
+                else
+                {
+                    // If the account is not found we send LoginFailed
+                    await new LoginFailedMessage(Device)
+                    {
+                        ErrorCode = 10
+                    }.Send();
+                }
             }
         }
     }
