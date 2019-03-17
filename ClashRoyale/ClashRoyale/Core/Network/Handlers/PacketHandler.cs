@@ -45,7 +45,8 @@ namespace ClashRoyale.Core.Network.Handlers
         {
             Logger.Log($"Client {Channel.RemoteAddress} disconnected.", GetType(), ErrorLevel.Debug);
 
-            Resources.Players.Logout(Device.Player.Home.PlayerId);
+            if(Device?.Player?.Home != null)
+                Resources.Players.Logout(Device.Player.Home.PlayerId);
 
             base.ChannelUnregistered(context);
         }

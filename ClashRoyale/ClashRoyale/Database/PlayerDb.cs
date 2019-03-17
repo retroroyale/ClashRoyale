@@ -135,11 +135,12 @@ namespace ClashRoyale.Database
 
                 using (var cmd =
                     new MySqlCommand(
-                        $"INSERT INTO player (`Id`, `Trophies`, `Language`, `Home`) VALUES ({id + 1}, {player.Home.Trophies}, @language, @home)")
+                        $"INSERT INTO player (`Id`, `Trophies`, `Language`, `FacebookId`, `Home`) VALUES ({id + 1}, {player.Home.Trophies}, @language, @fb, @home)")
                 )
                 {
 #pragma warning disable 618
                     cmd.Parameters?.Add("@language", player.Home.PreferredDeviceLanguage);
+                    cmd.Parameters?.Add("@fb", player.Home.FacebookId);
                     cmd.Parameters?.Add("@home", JsonConvert.SerializeObject(player, Settings));
 #pragma warning restore 618
 
