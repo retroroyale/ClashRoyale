@@ -16,8 +16,8 @@ namespace ClashRoyale.Logic.Home.Decks
             for (var i = 0; i < 8; i++)
                 Add(new Card(26, i, false));
 
-            foreach (var card in Card.GetAllCards().Skip(8))
-                Add(card);       
+            /*foreach (var card in Card.GetAllCards().Skip(8))
+                Add(card);    */   
         }
 
         public new void Add(Card card)
@@ -25,7 +25,10 @@ namespace ClashRoyale.Logic.Home.Decks
             var index = FindIndex(c => c.ClassId == card.ClassId && c.InstanceId == card.InstanceId);
 
             if (index <= -1)
+            {
+                card.IsNew = true;
                 base.Add(card);
+            }
             else
                 this[index].Count += card.Count;
         }
