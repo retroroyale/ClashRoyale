@@ -60,14 +60,6 @@ namespace ClashRoyale.Protocol.Crypto
             InitializeCiphers(Encoding.UTF8.GetBytes(key + nonce));
         }
 
-        public Rc4Core(string key)
-        {
-            if (key == null)
-                throw new ArgumentNullException(nameof(key));
-
-            InitializeCiphers(Encoding.UTF8.GetBytes(key));
-        }
-
         public Rc4 Encryptor { get; set; }
 
         public Rc4 Decryptor { get; set; }

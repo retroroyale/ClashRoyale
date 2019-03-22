@@ -14,6 +14,7 @@ namespace ClashRoyale
         public static SentryReport Sentry { get; set; }
         public static Configuration Configuration { get; set; }
         public static PlayerDb PlayerDb { get; set; }
+        public static AllianceDb AllianceDb { get; set; }
         public static Redis Redis { get; set; }
         public static Leaderboard Leaderboard { get; set; }
 
@@ -33,6 +34,7 @@ namespace ClashRoyale
             Configuration.Initialize();
 
             PlayerDb = new PlayerDb();
+            AllianceDb = new AllianceDb();
             Redis = new Redis();
 
             Fingerprint = new Fingerprint();

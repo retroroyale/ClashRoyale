@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ClashRoyale.Logic;
+using ClashRoyale.Logic.Clan;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using SharpRaven.Data;
 
 namespace ClashRoyale.Database
 {
-    public class PlayerDb
+    public class AllianceDb
     {
         private static string _connectionString;
-        private static long _playerSeed;
+        private static long _allianceSeed;
 
         public static JsonSerializerSettings Settings = new JsonSerializerSettings
         {
@@ -23,7 +23,7 @@ namespace ClashRoyale.Database
             Formatting = Formatting.None
         };
 
-        public PlayerDb()
+        public AllianceDb()
         {
             _connectionString = new MySqlConnectionStringBuilder
             {
@@ -36,9 +36,9 @@ namespace ClashRoyale.Database
                 MaximumPoolSize = 20
             }.ToString();
 
-            _playerSeed = MaxPlayerId();
+            _allianceSeed = MaxAllianceId();
 
-            Logger.Log($"Successfully loaded MySql with {_playerSeed} player(s)", GetType());
+            Logger.Log($"Successfully loaded MySql with {_allianceSeed} alliance(s)", GetType());
         }
 
         public static async Task ExecuteAsync(MySqlCommand cmd)
@@ -63,7 +63,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static long MaxPlayerId()
+        public static long MaxAllianceId()
         {
             #region MaxId
 
@@ -75,7 +75,7 @@ namespace ClashRoyale.Database
                 {
                     connection.Open();
 
-                    using (var cmd = new MySqlCommand("SELECT coalesce(MAX(Id), 0) FROM player", connection))
+                    using (var cmd = new MySqlCommand("SELECT coalesce(MAX(Id), 0) FROM clan", connection))
                     {
                         seed = Convert.ToInt64(cmd.ExecuteScalar());
                     }
@@ -107,7 +107,7 @@ namespace ClashRoyale.Database
                 {
                     await connection.OpenAsync();
 
-                    using (var cmd = new MySqlCommand("SELECT COUNT(*) FROM player", connection))
+                    using (var cmd = new MySqlCommand("SELECT COUNT(*) FROM clan", connection))
                     {
                         seed = Convert.ToInt64(await cmd.ExecuteScalarAsync());
                     }
@@ -127,33 +127,31 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task<Player> Create()
+        public static async Task<Alliance> Create()
         {
             #region Create
 
             try
             {
-                var id = _playerSeed++;
+                var id = _allianceSeed++;
                 if (id <= -1)
                     return null;
 
-                var player = new Player(id + 1);
+                var alliance = new Alliance(id + 1);
 
                 using (var cmd =
                     new MySqlCommand(
-                        $"INSERT INTO player (`Id`, `Trophies`, `Language`, `FacebookId`, `Home`) VALUES ({id + 1}, {player.Home.Trophies}, @language, @fb, @home)")
+                        $"INSERT INTO clan (`Id`, `Trophies`, `RequiredTrophies`, `Type`, `Region`, `Data`) VALUES ({id + 1}, {alliance.Score}, {alliance.RequiredScore}, {alliance.Type}, {alliance.Region}, @data)")
                 )
                 {
 #pragma warning disable 618
-                    cmd.Parameters?.Add("@language", player.Home.PreferredDeviceLanguage);
-                    cmd.Parameters?.Add("@fb", player.Home.FacebookId);
-                    cmd.Parameters?.Add("@home", JsonConvert.SerializeObject(player, Settings));
+                    cmd.Parameters?.Add("@data", JsonConvert.SerializeObject(alliance, Settings));
 #pragma warning restore 618
 
                     await ExecuteAsync(cmd);
                 }
 
-                return player;
+                return alliance;
             }
             catch (Exception exception)
             {
@@ -165,9 +163,9 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task<Player> Get(long id)
+        public static async Task<Alliance> Get(long id)
         {
-            #region Get
+            #region Get 
 
             try
             {
@@ -175,22 +173,22 @@ namespace ClashRoyale.Database
                 {
                     await connection.OpenAsync();
 
-                    Player player = null;
+                    Alliance alliance = null;
 
-                    using (var cmd = new MySqlCommand($"SELECT * FROM player WHERE Id = '{id}'", connection))
+                    using (var cmd = new MySqlCommand($"SELECT * FROM can WHERE Id = '{id}'", connection))
                     {
                         var reader = await cmd.ExecuteReaderAsync();
 
                         while (await reader.ReadAsync())
                         {
-                            player = JsonConvert.DeserializeObject<Player>((string) reader["Home"], Settings);
+                            alliance = JsonConvert.DeserializeObject<Alliance>((string) reader["Home"], Settings);
                             break;
                         }
                     }
 
                     await connection.CloseAsync();
 
-                    return player;
+                    return alliance;
                 }
             }
             catch (Exception exception)
@@ -200,59 +198,22 @@ namespace ClashRoyale.Database
                 return null;
             }
 
-            #endregion
+            #endregion 
         }
 
-        public static async Task<Player> Get(string facebookId)
+        public static async Task Save(Alliance alliance)
         {
-            #region Save
-
-            try
-            {
-                using (var connection = new MySqlConnection(_connectionString))
-                {
-                    await connection.OpenAsync();
-
-                    Player player = null;
-
-                    using (var cmd = new MySqlCommand($"SELECT * FROM player WHERE FacebookId = '{facebookId}'",
-                        connection))
-                    {
-                        var reader = await cmd.ExecuteReaderAsync();
-
-                        while (await reader.ReadAsync())
-                            player = JsonConvert.DeserializeObject<Player>((string) reader["Home"], Settings);
-                    }
-
-                    await connection.CloseAsync();
-
-                    return player;
-                }
-            }
-            catch (Exception exception)
-            {
-                Logger.Log(exception, null, ErrorLevel.Fatal);
-
-                return null;
-            }
-
-            #endregion
-        }
-
-        public static async Task Save(Player player)
-        {
-            #region Save
+            #region Save 
 
             try
             {
                 using (var cmd =
                     new MySqlCommand(
-                        $"UPDATE player SET `Trophies`='{player.Home.Trophies}', `Language`='{player.Home.PreferredDeviceLanguage}', `FacebookId`=@fb, `Home`=@home WHERE Id = '{player.Home.Id}'")
+                        $"UPDATE clan SET `Trophies`='{alliance.Score}', `RequiredTrophies`='{alliance.RequiredScore}', `Type`='{alliance.Type}', `Region`='{alliance.Region}', `Data`=@data WHERE Id = '{alliance.Id}'")
                 )
                 {
 #pragma warning disable 618
-                    cmd.Parameters?.Add("@fb", player.Home.FacebookId);
-                    cmd.Parameters?.Add("@home", JsonConvert.SerializeObject(player, Settings));
+                    cmd.Parameters?.Add("@data", JsonConvert.SerializeObject(alliance, Settings));
 #pragma warning restore 618
 
                     await ExecuteAsync(cmd);
@@ -273,13 +234,13 @@ namespace ClashRoyale.Database
             try
             {
                 using (var cmd = new MySqlCommand(
-                    $"DELETE FROM player WHERE Id = '{id}'")
+                    $"DELETE FROM clan WHERE Id = '{id}'")
                 )
                 {
                     await ExecuteAsync(cmd);
 
                     if (Redis.IsConnected)
-                        await Redis.UncachePlayer(id);
+                        await Redis.UncacheAlliance(id);
                 }
             }
             catch (Exception exception)
@@ -290,11 +251,11 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task<List<Player>> GetGlobalPlayerRanking()
+        public static async Task<List<Alliance>> GetGlobalAlliances()
         {
-            #region GetGlobal
+            #region Global
 
-            var list = new List<Player>();
+            var list = new List<Alliance>();
 
             try
             {
@@ -302,51 +263,13 @@ namespace ClashRoyale.Database
                 {
                     await connection.OpenAsync();
 
-                    using (var cmd = new MySqlCommand("SELECT * FROM player ORDER BY `Trophies` DESC LIMIT 200",
+                    using (var cmd = new MySqlCommand("SELECT * FROM clan ORDER BY `Trophies` DESC LIMIT 200",
                         connection))
                     {
                         var reader = await cmd.ExecuteReaderAsync();
 
                         while (await reader.ReadAsync())
-                            list.Add(JsonConvert.DeserializeObject<Player>((string) reader["Home"], Settings));
-                    }
-
-                    await connection.CloseAsync();
-                }
-
-                return list;
-            }
-            catch (Exception exception)
-            {
-                Logger.Log(exception, null, ErrorLevel.Error);
-
-                return list;
-            }
-
-            #endregion
-        }
-
-        public static async Task<List<Player>> GetLocalPlayerRanking(string language)
-        {
-            #region GetLocal
-
-            var list = new List<Player>();
-
-            try
-            {
-                using (var connection = new MySqlConnection(_connectionString))
-                {
-                    await connection.OpenAsync();
-
-                    using (var cmd =
-                        new MySqlCommand(
-                            $"SELECT * FROM player WHERE Language = '{language}' ORDER BY `Trophies` DESC LIMIT 200",
-                            connection))
-                    {
-                        var reader = await cmd.ExecuteReaderAsync();
-
-                        while (await reader.ReadAsync())
-                            list.Add(JsonConvert.DeserializeObject<Player>((string) reader["Home"], Settings));
+                            list.Add(JsonConvert.DeserializeObject<Alliance>((string) reader["Home"], Settings));
                     }
 
                     await connection.CloseAsync();

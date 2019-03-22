@@ -28,44 +28,42 @@ namespace ClashRoyale.Protocol.Messages.Client
             Device.LastSectorCommand = DateTime.UtcNow;
 
             if (Count >= 0 && Count <= 512)
-            {
                 for (var index = 0; index < Count; index++)
-                    {
-                        var type = Buffer.ReadVInt();
+                {
+                    var type = Buffer.ReadVInt();
 
-                        if (type < 0) break;
+                    if (type < 0) break;
 
-                        if (LogicCommandManager.Commands.ContainsKey(type))
-                            try
+                    if (LogicCommandManager.Commands.ContainsKey(type))
+                        try
+                        {
+                            if (Activator.CreateInstance(LogicCommandManager.Commands[type], Device,
+                                    Buffer) is
+                                LogicCommand
+                                command)
                             {
-                                if (Activator.CreateInstance(LogicCommandManager.Commands[type], Device,
-                                        Buffer) is
-                                    LogicCommand
-                                    command)
-                                {
-                                    command.Decode();
+                                command.Decode();
 
-                                    command.Encode();
-                                    command.Process();
+                                command.Encode();
+                                command.Process();
 
-                                    Logger.Log($"BattleCommand {type} with Tick {Tick} has been processed.",
-                                        GetType(), ErrorLevel.Debug);
-                                }
+                                Logger.Log($"BattleCommand {type} with Tick {Tick} has been processed.",
+                                    GetType(), ErrorLevel.Debug);
                             }
-                            catch (OperationCanceledException)
-                            {
-                                Logger.Log(
-                                    $"The operation for command {type} was aborted after 2 second(s).", GetType(),
-                                    ErrorLevel.Warning);
-                            }
-                            catch (Exception exception)
-                            {
-                                Logger.Log(exception, GetType(), ErrorLevel.Error);
-                            }
-                        else
-                            Logger.Log($"BattleCommand {type} is unhandled.", GetType(), ErrorLevel.Warning);
-                    }
-            }
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            Logger.Log(
+                                $"The operation for command {type} was aborted after 2 second(s).", GetType(),
+                                ErrorLevel.Warning);
+                        }
+                        catch (Exception exception)
+                        {
+                            Logger.Log(exception, GetType(), ErrorLevel.Error);
+                        }
+                    else
+                        Logger.Log($"BattleCommand {type} is unhandled.", GetType(), ErrorLevel.Warning);
+                }
         }
     }
 }

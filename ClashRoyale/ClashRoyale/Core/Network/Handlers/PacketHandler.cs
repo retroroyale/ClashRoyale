@@ -9,6 +9,9 @@ namespace ClashRoyale.Core.Network.Handlers
 {
     public class PacketHandler : ChannelHandlerAdapter
     {
+        private bool _hasHeader;
+        private PiranhaMessageHeader _messageHeader;
+
         public PacketHandler()
         {
             Device = new Device(this);
@@ -17,16 +20,12 @@ namespace ClashRoyale.Core.Network.Handlers
         public Device Device { get; set; }
         public IChannel Channel { get; set; }
 
-        private bool _hasHeader;
-        private PiranhaMessageHeader _messageHeader;
-
         public override async void ChannelRead(IChannelHandlerContext context, object message)
         {
             var buffer = (IByteBuffer) message;
             if (buffer == null) return;
 
             while (buffer.ReadableBytes > 0)
-            {
                 if (!_hasHeader)
                 {
                     _messageHeader = new PiranhaMessageHeader
@@ -55,17 +54,19 @@ namespace ClashRoyale.Core.Network.Handlers
                         _hasHeader = false;
                     }
                     else
+                    {
                         _messageHeader.Buffer.WriteBytes(buffer, readableBytes);
+                    }
                 }
                 else
                 {
                     _messageHeader.Buffer.WriteBytes(buffer, buffer.ReadableBytes);
 
                     if (_messageHeader.Buffer.ReadableBytes != _messageHeader.Length) continue;
+
                     await Device.Process(_messageHeader);
                     _hasHeader = false;
                 }
-            }
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext context)
@@ -86,8 +87,8 @@ namespace ClashRoyale.Core.Network.Handlers
         {
             Logger.Log($"Client {Channel.RemoteAddress} disconnected.", GetType(), ErrorLevel.Debug);
 
-            if(Device?.Player?.Home != null)
-                Resources.Players.Logout(Device.Player.Home.PlayerId);
+            if (Device?.Player?.Home != null)
+                Resources.Players.Logout(Device.Player.Home.Id);
 
             base.ChannelUnregistered(context);
         }

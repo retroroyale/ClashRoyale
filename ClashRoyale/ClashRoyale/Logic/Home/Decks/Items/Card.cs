@@ -201,7 +201,7 @@ namespace ClashRoyale.Logic.Home.Decks.Items
                 case 2:
                 {
                     var datas = Csv.Tables.Get(Csv.Types.SpellsOther).GetDatas()
-                        .Where(s => !((SpellsOther)s).NotInUse && ((SpellsOther)s).Rarity == rarity.ToString());
+                        .Where(s => !((SpellsOther) s).NotInUse && ((SpellsOther) s).Rarity == rarity.ToString());
 
                     var enumerable = datas.ToList();
                     if (enumerable.ElementAt(random.Next(0, enumerable.Count)) is SpellsOther c)
@@ -211,10 +211,10 @@ namespace ClashRoyale.Logic.Home.Decks.Items
                 }
 
                 case 3:
-                {            
+                {
                     var datas = Csv.Tables.Get(Csv.Types.SpellsBuildings).GetDatas()
-                        .Where(s => !((SpellsBuildings)s).NotInUse &&
-                                    ((SpellsBuildings)s).Rarity == rarity.ToString());
+                        .Where(s => !((SpellsBuildings) s).NotInUse &&
+                                    ((SpellsBuildings) s).Rarity == rarity.ToString());
 
                     var enumerable = datas.ToList();
                     if (enumerable.ElementAt(random.Next(0, enumerable.Count)) is SpellsBuildings c)

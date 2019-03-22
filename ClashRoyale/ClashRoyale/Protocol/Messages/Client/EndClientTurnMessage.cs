@@ -41,6 +41,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                     if (type < 500) break;
 
                     if (LogicCommandManager.Commands.ContainsKey(type))
+                    {
                         try
                         {
                             if (Activator.CreateInstance(LogicCommandManager.Commands[type], Device,
@@ -64,6 +65,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                         {
                             Logger.Log(exception, GetType(), ErrorLevel.Error);
                         }
+                    }
                     else
                     {
                         Logger.Log(

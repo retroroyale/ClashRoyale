@@ -87,7 +87,7 @@ namespace ClashRoyale.Protocol.Commands.Server
                     buffer.WriteVInt(X);
                     buffer.WriteVInt(Y);
 
-                    battle.GetOwnQueue(Device.Player.Home.PlayerId).Enqueue(buffer.Array);
+                    battle.GetOwnQueue(Device.Player.Home.Id).Enqueue(buffer.Array);
                 }
 
                 var attackBuffer = Unpooled.Buffer();
@@ -104,7 +104,7 @@ namespace ClashRoyale.Protocol.Commands.Server
                     attackBuffer.WriteVInt(X);
                     attackBuffer.WriteVInt(Y);
 
-                    battle.GetEnemyQueue(Device.Player.Home.PlayerId).Enqueue(attackBuffer.Array);
+                    battle.GetEnemyQueue(Device.Player.Home.Id).Enqueue(attackBuffer.Array);
                 }
             }
         }

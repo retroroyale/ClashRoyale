@@ -8,10 +8,10 @@ namespace ClashRoyale.Logic.Home
 {
     public class Home
     {
+        public Arena Arena = new Arena();
         public Chests.Chests Chests = new Chests.Chests();
         public Deck Deck = new Deck();
         public Shop.Shop Shop = new Shop.Shop();
-        public Arena Arena = new Arena();
 
         public Home()
         {
@@ -23,7 +23,7 @@ namespace ClashRoyale.Logic.Home
 
         public Home(long id, string token)
         {
-            PlayerId = id;
+            Id = id;
             UserToken = token;
 
             Name = "NoNameSet";
@@ -69,7 +69,7 @@ namespace ClashRoyale.Logic.Home
         public int ExpPoints { get; set; }
 
         [JsonIgnore]
-        public long PlayerId
+        public long Id
         {
             get => ((long) HighId << 32) | (LowId & 0xFFFFFFFFL);
             set
@@ -137,7 +137,7 @@ namespace ClashRoyale.Logic.Home
         }
 
         /// <summary>
-        /// This will be called when a user is in home state
+        ///     This will be called when a user is in home state
         /// </summary>
         public void Reset()
         {

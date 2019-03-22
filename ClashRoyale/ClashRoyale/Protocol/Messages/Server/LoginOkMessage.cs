@@ -12,8 +12,8 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            Packet.WriteLong(Device.Player.Home.PlayerId);
-            Packet.WriteLong(Device.Player.Home.PlayerId);
+            Packet.WriteLong(Device.Player.Home.Id);
+            Packet.WriteLong(Device.Player.Home.Id);
             Packet.WriteScString(Device.Player.Home.UserToken);
 
             Packet.WriteScString(string.Empty);

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ClashRoyale.Logic;
+using ClashRoyale.Logic.Clan;
 using Newtonsoft.Json;
 using SharpRaven.Data;
 using StackExchange.Redis;
@@ -11,6 +12,7 @@ namespace ClashRoyale.Database
     public class Redis
     {
         private static IDatabase _players;
+        private static IDatabase _alliances;
         private static IServer _server;
 
         private static ConnectionMultiplexer _connection;
@@ -43,6 +45,7 @@ namespace ClashRoyale.Database
                 _connection = ConnectionMultiplexer.Connect(config);
 
                 _players = _connection.GetDatabase(0);
+                _alliances = _connection.GetDatabase(1);
                 _server = _connection.GetServer(Resources.Configuration.RedisServer, 6379);
 
                 Logger.Log($"Successfully loaded Redis with {CachedPlayers()} player(s)", GetType());
@@ -55,14 +58,29 @@ namespace ClashRoyale.Database
 
         public static bool IsConnected => _server != null;
 
-        public static async Task CachePlayer(Player player)
+        public static async Task Cache(Player player)
         {
             if (player == null) return;
 
             try
             {
-                await _players.StringSetAsync(player.Home.PlayerId.ToString(),
+                await _players.StringSetAsync(player.Home.Id.ToString(),
                     JsonConvert.SerializeObject(player, Settings), TimeSpan.FromHours(4));
+            }
+            catch (Exception exception)
+            {
+                Logger.Log(exception, null, ErrorLevel.Error);
+            }
+        }
+
+        public static async Task Cache(Alliance alliance)
+        {
+            if (alliance == null) return;
+
+            try
+            {
+                await _alliances.StringSetAsync(alliance.Id.ToString(),
+                    JsonConvert.SerializeObject(alliance, Settings), TimeSpan.FromHours(4));
             }
             catch (Exception exception)
             {
@@ -82,7 +100,19 @@ namespace ClashRoyale.Database
             }
         }
 
-        public static async Task<Player> GetCachedPlayer(long id)
+        public static async Task UncacheAlliance(long id)
+        {
+            try
+            {
+                await _alliances.KeyDeleteAsync(id.ToString());
+            }
+            catch (Exception exception)
+            {
+                Logger.Log(exception, null, ErrorLevel.Error);
+            }
+        }
+
+        public static async Task<Player> GetPlayer(long id)
         {
             try
             {
@@ -91,8 +121,28 @@ namespace ClashRoyale.Database
                 if (!string.IsNullOrEmpty(data)) return JsonConvert.DeserializeObject<Player>(data, Settings);
 
                 var player = await PlayerDb.Get(id);
-                await CachePlayer(player);
+                await Cache(player);
                 return player;
+            }
+            catch (Exception exception)
+            {
+                Logger.Log(exception, null, ErrorLevel.Error);
+            }
+
+            return null;
+        }
+
+        public static async Task<Alliance> GetAlliance(long id)
+        {
+            try
+            {
+                var data = await _alliances.StringGetAsync(id.ToString());
+
+                if (!string.IsNullOrEmpty(data)) return JsonConvert.DeserializeObject<Alliance>(data, Settings);
+
+                var alliance = await AllianceDb.Get(id);
+                await Cache(alliance);
+                return alliance;
             }
             catch (Exception exception)
             {
@@ -110,8 +160,25 @@ namespace ClashRoyale.Database
                     _connection.GetServer(Resources.Configuration.RedisServer, 6379).Info("keyspace")[0]
                         .ElementAt(_players.Database)
                         .Value
-                        .Split(new[] {"keys="}, StringSplitOptions.None)[1]
-                        .Split(new[] {",expires="}, StringSplitOptions.None)[0]);
+                        .Split(new[] { "keys=" }, StringSplitOptions.None)[1]
+                        .Split(new[] { ",expires=" }, StringSplitOptions.None)[0]);
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public static int CachedAlliances()
+        {
+            try
+            {
+                return Convert.ToInt32(
+                    _connection.GetServer(Resources.Configuration.RedisServer, 6379).Info("keyspace")[0]
+                        .ElementAt(_alliances.Database)
+                        .Value
+                        .Split(new[] { "keys=" }, StringSplitOptions.None)[1]
+                        .Split(new[] { ",expires=" }, StringSplitOptions.None)[0]);
             }
             catch (Exception)
             {

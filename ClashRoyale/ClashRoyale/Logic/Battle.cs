@@ -93,7 +93,7 @@ namespace ClashRoyale.Logic
                             await new SectorHearbeatMessage(player.Device)
                             {
                                 Turn = BattleTime,
-                                Commands = GetOwnQueue(player.Home.PlayerId)
+                                Commands = GetOwnQueue(player.Home.Id)
                             }.Send();
                         }
                     }
@@ -121,12 +121,12 @@ namespace ClashRoyale.Logic
 
         public Device GetEnemy(long userId)
         {
-            return this.FirstOrDefault(p => p.Home.PlayerId != userId)?.Device;
+            return this.FirstOrDefault(p => p.Home.Id != userId)?.Device;
         }
 
         public Queue<byte[]> GetEnemyQueue(long userId)
         {
-            var index = FindIndex(p => p.Home.PlayerId == userId);
+            var index = FindIndex(p => p.Home.Id == userId);
 
             switch (index)
             {
@@ -146,7 +146,7 @@ namespace ClashRoyale.Logic
 
         public Queue<byte[]> GetOwnQueue(long userId)
         {
-            var index = FindIndex(p => p.Home.PlayerId == userId);
+            var index = FindIndex(p => p.Home.Id == userId);
 
             switch (index)
             {

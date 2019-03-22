@@ -13,7 +13,7 @@ namespace ClashRoyale.Database.Cache
         {
             lock (SyncObject)
             {
-                if (!ContainsKey(player.Home.PlayerId)) Add(player.Home.PlayerId, player);
+                if (!ContainsKey(player.Home.Id)) Add(player.Home.Id, player);
             }
         }
 
@@ -48,13 +48,13 @@ namespace ClashRoyale.Database.Cache
 
             if (!Redis.IsConnected) return await PlayerDb.Get(userId);
 
-            var player = await Redis.GetCachedPlayer(userId);
+            var player = await Redis.GetPlayer(userId);
 
             if (player != null) return player;
 
             player = await PlayerDb.Get(userId);
 
-            await Redis.CachePlayer(player);
+            await Redis.Cache(player);
 
             return player;
         }

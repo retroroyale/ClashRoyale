@@ -26,7 +26,7 @@ namespace ClashRoyale.Core
 
         [JsonProperty("server_port")] public int ServerPort = 9339;
 
-        [JsonProperty("update_url")] public string UpdateUrl = "https://retroclash.pw/";
+        [JsonProperty("update_url")] public string UpdateUrl = "https://github.com/retroroyale/ClashRoyale";
 
         public void Initialize()
         {

@@ -10,7 +10,7 @@ using SharpRaven.Data;
 namespace ClashRoyale.Logic
 {
     public class Device
-    { 
+    {
         public Device(PacketHandler handler)
         {
             Handler = handler;
@@ -36,7 +36,8 @@ namespace ClashRoyale.Logic
                     return;
                 }
 
-                if (Activator.CreateInstance(LogicScrollMessageFactory.Messages[messageHeader.Id], this, messageHeader.Buffer) is PiranhaMessage message)
+                if (Activator.CreateInstance(LogicScrollMessageFactory.Messages[messageHeader.Id], this,
+                    messageHeader.Buffer) is PiranhaMessage message)
                     try
                     {
                         message.Id = messageHeader.Id;

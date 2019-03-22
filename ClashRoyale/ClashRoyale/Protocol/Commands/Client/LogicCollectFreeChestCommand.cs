@@ -1,8 +1,8 @@
 ﻿using ClashRoyale.Logic;
 using ClashRoyale.Logic.Home.Chests.Items;
+using ClashRoyale.Protocol.Commands.Server;
 using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
-using ClashRoyale.Protocol.Commands.Server;
 
 namespace ClashRoyale.Protocol.Commands.Client
 {

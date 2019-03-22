@@ -24,7 +24,7 @@ namespace ClashRoyale.Protocol.Messages.Server
             foreach (var card in Player.Home.Deck.GetRange(0, 8))
                 card.Encode(Packet);
 
-            Packet.WriteLong(Player.Home.PlayerId);
+            Packet.WriteLong(Player.Home.Id);
             Packet.WriteVInt(0);
             Packet.WriteVInt(0);
             Packet.WriteVInt(1);

@@ -39,7 +39,9 @@ namespace ClashRoyale.Core.Network
 
             var boundChannel = await ServerBootstrap.BindAsync(Resources.Configuration.ServerPort);
 
-            Logger.Log($"Listening on {((IPEndPoint) boundChannel.LocalAddress).Port} with DotNetty!", GetType());
+            Logger.Log(
+                $"Listening on {((IPEndPoint) boundChannel.LocalAddress).Port} with DotNetty. Let's play ClashRoyale!",
+                GetType());
         }
     }
 }

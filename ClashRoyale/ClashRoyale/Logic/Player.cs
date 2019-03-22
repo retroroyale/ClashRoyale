@@ -56,7 +56,7 @@ namespace ClashRoyale.Logic
             packet.WriteByte(0);
 
             packet.WriteScString("DE");
-            packet.WriteLong(Home.PlayerId);
+            packet.WriteLong(Home.Id);
 
             packet.WriteByte(0);
             packet.WriteByte(0);
@@ -74,7 +74,7 @@ namespace ClashRoyale.Logic
 
         public void LogicClientHome(IByteBuffer packet)
         {
-            packet.WriteLong(Home.PlayerId);
+            packet.WriteLong(Home.Id);
 
             // Unknown
             {
@@ -515,7 +515,7 @@ namespace ClashRoyale.Logic
 
             // Battle Statistics
             {
-                packet.WriteVInt(0); 
+                packet.WriteVInt(0);
                 packet.WriteVInt(0); // Tournament Matches Played
                 packet.WriteVInt(0);
                 packet.WriteVInt(0); // Wins
@@ -547,11 +547,11 @@ namespace ClashRoyale.Logic
             var st = new Stopwatch();
             st.Start();
 
-            await Redis.CachePlayer(this);
+            await Redis.Cache(this);
             await PlayerDb.Save(this);
 
             st.Stop();
-            Logger.Log($"Player {Home.PlayerId} saved in {st.ElapsedMilliseconds}ms.", GetType(), ErrorLevel.Debug);
+            Logger.Log($"Player {Home.Id} saved in {st.ElapsedMilliseconds}ms.", GetType(), ErrorLevel.Debug);
         }
     }
 }

@@ -32,6 +32,7 @@ namespace ClashRoyale.Files.CsvHelpers
         {
             if (Data != null)
                 return Data.Count;
+
             return 0;
         }
 

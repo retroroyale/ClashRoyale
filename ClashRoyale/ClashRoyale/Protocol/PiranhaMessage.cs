@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ClashRoyale.Logic;
 using DotNetty.Buffers;
 using SharpRaven.Data;
@@ -35,18 +34,17 @@ namespace ClashRoyale.Protocol
             Device.Rc4.Decrypt(ref buffer);
 
             Buffer = Unpooled.CopiedBuffer(buffer);
-            Length = (ushort)buffer.Length;
+            Length = (ushort) buffer.Length;
         }
 
         public virtual void Encrypt()
         {
-            var buffer = new byte[Packet.ReadableBytes];
-            Packet.GetBytes(0, buffer);
+            var buffer = Packet.ReadBytes(Packet.ReadableBytes).Array;
 
             Device.Rc4.Encrypt(ref buffer);
 
             Packet = Unpooled.CopiedBuffer(buffer);
-            Length = (ushort)buffer.Length;
+            Length = (ushort) buffer.Length;
         }
 
         public virtual void Decode()
@@ -71,8 +69,6 @@ namespace ClashRoyale.Protocol
             Encrypt();
 
             var buffer = Unpooled.Buffer();
-
-            Length = (ushort) Packet.ReadableBytes;
 
             buffer.WriteUnsignedShort(Id);
             buffer.WriteMedium(Length);

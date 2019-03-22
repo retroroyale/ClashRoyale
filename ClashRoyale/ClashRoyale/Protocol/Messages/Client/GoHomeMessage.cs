@@ -8,7 +8,7 @@ namespace ClashRoyale.Protocol.Messages.Client
     {
         public GoHomeMessage(Device device, IByteBuffer buffer) : base(device, buffer)
         {
-            Id = 14101;         
+            Id = 14101;
             Save = true;
         }
 

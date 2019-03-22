@@ -45,6 +45,7 @@ namespace ClashRoyale.Extensions.Utils
                 var uniCast = nic.GetIPProperties().UnicastAddresses;
 
                 if (uniCast == null) continue;
+
                 if (uniCast.Where(uni => adapterStat.UnicastPacketsReceived > 0
                                          && adapterStat.UnicastPacketsSent > 0
                                          && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback).Any(uni =>

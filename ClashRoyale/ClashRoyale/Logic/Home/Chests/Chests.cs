@@ -82,7 +82,7 @@ namespace ClashRoyale.Logic.Home.Chests
             }
 
             // Epic
-            { 
+            {
                 if (type == Chest.ChestType.Shop)
                 {
                     for (var i = 0; i < random.Next(1, 2); i++)
@@ -139,7 +139,7 @@ namespace ClashRoyale.Logic.Home.Chests
                 // TODO: Cost
 
                 if (random.Next(1, 5) == 1) chest.Gems = random.Next(5, 15);
-                if (random.Next(1, 4) == 1) chest.Gold = random.Next(100, 250);           
+                if (random.Next(1, 4) == 1) chest.Gold = random.Next(100, 250);
             }
             else
             {

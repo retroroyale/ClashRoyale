@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Text;
 using ClashRoyale.Files.CsvHelpers;
@@ -56,20 +55,26 @@ namespace ClashRoyale.Extensions
                                 value >>= 0x1B & 0x7F;
                             }
                             else
+                            {
                                 value >>= 0x14 & 0x7F;
+                            }
                         }
                         else
+                        {
                             value >>= 0xD & 0x7F;
+                        }
                     }
                     else
+                    {
                         value >>= 0x6 & 0x7F;
+                    }
                 }
 
                 buffer.WriteByte((byte) value);
             }
             catch (IndexOutOfRangeException)
             {
-               // Ignored.
+                // Ignored.
             }
         }
 
