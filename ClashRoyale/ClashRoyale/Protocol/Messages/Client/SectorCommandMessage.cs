@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
 using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 using DotNetty.Buffers;
@@ -25,19 +23,14 @@ namespace ClashRoyale.Protocol.Messages.Client
             Count = Buffer.ReadVInt();
         }
 
-        public override async void Process()
+        public override void Process()
         {
             Device.LastSectorCommand = DateTime.UtcNow;
 
             if (Count >= 0 && Count <= 512)
             {
-                Save = true;
-
                 for (var index = 0; index < Count; index++)
-                    using (var token = new CancellationTokenSource())
                     {
-                        token.CancelAfter(2000);
-
                         var type = Buffer.ReadVInt();
 
                         if (type < 0) break;
@@ -49,16 +42,15 @@ namespace ClashRoyale.Protocol.Messages.Client
                                         Buffer) is
                                     LogicCommand
                                     command)
-                                    await Task.Run(() =>
-                                    {
-                                        command.Decode();
+                                {
+                                    command.Decode();
 
-                                        command.Encode();
-                                        command.Process();
+                                    command.Encode();
+                                    command.Process();
 
-                                        Logger.Log($"BattleCommand {type} with Tick {Tick} has been processed.",
-                                            GetType(), ErrorLevel.Debug);
-                                    }, token.Token);
+                                    Logger.Log($"BattleCommand {type} with Tick {Tick} has been processed.",
+                                        GetType(), ErrorLevel.Debug);
+                                }
                             }
                             catch (OperationCanceledException)
                             {
