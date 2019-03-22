@@ -51,12 +51,6 @@ namespace ClashRoyale.Protocol.Messages.Client
                                     GetType(), ErrorLevel.Debug);
                             }
                         }
-                        catch (OperationCanceledException)
-                        {
-                            Logger.Log(
-                                $"The operation for command {type} was aborted after 2 second(s).", GetType(),
-                                ErrorLevel.Warning);
-                        }
                         catch (Exception exception)
                         {
                             Logger.Log(exception, GetType(), ErrorLevel.Error);

@@ -6,6 +6,20 @@ namespace ClashRoyale.Core
 {
     public class SentryReport
     {
+        public SentryReport()
+        {
+            if (!string.IsNullOrEmpty(Resources.Configuration.SentryApiUrl))
+            {
+                Client = new RavenClient(Resources.Configuration.SentryApiUrl) 
+                {
+                    Logger = "ClashRoyale",
+                    IgnoreBreadcrumbs = true
+                };
+
+                Client.Tags.Add("contentVersion", Resources.Fingerprint.GetVersion);
+            }
+        }
+
         public RavenClient Client { get; set; }
 
         public async void Report(string message, Type type, ErrorLevel level)

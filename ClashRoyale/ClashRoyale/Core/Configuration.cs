@@ -6,26 +6,16 @@ namespace ClashRoyale.Core
 {
     public class Configuration
     {
-        [JsonIgnore] public const string Version = "0.1";
-
         [JsonProperty("encryption_key")] public string EncryptionKey = "fhsd6f86f67rt8fw78fw789we78r9789wer6re";
-
         [JsonProperty("mysql_database")] public string MySqlDatabase = "rrdb";
-
         [JsonProperty("mysql_password")] public string MySqlPassword = "";
-
         [JsonProperty("mysql_server")] public string MySqlServer = "127.0.0.1";
-
         [JsonProperty("mysql_user")] public string MySqlUserId = "root";
-
         [JsonProperty("patch_url")] public string PatchUrl = "";
-
         [JsonProperty("redis_password")] public string RedisPassword = "";
-
         [JsonProperty("redis_server")] public string RedisServer = "127.0.0.1";
-
+        [JsonProperty("sentry_api")] public string SentryApiUrl = "";
         [JsonProperty("server_port")] public int ServerPort = 9339;
-
         [JsonProperty("update_url")] public string UpdateUrl = "https://github.com/retroroyale/ClashRoyale";
 
         public void Initialize()
@@ -43,6 +33,7 @@ namespace ClashRoyale.Core
                     MySqlDatabase = config.MySqlDatabase;
                     RedisPassword = config.RedisPassword;
                     RedisServer = config.RedisServer;
+                    SentryApiUrl = config.SentryApiUrl;
                     EncryptionKey = config.EncryptionKey;
                     ServerPort = config.ServerPort;
                 }

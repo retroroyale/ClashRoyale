@@ -70,7 +70,7 @@ namespace ClashRoyale.Logic
 
         #region Objects
 
-        public Rc4Core Rc4 = new Rc4Core("fhsd6f86f67rt8fw78fw789we78r9789wer6re", "nonce");
+        public Rc4Core Rc4 = new Rc4Core(Resources.Configuration.EncryptionKey, "nonce");
         public PacketHandler Handler { get; set; }
 
         public Player Player { get; set; }
