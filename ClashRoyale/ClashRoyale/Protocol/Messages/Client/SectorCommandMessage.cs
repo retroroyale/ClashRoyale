@@ -49,7 +49,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                                         Buffer) is
                                     LogicCommand
                                     command)
-                                    await Task.Run(async () =>
+                                    await Task.Run(() =>
                                     {
                                         command.Decode();
 
