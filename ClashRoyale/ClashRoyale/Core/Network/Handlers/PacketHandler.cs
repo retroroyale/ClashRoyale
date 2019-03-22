@@ -55,19 +55,15 @@ namespace ClashRoyale.Core.Network.Handlers
                         _hasHeader = false;
                     }
                     else
-                    {
                         _messageHeader.Buffer.WriteBytes(buffer, readableBytes);
-                    }
                 }
                 else
                 {
                     _messageHeader.Buffer.WriteBytes(buffer, buffer.ReadableBytes);
 
-                    if (_messageHeader.Buffer.ReadableBytes == _messageHeader.Length)
-                    {
-                        await Device.Process(_messageHeader);
-                        _hasHeader = false;
-                    }
+                    if (_messageHeader.Buffer.ReadableBytes != _messageHeader.Length) continue;
+                    await Device.Process(_messageHeader);
+                    _hasHeader = false;
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Logic;
+﻿using System;
+using ClashRoyale.Logic;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {
@@ -8,6 +9,7 @@ namespace ClashRoyale.Protocol.Messages.Server
         {
             Id = 24101;
             device.CurrentState = Device.State.Home;
+            Device.LastVisitHome = DateTime.UtcNow;
         }
 
         public override void Encode()

@@ -112,7 +112,7 @@ namespace ClashRoyale.Logic.Home.Chests
             {
                 if (type == Chest.ChestType.Shop)
                 {
-                    if (random.Next(1, 5) == 1)
+                    if (random.Next(1, 10) == 1)
                     {
                         var card = Card.Random(Card.Rarity.Legendary);
                         card.Count = 1;
@@ -139,7 +139,7 @@ namespace ClashRoyale.Logic.Home.Chests
                 // TODO: Cost
 
                 if (random.Next(1, 5) == 1) chest.Gems = random.Next(5, 15);
-                if (random.Next(1, 4) == 1) chest.Gold = random.Next(75, 150);           
+                if (random.Next(1, 4) == 1) chest.Gold = random.Next(100, 250);           
             }
             else
             {

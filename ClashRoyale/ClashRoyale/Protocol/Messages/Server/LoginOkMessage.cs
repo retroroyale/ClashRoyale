@@ -1,5 +1,4 @@
-﻿using System;
-using ClashRoyale.Extensions;
+﻿using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 
 namespace ClashRoyale.Protocol.Messages.Server
@@ -9,7 +8,6 @@ namespace ClashRoyale.Protocol.Messages.Server
         public LoginOkMessage(Device device) : base(device)
         {
             Id = 20104;
-            Device.LastVisitHome = DateTime.UtcNow;
         }
 
         public override void Encode()
