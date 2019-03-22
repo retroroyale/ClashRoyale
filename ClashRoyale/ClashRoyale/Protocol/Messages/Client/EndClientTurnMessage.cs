@@ -1,7 +1,6 @@
 ﻿using System;
 using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
-using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
 using SharpRaven.Data;
 
@@ -31,7 +30,7 @@ namespace ClashRoyale.Protocol.Messages.Client
             if (Tick < 0)
             {
                 Logger.Log($"Client Tick ({Tick}) is corrupted. Disconnecting.", GetType(), ErrorLevel.Warning);
-                await new OutOfSyncMessage(Device).Send();
+                await Device.Disconnect();
             }
 
             if (Count >= 0 && Count <= 512)
@@ -39,7 +38,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                 {
                     var type = Buffer.ReadVInt();
 
-                    if (type < 0) break;
+                    if (type < 500) break;
 
                     if (LogicCommandManager.Commands.ContainsKey(type))
                         try
@@ -53,7 +52,6 @@ namespace ClashRoyale.Protocol.Messages.Client
                                 Buffer.ReadVInt();
 
                                 command.Decode();
-
                                 command.Process();
 
                                 Logger.Log($"Command {type} with Tick {command.Tick} has been processed.",

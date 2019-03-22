@@ -17,7 +17,7 @@ namespace ClashRoyale.Logic.Home.Decks
                 Add(new Card(26, i, false));
 
             foreach (var card in Card.GetAllCards().Skip(8))
-                Add(card);
+                Add(card);       
         }
 
         public new void Add(Card card)

@@ -5,22 +5,12 @@ using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Protocol;
 using ClashRoyale.Protocol.Crypto;
 using ClashRoyale.Protocol.Messages.Server;
-using DotNetty.Buffers;
 using SharpRaven.Data;
 
 namespace ClashRoyale.Logic
 {
     public class Device
-    {
-        public enum State
-        {
-            Disconnected = 0,
-            Login = 1,
-            Replay = 2,
-            Battle = 3,
-            Home = 4
-        }
-
+    { 
         public Device(PacketHandler handler)
         {
             Handler = handler;
@@ -32,56 +22,38 @@ namespace ClashRoyale.Logic
         /// <summary>
         ///     Process a message
         /// </summary>
-        /// <param name="buffer"></param>
+        /// <param name="messageHeader"></param>
         /// <returns></returns>
-        public async Task Process(IByteBuffer buffer)
+        public async Task Process(PiranhaMessageHeader messageHeader)
         {
-            while (true)
+            if (messageHeader.Id >= 10000 && messageHeader.Id < 20000)
             {
-                if (buffer.ReadableBytes >= 7)
+                if (!LogicScrollMessageFactory.Messages.ContainsKey(messageHeader.Id))
                 {
-                    var identifier = buffer.ReadUnsignedShort();
-                    var length = (ushort) buffer.ReadUnsignedMedium();
+                    Logger.Log($"Message {messageHeader.Id} is not known.", GetType(), ErrorLevel.Warning);
 
-                    if (identifier >= 10000 && identifier < 20000)
-                    {
-                        if (!LogicScrollMessageFactory.Messages.ContainsKey(identifier))
-                        {
-                            Logger.Log($"Message {identifier} is not known.", GetType(), ErrorLevel.Warning);
-
-                            await Disconnect();
-                            break;
-                        }
-
-                        if (Activator.CreateInstance(LogicScrollMessageFactory.Messages[identifier], this, buffer) is PiranhaMessage message)
-                            try
-                            {
-                                message.Id = identifier;
-                                message.Length = length;
-                                message.Version = buffer.ReadUnsignedShort();
-
-                                message.Decrypt();
-                                message.Decode();
-                                message.Process();
-
-                                Logger.Log($"[C] Message {identifier} has been handled.", GetType(), ErrorLevel.Debug);
-
-                                if (message.Save && CurrentState == State.Home) Player.Save();
-                            }
-                            catch (Exception exception)
-                            {
-                                Logger.Log($"Failed to process {identifier}: " + exception, GetType(), ErrorLevel.Error);
-                            }
-
-                        if (buffer.ReadableBytes >= 7) continue;
-                    }
-                    else
-                    {
-                        await Disconnect();
-                    }
+                    await Disconnect();
                 }
 
-                break;
+                if (Activator.CreateInstance(LogicScrollMessageFactory.Messages[messageHeader.Id], this, messageHeader.Buffer) is PiranhaMessage message)
+                    try
+                    {
+                        message.Id = messageHeader.Id;
+                        message.Length = messageHeader.Length;
+                        message.Version = messageHeader.Version;
+
+                        message.Decrypt();
+                        message.Decode();
+                        message.Process();
+
+                        Logger.Log($"[C] Message {messageHeader.Id} has been handled.", GetType(), ErrorLevel.Debug);
+
+                        if (message.Save && CurrentState == State.Home) Player.Save();
+                    }
+                    catch (Exception exception)
+                    {
+                        Logger.Log($"Failed to process {messageHeader.Id}: " + exception, GetType(), ErrorLevel.Error);
+                    }
             }
         }
 
@@ -108,6 +80,15 @@ namespace ClashRoyale.Logic
         public int SecondsSinceLastCommand => (int) DateTime.UtcNow.Subtract(LastSectorCommand).TotalSeconds;
 
         public State CurrentState { get; set; }
+
+        public enum State
+        {
+            Disconnected = 0,
+            Login = 1,
+            Replay = 2,
+            Battle = 3,
+            Home = 4
+        }
 
         #endregion Objects
     }

@@ -4,6 +4,7 @@ using ClashRoyale.Extensions;
 using ClashRoyale.Extensions.Utils;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
+using SharpRaven.Data;
 
 namespace ClashRoyale.Logic
 {
@@ -550,7 +551,7 @@ namespace ClashRoyale.Logic
             await PlayerDb.Save(this);
 
             st.Stop();
-            Logger.Log($"Player {Home.PlayerId} saved in {st.ElapsedMilliseconds}ms.", GetType());
+            Logger.Log($"Player {Home.PlayerId} saved in {st.ElapsedMilliseconds}ms.", GetType(), ErrorLevel.Debug);
         }
     }
 }

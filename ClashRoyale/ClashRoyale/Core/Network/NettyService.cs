@@ -27,6 +27,9 @@ namespace ClashRoyale.Core.Network
             ServerBootstrap
                 .Option(ChannelOption.SoBacklog, 100)
                 .Option(ChannelOption.TcpNodelay, true)
+                .Option(ChannelOption.SoRcvbuf, 512)
+                .Option(ChannelOption.SoSndbuf, 512)
+                .Option(ChannelOption.SoKeepalive, true)
                 .Handler(new LoggingHandler("SRV-ICR"))
                 .ChildHandler(new ActionChannelInitializer<IChannel>(channel =>
                 {

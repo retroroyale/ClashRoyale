@@ -1,7 +1,6 @@
 ﻿using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 using DotNetty.Buffers;
-using System;
 
 namespace ClashRoyale.Protocol.Commands.Client
 {

@@ -14,7 +14,6 @@ namespace ClashRoyale.Protocol
             Commands = new Dictionary<int, Type>
             {
                 {1, typeof(DoSpellCommand)},
-                {210, typeof(ChestDataCommand)},
 
                 {500, typeof(LogicSwapSpellsCommand)},
                 {501, typeof(LogicSelectDeckCommand)},

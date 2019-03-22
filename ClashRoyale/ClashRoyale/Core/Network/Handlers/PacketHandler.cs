@@ -1,5 +1,6 @@
 ﻿using System;
 using ClashRoyale.Logic;
+using ClashRoyale.Protocol;
 using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
 using SharpRaven.Data;
@@ -16,15 +17,59 @@ namespace ClashRoyale.Core.Network.Handlers
         public Device Device { get; set; }
         public IChannel Channel { get; set; }
 
+        private bool _hasHeader;
+        private PiranhaMessageHeader _messageHeader;
+
         public override async void ChannelRead(IChannelHandlerContext context, object message)
         {
             var buffer = (IByteBuffer) message;
             if (buffer == null) return;
 
-            var packet = new byte[buffer.ReadableBytes];
-            buffer.GetBytes(buffer.ReaderIndex, packet);
+            while (buffer.ReadableBytes > 0)
+            {
+                if (!_hasHeader)
+                {
+                    _messageHeader = new PiranhaMessageHeader
+                    {
+                        Id = buffer.ReadUnsignedShort(),
+                        Length = buffer.ReadMedium(),
+                        Version = buffer.ReadUnsignedShort()
+                    };
 
-            await Device.Process(Unpooled.WrappedBuffer(packet));
+                    _hasHeader = true;
+
+                    var readableBytes = buffer.ReadableBytes;
+
+                    if (_messageHeader.Length == readableBytes)
+                    {
+                        _messageHeader.Buffer.WriteBytes(buffer, readableBytes);
+
+                        await Device.Process(_messageHeader);
+                        _hasHeader = false;
+                    }
+                    else if (_messageHeader.Length < readableBytes)
+                    {
+                        _messageHeader.Buffer.WriteBytes(buffer, _messageHeader.Length);
+
+                        await Device.Process(_messageHeader);
+                        _hasHeader = false;
+                    }
+                    else
+                    {
+                        _messageHeader.Buffer.WriteBytes(buffer, readableBytes);
+                    }
+                }
+                else
+                {
+                    _messageHeader.Buffer.WriteBytes(buffer, buffer.ReadableBytes);
+
+                    if (_messageHeader.Buffer.ReadableBytes == _messageHeader.Length)
+                    {
+                        await Device.Process(_messageHeader);
+                        _hasHeader = false;
+                    }
+                }
+            }
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext context)

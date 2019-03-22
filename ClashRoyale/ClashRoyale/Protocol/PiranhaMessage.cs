@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using ClashRoyale.Extensions;
+﻿using System;
+using System.Threading.Tasks;
 using ClashRoyale.Logic;
 using DotNetty.Buffers;
 using SharpRaven.Data;
@@ -24,7 +24,7 @@ namespace ClashRoyale.Protocol
         public IByteBuffer Buffer { get; set; }
         public Device Device { get; set; }
         public ushort Id { get; set; }
-        public ushort Length { get; set; }
+        public int Length { get; set; }
         public ushort Version { get; set; }
         public bool Save { get; set; }
 
@@ -34,19 +34,19 @@ namespace ClashRoyale.Protocol
 
             Device.Rc4.Decrypt(ref buffer);
 
-            Buffer = Unpooled.WrappedBuffer(buffer);
-            Length = (ushort) buffer.Length;
+            Buffer = Unpooled.CopiedBuffer(buffer);
+            Length = (ushort)buffer.Length;
         }
 
         public virtual void Encrypt()
         {
             var buffer = new byte[Packet.ReadableBytes];
-            Packet.GetBytes(Packet.ReaderIndex, buffer);
+            Packet.GetBytes(0, buffer);
 
             Device.Rc4.Encrypt(ref buffer);
 
-            Packet = Unpooled.WrappedBuffer(buffer);
-            Length = (ushort) buffer.Length;
+            Packet = Unpooled.CopiedBuffer(buffer);
+            Length = (ushort)buffer.Length;
         }
 
         public virtual void Decode()
@@ -75,8 +75,7 @@ namespace ClashRoyale.Protocol
             Length = (ushort) Packet.ReadableBytes;
 
             buffer.WriteUnsignedShort(Id);
-            buffer.WriteByte(0);
-            buffer.WriteUnsignedShort(Length);
+            buffer.WriteMedium(Length);
             buffer.WriteUnsignedShort(Version);
 
             buffer.WriteBytes(Packet);
