@@ -33,6 +33,7 @@ namespace ClashRoyale.Logic
                     Logger.Log($"Message {messageHeader.Id} is not known.", GetType(), ErrorLevel.Warning);
 
                     await Disconnect();
+                    return;
                 }
 
                 if (Activator.CreateInstance(LogicScrollMessageFactory.Messages[messageHeader.Id], this, messageHeader.Buffer) is PiranhaMessage message)
