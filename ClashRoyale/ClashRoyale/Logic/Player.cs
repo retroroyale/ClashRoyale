@@ -1,7 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using ClashRoyale.Database;
 using ClashRoyale.Extensions;
 using ClashRoyale.Extensions.Utils;
+using ClashRoyale.Logic.Clan;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
 using SharpRaven.Data;
@@ -23,7 +26,6 @@ namespace ClashRoyale.Logic
         public Home.Home Home { get; set; }
 
         [JsonIgnore] public Battle Battle { get; set; }
-
         [JsonIgnore] public Device Device { get; set; }
 
         public void RankingEntry(IByteBuffer packet)
@@ -219,7 +221,7 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
             packet.WriteVInt(63);
 
-            packet.WriteVInt(15); // Tutorial?
+            packet.WriteVInt(3); 
 
             for (var i = 0; i < 7; i++)
                 packet.WriteVInt(0);
@@ -373,7 +375,7 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
             packet.WriteVInt(0);
 
-            packet.WriteVInt(7); // ?           
+            packet.WriteVInt(7); // Training Battles completed         
         }
 
         public void LogicClientAvatar(IByteBuffer packet)
@@ -384,7 +386,6 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(Home.HighId);
                 packet.WriteVInt(Home.LowId);
             }
-
 
             // Name
             {
@@ -463,7 +464,7 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(72000006);
             }
 
-            packet.WriteVInt(0); // Completed Achievements?
+            packet.WriteVInt(0); // Completed Achievements
 
             // Achievements
             {
@@ -509,17 +510,31 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(Home.ExpPoints); // ExpPoints
             packet.WriteVInt(Home.ExpLevel); // ExpLevel
 
-            packet.WriteVInt(0); // AvatarUserLevelTier
+            packet.WriteVInt(0); // NameSet
 
-            packet.WriteVInt(7); // HasAlliance
+            if (Home.AllianceInfo.HasAlliance)
+            {
+                packet.WriteVInt(9);// HasAlliance
+
+                var info = Home.AllianceInfo;
+
+                packet.WriteVInt(info.HighId);
+                packet.WriteVInt(info.LowId);
+                packet.WriteScString(info.Name);
+                packet.WriteVInt(info.Badge);
+                packet.WriteVInt(info.Role);
+            }
+            else
+                packet.WriteVInt(7);  // HasAlliance
 
             // Battle Statistics
             {
-                packet.WriteVInt(0);
+                packet.WriteVInt(0); // Games Played
                 packet.WriteVInt(0); // Tournament Matches Played
                 packet.WriteVInt(0);
                 packet.WriteVInt(0); // Wins
-                packet.WriteVInt(0);
+                packet.WriteVInt(0); // Losses
+
                 packet.WriteVInt(0);
             }
 
@@ -532,8 +547,11 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
 
             packet.WriteVInt(0); // Has Challenge
+            //  packet.WriteVInt(); // ID
+            //  packet.WriteVInt(); // WINS
+            //  packet.WriteVInt(0); // LOSSES
 
-            packet.WriteVInt(0);
+            packet.WriteVInt(0); 
             packet.WriteVInt(0);
             packet.WriteVInt(0);
 

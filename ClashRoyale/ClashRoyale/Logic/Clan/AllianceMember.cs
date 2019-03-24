@@ -1,4 +1,5 @@
 ﻿using System;
+using ClashRoyale.Extensions;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
 
@@ -10,19 +11,45 @@ namespace ClashRoyale.Logic.Clan
         [JsonProperty("lowId")] public int LowId { get; set; }
         [JsonProperty("role")] public int Role { get; set; }
         [JsonProperty("score")] public int Score { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
         [JsonProperty("donations")] public int Donations { get; set; }
         [JsonProperty("donationsReceived")] public int DonationsReceived { get; set; }
 
-        public AllianceMember(long id, Alliance.Role role, int score)
+        public AllianceMember(Player player, Alliance.Role role)
         {
-            Id = id;
+            Id = player.Home.Id;
             Role = (int)role;
-            Score = score;
+            Score = player.Home.Trophies;
+            Name = player.Home.Name;
         }
 
         public void AllianceMemberEntry(IByteBuffer packet)
         {
-            // TODO
+            packet.WriteLong(Id); // ID
+            packet.WriteScString(Name); // Name
+
+            // Arena
+            packet.WriteVInt(54);
+            packet.WriteVInt(11); 
+
+            packet.WriteVInt(Role); // Role
+            packet.WriteVInt(0); // Level
+            packet.WriteVInt(Score); // Trophies
+
+            packet.WriteVInt(0); // Donated
+            packet.WriteVInt(0); // Donations Received
+
+            packet.WriteVInt(0); // Current Rank
+            packet.WriteVInt(0); // Previus Rank
+
+            packet.WriteVInt(0); // Chest Crowns
+            packet.WriteVInt(65039); // Chest ??
+            packet.WriteVInt(63);
+            packet.WriteVInt(63);
+            packet.WriteVInt(31);
+            packet.WriteVInt(7);
+
+            packet.WriteLong(Id); 
         }
 
         [JsonIgnore]

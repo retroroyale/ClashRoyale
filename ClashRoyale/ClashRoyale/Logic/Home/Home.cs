@@ -1,6 +1,7 @@
 ﻿using System;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
+using ClashRoyale.Logic.Clan;
 using ClashRoyale.Logic.Home.Decks;
 using Newtonsoft.Json;
 
@@ -12,6 +13,7 @@ namespace ClashRoyale.Logic.Home
         public Chests.Chests Chests = new Chests.Chests();
         public Deck Deck = new Deck();
         public Shop.Shop Shop = new Shop.Shop();
+        public AllianceInfo AllianceInfo = new AllianceInfo();
 
         public Home()
         {

@@ -24,6 +24,7 @@ namespace ClashRoyale
         public static Csv Csv { get; set; }
         public static Battles Battles { get; set; }
         public static Players Players { get; set; }
+        public static Alliances Alliances { get; set; }
 
         public static async void Initialize()
         {
@@ -43,6 +44,7 @@ namespace ClashRoyale
 
             Battles = new Battles();
             Players = new Players();
+            Alliances = new Alliances();
 
             Leaderboard = new Leaderboard();
 

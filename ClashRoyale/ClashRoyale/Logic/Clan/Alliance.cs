@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using ClashRoyale.Database;
+using ClashRoyale.Extensions;
 using ClashRoyale.Logic.Clan.StreamEntry;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
@@ -36,12 +37,39 @@ namespace ClashRoyale.Logic.Clan
 
         public void AllianceFullEntry(IByteBuffer packet)
         {
-            // TODO
+            AllianceHeaderEntry(packet);
+
+            packet.WriteVInt(0);
+            packet.WriteVInt(0);
+            packet.WriteVInt(0);
+
+            packet.WriteVInt(91);
+            packet.WriteVInt(0); // Donations per week
+            packet.WriteVInt(10882);
+
+            packet.WriteVInt(1);
+            packet.WriteVInt(0);
+            packet.WriteVInt(57);
+
+            packet.WriteVInt(94);
+            packet.WriteVInt(0);
+
+            packet.WriteScString(Description);
         }
 
         public void AllianceHeaderEntry(IByteBuffer packet)
         {
-            // TODO
+            packet.WriteLong(Id);
+            packet.WriteScString(Name);
+
+            packet.WriteVInt(16);
+            packet.WriteVInt(Badge);
+
+            packet.WriteVInt(Type);
+            packet.WriteVInt(Members.Count);
+
+            packet.WriteVInt(Score);
+            packet.WriteVInt(RequiredScore);
         }
 
         [JsonIgnore]
@@ -58,12 +86,28 @@ namespace ClashRoyale.Logic.Clan
             }
         }
 
+        public AllianceInfo GetAllianceInfo(long userId) =>
+            new AllianceInfo
+            {
+                Id = Id,
+                Name = Name,
+                Badge = Badge,
+                Role = GetRole(userId)
+            };
+
         public void AddEntry(AllianceStreamEntry entry)
         {
             while (Stream.Count >= 40)
                 Stream.RemoveAt(0);
 
             Stream.Add(entry);
+        }
+
+        public int GetRole(long id)
+        {
+            var index = Members.FindIndex(x => x.Id == id);
+
+            return index > -1 ? Members[index].Role : 1;
         }
 
         public bool IsMember(long id)

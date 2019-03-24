@@ -34,15 +34,13 @@ namespace ClashRoyale.Database.Cache
             }
         }
 
-        public async Task<Alliance> GetAlliance(long allianceId, bool onlineOnly = false)
+        public async Task<Alliance> GetAlliance(long allianceId)
         {
             lock (SyncObject)
             {
                 if (ContainsKey(allianceId))
                     return this[allianceId];
             }
-
-            if (onlineOnly) return null;
 
             if (!Redis.IsConnected) return await AllianceDb.Get(allianceId);
 

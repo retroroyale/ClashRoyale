@@ -50,7 +50,7 @@ namespace ClashRoyale.Protocol
                 {14262, typeof(BindGoogleServiceAccountMessage)},
 
                 //{14301, typeof(CreateAllianceMessage)},
-                //{14302, typeof(AskForAllianceDataMessage)},
+                {14302, typeof(AskForAllianceDataMessage)},
                 {14303, typeof(AskForJoinableAlliancesListMessage)},
                 //{14304, typeof(AskForAllianceStreamMessage)},
                 //{14305, typeof(JoinAllianceMessage)},
