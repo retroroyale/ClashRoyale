@@ -45,7 +45,7 @@ namespace ClashRoyale.Logic.Clan
 
             packet.WriteVInt(91);
             packet.WriteVInt(0); // Donations per week
-            packet.WriteVInt(10882);
+            packet.WriteVInt(0);
 
             packet.WriteVInt(1);
             packet.WriteVInt(0);

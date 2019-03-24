@@ -23,6 +23,11 @@ namespace ClashRoyale.Logic.Clan
             Name = player.Home.Name;
         }
 
+        public AllianceMember()
+        {
+            // ...
+        }
+
         public void AllianceMemberEntry(IByteBuffer packet)
         {
             packet.WriteLong(Id); // ID
