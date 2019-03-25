@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using ClashRoyale.Core;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan;
 using Newtonsoft.Json;
@@ -16,16 +17,6 @@ namespace ClashRoyale.Database
         private static IServer _server;
 
         private static ConnectionMultiplexer _connection;
-
-        public static JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            ObjectCreationHandling = ObjectCreationHandling.Reuse,
-            MissingMemberHandling = MissingMemberHandling.Ignore,
-            DefaultValueHandling = DefaultValueHandling.Ignore,
-            NullValueHandling = NullValueHandling.Ignore,
-            TypeNameHandling = TypeNameHandling.Auto,
-            Formatting = Formatting.None
-        };
 
         public Redis()
         {
@@ -48,7 +39,7 @@ namespace ClashRoyale.Database
                 _alliances = _connection.GetDatabase(1);
                 _server = _connection.GetServer(Resources.Configuration.RedisServer, 6379);
 
-                Logger.Log($"Successfully loaded Redis with {CachedPlayers()} player(s)", GetType());
+                Logger.Log($"Successfully loaded Redis with {CachedPlayers()} player(s) & {CachedAlliances()} clan(s)", GetType());
             }
             catch (Exception exception)
             {
@@ -65,7 +56,7 @@ namespace ClashRoyale.Database
             try
             {
                 await _players.StringSetAsync(player.Home.Id.ToString(),
-                    JsonConvert.SerializeObject(player, Settings), TimeSpan.FromHours(4));
+                    JsonConvert.SerializeObject(player, Configuration.JsonSettings), TimeSpan.FromHours(4));
             }
             catch (Exception exception)
             {
@@ -80,7 +71,7 @@ namespace ClashRoyale.Database
             try
             {
                 await _alliances.StringSetAsync(alliance.Id.ToString(),
-                    JsonConvert.SerializeObject(alliance, Settings), TimeSpan.FromHours(4));
+                    JsonConvert.SerializeObject(alliance, Configuration.JsonSettings), TimeSpan.FromHours(4));
             }
             catch (Exception exception)
             {
@@ -118,7 +109,7 @@ namespace ClashRoyale.Database
             {
                 var data = await _players.StringGetAsync(id.ToString());
 
-                if (!string.IsNullOrEmpty(data)) return JsonConvert.DeserializeObject<Player>(data, Settings);
+                if (!string.IsNullOrEmpty(data)) return JsonConvert.DeserializeObject<Player>(data, Configuration.JsonSettings);
 
                 var player = await PlayerDb.Get(id);
                 await Cache(player);
@@ -138,7 +129,7 @@ namespace ClashRoyale.Database
             {
                 var data = await _alliances.StringGetAsync(id.ToString());
 
-                if (!string.IsNullOrEmpty(data)) return JsonConvert.DeserializeObject<Alliance>(data, Settings);
+                if (!string.IsNullOrEmpty(data)) return JsonConvert.DeserializeObject<Alliance>(data, Configuration.JsonSettings);
 
                 var alliance = await AllianceDb.Get(id);
                 await Cache(alliance);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ClashRoyale.Core;
 using ClashRoyale.Logic;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
@@ -12,16 +13,6 @@ namespace ClashRoyale.Database
     {
         private static string _connectionString;
         private static long _playerSeed;
-
-        public static JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            ObjectCreationHandling = ObjectCreationHandling.Reuse,
-            MissingMemberHandling = MissingMemberHandling.Ignore,
-            DefaultValueHandling = DefaultValueHandling.Ignore,
-            NullValueHandling = NullValueHandling.Ignore,
-            TypeNameHandling = TypeNameHandling.Auto,
-            Formatting = Formatting.None
-        };
 
         public PlayerDb()
         {
@@ -147,7 +138,7 @@ namespace ClashRoyale.Database
 #pragma warning disable 618
                     cmd.Parameters?.Add("@language", player.Home.PreferredDeviceLanguage);
                     cmd.Parameters?.Add("@fb", player.Home.FacebookId);
-                    cmd.Parameters?.Add("@home", JsonConvert.SerializeObject(player, Settings));
+                    cmd.Parameters?.Add("@home", JsonConvert.SerializeObject(player, Configuration.JsonSettings));
 #pragma warning restore 618
 
                     await ExecuteAsync(cmd);
@@ -183,7 +174,7 @@ namespace ClashRoyale.Database
 
                         while (await reader.ReadAsync())
                         {
-                            player = JsonConvert.DeserializeObject<Player>((string) reader["Home"], Settings);
+                            player = JsonConvert.DeserializeObject<Player>((string) reader["Home"], Configuration.JsonSettings);
                             break;
                         }
                     }
@@ -221,7 +212,7 @@ namespace ClashRoyale.Database
                         var reader = await cmd.ExecuteReaderAsync();
 
                         while (await reader.ReadAsync())
-                            player = JsonConvert.DeserializeObject<Player>((string) reader["Home"], Settings);
+                            player = JsonConvert.DeserializeObject<Player>((string) reader["Home"], Configuration.JsonSettings);
                     }
 
                     await connection.CloseAsync();
@@ -252,7 +243,7 @@ namespace ClashRoyale.Database
                 {
 #pragma warning disable 618
                     cmd.Parameters?.Add("@fb", player.Home.FacebookId);
-                    cmd.Parameters?.Add("@home", JsonConvert.SerializeObject(player, Settings));
+                    cmd.Parameters?.Add("@home", JsonConvert.SerializeObject(player, Configuration.JsonSettings));
 #pragma warning restore 618
 
                     await ExecuteAsync(cmd);
@@ -308,7 +299,7 @@ namespace ClashRoyale.Database
                         var reader = await cmd.ExecuteReaderAsync();
 
                         while (await reader.ReadAsync())
-                            list.Add(JsonConvert.DeserializeObject<Player>((string) reader["Home"], Settings));
+                            list.Add(JsonConvert.DeserializeObject<Player>((string) reader["Home"], Configuration.JsonSettings));
                     }
 
                     await connection.CloseAsync();
@@ -346,7 +337,7 @@ namespace ClashRoyale.Database
                         var reader = await cmd.ExecuteReaderAsync();
 
                         while (await reader.ReadAsync())
-                            list.Add(JsonConvert.DeserializeObject<Player>((string) reader["Home"], Settings));
+                            list.Add(JsonConvert.DeserializeObject<Player>((string) reader["Home"], Configuration.JsonSettings));
                     }
 
                     await connection.CloseAsync();

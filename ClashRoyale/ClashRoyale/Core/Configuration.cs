@@ -18,6 +18,17 @@ namespace ClashRoyale.Core
         [JsonProperty("server_port")] public int ServerPort = 9339;
         [JsonProperty("update_url")] public string UpdateUrl = "https://github.com/retroroyale/ClashRoyale";
 
+        [JsonIgnore]
+        public static JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+        {
+            ObjectCreationHandling = ObjectCreationHandling.Reuse,
+            MissingMemberHandling = MissingMemberHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.Ignore,
+            NullValueHandling = NullValueHandling.Ignore,
+            TypeNameHandling = TypeNameHandling.Auto,
+            Formatting = Formatting.None
+        };
+
         public void Initialize()
         {
             if (File.Exists("config.json"))

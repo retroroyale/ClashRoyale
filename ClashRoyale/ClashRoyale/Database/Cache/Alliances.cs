@@ -11,6 +11,8 @@ namespace ClashRoyale.Database.Cache
 
         public void Add(Alliance alliance)
         {
+            if (alliance == null) return;
+
             lock (SyncObject)
             {
                 if (!ContainsKey(alliance.Id)) Add(alliance.Id, alliance);
@@ -34,13 +36,15 @@ namespace ClashRoyale.Database.Cache
             }
         }
 
-        public async Task<Alliance> GetAlliance(long allianceId)
+        public async Task<Alliance> GetAlliance(long allianceId, bool onlineOnly = false)
         {
             lock (SyncObject)
             {
                 if (ContainsKey(allianceId))
                     return this[allianceId];
             }
+
+            if (onlineOnly) return null;
 
             if (!Redis.IsConnected) return await AllianceDb.Get(allianceId);
 

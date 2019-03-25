@@ -88,6 +88,12 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                     await new LoginOkMessage(Device).Send();
 
+                    if (player.Home.AllianceInfo.HasAlliance)
+                    {
+                        var alliance = await Resources.Alliances.GetAlliance(player.Home.AllianceInfo.Id);
+                        Resources.Alliances.Add(alliance);
+                    }
+
                     await new OwnHomeDataMessage(Device).Send();
                 }
                 else

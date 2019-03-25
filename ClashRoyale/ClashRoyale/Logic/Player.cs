@@ -70,7 +70,19 @@ namespace ClashRoyale.Logic
             packet.WriteByte(0);
             packet.WriteByte(0);
 
-            //packet.WriteVInt(0); // Has Clan
+            var info = Home.AllianceInfo;
+
+            if (info.HasAlliance)
+            {
+                packet.WriteBoolean(true);
+
+                packet.WriteLong(info.Id);
+                packet.WriteScString(info.Name);
+
+                packet.WriteByte(16);
+                packet.WriteVInt(info.Badge);
+            }
+
             packet.WriteVInt(0); // Has League
         }
 
@@ -521,7 +533,7 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(info.HighId);
                 packet.WriteVInt(info.LowId);
                 packet.WriteScString(info.Name);
-                packet.WriteVInt(info.Badge);
+                packet.WriteVInt(info.Badge + 1);
                 packet.WriteVInt(info.Role);
             }
             else

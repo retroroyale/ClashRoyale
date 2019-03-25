@@ -76,6 +76,9 @@ namespace ClashRoyale.Logic.Clan
         public int Score => Members.Sum(m => m.Score) / 2;
 
         [JsonIgnore]
+        public int Online => Members.Count(m => m.IsOnline);
+
+        [JsonIgnore]
         public long Id
         {
             get => ((long)HighId << 32) | (LowId & 0xFFFFFFFFL);

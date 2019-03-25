@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ClashRoyale.Core;
 using ClashRoyale.Logic.Clan;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
@@ -12,16 +13,6 @@ namespace ClashRoyale.Database
     {
         private static string _connectionString;
         private static long _allianceSeed;
-
-        public static JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            ObjectCreationHandling = ObjectCreationHandling.Reuse,
-            MissingMemberHandling = MissingMemberHandling.Ignore,
-            DefaultValueHandling = DefaultValueHandling.Ignore,
-            NullValueHandling = NullValueHandling.Ignore,
-            TypeNameHandling = TypeNameHandling.Auto,
-            Formatting = Formatting.None
-        };
 
         public AllianceDb()
         {
@@ -145,7 +136,7 @@ namespace ClashRoyale.Database
                 )
                 {
 #pragma warning disable 618
-                    cmd.Parameters?.Add("@data", JsonConvert.SerializeObject(alliance, Settings));
+                    cmd.Parameters?.Add("@data", JsonConvert.SerializeObject(alliance, Configuration.JsonSettings));
 #pragma warning restore 618
 
                     await ExecuteAsync(cmd);
@@ -175,13 +166,13 @@ namespace ClashRoyale.Database
 
                     Alliance alliance = null;
 
-                    using (var cmd = new MySqlCommand($"SELECT * FROM can WHERE Id = '{id}'", connection))
+                    using (var cmd = new MySqlCommand($"SELECT * FROM clan WHERE Id = '{id}'", connection))
                     {
                         var reader = await cmd.ExecuteReaderAsync();
 
                         while (await reader.ReadAsync())
                         {
-                            alliance = JsonConvert.DeserializeObject<Alliance>((string) reader["Home"], Settings);
+                            alliance = JsonConvert.DeserializeObject<Alliance>((string) reader["Data"], Configuration.JsonSettings);
                             break;
                         }
                     }
@@ -213,7 +204,7 @@ namespace ClashRoyale.Database
                 )
                 {
 #pragma warning disable 618
-                    cmd.Parameters?.Add("@data", JsonConvert.SerializeObject(alliance, Settings));
+                    cmd.Parameters?.Add("@data", JsonConvert.SerializeObject(alliance, Configuration.JsonSettings));
 #pragma warning restore 618
 
                     await ExecuteAsync(cmd);
@@ -269,7 +260,7 @@ namespace ClashRoyale.Database
                         var reader = await cmd.ExecuteReaderAsync();
 
                         while (await reader.ReadAsync())
-                            list.Add(JsonConvert.DeserializeObject<Alliance>((string) reader["Home"], Settings));
+                            list.Add(JsonConvert.DeserializeObject<Alliance>((string) reader["Home"], Configuration.JsonSettings));
                     }
 
                     await connection.CloseAsync();

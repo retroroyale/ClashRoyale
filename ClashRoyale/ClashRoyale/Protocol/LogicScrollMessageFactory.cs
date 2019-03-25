@@ -58,7 +58,7 @@ namespace ClashRoyale.Protocol
                 //{14307, typeof(KickAllianceMemberMessage)},
                 //{14308, typeof(LeaveAllianceMessage)},
                 //{14310, typeof(DonateAllianceUnitMessage)},
-                //{14315, typeof(ChatToAllianceStreamMessage)},
+                {14315, typeof(ChatToAllianceStreamMessage)},
                 //{14316, typeof(ChangeAllianceSettingsMessage)},
                 //{14317, typeof(RequestJoinAllianceMessage)},
                 //{14318, typeof(SelectSpellsFromCoOpenMessage)},
