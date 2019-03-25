@@ -22,10 +22,13 @@ namespace ClashRoyale.Protocol.Messages.Client
         {
             var clan = await Resources.Alliances.GetAlliance(AllianceId);
 
-            await new AllianceDataMessage(Device)
+            if (clan != null)
             {
-                Alliance = clan
-            }.Send();
+                await new AllianceDataMessage(Device)
+                {
+                    Alliance = clan
+                }.Send();
+            }
         }
     }
 }

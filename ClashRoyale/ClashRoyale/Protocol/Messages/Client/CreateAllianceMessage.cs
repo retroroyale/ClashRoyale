@@ -52,8 +52,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                     new AllianceMember(player, Alliance.Role.Leader));
 
                 player.Home.AllianceInfo = alliance.GetAllianceInfo(player.Home.Id);
-
-                player.Save();         
+       
                 alliance.Save();
 
                 await new AvailableServerCommand(Device)

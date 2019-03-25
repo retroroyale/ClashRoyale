@@ -100,6 +100,8 @@ namespace ClashRoyale.Protocol.Messages.Client
                             {
                                 Entries = alliance.Stream
                             }.Send();
+
+                            alliance.UpdateOnlineCount();
                         }
                     }
 

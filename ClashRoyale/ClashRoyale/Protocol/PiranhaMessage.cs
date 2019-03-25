@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using ClashRoyale.Logic;
 using DotNetty.Buffers;
 using SharpRaven.Data;
@@ -65,20 +66,27 @@ namespace ClashRoyale.Protocol
         /// <returns></returns>
         public async Task Send()
         {
-            Encode();
-            Encrypt();
+            try
+            {
+                Encode();
+                Encrypt();
 
-            var buffer = Unpooled.Buffer();
+                var buffer = Unpooled.Buffer();
 
-            buffer.WriteUnsignedShort(Id);
-            buffer.WriteMedium(Length);
-            buffer.WriteUnsignedShort(Version);
+                buffer.WriteUnsignedShort(Id);
+                buffer.WriteMedium(Length);
+                buffer.WriteUnsignedShort(Version);
 
-            buffer.WriteBytes(Packet);
+                buffer.WriteBytes(Packet);
 
-            await Device.Handler.Channel.WriteAndFlushAsync(buffer);
+                await Device.Handler.Channel.WriteAndFlushAsync(buffer);
 
-            Logger.Log($"[S] Message {Id} has been sent.", GetType(), ErrorLevel.Debug);
+                Logger.Log($"[S] Message {Id} has been sent.", GetType(), ErrorLevel.Debug);
+            }
+            catch (Exception)
+            {
+                Logger.Log($"[S] Failed to send {Id}.", GetType(), ErrorLevel.Debug);
+            }
         }
     }
 }

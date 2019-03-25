@@ -93,17 +93,19 @@ namespace ClashRoyale.Core.Network.Handlers
             {
                 var player = Device.Player;
 
+                Resources.Players.Logout(player.Home.Id);
+
                 if (player.Home.AllianceInfo.HasAlliance)
                 {
                     var alliance = await Resources.Alliances.GetAlliance(player.Home.AllianceInfo.Id);
-                    if (alliance.Online <= 1)
+                    if (alliance.Online < 1)
                     {
                         Resources.Alliances.Remove(alliance.Id);
                         Logger.Log($"Uncached Clan {alliance.Id} because no member is online.", GetType(), ErrorLevel.Debug);
                     }
-                }
-
-                Resources.Players.Logout(player.Home.Id);
+                    else
+                        alliance.UpdateOnlineCount();
+                }              
             }
 
             Logger.Log($"Client {Channel.RemoteAddress} disconnected.", GetType(), ErrorLevel.Debug);

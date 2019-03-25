@@ -5,6 +5,7 @@ using System.Linq;
 using ClashRoyale.Database;
 using ClashRoyale.Extensions;
 using ClashRoyale.Logic.Clan.StreamEntry;
+using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
 using SharpRaven.Data;
@@ -113,9 +114,22 @@ namespace ClashRoyale.Logic.Clan
             return index > -1 ? Members[index].Role : 1;
         }
 
-        public bool IsMember(long id)
+        public async void UpdateOnlineCount()
         {
-            return Members.FindIndex(x => x.Id == id) != -1;
+            var count = Online;
+
+            foreach (var member in Members.Where(m => m.IsOnline))
+            {
+                var player = await Resources.Players.GetPlayer(member.Id, true);
+
+                if (player != null)
+                {
+                    await new AllianceOnlineStatusUpdatedMessage(player.Device)
+                    {
+                        Count = count
+                    }.Send();
+                }
+            }
         }
 
         public async void Save()

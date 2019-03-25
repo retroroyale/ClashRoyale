@@ -49,11 +49,11 @@ namespace ClashRoyale.Protocol
                 //{14212, typeof(BindGamecenterAccountMessage)},
                 {14262, typeof(BindGoogleServiceAccountMessage)},
 
-                //{14301, typeof(CreateAllianceMessage)},
+                {14301, typeof(CreateAllianceMessage)},
                 {14302, typeof(AskForAllianceDataMessage)},
                 {14303, typeof(AskForJoinableAlliancesListMessage)},
                 //{14304, typeof(AskForAllianceStreamMessage)},
-                //{14305, typeof(JoinAllianceMessage)},
+                {14305, typeof(JoinAllianceMessage)},
                 //{14306, typeof(ChangeAllianceMemberRoleMessage)},
                 //{14307, typeof(KickAllianceMemberMessage)},
                 //{14308, typeof(LeaveAllianceMessage)},
