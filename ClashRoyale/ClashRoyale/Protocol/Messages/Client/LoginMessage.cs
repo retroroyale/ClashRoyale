@@ -91,7 +91,16 @@ namespace ClashRoyale.Protocol.Messages.Client
                     if (player.Home.AllianceInfo.HasAlliance)
                     {
                         var alliance = await Resources.Alliances.GetAlliance(player.Home.AllianceInfo.Id);
-                        Resources.Alliances.Add(alliance);
+
+                        if (alliance != null)
+                        {
+                            Resources.Alliances.Add(alliance);
+
+                            await new AllianceStreamMessage(Device)
+                            {
+                                Entries = alliance.Stream
+                            }.Send();
+                        }
                     }
 
                     await new OwnHomeDataMessage(Device).Send();

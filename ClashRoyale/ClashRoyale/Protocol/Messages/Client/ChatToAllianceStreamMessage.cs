@@ -1,9 +1,9 @@
-﻿using ClashRoyale.Extensions;
+﻿using System;
+using System.Linq;
+using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 using DotNetty.Buffers;
-using ClashRoyale.Database;
-using ClashRoyale.Logic.Clan;
-using ClashRoyale.Protocol.Commands.Server;
+using ClashRoyale.Logic.Clan.StreamEntry.Entries;
 using ClashRoyale.Protocol.Messages.Server;
 
 namespace ClashRoyale.Protocol.Messages.Client
@@ -24,10 +24,39 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override async void Process()
         {
-            await new ServerErrorMessage(Device)
+            var info = Device.Player.Home.AllianceInfo;
+
+            if (info.HasAlliance)
             {
-                Message = Message
-            }.Send();
+                var clan = await Resources.Alliances.GetAlliance(info.Id);
+
+                if (clan != null)
+                {
+                    var entry = new ChatStreamEntry
+                    {
+                        CreationDateTime = DateTime.UtcNow,
+                        Id = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
+                        Message = Message
+                    };
+
+                    entry.SetSender(Device.Player);
+
+                    clan.AddEntry(entry);
+
+                    foreach (var member in clan.Members.Where(m => m.IsOnline))
+                    {
+                        var player = await Resources.Players.GetPlayer(member.Id, true);
+
+                        if (player != null)
+                        {
+                            await new AllianceStreamEntryMessage(player.Device)
+                            {
+                                Entry = entry
+                            }.Send();
+                        }
+                    }
+                }
+            }
         }
     }
 }

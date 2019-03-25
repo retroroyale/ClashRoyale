@@ -11,8 +11,6 @@ namespace ClashRoyale.Database.Cache
 
         public void Add(Alliance alliance)
         {
-            if (alliance == null) return;
-
             lock (SyncObject)
             {
                 if (!ContainsKey(alliance.Id)) Add(alliance.Id, alliance);
