@@ -51,6 +51,10 @@ namespace ClashRoyale.Protocol.Messages.Client
                     {
                         Entries = clan.Stream
                     }.Send();
+
+                    clan.UpdateOnlineCount();
+
+                    // TODO CLAN MESSAGE
                 }
             }
         }

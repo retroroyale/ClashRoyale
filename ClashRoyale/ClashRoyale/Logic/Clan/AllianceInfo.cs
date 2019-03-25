@@ -24,5 +24,13 @@ namespace ClashRoyale.Logic.Clan
                 LowId = (int)value;
             }
         }
+
+        public void Reset()
+        {
+            Id = 0;
+            Name = string.Empty;
+            Badge = 0;
+            Role = 0;
+        }
     }
 }

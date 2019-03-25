@@ -56,7 +56,7 @@ namespace ClashRoyale.Protocol
                 {14305, typeof(JoinAllianceMessage)},
                 //{14306, typeof(ChangeAllianceMemberRoleMessage)},
                 //{14307, typeof(KickAllianceMemberMessage)},
-                //{14308, typeof(LeaveAllianceMessage)},
+                {14308, typeof(LeaveAllianceMessage)},
                 //{14310, typeof(DonateAllianceUnitMessage)},
                 {14315, typeof(ChatToAllianceStreamMessage)},
                 //{14316, typeof(ChangeAllianceSettingsMessage)},

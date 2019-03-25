@@ -99,6 +99,12 @@ namespace ClashRoyale.Logic.Clan
                 Role = GetRole(userId)
             };
 
+        public void Remove(long id)
+        {
+            var index = Members.FindIndex(x => x.Id == id);
+            Members.RemoveAt(index);
+        }
+
         public void AddEntry(AllianceStreamEntry entry)
         {
             while (Stream.Count >= 40)
