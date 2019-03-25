@@ -1,5 +1,7 @@
-﻿using ClashRoyale.Logic;
+﻿using System;
+using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan;
+using ClashRoyale.Logic.Clan.StreamEntry.Entries;
 using ClashRoyale.Protocol.Commands.Server;
 using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
@@ -23,7 +25,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         public override async void Process()
         {
             var clan = await Resources.Alliances.GetAlliance(AllianceId);
-            var player = Device.Player;
+            var home = Device.Player.Home;
 
             if (clan != null)
             {
@@ -33,9 +35,9 @@ namespace ClashRoyale.Protocol.Messages.Client
                 }
                 else
                 {
-                    clan.Members.Add(new AllianceMember(player, Alliance.Role.Member));
+                    clan.Members.Add(new AllianceMember(Device.Player, Alliance.Role.Member));
 
-                    player.Home.AllianceInfo = clan.GetAllianceInfo(player.Home.Id);
+                    home.AllianceInfo = clan.GetAllianceInfo(home.Id);
 
                     await new AvailableServerCommand(Device)
                     {
@@ -54,7 +56,19 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                     clan.UpdateOnlineCount();
 
-                    // TODO CLAN MESSAGE
+                    var entry = new AllianceEventStreamEntry
+                    {
+                        CreationDateTime = DateTime.UtcNow,
+                        Id = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
+                        EventType = AllianceEventStreamEntry.Type.Join,
+                        SenderHighId = home.HighId,
+                        SenderLowId = home.LowId,
+                        TargetHighId = home.HighId,
+                        TargetLowId = home.LowId,
+                        SenderName = home.Name
+                    };
+
+                    clan.AddEntry(entry);
                 }
             }
         }

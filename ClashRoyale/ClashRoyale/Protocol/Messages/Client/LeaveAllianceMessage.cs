@@ -1,5 +1,7 @@
-﻿using ClashRoyale.Database;
+﻿using System;
+using ClashRoyale.Database;
 using ClashRoyale.Logic;
+using ClashRoyale.Logic.Clan.StreamEntry.Entries;
 using ClashRoyale.Protocol.Commands.Server;
 using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
@@ -15,13 +17,13 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override async void Process()
         {
-            var player = Device.Player;
-            var clan = await Resources.Alliances.GetAlliance(player.Home.AllianceInfo.Id);         
+            var home = Device.Player.Home;
+            var clan = await Resources.Alliances.GetAlliance(home.AllianceInfo.Id);         
 
             if (clan != null)
             {
-                clan.Remove(player.Home.Id);
-                player.Home.AllianceInfo.Reset();
+                clan.Remove(home.Id);
+                home.AllianceInfo.Reset();
 
                 await new AvailableServerCommand(Device)
                 {
@@ -41,7 +43,19 @@ namespace ClashRoyale.Protocol.Messages.Client
                     clan.UpdateOnlineCount();
                 }
 
-                // TODO CLAN MESSAGE
+                var entry = new AllianceEventStreamEntry
+                {
+                    CreationDateTime = DateTime.UtcNow,
+                    Id = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
+                    EventType = AllianceEventStreamEntry.Type.Leave,
+                    SenderHighId = home.HighId,
+                    SenderLowId = home.LowId,
+                    TargetHighId = home.HighId,
+                    TargetLowId = home.LowId,
+                    SenderName = home.Name
+                };
+
+                clan.AddEntry(entry);
             }
         }
     }

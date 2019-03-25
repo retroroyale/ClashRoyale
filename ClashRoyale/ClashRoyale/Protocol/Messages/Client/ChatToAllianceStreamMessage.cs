@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 using DotNetty.Buffers;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;
-using ClashRoyale.Protocol.Messages.Server;
 
 namespace ClashRoyale.Protocol.Messages.Client
 {
@@ -42,19 +40,6 @@ namespace ClashRoyale.Protocol.Messages.Client
                     entry.SetSender(Device.Player);
 
                     clan.AddEntry(entry);
-
-                    foreach (var member in clan.Members.Where(m => m.IsOnline))
-                    {
-                        var player = await Resources.Players.GetPlayer(member.Id, true);
-
-                        if (player != null)
-                        {
-                            await new AllianceStreamEntryMessage(player.Device)
-                            {
-                                Entry = entry
-                            }.Send();
-                        }
-                    }
                 }
             }
         }

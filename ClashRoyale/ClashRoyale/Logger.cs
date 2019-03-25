@@ -32,44 +32,38 @@ namespace ClashRoyale
                 case ErrorLevel.Warning:
                 {
                     _logger.Warn(message);
-
-                    if ( /*Configuration.Debug*/true)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                        Console.WriteLine($"[{logType.ToString()}] {message}");
-                        Console.ResetColor();
-                    }
+#if DEBUG
+                    Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                    Console.WriteLine($"[{logType.ToString()}] {message}");
+                    Console.ResetColor();
 
                     Resources.Sentry.Report(message.ToString(), type, logType);
+#endif
                     break;
                 }
 
                 case ErrorLevel.Error:
                 {
                     _logger.Error(message);
-
-                    if ( /*Configuration.Debug*/true)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"[{logType.ToString()}] {message}");
-                        Console.ResetColor();
-                    }
+#if DEBUG
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"[{logType.ToString()}] {message}");
+                    Console.ResetColor();
 
                     Resources.Sentry.Report(message.ToString(), type, logType);
+#endif
                     break;
                 }
 
                 case ErrorLevel.Debug:
                 {
-                    if ( /*Configuration.Debug*/true)
-                    {
-                        _logger.Debug(message);
+#if DEBUG
+                    _logger.Debug(message);
 
-                        Console.ForegroundColor = ConsoleColor.DarkGreen;
-                        Console.WriteLine($"[{logType.ToString()}] {message}");
-                        Console.ResetColor();
-                    }
-
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.WriteLine($"[{logType.ToString()}] {message}");
+                    Console.ResetColor();
+#endif
                     break;
                 }
             }

@@ -64,6 +64,8 @@ namespace ClashRoyale.Protocol.Messages.Client
                         AllianceBadge = Badge
                     }
                 }.Send();
+
+                alliance.UpdateOnlineCount();
             }
             else
             {
