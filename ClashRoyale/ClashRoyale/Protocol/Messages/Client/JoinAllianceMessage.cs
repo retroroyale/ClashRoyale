@@ -54,21 +54,21 @@ namespace ClashRoyale.Protocol.Messages.Client
                         Entries = clan.Stream
                     }.Send();
 
-                    clan.UpdateOnlineCount();
-
                     var entry = new AllianceEventStreamEntry
                     {
                         CreationDateTime = DateTime.UtcNow,
                         Id = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                         EventType = AllianceEventStreamEntry.Type.Join,
-                        SenderHighId = home.HighId,
-                        SenderLowId = home.LowId,
                         TargetHighId = home.HighId,
                         TargetLowId = home.LowId,
-                        SenderName = home.Name
+                        TargetName = home.Name
                     };
 
+                    entry.SetSender(Device.Player);
                     clan.AddEntry(entry);
+
+                    clan.Save();
+                    clan.UpdateOnlineCount();
                 }
             }
         }

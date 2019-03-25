@@ -37,10 +37,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                 {
                     await AllianceDb.Delete(clan.Id);
                     await Redis.UncacheAlliance(clan.Id);
-                }
-                else
-                {
-                    clan.UpdateOnlineCount();
+                    return;
                 }
 
                 var entry = new AllianceEventStreamEntry
@@ -48,14 +45,15 @@ namespace ClashRoyale.Protocol.Messages.Client
                     CreationDateTime = DateTime.UtcNow,
                     Id = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                     EventType = AllianceEventStreamEntry.Type.Leave,
-                    SenderHighId = home.HighId,
-                    SenderLowId = home.LowId,
                     TargetHighId = home.HighId,
                     TargetLowId = home.LowId,
-                    SenderName = home.Name
+                    TargetName = home.Name
                 };
 
+                entry.SetSender(Device.Player);
                 clan.AddEntry(entry);
+
+                clan.UpdateOnlineCount();
             }
         }
     }

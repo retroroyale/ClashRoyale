@@ -98,13 +98,16 @@ namespace ClashRoyale.Core.Network.Handlers
                 if (player.Home.AllianceInfo.HasAlliance)
                 {
                     var alliance = await Resources.Alliances.GetAlliance(player.Home.AllianceInfo.Id);
-                    if (alliance.Online < 1)
+                    if (alliance != null)
                     {
-                        Resources.Alliances.Remove(alliance.Id);
-                        Logger.Log($"Uncached Clan {alliance.Id} because no member is online.", GetType(), ErrorLevel.Debug);
+                        if (alliance.Online < 1)
+                        {
+                            Resources.Alliances.Remove(alliance.Id);
+                            Logger.Log($"Uncached Clan {alliance.Id} because no member is online.", GetType(), ErrorLevel.Debug);
+                        }
+                        else
+                            alliance.UpdateOnlineCount();
                     }
-                    else
-                        alliance.UpdateOnlineCount();
                 }              
             }
 
