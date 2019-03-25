@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Logic;
+﻿using ClashRoyale.Database;
+using ClashRoyale.Logic;
 using ClashRoyale.Protocol.Commands.Server;
 using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
@@ -19,27 +20,28 @@ namespace ClashRoyale.Protocol.Messages.Client
 
             if (clan != null)
             {
-                if (clan.Members.Count <= 0 || clan.Members.Count >= 50)
+                clan.Remove(player.Home.Id);
+                player.Home.AllianceInfo.Reset();
+
+                await new AvailableServerCommand(Device)
                 {
-                    await new AllianceJoinFailedMessage(Device).Send();
+                    Command = new LeaveAllianceCommand(Device)
+                    {
+                        AllianceId = clan.Id
+                    }
+                }.Send();
+
+                if (clan.Members.Count == 0)
+                {
+                    await AllianceDb.Delete(clan.Id);
+                    await Redis.UncacheAlliance(clan.Id);
                 }
                 else
                 {
-                    clan.Remove(player.Home.Id);
-                    player.Home.AllianceInfo.Reset();
-
-                    await new AvailableServerCommand(Device)
-                    {
-                        Command = new LeaveAllianceCommand(Device)
-                        {
-                            AllianceId = clan.Id
-                        }
-                    }.Send();
-
                     clan.UpdateOnlineCount();
-
-                    // TODO CLAN MESSAGE
                 }
+
+                // TODO CLAN MESSAGE
             }
         }
     }
