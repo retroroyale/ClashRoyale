@@ -21,6 +21,7 @@ namespace ClashRoyale.Protocol
                 {509, typeof(LogicCollectFreeChestCommand)},
                 {511, typeof(LogicCollectCrownChestCommand)},
                 {513, typeof(LogicFreeWorkerCommand)},
+                {514, typeof(LogicKickAllianceMemberCommand)},
                 {516, typeof(LogicBuyChestCommand)},
                 {517, typeof(LogicBuyResourcesCommand)},
                 {518, typeof(LogicBuySpellCommand)},

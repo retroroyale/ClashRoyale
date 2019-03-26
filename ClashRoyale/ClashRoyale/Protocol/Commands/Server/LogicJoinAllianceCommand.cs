@@ -3,9 +3,9 @@ using ClashRoyale.Logic;
 
 namespace ClashRoyale.Protocol.Commands.Server
 {
-    public class JoinAllianceCommand : LogicCommand
+    public class LogicJoinAllianceCommand : LogicCommand
     {
-        public JoinAllianceCommand(Device device) : base(device)
+        public LogicJoinAllianceCommand(Device device) : base(device)
         {
             Type = 206;
         }

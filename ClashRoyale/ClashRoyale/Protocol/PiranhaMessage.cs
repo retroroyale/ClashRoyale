@@ -30,22 +30,28 @@ namespace ClashRoyale.Protocol
 
         public virtual void Decrypt()
         {
-            var buffer = Buffer.ReadBytes(Length).Array;
+            if (Length > 0)
+            {
+                var buffer = Buffer.ReadBytes(Length).Array;
 
-            Device.Rc4.Decrypt(ref buffer);
+                Device.Rc4.Decrypt(ref buffer);
 
-            Buffer = Unpooled.CopiedBuffer(buffer);
-            Length = (ushort) buffer.Length;
+                Buffer = Unpooled.CopiedBuffer(buffer);
+                Length = (ushort) buffer.Length;
+            }
         }
 
         public virtual void Encrypt()
         {
-            var buffer = Packet.ReadBytes(Packet.ReadableBytes).Array;
+            if(Packet.ReadableBytes > 0)
+            {
+                var buffer = Packet.ReadBytes(Packet.ReadableBytes).Array;
 
-            Device.Rc4.Encrypt(ref buffer);
+                Device.Rc4.Encrypt(ref buffer);
 
-            Packet = Unpooled.CopiedBuffer(buffer);
-            Length = (ushort) buffer.Length;
+                Packet = Unpooled.CopiedBuffer(buffer);
+                Length = (ushort) buffer.Length;
+            }
         }
 
         public virtual void Decode()

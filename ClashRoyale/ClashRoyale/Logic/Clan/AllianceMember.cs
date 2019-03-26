@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ClashRoyale.Extensions;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
@@ -55,6 +56,11 @@ namespace ClashRoyale.Logic.Clan
             packet.WriteVInt(7);
 
             packet.WriteLong(Id); 
+        }
+
+        public async Task<Player> GetPlayer(bool onlineOnly = false)
+        {
+            return await Resources.Players.GetPlayer(Id, onlineOnly);            
         }
 
         [JsonIgnore]

@@ -20,7 +20,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override async void Process()
         {
-            
+            // TODO
         }
     }
 }

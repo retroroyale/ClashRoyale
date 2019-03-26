@@ -28,6 +28,13 @@ namespace ClashRoyale.Logic.Clan.StreamEntry.Entries
             packet.WriteScString(TargetName);
         }
 
+        public void SetTarget(Player target)
+        {
+            TargetHighId = target.Home.HighId;
+            TargetLowId = target.Home.LowId;
+            TargetName = target.Home.Name;
+        }
+
         public enum Type
         {
             Kick = 1,

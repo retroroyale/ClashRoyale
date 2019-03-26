@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using ClashRoyale.Core.Network.Handlers;
+using ClashRoyale.Extensions.Utils;
 using DotNetty.Handlers.Logging;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
@@ -40,7 +41,7 @@ namespace ClashRoyale.Core.Network
             var boundChannel = await ServerBootstrap.BindAsync(Resources.Configuration.ServerPort);
 
             Logger.Log(
-                $"Listening on {((IPEndPoint) boundChannel.LocalAddress).Port} with DotNetty. Let's play ClashRoyale!",
+                $"Listening on {ServerUtils.GetIp4Address()}:{((IPEndPoint) boundChannel.LocalAddress).Port}. Let's play ClashRoyale!",
                 GetType());
         }
     }

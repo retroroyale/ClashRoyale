@@ -35,13 +35,13 @@ namespace ClashRoyale.Protocol.Messages.Client
                 }
                 else
                 {
-                    clan.Members.Add(new AllianceMember(Device.Player, Alliance.Role.Member));
+                    clan.Add(new AllianceMember(Device.Player, Alliance.Role.Member));
 
                     home.AllianceInfo = clan.GetAllianceInfo(home.Id);
 
                     await new AvailableServerCommand(Device)
                     {
-                        Command = new JoinAllianceCommand(Device)
+                        Command = new LogicJoinAllianceCommand(Device)
                         {
                             AllianceId = clan.Id,
                             AllianceName = clan.Name,
@@ -58,12 +58,10 @@ namespace ClashRoyale.Protocol.Messages.Client
                     {
                         CreationDateTime = DateTime.UtcNow,
                         Id = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
-                        EventType = AllianceEventStreamEntry.Type.Join,
-                        TargetHighId = home.HighId,
-                        TargetLowId = home.LowId,
-                        TargetName = home.Name
+                        EventType = AllianceEventStreamEntry.Type.Join
                     };
 
+                    entry.SetTarget(Device.Player);
                     entry.SetSender(Device.Player);
                     clan.AddEntry(entry);
 

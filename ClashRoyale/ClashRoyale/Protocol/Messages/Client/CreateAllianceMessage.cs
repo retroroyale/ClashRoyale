@@ -57,7 +57,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                 await new AvailableServerCommand(Device)
                 {
-                    Command = new JoinAllianceCommand(Device)
+                    Command = new LogicJoinAllianceCommand(Device)
                     {
                         AllianceId = alliance.Id,
                         AllianceName = Name,

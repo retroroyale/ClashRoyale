@@ -27,7 +27,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                 await new AvailableServerCommand(Device)
                 {
-                    Command = new LeaveAllianceCommand(Device)
+                    Command = new LogicLeaveAllianceCommand(Device)
                     {
                         AllianceId = clan.Id
                     }
@@ -44,12 +44,10 @@ namespace ClashRoyale.Protocol.Messages.Client
                 {
                     CreationDateTime = DateTime.UtcNow,
                     Id = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
-                    EventType = AllianceEventStreamEntry.Type.Leave,
-                    TargetHighId = home.HighId,
-                    TargetLowId = home.LowId,
-                    TargetName = home.Name
+                    EventType = AllianceEventStreamEntry.Type.Leave
                 };
 
+                entry.SetTarget(Device.Player);
                 entry.SetSender(Device.Player);
                 clan.AddEntry(entry);
 

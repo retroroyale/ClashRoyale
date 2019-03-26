@@ -3,21 +3,22 @@ using ClashRoyale.Logic;
 
 namespace ClashRoyale.Protocol.Commands.Server
 {
-    public class LeaveAllianceCommand : LogicCommand
+    public class LogicLeaveAllianceCommand : LogicCommand
     {
-        public LeaveAllianceCommand(Device device) : base(device)
+        public LogicLeaveAllianceCommand(Device device) : base(device)
         {
             Type = 205;
         }
 
         public long AllianceId { get; set; }
+        public bool IsKick { get; set; }
 
         public override void Encode()
         {
             Data.WriteLong(AllianceId);
 
-            Data.WriteByte(0);
-            Data.WriteByte(1);
+            Data.WriteBoolean(IsKick);
+            Data.WriteBoolean(!IsKick);
 
             Data.WriteNullVInt(2);
 

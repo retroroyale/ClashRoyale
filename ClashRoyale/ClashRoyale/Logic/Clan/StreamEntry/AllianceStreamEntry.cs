@@ -39,7 +39,7 @@ namespace ClashRoyale.Logic.Clan.StreamEntry
             packet.WriteBoolean(IsRemoved);
         }
 
-        public void SetSender(Player player)
+        public virtual void SetSender(Player player)
         {
             SenderName = player.Home.Name;
             SenderId = player.Home.Id;

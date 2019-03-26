@@ -99,6 +99,16 @@ namespace ClashRoyale.Logic.Clan
                 Role = GetRole(userId)
             };
 
+        public void Add(AllianceMember member)
+        {
+            var index = Members.FindIndex(x => x.Id == member.Id);
+
+            if (index == -1)
+            {
+                Members.Add(member);
+            }
+        }
+
         public void Remove(long id)
         {
             var index = Members.FindIndex(x => x.Id == id);
@@ -116,9 +126,9 @@ namespace ClashRoyale.Logic.Clan
 
             Stream.Add(entry);
 
-            foreach (var member in Members.Where(m => m.IsOnline))
+            foreach (var member in Members.Where(m => m.IsOnline).ToList())
             {
-                var player = await Resources.Players.GetPlayer(member.Id, true);
+                var player = await member.GetPlayer(true);
 
                 if (player != null)
                 {
@@ -135,6 +145,13 @@ namespace ClashRoyale.Logic.Clan
             var index = Members.FindIndex(x => x.Id == id);
 
             return index > -1 ? Members[index].Role : 1;
+        }
+
+        public AllianceMember GetMember(long id)
+        {
+            var index = Members.FindIndex(x => x.Id == id);
+
+            return index > -1 ? Members[index] : null;
         }
 
         public async void UpdateOnlineCount()

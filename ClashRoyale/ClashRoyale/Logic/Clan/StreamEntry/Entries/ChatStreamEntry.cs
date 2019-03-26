@@ -11,8 +11,7 @@ namespace ClashRoyale.Logic.Clan.StreamEntry.Entries
             StreamEntryType = 2;
         }
 
-        [JsonProperty("msg")]
-        public string Message { get; set; }
+        [JsonProperty("msg")] public string Message { get; set; }
 
         public override void Encode(IByteBuffer packet)
         {

@@ -28,7 +28,7 @@ namespace ClashRoyale.Logic.Home
             Id = id;
             UserToken = token;
 
-            Name = "NoNameSet";
+            Name = "NoName";
             PreferredDeviceLanguage = "EN";
 
             Gold = 100;
