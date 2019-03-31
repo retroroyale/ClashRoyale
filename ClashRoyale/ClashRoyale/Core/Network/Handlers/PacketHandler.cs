@@ -70,7 +70,7 @@ namespace ClashRoyale.Core.Network.Handlers
                     _hasHeader = false;
                 }
 
-            #endregion 
+            #endregion
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext context)
@@ -88,7 +88,7 @@ namespace ClashRoyale.Core.Network.Handlers
         }
 
         public override async void ChannelUnregistered(IChannelHandlerContext context)
-        {          
+        {
             if (Device?.Player?.Home != null)
             {
                 var player = Device.Player;
@@ -103,12 +103,15 @@ namespace ClashRoyale.Core.Network.Handlers
                         if (alliance.Online < 1)
                         {
                             Resources.Alliances.Remove(alliance.Id);
-                            Logger.Log($"Uncached Clan {alliance.Id} because no member is online.", GetType(), ErrorLevel.Debug);
+                            Logger.Log($"Uncached Clan {alliance.Id} because no member is online.", GetType(),
+                                ErrorLevel.Debug);
                         }
                         else
+                        {
                             alliance.UpdateOnlineCount();
+                        }
                     }
-                }              
+                }
             }
 
             Logger.Log($"Client {Channel.RemoteAddress} disconnected.", GetType(), ErrorLevel.Debug);

@@ -9,11 +9,11 @@ namespace ClashRoyale.Logic.Home
 {
     public class Home
     {
+        public AllianceInfo AllianceInfo = new AllianceInfo();
         public Arena Arena = new Arena();
         public Chests.Chests Chests = new Chests.Chests();
         public Deck Deck = new Deck();
         public Shop.Shop Shop = new Shop.Shop();
-        public AllianceInfo AllianceInfo = new AllianceInfo();
 
         public Home()
         {

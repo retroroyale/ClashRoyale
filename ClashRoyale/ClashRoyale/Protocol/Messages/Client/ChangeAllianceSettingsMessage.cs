@@ -1,7 +1,5 @@
 ﻿using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
-using ClashRoyale.Protocol.Commands.Server;
-using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Protocol.Messages.Client
@@ -52,7 +50,6 @@ namespace ClashRoyale.Protocol.Messages.Client
                     var player = await member.GetPlayer();
 
                     if (player != null)
-                    {
                         if (Badge != oldBadge)
                         {
                             // TODO:
@@ -70,8 +67,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                             player.Home.AllianceInfo.Badge = Badge;
                             player.Save();
-                        }               
-                    }
+                        }
                 }
             }
         }

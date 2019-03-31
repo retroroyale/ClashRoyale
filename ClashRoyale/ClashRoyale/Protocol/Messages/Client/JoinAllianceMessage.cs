@@ -57,7 +57,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                     var entry = new AllianceEventStreamEntry
                     {
                         CreationDateTime = DateTime.UtcNow,
-                        Id = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
+                        Id = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                         EventType = AllianceEventStreamEntry.Type.Join
                     };
 

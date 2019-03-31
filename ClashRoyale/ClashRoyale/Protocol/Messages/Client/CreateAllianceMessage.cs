@@ -1,10 +1,10 @@
-﻿using ClashRoyale.Extensions;
+﻿using ClashRoyale.Database;
+using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
-using DotNetty.Buffers;
-using ClashRoyale.Database;
 using ClashRoyale.Logic.Clan;
 using ClashRoyale.Protocol.Commands.Server;
 using ClashRoyale.Protocol.Messages.Server;
+using DotNetty.Buffers;
 
 namespace ClashRoyale.Protocol.Messages.Client
 {
@@ -52,7 +52,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                     new AllianceMember(player, Alliance.Role.Leader));
 
                 player.Home.AllianceInfo = alliance.GetAllianceInfo(player.Home.Id);
-       
+
                 alliance.Save();
 
                 await new AvailableServerCommand(Device)

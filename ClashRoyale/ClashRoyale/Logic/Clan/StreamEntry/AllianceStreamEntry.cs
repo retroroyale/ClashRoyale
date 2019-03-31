@@ -16,8 +16,18 @@ namespace ClashRoyale.Logic.Clan.StreamEntry
         [JsonProperty("removed")] public bool IsRemoved { get; set; }
         [JsonProperty("creation")] public DateTime CreationDateTime { get; set; }
 
+        [JsonIgnore] public int AgeSeconds => (int) (DateTime.UtcNow - CreationDateTime).TotalSeconds;
+
         [JsonIgnore]
-        public int AgeSeconds => (int)(DateTime.UtcNow - CreationDateTime).TotalSeconds;
+        public long SenderId
+        {
+            get => ((long) SenderHighId << 32) | (SenderLowId & 0xFFFFFFFFL);
+            set
+            {
+                SenderHighId = Convert.ToInt32(value >> 32);
+                SenderLowId = (int) value;
+            }
+        }
 
         public virtual void Encode(IByteBuffer packet)
         {
@@ -44,17 +54,6 @@ namespace ClashRoyale.Logic.Clan.StreamEntry
             SenderName = player.Home.Name;
             SenderId = player.Home.Id;
             SenderRole = player.Home.AllianceInfo.Role;
-        }
-
-        [JsonIgnore]
-        public long SenderId
-        {
-            get => ((long)SenderHighId << 32) | (SenderLowId & 0xFFFFFFFFL);
-            set
-            {
-                SenderHighId = Convert.ToInt32(value >> 32);
-                SenderLowId = (int)value;
-            }
         }
     }
 }

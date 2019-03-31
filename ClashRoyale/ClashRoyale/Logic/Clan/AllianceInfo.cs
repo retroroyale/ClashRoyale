@@ -11,17 +11,16 @@ namespace ClashRoyale.Logic.Clan
         [JsonProperty("badge")] public int Badge { get; set; }
         [JsonProperty("role")] public int Role { get; set; }
 
-        [JsonIgnore]
-        public bool HasAlliance => Id > 0;
+        [JsonIgnore] public bool HasAlliance => Id > 0;
 
         [JsonIgnore]
         public long Id
         {
-            get => ((long)HighId << 32) | (LowId & 0xFFFFFFFFL);
+            get => ((long) HighId << 32) | (LowId & 0xFFFFFFFFL);
             set
             {
                 HighId = Convert.ToInt32(value >> 32);
-                LowId = (int)value;
+                LowId = (int) value;
             }
         }
 

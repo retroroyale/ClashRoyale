@@ -18,7 +18,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         public override async void Process()
         {
             var home = Device.Player.Home;
-            var clan = await Resources.Alliances.GetAlliance(home.AllianceInfo.Id);         
+            var clan = await Resources.Alliances.GetAlliance(home.AllianceInfo.Id);
 
             if (clan != null)
             {
@@ -43,7 +43,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                 var entry = new AllianceEventStreamEntry
                 {
                     CreationDateTime = DateTime.UtcNow,
-                    Id = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
+                    Id = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                     EventType = AllianceEventStreamEntry.Type.Leave
                 };
 

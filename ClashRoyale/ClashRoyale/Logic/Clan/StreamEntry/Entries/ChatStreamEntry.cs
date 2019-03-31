@@ -17,7 +17,7 @@ namespace ClashRoyale.Logic.Clan.StreamEntry.Entries
         {
             base.Encode(packet);
 
-            packet.WriteScString(Message); 
+            packet.WriteScString(Message);
         }
     }
 }

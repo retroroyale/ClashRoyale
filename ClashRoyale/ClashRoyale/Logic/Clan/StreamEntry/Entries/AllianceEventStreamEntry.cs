@@ -6,6 +6,16 @@ namespace ClashRoyale.Logic.Clan.StreamEntry.Entries
 {
     public class AllianceEventStreamEntry : AllianceStreamEntry
     {
+        public enum Type
+        {
+            Kick = 1,
+            Accepted = 2,
+            Join = 3,
+            Leave = 4,
+            Promote = 5,
+            Demote = 6
+        }
+
         public AllianceEventStreamEntry()
         {
             StreamEntryType = 4;
@@ -20,7 +30,7 @@ namespace ClashRoyale.Logic.Clan.StreamEntry.Entries
         {
             base.Encode(packet);
 
-            packet.WriteVInt((int)EventType);
+            packet.WriteVInt((int) EventType);
 
             packet.WriteVInt(TargetHighId);
             packet.WriteVInt(TargetLowId);
@@ -33,16 +43,6 @@ namespace ClashRoyale.Logic.Clan.StreamEntry.Entries
             TargetHighId = target.Home.HighId;
             TargetLowId = target.Home.LowId;
             TargetName = target.Home.Name;
-        }
-
-        public enum Type
-        {
-            Kick = 1,
-            Accepted = 2,
-            Join = 3,
-            Leave = 4,
-            Promote = 5,
-            Demote = 6
         }
     }
 }

@@ -39,7 +39,8 @@ namespace ClashRoyale.Database
                 _alliances = _connection.GetDatabase(1);
                 _server = _connection.GetServer(Resources.Configuration.RedisServer, 6379);
 
-                Logger.Log($"Successfully loaded Redis with {CachedPlayers()} player(s) & {CachedAlliances()} clan(s)", GetType());
+                Logger.Log($"Successfully loaded Redis with {CachedPlayers()} player(s) & {CachedAlliances()} clan(s)",
+                    GetType());
             }
             catch (Exception exception)
             {
@@ -109,7 +110,8 @@ namespace ClashRoyale.Database
             {
                 var data = await _players.StringGetAsync(id.ToString());
 
-                if (!string.IsNullOrEmpty(data)) return JsonConvert.DeserializeObject<Player>(data, Configuration.JsonSettings);
+                if (!string.IsNullOrEmpty(data))
+                    return JsonConvert.DeserializeObject<Player>(data, Configuration.JsonSettings);
 
                 var player = await PlayerDb.Get(id);
                 await Cache(player);
@@ -129,7 +131,8 @@ namespace ClashRoyale.Database
             {
                 var data = await _alliances.StringGetAsync(id.ToString());
 
-                if (!string.IsNullOrEmpty(data)) return JsonConvert.DeserializeObject<Alliance>(data, Configuration.JsonSettings);
+                if (!string.IsNullOrEmpty(data))
+                    return JsonConvert.DeserializeObject<Alliance>(data, Configuration.JsonSettings);
 
                 var alliance = await AllianceDb.Get(id);
                 await Cache(alliance);
@@ -151,8 +154,8 @@ namespace ClashRoyale.Database
                     _connection.GetServer(Resources.Configuration.RedisServer, 6379).Info("keyspace")[0]
                         .ElementAt(_players.Database)
                         .Value
-                        .Split(new[] { "keys=" }, StringSplitOptions.None)[1]
-                        .Split(new[] { ",expires=" }, StringSplitOptions.None)[0]);
+                        .Split(new[] {"keys="}, StringSplitOptions.None)[1]
+                        .Split(new[] {",expires="}, StringSplitOptions.None)[0]);
             }
             catch (Exception)
             {
@@ -168,8 +171,8 @@ namespace ClashRoyale.Database
                     _connection.GetServer(Resources.Configuration.RedisServer, 6379).Info("keyspace")[0]
                         .ElementAt(_alliances.Database)
                         .Value
-                        .Split(new[] { "keys=" }, StringSplitOptions.None)[1]
-                        .Split(new[] { ",expires=" }, StringSplitOptions.None)[0]);
+                        .Split(new[] {"keys="}, StringSplitOptions.None)[1]
+                        .Split(new[] {",expires="}, StringSplitOptions.None)[0]);
             }
             catch (Exception)
             {

@@ -43,7 +43,7 @@ namespace ClashRoyale.Protocol
 
         public virtual void Encrypt()
         {
-            if(Packet.ReadableBytes > 0)
+            if (Packet.ReadableBytes > 0)
             {
                 var buffer = Packet.ReadBytes(Packet.ReadableBytes).Array;
 
@@ -67,25 +67,14 @@ namespace ClashRoyale.Protocol
         }
 
         /// <summary>
-        ///     Send the current message to the client by encoding and encrypting it
+        /// Writes this message to the clients channel
         /// </summary>
         /// <returns></returns>
         public async Task Send()
         {
             try
             {
-                Encode();
-                Encrypt();
-
-                var buffer = Unpooled.Buffer();
-
-                buffer.WriteUnsignedShort(Id);
-                buffer.WriteMedium(Length);
-                buffer.WriteUnsignedShort(Version);
-
-                buffer.WriteBytes(Packet);
-
-                await Device.Handler.Channel.WriteAndFlushAsync(buffer);
+                await Device.Handler.Channel.WriteAndFlushAsync(this);
 
                 Logger.Log($"[S] Message {Id} has been sent.", GetType(), ErrorLevel.Debug);
             }

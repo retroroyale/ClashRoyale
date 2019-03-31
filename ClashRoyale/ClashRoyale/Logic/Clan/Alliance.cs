@@ -14,6 +14,23 @@ namespace ClashRoyale.Logic.Clan
 {
     public class Alliance
     {
+        public enum Role
+        {
+            Member = 1,
+            Leader = 2,
+            Elder = 3,
+            CoLeader = 4
+        }
+
+        [JsonProperty("members")] public List<AllianceMember> Members = new List<AllianceMember>(50);
+        [JsonProperty("stream")] public List<AllianceStreamEntry> Stream = new List<AllianceStreamEntry>(40);
+
+        public Alliance(long id)
+        {
+            Id = id;
+            Name = "RetroRoyale";
+        }
+
         [JsonProperty("name")] public string Name { get; set; }
         [JsonProperty("description")] public string Description { get; set; }
         [JsonProperty("highId")] public int HighId { get; set; }
@@ -22,13 +39,20 @@ namespace ClashRoyale.Logic.Clan
         [JsonProperty("region")] public int Region { get; set; }
         [JsonProperty("type")] public int Type { get; set; }
         [JsonProperty("requiredScore")] public int RequiredScore { get; set; }
-        [JsonProperty("stream")] public List<AllianceStreamEntry> Stream = new List<AllianceStreamEntry>(40);
-        [JsonProperty("members")] public List<AllianceMember> Members = new List<AllianceMember>(50);
 
-        public Alliance(long id)
+        [JsonIgnore] public int Score => Members.Sum(m => m.Score) / 2;
+
+        [JsonIgnore] public int Online => Members.Count(m => m.IsOnline);
+
+        [JsonIgnore]
+        public long Id
         {
-            Id = id;
-            Name = "RetroRoyale";
+            get => ((long) HighId << 32) | (LowId & 0xFFFFFFFFL);
+            set
+            {
+                HighId = Convert.ToInt32(value >> 32);
+                LowId = (int) value;
+            }
         }
 
         public void AllianceRankingEntry(IByteBuffer packet)
@@ -73,50 +97,29 @@ namespace ClashRoyale.Logic.Clan
             packet.WriteVInt(RequiredScore);
         }
 
-        [JsonIgnore]
-        public int Score => Members.Sum(m => m.Score) / 2;
-
-        [JsonIgnore]
-        public int Online => Members.Count(m => m.IsOnline);
-
-        [JsonIgnore]
-        public long Id
+        public AllianceInfo GetAllianceInfo(long userId)
         {
-            get => ((long)HighId << 32) | (LowId & 0xFFFFFFFFL);
-            set
-            {
-                HighId = Convert.ToInt32(value >> 32);
-                LowId = (int)value;
-            }
-        }
-
-        public AllianceInfo GetAllianceInfo(long userId) =>
-            new AllianceInfo
+            return new AllianceInfo
             {
                 Id = Id,
                 Name = Name,
                 Badge = Badge,
                 Role = GetRole(userId)
             };
+        }
 
         public void Add(AllianceMember member)
         {
             var index = Members.FindIndex(x => x.Id == member.Id);
 
-            if (index == -1)
-            {
-                Members.Add(member);
-            }
+            if (index == -1) Members.Add(member);
         }
 
         public void Remove(long id)
         {
             var index = Members.FindIndex(x => x.Id == id);
 
-            if (index > -1)
-            {
-                Members.RemoveAt(index);
-            }
+            if (index > -1) Members.RemoveAt(index);
         }
 
         public async void AddEntry(AllianceStreamEntry entry)
@@ -131,12 +134,10 @@ namespace ClashRoyale.Logic.Clan
                 var player = await member.GetPlayer(true);
 
                 if (player != null)
-                {
                     await new AllianceStreamEntryMessage(player.Device)
                     {
                         Entry = entry
                     }.Send();
-                }
             }
         }
 
@@ -163,12 +164,10 @@ namespace ClashRoyale.Logic.Clan
                 var player = await Resources.Players.GetPlayer(member.Id, true);
 
                 if (player != null)
-                {
                     await new AllianceOnlineStatusUpdatedMessage(player.Device)
                     {
                         Count = count
                     }.Send();
-                }
             }
         }
 
@@ -182,14 +181,6 @@ namespace ClashRoyale.Logic.Clan
 
             st.Stop();
             Logger.Log($"Alliance {Id} saved in {st.ElapsedMilliseconds}ms.", GetType(), ErrorLevel.Debug);
-        }
-
-        public enum Role
-        {
-            Member = 1,
-            Leader = 2,
-            Elder = 3,
-            CoLeader = 4
         }
     }
 }

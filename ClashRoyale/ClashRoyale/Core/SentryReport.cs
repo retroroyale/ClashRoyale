@@ -10,7 +10,7 @@ namespace ClashRoyale.Core
         {
             if (!string.IsNullOrEmpty(Resources.Configuration.SentryApiUrl))
             {
-                Client = new RavenClient(Resources.Configuration.SentryApiUrl) 
+                Client = new RavenClient(Resources.Configuration.SentryApiUrl)
                 {
                     Logger = "ClashRoyale",
                     IgnoreBreadcrumbs = true

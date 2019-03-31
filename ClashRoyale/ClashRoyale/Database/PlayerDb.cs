@@ -174,7 +174,8 @@ namespace ClashRoyale.Database
 
                         while (await reader.ReadAsync())
                         {
-                            player = JsonConvert.DeserializeObject<Player>((string) reader["Home"], Configuration.JsonSettings);
+                            player = JsonConvert.DeserializeObject<Player>((string) reader["Home"],
+                                Configuration.JsonSettings);
                             break;
                         }
                     }
@@ -212,7 +213,8 @@ namespace ClashRoyale.Database
                         var reader = await cmd.ExecuteReaderAsync();
 
                         while (await reader.ReadAsync())
-                            player = JsonConvert.DeserializeObject<Player>((string) reader["Home"], Configuration.JsonSettings);
+                            player = JsonConvert.DeserializeObject<Player>((string) reader["Home"],
+                                Configuration.JsonSettings);
                     }
 
                     await connection.CloseAsync();
@@ -299,7 +301,8 @@ namespace ClashRoyale.Database
                         var reader = await cmd.ExecuteReaderAsync();
 
                         while (await reader.ReadAsync())
-                            list.Add(JsonConvert.DeserializeObject<Player>((string) reader["Home"], Configuration.JsonSettings));
+                            list.Add(JsonConvert.DeserializeObject<Player>((string) reader["Home"],
+                                Configuration.JsonSettings));
                     }
 
                     await connection.CloseAsync();
@@ -337,7 +340,8 @@ namespace ClashRoyale.Database
                         var reader = await cmd.ExecuteReaderAsync();
 
                         while (await reader.ReadAsync())
-                            list.Add(JsonConvert.DeserializeObject<Player>((string) reader["Home"], Configuration.JsonSettings));
+                            list.Add(JsonConvert.DeserializeObject<Player>((string) reader["Home"],
+                                Configuration.JsonSettings));
                     }
 
                     await connection.CloseAsync();

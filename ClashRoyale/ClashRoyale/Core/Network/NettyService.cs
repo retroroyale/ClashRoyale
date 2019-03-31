@@ -35,7 +35,9 @@ namespace ClashRoyale.Core.Network
                 .ChildHandler(new ActionChannelInitializer<IChannel>(channel =>
                 {
                     var pipeline = channel.Pipeline;
+                    pipeline.AddFirst("TimeoutHandler", new TimeoutHandler());
                     pipeline.AddLast("PacketProcessor", new PacketHandler());
+                    pipeline.AddLast("PacketEncoder", new PacketEncoder());
                 }));
 
             var boundChannel = await ServerBootstrap.BindAsync(Resources.Configuration.ServerPort);

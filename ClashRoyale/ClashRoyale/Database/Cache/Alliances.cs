@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using SharpRaven.Data;
 using ClashRoyale.Logic.Clan;
+using SharpRaven.Data;
 
 namespace ClashRoyale.Database.Cache
 {

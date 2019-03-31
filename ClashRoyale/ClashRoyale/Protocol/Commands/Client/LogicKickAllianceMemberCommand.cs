@@ -5,7 +5,6 @@ using ClashRoyale.Logic.Clan.StreamEntry.Entries;
 using ClashRoyale.Protocol.Commands.Server;
 using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
-using SharpRaven.Data;
 
 namespace ClashRoyale.Protocol.Commands.Client
 {
@@ -45,7 +44,7 @@ namespace ClashRoyale.Protocol.Commands.Client
                         var entry = new AllianceEventStreamEntry
                         {
                             CreationDateTime = DateTime.UtcNow,
-                            Id = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
+                            Id = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                             EventType = AllianceEventStreamEntry.Type.Kick
                         };
 
@@ -61,7 +60,6 @@ namespace ClashRoyale.Protocol.Commands.Client
                         clan.Save();
 
                         if (player.Device != null)
-                        {
                             await new AvailableServerCommand(player.Device)
                             {
                                 Command = new LogicLeaveAllianceCommand(player.Device)
@@ -70,7 +68,6 @@ namespace ClashRoyale.Protocol.Commands.Client
                                     IsKick = true
                                 }
                             }.Send();
-                        }
                     }
                 }
             }

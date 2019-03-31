@@ -1,10 +1,7 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using ClashRoyale.Database;
 using ClashRoyale.Extensions;
 using ClashRoyale.Extensions.Utils;
-using ClashRoyale.Logic.Clan;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
 using SharpRaven.Data;
@@ -233,7 +230,7 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
             packet.WriteVInt(63);
 
-            packet.WriteVInt(3); 
+            packet.WriteVInt(3);
 
             for (var i = 0; i < 7; i++)
                 packet.WriteVInt(0);
@@ -526,7 +523,7 @@ namespace ClashRoyale.Logic
 
             if (Home.AllianceInfo.HasAlliance)
             {
-                packet.WriteVInt(9);// HasAlliance
+                packet.WriteVInt(9); // HasAlliance
 
                 var info = Home.AllianceInfo;
 
@@ -537,7 +534,9 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(info.Role);
             }
             else
-                packet.WriteVInt(7);  // HasAlliance
+            {
+                packet.WriteVInt(7); // HasAlliance
+            }
 
             // Battle Statistics
             {
@@ -563,7 +562,7 @@ namespace ClashRoyale.Logic
             //  packet.WriteVInt(); // WINS
             //  packet.WriteVInt(0); // LOSSES
 
-            packet.WriteVInt(0); 
+            packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
 

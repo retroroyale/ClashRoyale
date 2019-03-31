@@ -1,8 +1,8 @@
 ﻿using System;
 using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
-using DotNetty.Buffers;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;
+using DotNetty.Buffers;
 
 namespace ClashRoyale.Protocol.Messages.Client
 {
@@ -33,7 +33,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                     var entry = new ChatStreamEntry
                     {
                         CreationDateTime = DateTime.UtcNow,
-                        Id = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
+                        Id = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                         Message = Message
                     };
 

@@ -18,10 +18,7 @@ namespace ClashRoyale.Protocol.Messages.Server
         {
             Packet.WriteVInt(Entries.Count);
 
-            foreach (var entry in Entries)
-            {
-                entry.Encode(Packet);
-            }
+            foreach (var entry in Entries) entry.Encode(Packet);
         }
     }
 }

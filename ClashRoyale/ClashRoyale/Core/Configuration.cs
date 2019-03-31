@@ -6,6 +6,16 @@ namespace ClashRoyale.Core
 {
     public class Configuration
     {
+        [JsonIgnore] public static JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+        {
+            ObjectCreationHandling = ObjectCreationHandling.Reuse,
+            MissingMemberHandling = MissingMemberHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.Ignore,
+            NullValueHandling = NullValueHandling.Ignore,
+            TypeNameHandling = TypeNameHandling.Auto,
+            Formatting = Formatting.None
+        };
+
         [JsonProperty("encryption_key")] public string EncryptionKey = "fhsd6f86f67rt8fw78fw789we78r9789wer6re";
         [JsonProperty("mysql_database")] public string MySqlDatabase = "rrdb";
         [JsonProperty("mysql_password")] public string MySqlPassword = "";
@@ -17,17 +27,6 @@ namespace ClashRoyale.Core
         [JsonProperty("sentry_api")] public string SentryApiUrl = "";
         [JsonProperty("server_port")] public int ServerPort = 9339;
         [JsonProperty("update_url")] public string UpdateUrl = "https://github.com/retroroyale/ClashRoyale";
-
-        [JsonIgnore]
-        public static JsonSerializerSettings JsonSettings = new JsonSerializerSettings
-        {
-            ObjectCreationHandling = ObjectCreationHandling.Reuse,
-            MissingMemberHandling = MissingMemberHandling.Ignore,
-            DefaultValueHandling = DefaultValueHandling.Ignore,
-            NullValueHandling = NullValueHandling.Ignore,
-            TypeNameHandling = TypeNameHandling.Auto,
-            Formatting = Formatting.None
-        };
 
         public void Initialize()
         {

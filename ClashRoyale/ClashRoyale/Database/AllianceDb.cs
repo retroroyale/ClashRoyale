@@ -172,7 +172,8 @@ namespace ClashRoyale.Database
 
                         while (await reader.ReadAsync())
                         {
-                            alliance = JsonConvert.DeserializeObject<Alliance>((string) reader["Data"], Configuration.JsonSettings);
+                            alliance = JsonConvert.DeserializeObject<Alliance>((string) reader["Data"],
+                                Configuration.JsonSettings);
                             break;
                         }
                     }
@@ -189,7 +190,7 @@ namespace ClashRoyale.Database
                 return null;
             }
 
-            #endregion 
+            #endregion
         }
 
         public static async Task Save(Alliance alliance)
@@ -260,7 +261,8 @@ namespace ClashRoyale.Database
                         var reader = await cmd.ExecuteReaderAsync();
 
                         while (await reader.ReadAsync())
-                            list.Add(JsonConvert.DeserializeObject<Alliance>((string) reader["Home"], Configuration.JsonSettings));
+                            list.Add(JsonConvert.DeserializeObject<Alliance>((string) reader["Home"],
+                                Configuration.JsonSettings));
                     }
 
                     await connection.CloseAsync();

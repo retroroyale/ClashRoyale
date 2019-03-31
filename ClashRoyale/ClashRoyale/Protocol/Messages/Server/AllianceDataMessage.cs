@@ -19,10 +19,7 @@ namespace ClashRoyale.Protocol.Messages.Server
 
             Packet.WriteVInt(Alliance.Members.Count);
 
-            foreach (var member in Alliance.Members)
-            {
-                member.AllianceMemberEntry(Packet);
-            }
+            foreach (var member in Alliance.Members) member.AllianceMemberEntry(Packet);
 
             // Clan Chest
             Packet.WriteBoolean(false);
