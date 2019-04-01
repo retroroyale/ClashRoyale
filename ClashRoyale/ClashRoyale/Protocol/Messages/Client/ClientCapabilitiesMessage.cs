@@ -23,7 +23,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override void Process()
         {
-            if (Ping >= 500)
+            if (Ping >= 1000)
             {
                 Logger.Log($"High latency! Ping: {Ping}.", GetType(), ErrorLevel.Warning);
             }

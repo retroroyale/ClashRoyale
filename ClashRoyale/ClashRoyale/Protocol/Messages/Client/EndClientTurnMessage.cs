@@ -27,7 +27,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         {
             if (Tick >= 0)
             {
-                if (Math.Abs(Tick - Device.ServerTick) <= 100)
+                if (Math.Abs(Tick - Device.ServerTick) <= 500)
                 {
                     if (Count >= 0 && Count <= 128)
                         for (var index = 0; index < Count; index++)

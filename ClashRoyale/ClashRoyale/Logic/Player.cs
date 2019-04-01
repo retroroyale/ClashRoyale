@@ -230,7 +230,7 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
             packet.WriteVInt(63);
 
-            packet.WriteVInt(3);
+            packet.WriteVInt(Home.NameSet == 0 ? 1 : 3); // 1 = SetNamePopup, 2 = Upgrade Card Tutorial, 3 = NameSet
 
             for (var i = 0; i < 7; i++)
                 packet.WriteVInt(0);
@@ -398,8 +398,8 @@ namespace ClashRoyale.Logic
 
             // Name
             {
-                packet.WriteScString(Home.Name);
-                packet.WriteBoolean(false); // Name changed
+                packet.WriteScString(Home.NameSet > 0 ? Home.Name : null);
+                packet.WriteBoolean(Home.NameSet > 1); // Name changed
             }
 
             // Profile
@@ -523,7 +523,7 @@ namespace ClashRoyale.Logic
 
             if (Home.AllianceInfo.HasAlliance)
             {
-                packet.WriteVInt(9); // HasAlliance
+                packet.WriteVInt(Home.NameSet == 0 ? 8 : 9); // HasAlliance
 
                 var info = Home.AllianceInfo;
 
@@ -535,7 +535,7 @@ namespace ClashRoyale.Logic
             }
             else
             {
-                packet.WriteVInt(7); // HasAlliance
+                packet.WriteVInt(Home.NameSet == 0 ? 6 : 7); // HasAlliance
             }
 
             // Battle Statistics

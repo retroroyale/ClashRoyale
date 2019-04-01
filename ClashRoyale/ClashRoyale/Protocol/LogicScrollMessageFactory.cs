@@ -25,7 +25,7 @@ namespace ClashRoyale.Protocol
                 //{10150, typeof(AppleBillingRequestMessage)},
                 //{10151, typeof(GoogleBillingRequestMessage)},
                 //{10159, typeof(KunlunBillingRequestMessage)},
-                //{10212, typeof(ChangeAvatarNameMessage)},
+                {10212, typeof(ChangeAvatarNameMessage)},
                 //{10512, typeof(AskForPlayingGamecenterFriendsMessage)},
                 //{10513, typeof(AskForPlayingFacebookFriendsMessage)},
                 {10905, typeof(InboxOpenedMessage)},
@@ -38,7 +38,6 @@ namespace ClashRoyale.Protocol
                 //{14104, typeof(StartMissionMessage)},
                 //{14105, typeof(HomeLogicStoppedMessage)},
                 {14107, typeof(CancelMatchmakeMessage)},
-                //{14108, typeof(ChangeHomeNameMessage)},
                 {14113, typeof(VisitHomeMessage)},
                 //{14114, typeof(HomeBattleReplayMessage)},
                 //{14117, typeof(HomeBattleReplayViewedMessage)},
@@ -78,7 +77,7 @@ namespace ClashRoyale.Protocol
                 //{14408, typeof(AskForLastAvatarTournamentResultsMessage)},
                 //{14418, typeof(RemoveAvatarStreamEntryMessage)},
 
-                //{14600, typeof(AvatarNameCheckRequestMessage)},
+                {14600, typeof(AvatarNameCheckRequestMessage)},
 
                 //{16000, typeof(LogicDeviceLinkCodeRequestMessage)},
                 //{16001, typeof(LogicDeviceLinkMenuClosedMessage)},

@@ -28,12 +28,12 @@ namespace ClashRoyale.Logic.Home
             Id = id;
             UserToken = token;
 
-            Name = "NoName";
             PreferredDeviceLanguage = "EN";
 
             Gold = 100;
             Diamonds = 1000000;
 
+            Name = "NoName";
             ExpLevel = 1;
 
             Deck.Home = this;
@@ -47,7 +47,7 @@ namespace ClashRoyale.Logic.Home
 
         public string Name { get; set; }
         public string UserToken { get; set; }
-        public int NameChangeCount { get; set; }
+        public int NameSet { get; set; }
         public string IpAddress { get; set; }
         public int HighId { get; set; }
         public int LowId { get; set; }
