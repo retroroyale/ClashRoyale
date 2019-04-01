@@ -60,7 +60,7 @@ namespace ClashRoyale
 #if DEBUG
                     _logger.Debug(message);
 
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine($"[{logType.ToString()}] {message}");
                     Console.ResetColor();
 #endif

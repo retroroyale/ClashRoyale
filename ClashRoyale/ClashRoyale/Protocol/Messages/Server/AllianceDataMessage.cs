@@ -15,14 +15,14 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            Alliance.AllianceFullEntry(Packet);
+            Alliance.AllianceFullEntry(Writer);
 
-            Packet.WriteVInt(Alliance.Members.Count);
+            Writer.WriteVInt(Alliance.Members.Count);
 
-            foreach (var member in Alliance.Members) member.AllianceMemberEntry(Packet);
+            foreach (var member in Alliance.Members) member.AllianceMemberEntry(Writer);
 
             // Clan Chest
-            Packet.WriteBoolean(false);
+            Writer.WriteBoolean(false);
         }
     }
 }

@@ -18,14 +18,14 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override void Decode()
         {
-            EventId = Buffer.ReadVInt();
-            Buffer.ReadVInt();
-            Buffer.ReadVInt();
-            Buffer.ReadVInt();
-            Tick = Buffer.ReadVInt();
-            Buffer.ReadVInt();
-            Buffer.ReadVInt();
-            Value = Buffer.ReadVInt();
+            EventId = Reader.ReadVInt();
+            Reader.ReadVInt();
+            Reader.ReadVInt();
+            Reader.ReadVInt();
+            Tick = Reader.ReadVInt();
+            Reader.ReadVInt();
+            Reader.ReadVInt();
+            Value = Reader.ReadVInt();
         }
 
         public override async void Process()

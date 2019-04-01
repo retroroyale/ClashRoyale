@@ -19,7 +19,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override void Decode()
         {
-            AllianceId = Buffer.ReadLong();
+            AllianceId = Reader.ReadLong();
         }
 
         public override async void Process()
@@ -66,6 +66,8 @@ namespace ClashRoyale.Protocol.Messages.Client
                     clan.AddEntry(entry);
 
                     clan.Save();
+                    Device.Player.Save();
+
                     clan.UpdateOnlineCount();
                 }
             }

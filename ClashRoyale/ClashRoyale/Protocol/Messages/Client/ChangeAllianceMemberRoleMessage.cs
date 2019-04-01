@@ -15,7 +15,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override void Decode()
         {
-            MemberId = Buffer.ReadVInt();
+            MemberId = Reader.ReadVInt();
         }
 
         public override async void Process()

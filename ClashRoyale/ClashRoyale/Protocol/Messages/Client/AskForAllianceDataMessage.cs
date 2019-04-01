@@ -15,17 +15,17 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override void Decode()
         {
-            AllianceId = Buffer.ReadLong();
+            AllianceId = Reader.ReadLong();
         }
 
         public override async void Process()
         {
-            var clan = await Resources.Alliances.GetAlliance(AllianceId);
+            var alliance = await Resources.Alliances.GetAlliance(AllianceId);
 
-            if (clan != null)
+            if (alliance != null)
                 await new AllianceDataMessage(Device)
                 {
-                    Alliance = clan
+                    Alliance = alliance
                 }.Send();
         }
     }

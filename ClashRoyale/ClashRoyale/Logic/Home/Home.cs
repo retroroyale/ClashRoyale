@@ -138,6 +138,17 @@ namespace ClashRoyale.Logic.Home
             if (Crowns + crowns <= 20) NewCrowns += crowns;
         }
 
+        public bool UseGold(int amount)
+        {
+            if (Gold - amount >= 0)
+            {
+                Gold -= amount;
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         ///     This will be called when a user is in home state
         /// </summary>

@@ -12,7 +12,7 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            Packet.WriteVInt(1);
+            Writer.WriteVInt(1);
         }
     }
 }

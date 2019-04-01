@@ -16,13 +16,13 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            Packet.WriteVInt(Turn);
-            Packet.WriteVInt(0);
+            Writer.WriteVInt(Turn);
+            Writer.WriteVInt(0);
 
-            Packet.WriteVInt(Commands.Count);
+            Writer.WriteVInt(Commands.Count);
 
             for (var i = 0; i < Commands.Count; i++)
-                Packet.WriteBuffer(Commands.Dequeue());
+                Writer.WriteBuffer(Commands.Dequeue());
         }
     }
 }

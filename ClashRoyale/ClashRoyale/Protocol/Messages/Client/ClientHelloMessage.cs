@@ -28,14 +28,14 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override void Decode()
         {
-            Protocol = Buffer.ReadInt();
-            KeyVersion = Buffer.ReadInt();
-            MajorVersion = Buffer.ReadInt();
-            MinorVersion = Buffer.ReadInt();
-            Build = Buffer.ReadInt();
-            FingerprintSha = Buffer.ReadScString();
-            DeviceType = Buffer.ReadInt();
-            AppStore = Buffer.ReadInt();
+            Protocol = Reader.ReadInt();
+            KeyVersion = Reader.ReadInt();
+            MajorVersion = Reader.ReadInt();
+            MinorVersion = Reader.ReadInt();
+            Build = Reader.ReadInt();
+            FingerprintSha = Reader.ReadScString();
+            DeviceType = Reader.ReadInt();
+            AppStore = Reader.ReadInt();
         }
 
         public override async void Process()

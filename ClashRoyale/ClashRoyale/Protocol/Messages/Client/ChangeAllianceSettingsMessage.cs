@@ -19,33 +19,33 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override void Decode()
         {
-            Description = Buffer.ReadScString();
-            Buffer.ReadVInt();
-            Badge = Buffer.ReadVInt();
-            Type = Buffer.ReadVInt();
-            RequiredScore = Buffer.ReadVInt();
-            Buffer.ReadVInt();
-            Region = Buffer.ReadVInt();
+            Description = Reader.ReadScString();
+            Reader.ReadVInt();
+            Badge = Reader.ReadVInt();
+            Type = Reader.ReadVInt();
+            RequiredScore = Reader.ReadVInt();
+            Reader.ReadVInt();
+            Region = Reader.ReadVInt();
         }
 
         public override async void Process()
         {
             var home = Device.Player.Home;
-            var clan = await Resources.Alliances.GetAlliance(home.AllianceInfo.Id);
+            var alliance = await Resources.Alliances.GetAlliance(home.AllianceInfo.Id);
 
-            if (clan != null)
+            if (alliance != null)
             {
-                var oldBadge = clan.Badge;
+                var oldBadge = alliance.Badge;
 
-                clan.Type = Type;
-                clan.Badge = Badge;
-                clan.Region = Region;
-                clan.Description = Description;
-                clan.RequiredScore = RequiredScore;
+                alliance.Type = Type;
+                alliance.Badge = Badge;
+                alliance.Region = Region;
+                alliance.Description = Description;
+                alliance.RequiredScore = RequiredScore;
 
-                clan.Save();
+                alliance.Save();
 
-                foreach (var member in clan.Members)
+                foreach (var member in alliance.Members)
                 {
                     var player = await member.GetPlayer();
 

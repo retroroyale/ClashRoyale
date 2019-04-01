@@ -11,17 +11,17 @@ namespace ClashRoyale.Protocol
         public PiranhaMessage(Device device)
         {
             Device = device;
-            Packet = Unpooled.Buffer();
+            Writer = Unpooled.Buffer();
         }
 
         public PiranhaMessage(Device device, IByteBuffer buffer)
         {
             Device = device;
-            Buffer = buffer;
+            Reader = buffer;
         }
 
-        public IByteBuffer Packet { get; set; }
-        public IByteBuffer Buffer { get; set; }
+        public IByteBuffer Writer { get; set; }
+        public IByteBuffer Reader { get; set; }
         public Device Device { get; set; }
         public ushort Id { get; set; }
         public int Length { get; set; }
@@ -32,24 +32,24 @@ namespace ClashRoyale.Protocol
         {
             if (Length > 0)
             {
-                var buffer = Buffer.ReadBytes(Length).Array;
+                var buffer = Reader.ReadBytes(Length).Array;
 
                 Device.Rc4.Decrypt(ref buffer);
 
-                Buffer = Unpooled.CopiedBuffer(buffer);
+                Reader = Unpooled.CopiedBuffer(buffer);
                 Length = (ushort) buffer.Length;
             }
         }
 
         public virtual void Encrypt()
         {
-            if (Packet.ReadableBytes > 0)
+            if (Writer.ReadableBytes > 0)
             {
-                var buffer = Packet.ReadBytes(Packet.ReadableBytes).Array;
+                var buffer = Writer.ReadBytes(Writer.ReadableBytes).Array;
 
                 Device.Rc4.Encrypt(ref buffer);
 
-                Packet = Unpooled.CopiedBuffer(buffer);
+                Writer = Unpooled.CopiedBuffer(buffer);
                 Length = (ushort) buffer.Length;
             }
         }
@@ -76,7 +76,7 @@ namespace ClashRoyale.Protocol
             {
                 await Device.Handler.Channel.WriteAndFlushAsync(this);
 
-                Logger.Log($"[S] Message {Id} has been sent.", GetType(), ErrorLevel.Debug);
+                Logger.Log($"[S] Message {Id} ({GetType().Name}) sent.", GetType(), ErrorLevel.Debug);
             }
             catch (Exception)
             {

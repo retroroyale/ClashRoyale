@@ -21,400 +21,400 @@ namespace ClashRoyale.Protocol.Messages.Server
         {
             const int count = 6;
 
-            Packet.WriteVInt(0);
+            Writer.WriteVInt(0);
 
-            Packet.WriteVInt(0); // Time
-            Packet.WriteVInt(0); // Checksum
-            Packet.WriteVInt(TimeUtils.CurrentUnixTimestamp); // Timestamp
-            Packet.WriteVInt(11);
+            Writer.WriteVInt(0); // Time
+            Writer.WriteVInt(0); // Checksum
+            Writer.WriteVInt(TimeUtils.CurrentUnixTimestamp); // Timestamp
+            Writer.WriteVInt(11);
 
-            Packet.WriteVInt(0);
-            Packet.WriteByte(38);
-            Packet.WriteVInt(9);
-            Packet.WriteVInt(4);
-            Packet.WriteVInt(7419667);
-            Packet.WriteByte(1);
+            Writer.WriteVInt(0);
+            Writer.WriteByte(38);
+            Writer.WriteVInt(9);
+            Writer.WriteVInt(4);
+            Writer.WriteVInt(7419667);
+            Writer.WriteByte(1);
 
             // Player 1
             {
                 for (var i = 0; i < 3; i++)
                 {
-                    Packet.WriteVInt(Player1.Home.HighId);
-                    Packet.WriteVInt(Player1.Home.LowId);
+                    Writer.WriteVInt(Player1.Home.HighId);
+                    Writer.WriteVInt(Player1.Home.LowId);
                 }
 
-                Packet.WriteScString(Player1.Home.Name);
-                Packet.WriteVInt(Player1.Home.ExpLevel); // Level
-                Packet.WriteVInt(Player1.Home.Trophies);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
+                Writer.WriteScString(Player1.Home.Name);
+                Writer.WriteVInt(Player1.Home.ExpLevel); // Level
+                Writer.WriteVInt(Player1.Home.Trophies);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
 
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
 
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
 
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
 
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
 
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
 
                 //
-                Packet.WriteVInt(2); // Has Clan = 2
+                Writer.WriteVInt(2); // Has Clan = 2
 
-                Packet.WriteVInt(0); // HighId
-                Packet.WriteVInt(2); // LowId
-                Packet.WriteScString("Test 2"); // Name 
-                Packet.WriteVInt(5); // Badge 
+                Writer.WriteVInt(0); // HighId
+                Writer.WriteVInt(2); // LowId
+                Writer.WriteScString("Test 2"); // Name 
+                Writer.WriteVInt(5); // Badge 
                 //
 
-                Packet.WriteVInt(29);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(2);
+                Writer.WriteVInt(29);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(2);
 
-                Packet.WriteVInt(2);
-                Packet.WriteVInt(1);
-                Packet.WriteVInt(5);
-                Packet.WriteVInt(0);
+                Writer.WriteVInt(2);
+                Writer.WriteVInt(1);
+                Writer.WriteVInt(5);
+                Writer.WriteVInt(0);
 
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(1);
-                Packet.WriteVInt(2);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(1);
+                Writer.WriteVInt(2);
             }
 
             // Player 2
             {
                 for (var i = 0; i < 3; i++)
                 {
-                    Packet.WriteVInt(Player2.Home.HighId);
-                    Packet.WriteVInt(Player2.Home.LowId);
+                    Writer.WriteVInt(Player2.Home.HighId);
+                    Writer.WriteVInt(Player2.Home.LowId);
                 }
 
-                Packet.WriteScString(Player2.Home.Name); // Player 2 Name
-                Packet.WriteVInt(Player2.Home.ExpLevel); // Level
-                Packet.WriteVInt(Player2.Home.Trophies);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
+                Writer.WriteScString(Player2.Home.Name); // Player 2 Name
+                Writer.WriteVInt(Player2.Home.ExpLevel); // Level
+                Writer.WriteVInt(Player2.Home.Trophies);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
 
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
 
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
 
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
 
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
 
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
 
                 //
-                Packet.WriteVInt(2); // Has Clan = 2
+                Writer.WriteVInt(2); // Has Clan = 2
 
-                Packet.WriteVInt(0); // HighId
-                Packet.WriteVInt(1); // LowId
-                Packet.WriteScString("Test"); // Name 
-                Packet.WriteVInt(6); // Badge 
+                Writer.WriteVInt(0); // HighId
+                Writer.WriteVInt(1); // LowId
+                Writer.WriteScString("Test"); // Name 
+                Writer.WriteVInt(6); // Badge 
                 //
 
-                Packet.WriteVInt(3);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(2);
+                Writer.WriteVInt(3);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(2);
 
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(2);
-                Packet.WriteVInt(5);
-                Packet.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(2);
+                Writer.WriteVInt(5);
+                Writer.WriteVInt(0);
 
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(0);
-                Packet.WriteVInt(1);
-                Packet.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(1);
+                Writer.WriteVInt(0);
             }
 
-            Packet.WriteVInt(14);
-            Packet.WriteVInt(2);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(20); // Arena 
+            Writer.WriteVInt(14);
+            Writer.WriteVInt(2);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(20); // Arena 
 
-            Packet.WriteVInt(Player1.Home.HighId);
-            Packet.WriteVInt(Player1.Home.LowId);
+            Writer.WriteVInt(Player1.Home.HighId);
+            Writer.WriteVInt(Player1.Home.LowId);
 
-            Packet.WriteVInt(0);
+            Writer.WriteVInt(0);
 
-            Packet.WriteVInt(Player2.Home.HighId); // Player 2 High
-            Packet.WriteVInt(Player2.Home.LowId); // Player 2 Low
+            Writer.WriteVInt(Player2.Home.HighId); // Player 2 High
+            Writer.WriteVInt(Player2.Home.LowId); // Player 2 Low
 
-            Packet.WriteVInt(1);
-            Packet.WriteVInt(1);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
+            Writer.WriteVInt(1);
+            Writer.WriteVInt(1);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
 
-            Packet.WriteVInt(7);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
+            Writer.WriteVInt(7);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
 
-            Packet.WriteByte(2);
-            Packet.WriteVInt(1);
+            Writer.WriteByte(2);
+            Writer.WriteVInt(1);
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
 
-            Packet.WriteVInt(count);
-            Packet.WriteVInt(count);
+            Writer.WriteVInt(count);
+            Writer.WriteVInt(count);
 
-            Packet.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(1));
-            Packet.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(1));
-            Packet.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(1));
-            Packet.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(1));
+            Writer.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(1));
+            Writer.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(1));
+            Writer.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(1));
+            Writer.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(1));
 
-            Packet.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(0));
-            Packet.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(0));
+            Writer.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(0));
+            Writer.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(0));
 
-            Packet.WriteVInt(1);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(1);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(1);
+            Writer.WriteVInt(1);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(1);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(1);
 
             for (var index = 0; index < count; index++)
             {
-                Packet.WriteVInt(5);
-                Packet.WriteVInt(index);
+                Writer.WriteVInt(5);
+                Writer.WriteVInt(index);
             }
 
             // Player Right Princess Tower
-            Packet.WriteVInt(12);
-            Packet.WriteVInt(13);
-            Packet.WriteVInt(14500); // X
-            Packet.WriteVInt(25500); // Y
-            Packet.WriteHex("00007F00C07C0002000000000000");
+            Writer.WriteVInt(12);
+            Writer.WriteVInt(13);
+            Writer.WriteVInt(14500); // X
+            Writer.WriteVInt(25500); // Y
+            Writer.WriteHex("00007F00C07C0002000000000000");
 
             // Enemy Left Princess Tower
-            Packet.WriteVInt(12);
-            Packet.WriteVInt(13);
-            Packet.WriteVInt(3500); // X
-            Packet.WriteVInt(6500); // Y
-            Packet.WriteHex("00007F0080040001000000000000");
+            Writer.WriteVInt(12);
+            Writer.WriteVInt(13);
+            Writer.WriteVInt(3500); // X
+            Writer.WriteVInt(6500); // Y
+            Writer.WriteHex("00007F0080040001000000000000");
 
             // Player Left Princess Tower
-            Packet.WriteVInt(12);
-            Packet.WriteVInt(13);
-            Packet.WriteVInt(3500); // X
-            Packet.WriteVInt(25500); // Y
-            Packet.WriteHex("00007F00C07C0001000000000000");
+            Writer.WriteVInt(12);
+            Writer.WriteVInt(13);
+            Writer.WriteVInt(3500); // X
+            Writer.WriteVInt(25500); // Y
+            Writer.WriteHex("00007F00C07C0001000000000000");
 
             // Enemy Right Princess Tower
-            Packet.WriteVInt(12);
-            Packet.WriteVInt(13);
-            Packet.WriteVInt(14500); // X
-            Packet.WriteVInt(6500); // Y
-            Packet.WriteHex("00007F0080040002000000000000");
+            Writer.WriteVInt(12);
+            Writer.WriteVInt(13);
+            Writer.WriteVInt(14500); // X
+            Writer.WriteVInt(6500); // Y
+            Writer.WriteHex("00007F0080040002000000000000");
 
             // Enemy Crown Tower
-            Packet.WriteVInt(12);
-            Packet.WriteVInt(13);
-            Packet.WriteVInt(9000); // X
-            Packet.WriteVInt(3000); // Y
-            Packet.WriteHex("00007F0080040000000000000000");
+            Writer.WriteVInt(12);
+            Writer.WriteVInt(13);
+            Writer.WriteVInt(9000); // X
+            Writer.WriteVInt(3000); // Y
+            Writer.WriteHex("00007F0080040000000000000000");
 
-            Packet.WriteHex("000504077F7D7F0400050401007F7F0000");
-            Packet.WriteVInt(0); // Ms before regen mana
-            Packet.WriteVInt(6); // Mana Start 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
+            Writer.WriteHex("000504077F7D7F0400050401007F7F0000");
+            Writer.WriteVInt(0); // Ms before regen mana
+            Writer.WriteVInt(6); // Mana Start 
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
 
-            Packet.WriteHex("00007F7F7F7F7F7F7F7F00");
+            Writer.WriteHex("00007F7F7F7F7F7F7F7F00");
 
             // Player Crown Tower
-            Packet.WriteVInt(12);
-            Packet.WriteVInt(13);
-            Packet.WriteVInt(9000); // X
-            Packet.WriteVInt(29000); // Y
-            Packet.WriteHex("00007F00C07C0000000000000000");
+            Writer.WriteVInt(12);
+            Writer.WriteVInt(13);
+            Writer.WriteVInt(9000); // X
+            Writer.WriteVInt(29000); // Y
+            Writer.WriteHex("00007F00C07C0000000000000000");
 
-            Packet.WriteHex("00050401047D010400040706007F7F0000");
-            Packet.WriteVInt(0); // Ms before regen mana
-            Packet.WriteVInt(6); // Elexir Start Enemy
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
+            Writer.WriteHex("00050401047D010400040706007F7F0000");
+            Writer.WriteVInt(0); // Ms before regen mana
+            Writer.WriteVInt(6); // Elexir Start Enemy
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
 
-            Packet.WriteHex("00007F7F7F7F7F7F7F7F");
+            Writer.WriteHex("00007F7F7F7F7F7F7F7F");
 
             for (var index = 0; index < 48; index++)
-                Packet.WriteVInt(0);
+                Writer.WriteVInt(0);
 
-            Packet.WriteVInt(3668); // Enemy 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(3668); // Player
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(3668); // Enemy
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(3668); // Player
-            Packet.WriteVInt(0);
+            Writer.WriteVInt(3668); // Enemy 
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(3668); // Player
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(3668); // Enemy
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(3668); // Player
+            Writer.WriteVInt(0);
 
-            Packet.WriteVInt(5832); // Enemy
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(5832); // Player
-            Packet.WriteVInt(0);
+            Writer.WriteVInt(5832); // Enemy
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(5832); // Player
+            Writer.WriteVInt(0);
 
             for (var index = 0; index < count; index++)
-                Packet.WriteHex("00000000000000A401A401");
+                Writer.WriteHex("00000000000000A401A401");
 
-            Packet.WriteShort(-255);
-            Player1.Home.Deck.EncodeAttack(Packet);
+            Writer.WriteShort(-255);
+            Player1.Home.Deck.EncodeAttack(Writer);
 
-            Packet.WriteVInt(0);
+            Writer.WriteVInt(0);
 
-            Packet.WriteShort(-509);
-            Player2.Home.Deck.EncodeAttack(Packet);
+            Writer.WriteShort(-509);
+            Player2.Home.Deck.EncodeAttack(Writer);
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(5);
-            Packet.WriteVInt(6);
-            Packet.WriteVInt(2);
-            Packet.WriteVInt(2);
-            Packet.WriteVInt(4);
-            Packet.WriteVInt(2);
-            Packet.WriteVInt(1);
-            Packet.WriteVInt(3);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(6);
-            Packet.WriteVInt(1);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(9);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(12);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(5);
+            Writer.WriteVInt(6);
+            Writer.WriteVInt(2);
+            Writer.WriteVInt(2);
+            Writer.WriteVInt(4);
+            Writer.WriteVInt(2);
+            Writer.WriteVInt(1);
+            Writer.WriteVInt(3);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(6);
+            Writer.WriteVInt(1);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(9);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(12);
 
-            Packet.WriteHex("000000F69686FF0A002A002B");
+            Writer.WriteHex("000000F69686FF0A002A002B");
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(13);
-            Packet.WriteVInt(14500);
-            Packet.WriteVInt(25500);
-            Packet.WriteHex("00007F00C07C0002000000000000");
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(13);
+            Writer.WriteVInt(14500);
+            Writer.WriteVInt(25500);
+            Writer.WriteHex("00007F00C07C0002000000000000");
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(13);
-            Packet.WriteVInt(3500);
-            Packet.WriteVInt(6500);
-            Packet.WriteHex("00007F0080040001000000000000");
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(13);
+            Writer.WriteVInt(3500);
+            Writer.WriteVInt(6500);
+            Writer.WriteHex("00007F0080040001000000000000");
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(13);
-            Packet.WriteVInt(3500);
-            Packet.WriteVInt(25500);
-            Packet.WriteHex("00007F00C07C0001000000000000");
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(13);
+            Writer.WriteVInt(3500);
+            Writer.WriteVInt(25500);
+            Writer.WriteHex("00007F00C07C0001000000000000");
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(13);
-            Packet.WriteVInt(14500);
-            Packet.WriteVInt(6500);
-            Packet.WriteHex("00007F0080040002000000000000");
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(13);
+            Writer.WriteVInt(14500);
+            Writer.WriteVInt(6500);
+            Writer.WriteHex("00007F0080040002000000000000");
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(13);
-            Packet.WriteVInt(9000);
-            Packet.WriteVInt(3000);
-            Packet.WriteHex("00007F0080040000000000000000");
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(13);
+            Writer.WriteVInt(9000);
+            Writer.WriteVInt(3000);
+            Writer.WriteHex("00007F0080040000000000000000");
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(5);
-            Packet.WriteVInt(1);
-            Packet.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(5);
+            Writer.WriteVInt(1);
+            Writer.WriteVInt(0);
 
-            Packet.WriteHex("7F000000007F7F0000000100000000007F7F7F7F7F7F7F7F");
-            Packet.WriteVInt(0);
+            Writer.WriteHex("7F000000007F7F0000000100000000007F7F7F7F7F7F7F7F");
+            Writer.WriteVInt(0);
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(13);
-            Packet.WriteVInt(9000);
-            Packet.WriteVInt(29000);
-            Packet.WriteHex("00007F00C07C0000000000000000");
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(13);
+            Writer.WriteVInt(9000);
+            Writer.WriteVInt(29000);
+            Writer.WriteHex("00007F00C07C0000000000000000");
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(5);
-            Packet.WriteVInt(4);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(1);
-            Packet.WriteVInt(4);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(5);
+            Writer.WriteVInt(4);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(1);
+            Writer.WriteVInt(4);
 
-            Packet.WriteHex(
+            Writer.WriteHex(
                 "7F020203007F7F0000000500000000007F7F7F7F7F7F7F7F0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(1400);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(1400);
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(560);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(560);
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(1400);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(1400);
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(560);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(560);
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(960);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(960);
 
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(2400);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(2400);
 
             for (var index = 0; index < count; index++)
-                Packet.WriteHex("00000000000000A401A401");
+                Writer.WriteHex("00000000000000A401A401");
         }
     }
 }

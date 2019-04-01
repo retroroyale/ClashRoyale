@@ -30,7 +30,7 @@ namespace ClashRoyale.Logic
             {
                 if (!LogicScrollMessageFactory.Messages.ContainsKey(messageHeader.Id))
                 {
-                    Logger.Log($"Message {messageHeader.Id} is not known.", GetType(), ErrorLevel.Warning);
+                    Logger.Log($"Message ID: {messageHeader.Id}, V: {messageHeader.Version}, L: {messageHeader.Length} is not known.", GetType(), ErrorLevel.Warning);
 
                     await Disconnect();
                     return;
@@ -48,7 +48,7 @@ namespace ClashRoyale.Logic
                         message.Decode();
                         message.Process();
 
-                        Logger.Log($"[C] Message {messageHeader.Id} has been handled.", GetType(), ErrorLevel.Debug);
+                        Logger.Log($"[C] Message {messageHeader.Id} ({message.GetType().Name}) handled.", GetType(), ErrorLevel.Debug);
 
                         if (message.Save && CurrentState == State.Home) Player.Save();
                     }

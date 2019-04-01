@@ -12,27 +12,27 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            Packet.WriteLong(Device.Player.Home.Id);
-            Packet.WriteLong(Device.Player.Home.Id);
-            Packet.WriteScString(Device.Player.Home.UserToken);
+            Writer.WriteLong(Device.Player.Home.Id);
+            Writer.WriteLong(Device.Player.Home.Id);
+            Writer.WriteScString(Device.Player.Home.UserToken);
 
-            Packet.WriteScString(string.Empty);
-            Packet.WriteScString("G:1");
+            Writer.WriteScString(string.Empty);
+            Writer.WriteScString("G:1");
 
-            Packet.WriteInt(Resources.Fingerprint.GetMajorVersion);
-            Packet.WriteInt(Resources.Fingerprint.GetBuildVersion);
-            Packet.WriteInt(Resources.Fingerprint.GetContentVersion);
+            Writer.WriteInt(Resources.Fingerprint.GetMajorVersion);
+            Writer.WriteInt(Resources.Fingerprint.GetBuildVersion);
+            Writer.WriteInt(Resources.Fingerprint.GetContentVersion);
 
-            Packet.WriteScString("prod");
-            Packet.WriteScString(string.Empty);
+            Writer.WriteScString("prod");
+            Writer.WriteScString(string.Empty);
 
-            Packet.WriteScString("DE");
-            Packet.WriteScString("Berlin");
+            Writer.WriteScString("DE");
+            Writer.WriteScString("Berlin");
 
-            Packet.WriteScString(string.Empty);
+            Writer.WriteScString(string.Empty);
 
-            Packet.WriteScString("https://event-assets.clashroyale.com");
-            Packet.WriteVInt(3);
+            Writer.WriteScString("https://event-assets.clashroyale.com");
+            Writer.WriteVInt(3);
         }
     }
 }

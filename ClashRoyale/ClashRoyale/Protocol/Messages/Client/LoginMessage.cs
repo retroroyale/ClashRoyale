@@ -31,30 +31,30 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override void Decode()
         {
-            UserId = Buffer.ReadLong();
-            UserToken = Buffer.ReadScString();
+            UserId = Reader.ReadLong();
+            UserToken = Reader.ReadScString();
 
-            ClientMajorVersion = Buffer.ReadVInt();
-            ClientMinorVersion = Buffer.ReadVInt();
-            ClientBuild = Buffer.ReadVInt();
+            ClientMajorVersion = Reader.ReadVInt();
+            ClientMinorVersion = Reader.ReadVInt();
+            ClientBuild = Reader.ReadVInt();
 
-            FingerprintSha = Buffer.ReadScString();
+            FingerprintSha = Reader.ReadScString();
 
-            Buffer.ReadInt();
+            Reader.ReadInt();
 
-            OpenUdid = Buffer.ReadScString();
-            MacAddress = Buffer.ReadScString();
-            DeviceModel = Buffer.ReadScString();
+            OpenUdid = Reader.ReadScString();
+            MacAddress = Reader.ReadScString();
+            DeviceModel = Reader.ReadScString();
 
-            AdvertisingGuid = Buffer.ReadScString();
-            OsVersion = Buffer.ReadScString();
+            AdvertisingGuid = Reader.ReadScString();
+            OsVersion = Reader.ReadScString();
 
-            IsAndroid = Buffer.ReadByte();
+            IsAndroid = Reader.ReadByte();
 
-            Buffer.ReadScString();
+            Reader.ReadScString();
 
-            AndroidId = Buffer.ReadScString();
-            PreferredDeviceLanguage = Buffer.ReadScString().Remove(0, 3);
+            AndroidId = Reader.ReadScString();
+            PreferredDeviceLanguage = Reader.ReadScString().Remove(0, 3);
         }
 
         public override async void Process()
@@ -109,7 +109,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                 }
                 else
                 {
-                    // If the account is not found we send LoginFailed
+                    // If the account was not found we send LoginFailed
                     await new LoginFailedMessage(Device)
                     {
                         ErrorCode = 10

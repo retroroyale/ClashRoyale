@@ -17,19 +17,19 @@ namespace ClashRoyale.Protocol.Messages.Server
             if (Player == null)
                 return;
 
-            Packet.WriteVInt(8);
-            Packet.WriteShort(255);
-            Packet.WriteVInt(1);
+            Writer.WriteVInt(8);
+            Writer.WriteShort(255);
+            Writer.WriteVInt(1);
 
             foreach (var card in Player.Home.Deck.GetRange(0, 8))
-                card.Encode(Packet);
+                card.Encode(Writer);
 
-            Packet.WriteLong(Player.Home.Id);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(1);
+            Writer.WriteLong(Player.Home.Id);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(1);
 
-            Player.LogicClientAvatar(Packet);
+            Player.LogicClientAvatar(Writer);
         }
     }
 }

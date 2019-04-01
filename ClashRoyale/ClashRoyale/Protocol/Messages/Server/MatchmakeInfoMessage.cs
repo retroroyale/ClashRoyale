@@ -13,7 +13,7 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            Packet.WriteInt(EstimatedDuration);
+            Writer.WriteInt(EstimatedDuration);
         }
     }
 }

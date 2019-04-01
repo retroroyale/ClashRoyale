@@ -115,11 +115,31 @@ namespace ClashRoyale.Logic.Clan
             if (index == -1) Members.Add(member);
         }
 
-        public void Remove(long id)
+        public async void Remove(long id)
         {
             var index = Members.FindIndex(x => x.Id == id);
 
-            if (index > -1) Members.RemoveAt(index);
+            if (index > -1)
+            {
+                var member = Members[index];
+
+                // If the leader leaves the clan and it's not empty, we choose a new leader 
+                if (member.Role == (int) Role.Leader)
+                {
+                    var newLeader = Members.FirstOrDefault(m => m.Id != member.Id);
+                    if (newLeader != null)
+                    {
+                        var player = await newLeader.GetPlayer();
+
+                        newLeader.Role = (int)Role.Leader;
+                        player.Home.AllianceInfo.Role = (int)Role.Leader;
+
+                        player.Save();
+                    }
+                }
+
+                Members.RemoveAt(index); 
+            }
         }
 
         public async void AddEntry(AllianceStreamEntry entry)
@@ -173,6 +193,7 @@ namespace ClashRoyale.Logic.Clan
 
         public async void Save()
         {
+#if DEBUG
             var st = new Stopwatch();
             st.Start();
 
@@ -181,6 +202,10 @@ namespace ClashRoyale.Logic.Clan
 
             st.Stop();
             Logger.Log($"Alliance {Id} saved in {st.ElapsedMilliseconds}ms.", GetType(), ErrorLevel.Debug);
+#else
+            await Redis.Cache(this);
+            await AllianceDb.Save(this);
+#endif
         }
     }
 }

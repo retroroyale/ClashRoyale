@@ -18,14 +18,14 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            Packet.WriteVInt(EventId);
-            Packet.WriteVInt(HighId);
-            Packet.WriteVInt(LowId);
-            Packet.WriteVInt(1);
-            Packet.WriteVInt(Tick);
-            Packet.WriteVInt(0);
-            Packet.WriteVInt(1);
-            Packet.WriteVInt(Value);
+            Writer.WriteVInt(EventId);
+            Writer.WriteVInt(HighId);
+            Writer.WriteVInt(LowId);
+            Writer.WriteVInt(1);
+            Writer.WriteVInt(Tick);
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(1);
+            Writer.WriteVInt(Value);
         }
     }
 }

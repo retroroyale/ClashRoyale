@@ -16,18 +16,18 @@ namespace ClashRoyale.Core.Network.Handlers
                 message.Encode();
                 message.Encrypt();
 
-                var buffer = Unpooled.Buffer();
+                var buffer = Unpooled.Buffer(7);
 
                 buffer.WriteUnsignedShort(message.Id);
                 buffer.WriteMedium(message.Length);
                 buffer.WriteUnsignedShort(message.Version);
 
-                buffer.WriteBytes(message.Packet);
+                buffer.WriteBytes(message.Writer);
 
                 return base.WriteAsync(context, buffer);
             }
 
-            return base.WriteAsync(context, message);
+            return base.WriteAsync(context, null);
         }
     }
 }

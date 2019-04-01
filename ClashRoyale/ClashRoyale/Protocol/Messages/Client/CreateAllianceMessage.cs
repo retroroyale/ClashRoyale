@@ -24,52 +24,55 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override void Decode()
         {
-            Name = Buffer.ReadScString();
-            Description = Buffer.ReadScString();
-            Buffer.ReadVInt();
-            Badge = Buffer.ReadVInt();
-            Type = Buffer.ReadVInt();
-            RequiredScore = Buffer.ReadVInt();
-            Region = Buffer.ReadVInt();
-            Region = Buffer.ReadVInt();
+            Name = Reader.ReadScString();
+            Description = Reader.ReadScString();
+            Reader.ReadVInt();
+            Badge = Reader.ReadVInt();
+            Type = Reader.ReadVInt();
+            RequiredScore = Reader.ReadVInt();
+            Region = Reader.ReadVInt();
+            Region = Reader.ReadVInt();
         }
 
         public override async void Process()
         {
-            var alliance = await AllianceDb.Create();
+            var player = Device.Player;
 
-            if (alliance != null)
+            if (player.Home.UseGold(1000))
             {
-                alliance.Name = Name;
-                alliance.Description = Description;
-                alliance.Badge = Badge;
-                alliance.Type = Type;
-                alliance.RequiredScore = RequiredScore;
+                var alliance = await AllianceDb.Create();
 
-                var player = Device.Player;
-
-                alliance.Members.Add(
-                    new AllianceMember(player, Alliance.Role.Leader));
-
-                player.Home.AllianceInfo = alliance.GetAllianceInfo(player.Home.Id);
-
-                alliance.Save();
-
-                await new AvailableServerCommand(Device)
+                if (alliance != null)
                 {
-                    Command = new LogicJoinAllianceCommand(Device)
-                    {
-                        AllianceId = alliance.Id,
-                        AllianceName = Name,
-                        AllianceBadge = Badge
-                    }
-                }.Send();
+                    alliance.Name = Name;
+                    alliance.Description = Description;
+                    alliance.Badge = Badge;
+                    alliance.Type = Type;
+                    alliance.RequiredScore = RequiredScore;                
 
-                alliance.UpdateOnlineCount();
-            }
-            else
-            {
-                await Device.Disconnect();
+                    alliance.Members.Add(
+                        new AllianceMember(player, Alliance.Role.Leader));
+
+                    player.Home.AllianceInfo = alliance.GetAllianceInfo(player.Home.Id);
+
+                    alliance.Save();
+
+                    await new AvailableServerCommand(Device)
+                    {
+                        Command = new LogicJoinAllianceCommand(Device)
+                        {
+                            AllianceId = alliance.Id,
+                            AllianceName = Name,
+                            AllianceBadge = Badge
+                        }
+                    }.Send();
+
+                    alliance.UpdateOnlineCount();
+                }
+                else
+                {
+                    await Device.Disconnect();
+                }
             }
         }
     }

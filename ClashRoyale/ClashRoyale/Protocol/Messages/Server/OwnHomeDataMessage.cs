@@ -14,8 +14,8 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            Device.Player.LogicClientHome(Packet);
-            Device.Player.LogicClientAvatar(Packet);
+            Device.Player.LogicClientHome(Writer);
+            Device.Player.LogicClientAvatar(Writer);
 
             Device.Player.Home.Reset();
         }

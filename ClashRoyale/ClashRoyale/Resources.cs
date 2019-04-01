@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using ClashRoyale.Core;
 using ClashRoyale.Core.Leaderboards;
 using ClashRoyale.Core.Network;
 using ClashRoyale.Database;
 using ClashRoyale.Database.Cache;
+using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Files;
 
 namespace ClashRoyale
@@ -29,7 +31,7 @@ namespace ClashRoyale
         public static async void Initialize()
         {
             Logger = new Logger();
-            Logger.Log("Starting...", null);
+            Logger.Log($"Starting at {DateTime.Now.ToLongTimeString()} on {(ServerUtils.IsLinux ? "Linux" : "Windows")}...", null);
 
             Configuration = new Configuration();
             Configuration.Initialize();

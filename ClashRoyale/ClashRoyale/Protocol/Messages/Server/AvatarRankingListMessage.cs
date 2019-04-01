@@ -38,11 +38,11 @@ namespace ClashRoyale.Protocol.Messages.Server
                 count++;
             }
 
-            Packet.WriteVInt(count);
-            Packet.WriteBytes(buffer);
+            Writer.WriteVInt(count);
+            Writer.WriteBytes(buffer);
 
-            Packet.WriteInt(0);
-            Packet.WriteInt(TimeUtils.GetSecondsUntilNextMonth);
+            Writer.WriteInt(0);
+            Writer.WriteInt(TimeUtils.GetSecondsUntilNextMonth);
         }
     }
 }

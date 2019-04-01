@@ -17,7 +17,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override void Decode()
         {
-            Message = Buffer.ReadScString();
+            Message = Reader.ReadScString();
         }
 
         public override async void Process()
@@ -26,9 +26,9 @@ namespace ClashRoyale.Protocol.Messages.Client
 
             if (info.HasAlliance)
             {
-                var clan = await Resources.Alliances.GetAlliance(info.Id);
+                var alliance = await Resources.Alliances.GetAlliance(info.Id);
 
-                if (clan != null)
+                if (alliance != null)
                 {
                     var entry = new ChatStreamEntry
                     {
@@ -39,7 +39,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                     entry.SetSender(Device.Player);
 
-                    clan.AddEntry(entry);
+                    alliance.AddEntry(entry);
                 }
             }
         }

@@ -573,6 +573,7 @@ namespace ClashRoyale.Logic
 
         public async void Save()
         {
+#if DEBUG
             var st = new Stopwatch();
             st.Start();
 
@@ -581,6 +582,10 @@ namespace ClashRoyale.Logic
 
             st.Stop();
             Logger.Log($"Player {Home.Id} saved in {st.ElapsedMilliseconds}ms.", GetType(), ErrorLevel.Debug);
+#else 
+            await Redis.Cache(this);
+            await PlayerDb.Save(this);
+#endif
         }
     }
 }

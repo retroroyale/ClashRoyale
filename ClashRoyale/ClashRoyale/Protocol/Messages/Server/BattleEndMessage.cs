@@ -12,7 +12,7 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            Packet.WriteHex("011f001f003f0000030013a1030000042fac138d140bac133acd1501");
+            Writer.WriteHex("011f001f003f0000030013a1030000042fac138d140bac133acd1501");
         }
     }
 }

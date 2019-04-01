@@ -24,6 +24,7 @@ namespace ClashRoyale.Protocol.Messages.Client
             {
                 clan.Remove(home.Id);
                 home.AllianceInfo.Reset();
+                Device.Player.Save();
 
                 await new AvailableServerCommand(Device)
                 {
@@ -33,25 +34,27 @@ namespace ClashRoyale.Protocol.Messages.Client
                     }
                 }.Send();
 
-                if (clan.Members.Count == 0)
+                if (clan.Members.Count != 0)
+                {
+                    var entry = new AllianceEventStreamEntry
+                    {
+                        CreationDateTime = DateTime.UtcNow,
+                        Id = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
+                        EventType = AllianceEventStreamEntry.Type.Leave
+                    };
+
+                    entry.SetTarget(Device.Player);
+                    entry.SetSender(Device.Player);
+                    clan.AddEntry(entry);
+
+                    clan.Save();
+                    clan.UpdateOnlineCount();                  
+                }
+                else
                 {
                     await AllianceDb.Delete(clan.Id);
                     await Redis.UncacheAlliance(clan.Id);
-                    return;
                 }
-
-                var entry = new AllianceEventStreamEntry
-                {
-                    CreationDateTime = DateTime.UtcNow,
-                    Id = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
-                    EventType = AllianceEventStreamEntry.Type.Leave
-                };
-
-                entry.SetTarget(Device.Player);
-                entry.SetSender(Device.Player);
-                clan.AddEntry(entry);
-
-                clan.UpdateOnlineCount();
             }
         }
     }

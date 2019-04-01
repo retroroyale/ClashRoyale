@@ -15,7 +15,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override void Decode()
         {
-            LastTick = Buffer.ReadVInt();
+            LastTick = Reader.ReadVInt();
         }
     }
 }

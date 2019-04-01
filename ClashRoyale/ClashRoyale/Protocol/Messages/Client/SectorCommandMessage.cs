@@ -18,27 +18,27 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override void Decode()
         {
-            Buffer.ReadVInt();
-            Tick = Buffer.ReadVInt();
-            Count = Buffer.ReadVInt();
+            Reader.ReadVInt();
+            Tick = Reader.ReadVInt();
+            Count = Reader.ReadVInt();
         }
 
         public override void Process()
         {
             Device.LastSectorCommand = DateTime.UtcNow;
 
-            if (Count >= 0 && Count <= 512)
+            if (Count >= 0 && Count <= 128)
                 for (var index = 0; index < Count; index++)
                 {
-                    var type = Buffer.ReadVInt();
+                    var type = Reader.ReadVInt();
 
-                    if (type < 0) break;
+                    if (type >= 500) break;
 
                     if (LogicCommandManager.Commands.ContainsKey(type))
                         try
                         {
                             if (Activator.CreateInstance(LogicCommandManager.Commands[type], Device,
-                                    Buffer) is
+                                    Reader) is
                                 LogicCommand
                                 command)
                             {
@@ -47,7 +47,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                                 command.Encode();
                                 command.Process();
 
-                                Logger.Log($"BattleCommand {type} with Tick {Tick} has been processed.",
+                                Logger.Log($"SectorCommand {type} with Tick {Tick} has been processed.",
                                     GetType(), ErrorLevel.Debug);
                             }
                         }
@@ -56,7 +56,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                             Logger.Log(exception, GetType(), ErrorLevel.Error);
                         }
                     else
-                        Logger.Log($"BattleCommand {type} is unhandled.", GetType(), ErrorLevel.Warning);
+                        Logger.Log($"SectorCommand {type} is unhandled.", GetType(), ErrorLevel.Warning);
                 }
         }
     }

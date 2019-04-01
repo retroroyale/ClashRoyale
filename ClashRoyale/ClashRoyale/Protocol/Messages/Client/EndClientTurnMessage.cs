@@ -18,62 +18,71 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override void Decode()
         {
-            Tick = Buffer.ReadVInt();
-            Buffer.ReadVInt();
-            Count = Buffer.ReadVInt();
-
-            Logger.Log($"Client Tick: {Tick}, Server Tick: {Device.ServerTick}", GetType(), ErrorLevel.Debug);
+            Tick = Reader.ReadVInt();
+            Reader.ReadVInt();
+            Count = Reader.ReadVInt();
         }
 
         public override async void Process()
         {
-            if (Tick < 0)
+            if (Tick >= 0)
+            {
+                if (Math.Abs(Tick - Device.ServerTick) <= 100)
+                {
+                    if (Count >= 0 && Count <= 128)
+                        for (var index = 0; index < Count; index++)
+                        {
+                            var type = Reader.ReadVInt();
+
+                            if (type < 500) break;
+
+                            if (LogicCommandManager.Commands.ContainsKey(type))
+                            {
+                                try
+                                {
+                                    if (Activator.CreateInstance(LogicCommandManager.Commands[type], Device,
+                                            Reader) is
+                                        LogicCommand
+                                        command)
+                                    {
+                                        command.Tick = Reader.ReadVInt();
+                                        Reader.ReadVInt();
+
+                                        command.Decode();
+                                        command.Process();
+
+                                        Logger.Log($"Command {type} with Tick {command.Tick} has been processed.",
+                                            GetType(), ErrorLevel.Debug);
+
+                                        Save = true;
+                                    }
+                                }
+                                catch (Exception exception)
+                                {
+                                    Logger.Log(exception, GetType(), ErrorLevel.Error);
+                                }
+                            }
+                            else
+                            {
+                                Logger.Log(
+                                    $"Command {type} is unhandled.",
+                                    GetType(), ErrorLevel.Warning);
+                                break;
+                            }
+                        }
+                }
+                else
+                {
+                    Logger.Log($"OutOfSync! Client Tick: {Tick}, Server Tick: {Device.ServerTick}", GetType(),
+                        ErrorLevel.Debug);
+                    await Device.Disconnect();
+                }
+            }
+            else
             {
                 Logger.Log($"Client Tick ({Tick}) is corrupted. Disconnecting.", GetType(), ErrorLevel.Warning);
                 await Device.Disconnect();
             }
-
-            if (Count >= 0 && Count <= 512)
-                for (var index = 0; index < Count; index++)
-                {
-                    var type = Buffer.ReadVInt();
-
-                    if (type < 500) break;
-
-                    if (LogicCommandManager.Commands.ContainsKey(type))
-                    {
-                        try
-                        {
-                            if (Activator.CreateInstance(LogicCommandManager.Commands[type], Device,
-                                    Buffer) is
-                                LogicCommand
-                                command)
-                            {
-                                command.Tick = Buffer.ReadVInt();
-                                Buffer.ReadVInt();
-
-                                command.Decode();
-                                command.Process();
-
-                                Logger.Log($"Command {type} with Tick {command.Tick} has been processed.",
-                                    GetType(), ErrorLevel.Debug);
-
-                                Save = true;
-                            }
-                        }
-                        catch (Exception exception)
-                        {
-                            Logger.Log(exception, GetType(), ErrorLevel.Error);
-                        }
-                    }
-                    else
-                    {
-                        Logger.Log(
-                            $"Command {type} is unhandled.",
-                            GetType(), ErrorLevel.Warning);
-                        break;
-                    }
-                }
         }
     }
 }

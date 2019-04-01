@@ -11,7 +11,7 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            Packet.WriteInt(0);
+            Writer.WriteInt(0);
         }
     }
 }

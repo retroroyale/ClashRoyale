@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
-using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Protocol.Messages.Server;
 using SharpRaven.Data;
 
@@ -23,8 +22,6 @@ namespace ClashRoyale.Logic
 
         public int BattleTime => (int) DateTime.UtcNow.Subtract(StartTime).TotalSeconds * 2;
         public int BattleSeconds => BattleTime / 2;
-
-        public int Tick => TimeUtils.ToTick(DateTime.UtcNow.Subtract(StartTime));
 
         public bool IsReady => Count >= 1;
 

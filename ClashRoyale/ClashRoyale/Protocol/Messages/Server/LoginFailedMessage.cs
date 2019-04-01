@@ -14,6 +14,8 @@ namespace ClashRoyale.Protocol.Messages.Server
         public int SecondsUntilMaintenanceEnds { get; set; }
         public string Reason { get; set; }
         public string ResourceFingerprintData { get; set; }
+        public string ContentUrl { get; set; }
+        public string UpdateUrl { get; set; }
 
         // After login
         // 7  = Content Update
@@ -29,13 +31,13 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            Packet.WriteByte(ErrorCode); // ErrorCode
-            Packet.WriteScString(ResourceFingerprintData); // Fingerprint
-            Packet.WriteScString(null);
-            Packet.WriteScString(null); // Content URL
-            Packet.WriteScString(null); // Update URL
-            Packet.WriteScString(Reason);
-            Packet.WriteVInt(SecondsUntilMaintenanceEnds);
+            Writer.WriteByte(ErrorCode); // ErrorCode
+            Writer.WriteScString(ResourceFingerprintData); // Fingerprint
+            Writer.WriteScString(null);
+            Writer.WriteScString(ContentUrl); // Content URL
+            Writer.WriteScString(UpdateUrl); // Update URL
+            Writer.WriteScString(Reason);
+            Writer.WriteVInt(SecondsUntilMaintenanceEnds);
         }
     }
 }
