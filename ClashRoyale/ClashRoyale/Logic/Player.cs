@@ -90,7 +90,7 @@ namespace ClashRoyale.Logic
             // Unknown
             {
                 packet.WriteVInt(0);
-                packet.WriteVInt(0); // Freechest?
+                packet.WriteVInt(1); // Current Freechest Id
 
                 // Timer?
                 packet.WriteVInt(1584540);
