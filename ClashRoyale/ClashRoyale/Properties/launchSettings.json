@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ClashRoyale": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
