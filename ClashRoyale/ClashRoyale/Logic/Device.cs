@@ -5,6 +5,7 @@ using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Protocol;
 using ClashRoyale.Protocol.Crypto;
 using ClashRoyale.Protocol.Messages.Server;
+using DotNetty.Buffers;
 using SharpRaven.Data;
 
 namespace ClashRoyale.Logic
@@ -22,39 +23,45 @@ namespace ClashRoyale.Logic
         /// <summary>
         ///     Process a message
         /// </summary>
-        /// <param name="messageHeader"></param>
+        /// <param name="buffer"></param>
         /// <returns></returns>
-        public async Task Process(PiranhaMessageHeader messageHeader)
+        public async Task Process(IByteBuffer buffer)
         {
-            if (messageHeader.Id >= 10000 && messageHeader.Id < 20000)
+            var id = buffer.ReadUnsignedShort();
+            var length = buffer.ReadMedium();
+            var version = buffer.ReadUnsignedShort();
+
+            if (id >= 10000 && id < 20000)
             {
-                if (!LogicScrollMessageFactory.Messages.ContainsKey(messageHeader.Id))
+                if (!LogicScrollMessageFactory.Messages.ContainsKey(id))
                 {
-                    Logger.Log($"Message ID: {messageHeader.Id}, V: {messageHeader.Version}, L: {messageHeader.Length} is not known.", GetType(), ErrorLevel.Warning);
+                    Logger.Log($"Message ID: {id}, V: {version}, L: {length} is not known.", GetType(),
+                        ErrorLevel.Warning);
 
                     await Disconnect();
                     return;
                 }
 
-                if (Activator.CreateInstance(LogicScrollMessageFactory.Messages[messageHeader.Id], this,
-                    messageHeader.Buffer) is PiranhaMessage message)
+                if (Activator.CreateInstance(LogicScrollMessageFactory.Messages[id], this, buffer) is PiranhaMessage message
+                )
                     try
                     {
-                        message.Id = messageHeader.Id;
-                        message.Length = messageHeader.Length;
-                        message.Version = messageHeader.Version;
+                        message.Id = id;
+                        message.Length = length;
+                        message.Version = version;
 
                         message.Decrypt();
                         message.Decode();
                         message.Process();
 
-                        Logger.Log($"[C] Message {messageHeader.Id} ({message.GetType().Name}) handled.", GetType(), ErrorLevel.Debug);
+                        Logger.Log($"[C] Message {id} ({message.GetType().Name}) handled.", GetType(),
+                            ErrorLevel.Debug);
 
                         if (message.Save && CurrentState == State.Home) Player.Save();
                     }
                     catch (Exception exception)
                     {
-                        Logger.Log($"Failed to process {messageHeader.Id}: " + exception, GetType(), ErrorLevel.Error);
+                        Logger.Log($"Failed to process {id}: " + exception, GetType(), ErrorLevel.Error);
                     }
             }
         }

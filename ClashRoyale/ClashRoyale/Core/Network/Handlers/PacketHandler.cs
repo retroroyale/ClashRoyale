@@ -1,6 +1,5 @@
 ﻿using System;
 using ClashRoyale.Logic;
-using ClashRoyale.Protocol;
 using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
 using SharpRaven.Data;
@@ -9,9 +8,6 @@ namespace ClashRoyale.Core.Network.Handlers
 {
     public class PacketHandler : ChannelHandlerAdapter
     {
-        private bool _hasHeader;
-        private PiranhaMessageHeader _messageHeader;
-
         public PacketHandler()
         {
             Device = new Device(this);
@@ -22,63 +18,13 @@ namespace ClashRoyale.Core.Network.Handlers
 
         public override async void ChannelRead(IChannelHandlerContext context, object message)
         {
-            #region ChannelRead
-
             var buffer = (IByteBuffer) message;
             if (buffer == null) return;
 
-            try
-            {
-                while (buffer.ReadableBytes > 0)
-                    if (!_hasHeader)
-                    {
-                        _messageHeader = new PiranhaMessageHeader
-                        {
-                            Id = buffer.ReadUnsignedShort(),
-                            Length = buffer.ReadMedium(),
-                            Version = buffer.ReadUnsignedShort()
-                        };
+            var packet = new byte[buffer.ReadableBytes];
+            buffer.GetBytes(buffer.ReaderIndex, packet);
 
-                        _hasHeader = true;
-
-                        var readableBytes = buffer.ReadableBytes;
-
-                        if (_messageHeader.Length == readableBytes)
-                        {
-                            _messageHeader.Buffer.WriteBytes(buffer, readableBytes);
-
-                            await Device.Process(_messageHeader);
-                            _hasHeader = false;
-                        }
-                        else if (_messageHeader.Length < readableBytes)
-                        {
-                            _messageHeader.Buffer.WriteBytes(buffer, _messageHeader.Length);
-
-                            await Device.Process(_messageHeader);
-                            _hasHeader = false;
-                        }
-                        else
-                        {
-                            _messageHeader.Buffer.WriteBytes(buffer, readableBytes);
-                        }
-                    }
-                    else
-                    {
-                        _messageHeader.Buffer.WriteBytes(buffer, buffer.ReadableBytes);
-
-                        if (_messageHeader.Buffer.ReadableBytes != _messageHeader.Length) continue;
-
-                        await Device.Process(_messageHeader);
-                        _hasHeader = false;
-                    }
-            }
-            catch (Exception exception)
-            {
-                Logger.Log($"Failed to read message fully.\n{exception}", GetType(), ErrorLevel.Error);
-                await context.CloseAsync();
-            }
-
-            #endregion
+            await Device.Process(Unpooled.CopiedBuffer(packet));
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext context)

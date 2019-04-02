@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using ClashRoyale.Core.Network.Handlers;
 using ClashRoyale.Extensions.Utils;
+using DotNetty.Codecs;
 using DotNetty.Handlers.Logging;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
@@ -34,8 +35,9 @@ namespace ClashRoyale.Core.Network
                 .Handler(new LoggingHandler("SRV-ICR"))
                 .ChildHandler(new ActionChannelInitializer<IChannel>(channel =>
                 {
-                    var pipeline = channel.Pipeline;
-                    pipeline.AddFirst("TimeoutHandler", new TimeoutHandler());
+                    var pipeline = channel.Pipeline;          
+                    pipeline.AddFirst("FrameDecoder", new LengthFieldBasedFrameDecoder(512, 2, 3, 2, 0));
+                    pipeline.AddLast("TimeoutHandler", new TimeoutHandler());
                     pipeline.AddLast("PacketProcessor", new PacketHandler());
                     pipeline.AddLast("PacketEncoder", new PacketEncoder());
                 }));
