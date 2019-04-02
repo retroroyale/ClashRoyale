@@ -89,9 +89,10 @@ namespace ClashRoyale.Logic
 
             // Unknown
             {
-                packet.WriteVInt(4597);
-                packet.WriteVInt(1816);
+                packet.WriteVInt(0);
+                packet.WriteVInt(0); // Freechest?
 
+                // Timer?
                 packet.WriteVInt(1584540);
                 packet.WriteVInt(1645300);
 
@@ -181,6 +182,7 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(0);*/
             }
 
+            // Timers
             for (var i = 0; i < 2; i++)
             {
                 packet.WriteVInt(0);
@@ -249,6 +251,7 @@ namespace ClashRoyale.Logic
                 Home.Shop.Encode(packet);
             }
 
+            // Timers
             for (var i = 0; i < 3; i++)
             {
                 packet.WriteVInt(0);
@@ -269,24 +272,29 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
 
             packet.WriteVInt(0);
-            packet.WriteVInt(0);
+
+            packet.WriteVInt(0); // Card request?
 
             packet.WriteVInt(0);
+
             packet.WriteVInt(23);
 
+            // Array
             packet.WriteVInt(0);
-            packet.WriteVInt(1);
 
             packet.WriteVInt(0);
-            packet.WriteVInt(1);
+            packet.WriteVInt(0);
+            packet.WriteVInt(0);
 
             packet.WriteShort(-2041);
 
             packet.WriteVInt(1);
             packet.WriteVInt(1);
+
             packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
+
             packet.WriteVInt(11);
             packet.WriteVInt(0);
             packet.WriteVInt(2);
@@ -302,8 +310,11 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(5);
             packet.WriteVInt(4);
             packet.WriteVInt(14);
+
+            // Array
             packet.WriteVInt(1);
             packet.WriteVInt(74);
+
             packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(5);
@@ -359,19 +370,20 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
-            packet.WriteVInt(0);
-            packet.WriteVInt(0);
-            packet.WriteVInt(0);
-            packet.WriteVInt(1);
 
+            packet.WriteVInt(0);
+            packet.WriteVInt(0);
+            packet.WriteVInt(0);
+
+            packet.WriteVInt(1);
             packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
 
             packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
 
-            packet.WriteVInt(1);
-            packet.WriteVInt(54000010); // New Arena
+            packet.WriteVInt(1); // New Arenas Seen Count
+            packet.WriteVInt(54000010); // Id
 
             packet.WriteVInt(0); // Session Reward = 2
             packet.WriteVInt(0);
@@ -494,7 +506,7 @@ namespace ClashRoyale.Logic
 
                 packet.WriteVInt(5);
                 packet.WriteVInt(8);
-                packet.WriteVInt(1); // Cards found
+                packet.WriteVInt(Home.Deck.Count); // Cards found
 
                 packet.WriteVInt(5);
                 packet.WriteVInt(1); // Count
@@ -559,7 +571,7 @@ namespace ClashRoyale.Logic
 
             packet.WriteVInt(0); // Has Challenge
             //  packet.WriteVInt(); // ID
-            //  packet.WriteVInt(); // WINS
+            //  packet.WriteVInt(0); // WINS
             //  packet.WriteVInt(0); // LOSSES
 
             packet.WriteVInt(0);

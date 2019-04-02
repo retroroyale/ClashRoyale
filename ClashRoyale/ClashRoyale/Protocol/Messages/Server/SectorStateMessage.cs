@@ -44,10 +44,26 @@ namespace ClashRoyale.Protocol.Messages.Server
                 }
 
                 Writer.WriteScString(Player1.Home.Name);
-                Writer.WriteVInt(Player1.Home.ExpLevel); // Level
-                Writer.WriteVInt(Player1.Home.Trophies);
+                Writer.WriteVInt(Player1.Home.ExpLevel); 
+                Writer.WriteVInt(3800);
+
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(32);
+
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(8);
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(0);
 
@@ -58,30 +74,21 @@ namespace ClashRoyale.Protocol.Messages.Server
 
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
-
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
-
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
-
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
+                Writer.WriteVInt(1);
 
                 //
-                Writer.WriteVInt(2); // Has Clan = 2
+                var info = Player1.Home.AllianceInfo;
+                if (info.HasAlliance)
+                {
+                    Writer.WriteVInt(2); // Has Clan = 2
 
-                Writer.WriteVInt(0); // HighId
-                Writer.WriteVInt(2); // LowId
-                Writer.WriteScString("Test 2"); // Name 
-                Writer.WriteVInt(5); // Badge 
+                    Writer.WriteVInt(info.HighId); // HighId
+                    Writer.WriteVInt(info.LowId); // LowId
+                    Writer.WriteScString(info.Name); // Name 
+                    Writer.WriteVInt(info.Badge); // Badge 
+                }
+                else
+                    Writer.WriteVInt(0);
                 //
 
                 Writer.WriteVInt(29);
@@ -110,11 +117,7 @@ namespace ClashRoyale.Protocol.Messages.Server
 
                 Writer.WriteScString(Player2.Home.Name); // Player 2 Name
                 Writer.WriteVInt(Player2.Home.ExpLevel); // Level
-                Writer.WriteVInt(Player2.Home.Trophies);
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
+                Writer.WriteVInt(3800);
 
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(0);
@@ -124,7 +127,7 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
+                Writer.WriteVInt(32);
 
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(0);
@@ -132,34 +135,45 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Writer.WriteVInt(0);
 
                 Writer.WriteVInt(0);
+                Writer.WriteVInt(8);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+
+                Writer.WriteVInt(0);
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(0);
 
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
-
-                //
-                Writer.WriteVInt(2); // Has Clan = 2
-
-                Writer.WriteVInt(0); // HighId
-                Writer.WriteVInt(1); // LowId
-                Writer.WriteScString("Test"); // Name 
-                Writer.WriteVInt(6); // Badge 
-                //
-
-                Writer.WriteVInt(3);
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(2);
 
+                //        
+                var info = Player2.Home.AllianceInfo;
+                if (info.HasAlliance)
+                {
+                    Writer.WriteVInt(2); // Has Clan = 2
+
+                    Writer.WriteVInt(info.HighId); // HighId
+                    Writer.WriteVInt(info.LowId); // LowId
+                    Writer.WriteScString(info.Name); // Name 
+                    Writer.WriteVInt(info.Badge); // Badge 
+                }
+                else
+                    Writer.WriteVInt(0);
+                //
+
                 Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(2);
+                Writer.WriteVInt(0);
+
                 Writer.WriteVInt(2);
                 Writer.WriteVInt(5);
                 Writer.WriteVInt(0);
-
                 Writer.WriteVInt(0);
+
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(1);
                 Writer.WriteVInt(0);
@@ -168,7 +182,7 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(14);
             Writer.WriteVInt(2);
             Writer.WriteVInt(0);
-            Writer.WriteVInt(20); // Arena 
+            Writer.WriteVInt(21); // Arena 
 
             Writer.WriteVInt(Player1.Home.HighId);
             Writer.WriteVInt(Player1.Home.LowId);
@@ -219,10 +233,10 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(0);
             Writer.WriteVInt(1);
 
-            for (var index = 0; index < count; index++)
+            for (var i = 0; i < count; i++)
             {
                 Writer.WriteVInt(5);
-                Writer.WriteVInt(index);
+                Writer.WriteVInt(i);
             }
 
             // Player Right Princess Tower
@@ -288,6 +302,22 @@ namespace ClashRoyale.Protocol.Messages.Server
             for (var index = 0; index < 48; index++)
                 Writer.WriteVInt(0);
 
+#if DEBUG
+            Writer.WriteVInt(1); // Enemy 
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(1); // Player
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(1); // Enemy
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(1); // Player
+            Writer.WriteVInt(0);
+
+            Writer.WriteVInt(1); // Enemy
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(1); // Player
+            Writer.WriteVInt(0);
+#else
+
             Writer.WriteVInt(3668); // Enemy 
             Writer.WriteVInt(0);
             Writer.WriteVInt(3668); // Player
@@ -301,6 +331,7 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(0);
             Writer.WriteVInt(5832); // Player
             Writer.WriteVInt(0);
+#endif
 
             for (var index = 0; index < count; index++)
                 Writer.WriteHex("00000000000000A401A401");

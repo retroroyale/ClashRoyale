@@ -27,48 +27,56 @@ namespace ClashRoyale.Core.Network.Handlers
             var buffer = (IByteBuffer) message;
             if (buffer == null) return;
 
-            while (buffer.ReadableBytes > 0)
-                if (!_hasHeader)
-                {
-                    _messageHeader = new PiranhaMessageHeader
+            try
+            {
+                while (buffer.ReadableBytes > 0)
+                    if (!_hasHeader)
                     {
-                        Id = buffer.ReadUnsignedShort(),
-                        Length = buffer.ReadMedium(),
-                        Version = buffer.ReadUnsignedShort()
-                    };
+                        _messageHeader = new PiranhaMessageHeader
+                        {
+                            Id = buffer.ReadUnsignedShort(),
+                            Length = buffer.ReadMedium(),
+                            Version = buffer.ReadUnsignedShort()
+                        };
 
-                    _hasHeader = true;
+                        _hasHeader = true;
 
-                    var readableBytes = buffer.ReadableBytes;
+                        var readableBytes = buffer.ReadableBytes;
 
-                    if (_messageHeader.Length == readableBytes)
-                    {
-                        _messageHeader.Buffer.WriteBytes(buffer, readableBytes);
+                        if (_messageHeader.Length == readableBytes)
+                        {
+                            _messageHeader.Buffer.WriteBytes(buffer, readableBytes);
 
-                        await Device.Process(_messageHeader);
-                        _hasHeader = false;
-                    }
-                    else if (_messageHeader.Length < readableBytes)
-                    {
-                        _messageHeader.Buffer.WriteBytes(buffer, _messageHeader.Length);
+                            await Device.Process(_messageHeader);
+                            _hasHeader = false;
+                        }
+                        else if (_messageHeader.Length < readableBytes)
+                        {
+                            _messageHeader.Buffer.WriteBytes(buffer, _messageHeader.Length);
 
-                        await Device.Process(_messageHeader);
-                        _hasHeader = false;
+                            await Device.Process(_messageHeader);
+                            _hasHeader = false;
+                        }
+                        else
+                        {
+                            _messageHeader.Buffer.WriteBytes(buffer, readableBytes);
+                        }
                     }
                     else
                     {
-                        _messageHeader.Buffer.WriteBytes(buffer, readableBytes);
+                        _messageHeader.Buffer.WriteBytes(buffer, buffer.ReadableBytes);
+
+                        if (_messageHeader.Buffer.ReadableBytes != _messageHeader.Length) continue;
+
+                        await Device.Process(_messageHeader);
+                        _hasHeader = false;
                     }
-                }
-                else
-                {
-                    _messageHeader.Buffer.WriteBytes(buffer, buffer.ReadableBytes);
-
-                    if (_messageHeader.Buffer.ReadableBytes != _messageHeader.Length) continue;
-
-                    await Device.Process(_messageHeader);
-                    _hasHeader = false;
-                }
+            }
+            catch (Exception exception)
+            {
+                Logger.Log($"Failed to read message fully.\n{exception}", GetType(), ErrorLevel.Error);
+                await context.CloseAsync();
+            }
 
             #endregion
         }
