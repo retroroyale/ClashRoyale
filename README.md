@@ -20,8 +20,6 @@ for Ubuntu use these commands:
 ```
 git clone https://github.com/retroroyale/ClashRoyale.git && cd ClashRoyale/ClashRoyale/ClashRoyale
 
-dotnet restore "ClashRoyale.csproj"
-
 dotnet publish "ClashRoyale.csproj" -c Release -o app
 ```
 To configurate your server, such as the database you have to edit the ```config.json``` file.
