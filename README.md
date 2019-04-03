@@ -24,11 +24,11 @@ dotnet publish "ClashRoyale.csproj" -c Release -o app
 ```
 To configurate your server, such as the database you have to edit the ```config.json``` file.
 
-To run the server:
+Run the server:
 
 ```dotnet app/ClashRoyale.dll```
 
-To update the server:
+Update the server:
 
 ```git pull && dotnet publish "ClashRoyale.csproj" -c Release -o app && dotnet app/ClashRoyale.dll```
 
