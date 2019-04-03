@@ -24,34 +24,34 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override async void Process()
         {
-            var clan = await Resources.Alliances.GetAlliance(AllianceId);
+            var alliance = await Resources.Alliances.GetAlliance(AllianceId);
             var home = Device.Player.Home;
 
-            if (clan != null)
+            if (alliance != null)
             {
-                if (clan.Members.Count <= 0 || clan.Members.Count >= 50)
+                if (alliance.Members.Count <= 0 || alliance.Members.Count >= 50)
                 {
                     await new AllianceJoinFailedMessage(Device).Send();
                 }
                 else
                 {
-                    clan.Add(new AllianceMember(Device.Player, Alliance.Role.Member));
+                    alliance.Add(new AllianceMember(Device.Player, Alliance.Role.Member));
 
-                    home.AllianceInfo = clan.GetAllianceInfo(home.Id);
+                    home.AllianceInfo = alliance.GetAllianceInfo(home.Id);
 
                     await new AvailableServerCommand(Device)
                     {
                         Command = new LogicJoinAllianceCommand(Device)
                         {
-                            AllianceId = clan.Id,
-                            AllianceName = clan.Name,
-                            AllianceBadge = clan.Badge
+                            AllianceId = alliance.Id,
+                            AllianceName = alliance.Name,
+                            AllianceBadge = alliance.Badge
                         }
                     }.Send();
 
                     await new AllianceStreamMessage(Device)
                     {
-                        Entries = clan.Stream
+                        Entries = alliance.Stream
                     }.Send();
 
                     var entry = new AllianceEventStreamEntry
@@ -63,12 +63,12 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                     entry.SetTarget(Device.Player);
                     entry.SetSender(Device.Player);
-                    clan.AddEntry(entry);
+                    alliance.AddEntry(entry);
 
-                    clan.Save();
+                    alliance.Save();
                     Device.Player.Save();
 
-                    clan.UpdateOnlineCount();
+                    alliance.UpdateOnlineCount();
                 }
             }
         }

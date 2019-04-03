@@ -17,5 +17,11 @@ namespace ClashRoyale.Extensions.Utils
                 return token;
             }
         }
+
+        public static bool IsHigherRoleThan(int role, int roleToCompare)
+        {
+            var table = new[] { 1, 1, 4, 2, 3 };
+            return role >= 5 || roleToCompare >= 5 || table[roleToCompare] < table[role];
+        }
     }
 }

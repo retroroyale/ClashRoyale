@@ -18,11 +18,11 @@ namespace ClashRoyale.Protocol.Messages.Client
         public override async void Process()
         {
             var home = Device.Player.Home;
-            var clan = await Resources.Alliances.GetAlliance(home.AllianceInfo.Id);
+            var alliance = await Resources.Alliances.GetAlliance(home.AllianceInfo.Id);
 
-            if (clan != null)
+            if (alliance != null)
             {
-                clan.Remove(home.Id);
+                alliance.Remove(home.Id);
                 home.AllianceInfo.Reset();
                 Device.Player.Save();
 
@@ -30,11 +30,11 @@ namespace ClashRoyale.Protocol.Messages.Client
                 {
                     Command = new LogicLeaveAllianceCommand(Device)
                     {
-                        AllianceId = clan.Id
+                        AllianceId = alliance.Id
                     }
                 }.Send();
 
-                if (clan.Members.Count != 0)
+                if (alliance.Members.Count != 0)
                 {
                     var entry = new AllianceEventStreamEntry
                     {
@@ -45,15 +45,15 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                     entry.SetTarget(Device.Player);
                     entry.SetSender(Device.Player);
-                    clan.AddEntry(entry);
+                    alliance.AddEntry(entry);
 
-                    clan.Save();
-                    clan.UpdateOnlineCount();                  
+                    alliance.Save();
+                    alliance.UpdateOnlineCount();                  
                 }
                 else
                 {
-                    await AllianceDb.Delete(clan.Id);
-                    await Redis.UncacheAlliance(clan.Id);
+                    await AllianceDb.Delete(alliance.Id);
+                    await Redis.UncacheAlliance(alliance.Id);
                 }
             }
         }
