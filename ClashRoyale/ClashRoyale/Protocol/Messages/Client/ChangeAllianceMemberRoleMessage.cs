@@ -51,8 +51,8 @@ namespace ClashRoyale.Protocol.Messages.Client
                             EventType = GameUtils.IsHigherRoleThan(NewRole, oldRole) ? AllianceEventStreamEntry.Type.Promote : AllianceEventStreamEntry.Type.Demote
                         };
 
-                        entry.SetTarget(player);
-                        entry.SetSender(Device.Player);
+                        entry.SetTarget(Device.Player);
+                        entry.SetSender(player);
                         alliance.AddEntry(entry);
 
                         if (NewRole == (int)Alliance.Role.Leader)
