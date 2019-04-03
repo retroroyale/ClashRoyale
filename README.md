@@ -1,4 +1,7 @@
 # ClashRoyale
+[![clash royale](https://img.shields.io/badge/Clash%20Royale-1.9.2-brightred.svg?style=flat")](https://clash-royale.en.uptodown.com/android/download/1632865)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 A .NET Core Clash Royale Server (v1.9) using DotNetty
 
 ## Battles
