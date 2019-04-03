@@ -13,6 +13,8 @@ The server supports battles, for those a patched client is neccessary.
 
 #### Requirements:
   - [.NET Core SDK 2.x](https://dotnet.microsoft.com/download/dotnet-core/2.2)
+  - Redis server
+  - MySql Database
 
 for Ubuntu use these commands:
 ```
