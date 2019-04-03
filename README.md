@@ -16,9 +16,7 @@ The server supports battles, for those a patched client is neccessary.
 
 for Ubuntu use these commands:
 ```
-git clone https://github.com/retroroyale/ClashRoyale.git
-
-cd ClashRoyale/ClashRoyale/ClashRoyale
+git clone https://github.com/retroroyale/ClashRoyale.git && cd ClashRoyale/ClashRoyale/ClashRoyale
 
 dotnet restore "ClashRoyale.csproj"
 
@@ -27,7 +25,12 @@ dotnet publish "ClashRoyale.csproj" -c Release -o app
 To configurate your server, such as the database you have to edit the ```config.json``` file.
 
 To run the server:
+
 ```dotnet app/ClashRoyale.dll```
+
+To update the server:
+
+```git pull && dotnet publish "ClashRoyale.csproj" -c Release -o app && dotnet app/ClashRoyale.dll```
 
 ## Need help?
 Contact me on Discord (Incredible#2109) or open an issue.
