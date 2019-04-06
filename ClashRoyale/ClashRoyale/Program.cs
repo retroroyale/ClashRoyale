@@ -22,5 +22,10 @@ namespace ClashRoyale
 
             Console.ReadKey(true);
         }
+
+        public static void Exit()
+        {
+            Environment.Exit(0);
+        }
     }
 }

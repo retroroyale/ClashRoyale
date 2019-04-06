@@ -1,7 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Security.Cryptography;
+using SevenZip.Sdk;
+using SevenZip.Sdk.Compression.Lzma;
 
 namespace ClashRoyale.Extensions.Utils
 {
@@ -39,6 +43,67 @@ namespace ClashRoyale.Extensions.Utils
             }
 
             return ipAddress;
+        }
+
+        public static string GetChecksum(string fileName)
+        {
+            using (var hasher = new SHA1CryptoServiceProvider())
+            using (var fileStream = File.OpenRead(fileName))
+            {
+                return BitConverter.ToString(hasher.ComputeHash(fileStream)).Replace("-", string.Empty)
+                    .ToLowerInvariant();
+            }
+        }
+
+        public static string GetChecksum(byte[] data)
+        {
+            using (var hasher = new SHA1CryptoServiceProvider())
+            {
+                return BitConverter.ToString(hasher.ComputeHash(data)).Replace("-", string.Empty)
+                    .ToLowerInvariant();
+            }
+        }
+
+        public static byte[] CompressData(byte[] input)
+        {
+            var encoder = new Encoder();
+
+            using (var uncompressed = new MemoryStream(input))
+            {
+                using (var compressed = new MemoryStream())
+                {
+                    encoder.SetCoderProperties(new[]
+                    {
+                        CoderPropId.DictionarySize,
+                        CoderPropId.PosStateBits,
+                        CoderPropId.LitContextBits,
+                        CoderPropId.LitPosBits,
+                        CoderPropId.Algorithm,
+                        CoderPropId.NumFastBytes,
+                        CoderPropId.MatchFinder,
+                        CoderPropId.EndMarker
+                    }, new object[]
+                    {
+                        262144,
+                        2,
+                        3,
+                        0,
+                        2,
+                        32,
+                        "bt4",
+                        false
+                    });
+
+                    encoder.WriteCoderProperties(compressed);
+
+                    compressed.Write(BitConverter.GetBytes(uncompressed.Length), 0, 4);
+
+                    encoder.Code(uncompressed, compressed, uncompressed.Length, -1L,
+                        null);
+
+                    return compressed.ToArray();
+                }
+            }
         }
     }
 }

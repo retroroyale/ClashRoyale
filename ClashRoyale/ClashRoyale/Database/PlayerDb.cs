@@ -29,7 +29,15 @@ namespace ClashRoyale.Database
 
             _playerSeed = MaxPlayerId();
 
-            Logger.Log($"Successfully loaded MySql with {_playerSeed} player(s)", GetType());
+            if (_playerSeed > -1)
+            {
+                Logger.Log($"Successfully loaded MySql with {_playerSeed} player(s)", GetType());
+            }
+            else
+            {
+                Logger.Log("Failed to load MySql-Players!", GetType());
+                Program.Exit();
+            }
         }
 
         public static async Task ExecuteAsync(MySqlCommand cmd)
@@ -197,7 +205,7 @@ namespace ClashRoyale.Database
 
         public static async Task<Player> Get(string facebookId)
         {
-            #region Save
+            #region Get
 
             try
             {

@@ -56,7 +56,7 @@ namespace ClashRoyale.Core
             else
                 try
                 {
-                    File.WriteAllText("config.json", JsonConvert.SerializeObject(this, Formatting.Indented));
+                    Save();
 
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     Console.WriteLine("Server configuration has been created. Restart the server now.");
@@ -70,6 +70,11 @@ namespace ClashRoyale.Core
                     Console.ReadKey();
                     Environment.Exit(0);
                 }
+        }
+
+        public void Save()
+        {
+            File.WriteAllText("config.json", JsonConvert.SerializeObject(this, Formatting.Indented));
         }
     }
 }

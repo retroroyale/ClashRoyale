@@ -24,6 +24,7 @@ namespace ClashRoyale
 
         public static Fingerprint Fingerprint { get; set; }
         public static Csv Csv { get; set; }
+        public static UpdateManager UpdateManager { get; set; }
         public static Battles Battles { get; set; }
         public static Players Players { get; set; }
         public static Alliances Alliances { get; set; }
@@ -36,13 +37,15 @@ namespace ClashRoyale
             Configuration = new Configuration();
             Configuration.Initialize();
 
+            Fingerprint = new Fingerprint();
+            Sentry = new SentryReport();
+            Csv = new Csv();
+
             PlayerDb = new PlayerDb();
             AllianceDb = new AllianceDb();
             Redis = new Redis();
 
-            Fingerprint = new Fingerprint();
-            Sentry = new SentryReport();
-            Csv = new Csv();
+            UpdateManager = new UpdateManager();
 
             Battles = new Battles();
             Players = new Players();

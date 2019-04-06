@@ -29,7 +29,15 @@ namespace ClashRoyale.Database
 
             _allianceSeed = MaxAllianceId();
 
-            Logger.Log($"Successfully loaded MySql with {_allianceSeed} alliance(s)", GetType());
+            if (_allianceSeed > -1)
+            {
+                Logger.Log($"Successfully loaded MySql with {_allianceSeed} alliance(s)", GetType());
+            }
+            else
+            {
+                Logger.Log("Failed to load MySql-Alliances!", GetType());
+                Program.Exit();
+            }
         }
 
         public static async Task ExecuteAsync(MySqlCommand cmd)
