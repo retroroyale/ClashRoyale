@@ -4,6 +4,8 @@ using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;
+using ClashRoyale.Protocol.Commands.Server;
+using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Protocol.Messages.Client
@@ -46,14 +48,24 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                         var entry = new AllianceEventStreamEntry
                         {
-                            CreationDateTime = DateTime.UtcNow,
-                            Id = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                             EventType = GameUtils.IsHigherRoleThan(NewRole, oldRole) ? AllianceEventStreamEntry.Type.Promote : AllianceEventStreamEntry.Type.Demote
                         };
 
                         entry.SetTarget(Device.Player);
                         entry.SetSender(player);
                         alliance.AddEntry(entry);
+
+                        if (member.IsOnline)
+                        {
+                            await new AvailableServerCommand(player.Device)
+                            {
+                                Command = new LogicChangeAllianceRoleCommand(player.Device)
+                                {
+                                    AllianceId = alliance.Id,
+                                    NewRole = NewRole
+                                }
+                            }.Send();
+                        }
 
                         if (NewRole == (int)Alliance.Role.Leader)
                         {
@@ -66,8 +78,6 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                             var demoteEntry = new AllianceEventStreamEntry
                             {
-                                CreationDateTime = DateTime.UtcNow,
-                                Id = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                                 EventType = AllianceEventStreamEntry.Type.Demote
                             };
 

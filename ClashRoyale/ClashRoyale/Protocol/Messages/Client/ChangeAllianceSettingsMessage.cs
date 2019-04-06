@@ -1,5 +1,8 @@
-﻿using ClashRoyale.Extensions;
+﻿using System;
+using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
+using ClashRoyale.Protocol.Commands.Server;
+using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Protocol.Messages.Client
@@ -45,21 +48,22 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                 alliance.Save();
 
-                foreach (var member in alliance.Members)
+                if (Badge != oldBadge)
                 {
-                    var player = await member.GetPlayer();
+                    foreach (var member in alliance.Members)
+                    {
+                        var player = await member.GetPlayer();
 
-                    if (player != null)
-                        if (Badge != oldBadge)
+                        if (player != null)
                         {
                             // TODO:
                             /*if (member.IsOnline)
                             {
-                                await new AvailableServerCommand(Device)
+                                await new AvailableServerCommand(player.Device)
                                 {
-                                    Command = new LogicAllianceSettingsChangedCommand(Device)
+                                    Command = new LogicAllianceSettingsChangedCommand(player.Device)
                                     {
-                                        AllianceId = clan.Id,
+                                        AllianceId = alliance.Id,
                                         AllianceBadge = Badge
                                     }
                                 }.Send();
@@ -68,6 +72,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                             player.Home.AllianceInfo.Badge = Badge;
                             player.Save();
                         }
+                    }
                 }
             }
         }

@@ -48,7 +48,8 @@ namespace ClashRoyale.Protocol.Messages.Client
                     alliance.Description = Description;
                     alliance.Badge = Badge;
                     alliance.Type = Type;
-                    alliance.RequiredScore = RequiredScore;                
+                    alliance.RequiredScore = RequiredScore;
+                    alliance.Region = Region;
 
                     alliance.Members.Add(
                         new AllianceMember(player, Alliance.Role.Leader));

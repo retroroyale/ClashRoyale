@@ -18,6 +18,7 @@ namespace ClashRoyale.Protocol
                 {500, typeof(LogicSwapSpellsCommand)},
                 {501, typeof(LogicSelectDeckCommand)},
                 {504, typeof(LogicFuseSpellsCommand)},
+                //{507, typeof(LogicBuyResourcePackCommand)},
                 {509, typeof(LogicCollectFreeChestCommand)},
                 {511, typeof(LogicCollectCrownChestCommand)},
                 {513, typeof(LogicFreeWorkerCommand)},
@@ -27,7 +28,7 @@ namespace ClashRoyale.Protocol
                 {518, typeof(LogicBuySpellCommand)},
                 {525, typeof(StartMatchmakeCommand)},
                 {526, typeof(LogicChestNextCardCommand)}
-                // {557, typeof()} // NewLeaguesSeen
+                // {557, typeof()} // NewLeaguesSeen?
             };
         }
     }

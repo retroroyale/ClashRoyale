@@ -76,7 +76,7 @@ namespace ClashRoyale.Logic.Clan
             packet.WriteVInt(0);
             packet.WriteVInt(57);
 
-            packet.WriteVInt(94);
+            packet.WriteVInt(Region);
             packet.WriteVInt(0);
 
             packet.WriteScString(Description);

@@ -80,15 +80,12 @@ namespace ClashRoyale.Logic.Home.Decks
         {
             var card = GetCard(classId, instanceId);
             var data = card.GetRarityData;
-
-            if (Home.Gold < data.UpgradeCost[card.Level]) return;
-
             var materialCount = data.UpgradeMaterialCount[card.Level];
 
             if (materialCount > card.Count) return;
+            if (!Home.UseGold(data.UpgradeCost[card.Level])) return;
 
             card.Count -= materialCount;
-            Home.Gold -= data.UpgradeCost[card.Level];
 
             Home.AddExpPoints(data.UpgradeExp[card.Level]);
 

@@ -30,11 +30,11 @@ namespace ClashRoyale.Protocol.Commands.Client
         public override async void Process()
         {
             var home = Device.Player.Home;
-            var clan = await Resources.Alliances.GetAlliance(home.AllianceInfo.Id);
+            var alliance = await Resources.Alliances.GetAlliance(home.AllianceInfo.Id);
 
-            if (clan != null)
+            if (alliance != null)
             {
-                var member = clan.GetMember(MemberId);
+                var member = alliance.GetMember(MemberId);
                 if (member != null)
                 {
                     var player = await member.GetPlayer();
@@ -43,28 +43,26 @@ namespace ClashRoyale.Protocol.Commands.Client
                     {
                         var entry = new AllianceEventStreamEntry
                         {
-                            CreationDateTime = DateTime.UtcNow,
-                            Id = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                             EventType = AllianceEventStreamEntry.Type.Kick
                         };
 
                         entry.SetTarget(player);
                         entry.SetSender(Device.Player);
 
-                        clan.AddEntry(entry);
-                        clan.Remove(MemberId);
+                        alliance.AddEntry(entry);
+                        alliance.Remove(MemberId);
 
                         player.Home.AllianceInfo.Reset();
 
                         player.Save();
-                        clan.Save();
+                        alliance.Save();
 
                         if (player.Device != null)
                             await new AvailableServerCommand(player.Device)
                             {
                                 Command = new LogicLeaveAllianceCommand(player.Device)
                                 {
-                                    AllianceId = clan.Id,
+                                    AllianceId = alliance.Id,
                                     IsKick = true
                                 }
                             }.Send();

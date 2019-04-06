@@ -15,6 +15,8 @@ namespace ClashRoyale.Protocol.Commands.Server
 
         public override void Encode()
         {
+            Data.WriteLong(AllianceId);
+
             Data.WriteVInt(16);
             Data.WriteVInt(AllianceBadge);
         }

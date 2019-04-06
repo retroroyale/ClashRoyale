@@ -32,8 +32,6 @@ namespace ClashRoyale.Protocol.Messages.Client
                 {
                     var entry = new ChatStreamEntry
                     {
-                        CreationDateTime = DateTime.UtcNow,
-                        Id = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                         Message = Message
                     };
 
