@@ -23,7 +23,7 @@ namespace ClashRoyale.Files
         {
             if (!Directory.Exists(PatchDir)) Directory.CreateDirectory(PatchDir);
 
-            foreach (var dir in Directory.GetDirectories(BaseDir))
+            /*foreach (var dir in Directory.GetDirectories(BaseDir))
             {
                 if (dir.Contains("update")) continue;
 
@@ -40,7 +40,7 @@ namespace ClashRoyale.Files
 
                     File.WriteAllBytes(newPath, data);
                 }
-            }
+            }*/
 
             // TODO: update Fingerprint & rename temp dir
         }
