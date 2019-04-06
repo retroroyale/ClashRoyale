@@ -11,11 +11,11 @@
     <PackageReference Include="DotNetty.Common" Version="0.6.0" />
     <PackageReference Include="DotNetty.Handlers" Version="0.6.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
-    <PackageReference Include="MySql.Data" Version="8.0.12" />
+    <PackageReference Include="MySql.Data" Version="8.0.15" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-    <PackageReference Include="NLog" Version="4.5.11" />
+    <PackageReference Include="NLog" Version="4.6.2" />
     <PackageReference Include="SharpRaven" Version="2.4.0" />
-    <PackageReference Include="StackExchange.Redis" Version="2.0.571" />
+    <PackageReference Include="StackExchange.Redis" Version="2.0.593" />
   </ItemGroup>
 
   <ItemGroup>
