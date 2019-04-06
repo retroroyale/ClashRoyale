@@ -6,9 +6,9 @@ namespace ClashRoyale.Files
 {
     public class UpdateManager
     {
-        public const string BaseDir = "GameAssets\\";
-        public const string PatchDir = BaseDir + "update\\";
-        public const string TempDir = PatchDir + "temp\\";
+        public const string BaseDir = "GameAssets/";
+        public const string PatchDir = BaseDir + "update/";
+        public const string TempDir = PatchDir + "temp/";
 
         public UpdateManager()
         {
@@ -23,11 +23,11 @@ namespace ClashRoyale.Files
         {
             if (!Directory.Exists(PatchDir)) Directory.CreateDirectory(PatchDir);
 
-            /*foreach (var dir in Directory.GetDirectories(BaseDir))
+            foreach (var dir in Directory.GetDirectories(BaseDir))
             {
                 if (dir.Contains("update")) continue;
 
-                var newDir = dir.Replace(BaseDir, TempDir) + "\\";
+                var newDir = dir.Replace(BaseDir, TempDir) + "/";
 
                 if (!Directory.Exists(newDir))
                     Directory.CreateDirectory(newDir);
@@ -40,7 +40,7 @@ namespace ClashRoyale.Files
 
                     File.WriteAllBytes(newPath, data);
                 }
-            }*/
+            }
 
             // TODO: update Fingerprint & rename temp dir
         }
