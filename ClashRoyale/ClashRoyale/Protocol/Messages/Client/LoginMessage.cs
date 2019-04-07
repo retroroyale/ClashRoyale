@@ -59,17 +59,18 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override async void Process()
         {
-            if (FingerprintSha != Resources.Fingerprint.Sha)
-            {
-                await new LoginFailedMessage(Device)
+            if (Resources.Configuration.UseContentPatch)
+                if (FingerprintSha != Resources.Fingerprint.Sha)
                 {
-                    ErrorCode = 7,
-                    ContentUrl = Resources.Configuration.PatchUrl,
-                    ResourceFingerprintData = Resources.Fingerprint.Json,
+                    await new LoginFailedMessage(Device)
+                    {
+                        ErrorCode = 7,
+                        ContentUrl = Resources.Configuration.PatchUrl,
+                        ResourceFingerprintData = Resources.Fingerprint.Json,
 
-                }.Send();
-                return;
-            }
+                    }.Send();
+                    return;
+                }
 
             if (UserId <= 0 && string.IsNullOrEmpty(UserToken))
             {

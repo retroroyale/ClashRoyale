@@ -68,13 +68,13 @@ namespace ClashRoyale.Files
                         Sha = ServerUtils.GetChecksum(data)
                     });
 
-                    File.WriteAllBytes(newPath, data);        
+                    File.WriteAllBytes(newPath, data);
                 }
             }
 
             fingerprint.Files = files;
             fingerprint.Version[2]++;
-  
+
             fingerprint.Sha = ServerUtils.GetChecksum(fingerprint.GetVersion);
             fingerprint.Save();
 
