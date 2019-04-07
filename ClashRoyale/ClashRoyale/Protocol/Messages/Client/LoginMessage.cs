@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Database;
+﻿using System;
+using ClashRoyale.Database;
 using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 using ClashRoyale.Protocol.Messages.Server;

@@ -18,10 +18,10 @@ namespace ClashRoyale.Extensions
         /// <param name="value"></param>
         public static void WriteScString(this IByteBuffer buffer, string value)
         {
-            if (string.IsNullOrEmpty(value))
-            {
+            if (value == null)
+                buffer.WriteInt(-1);
+            else if (value.Length == 0)
                 buffer.WriteInt(0);
-            }
             else
             {
                 var bytes = Encoding.UTF8.GetBytes(value);

@@ -49,7 +49,7 @@ namespace ClashRoyale.Files
 
         [JsonIgnore] public int GetMajorVersion => Version?[0] ?? 3;
         [JsonIgnore] public int GetBuildVersion => Version?[1] ?? 377;
-        [JsonIgnore] public int GetContentVersion => Version?[2] ?? 3;
+        [JsonIgnore] public int GetContentVersion => Version?[2] ?? 1;
 
         [JsonProperty("files")] public List<Asset> Files { get; set; }
         [JsonProperty("sha")] public string Sha { get; set; }
@@ -65,7 +65,7 @@ namespace ClashRoyale.Files
                 Formatting = Formatting.None
             });
 
-            Json = json.Replace("/", "\\/"); // Somehow cr hates correct paths
+            Json = json.Replace("/", "\\/").TrimEnd(); // Somehow cr hates correct paths
 
             File.WriteAllText(Path, Json);
         }
