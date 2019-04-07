@@ -146,7 +146,8 @@ namespace ClashRoyale.Database
 #pragma warning disable 618
                     cmd.Parameters?.AddWithValue("@language", player.Home.PreferredDeviceLanguage);
                     cmd.Parameters?.AddWithValue("@fb", player.Home.FacebookId);
-                    cmd.Parameters?.AddWithValue("@home", JsonConvert.SerializeObject(player, Configuration.JsonSettings));
+                    cmd.Parameters?.AddWithValue("@home",
+                        JsonConvert.SerializeObject(player, Configuration.JsonSettings));
 #pragma warning restore 618
 
                     await ExecuteAsync(cmd);
@@ -253,7 +254,8 @@ namespace ClashRoyale.Database
                 {
 #pragma warning disable 618
                     cmd.Parameters?.AddWithValue("@fb", player.Home.FacebookId);
-                    cmd.Parameters?.AddWithValue("@home", JsonConvert.SerializeObject(player, Configuration.JsonSettings));
+                    cmd.Parameters?.AddWithValue("@home",
+                        JsonConvert.SerializeObject(player, Configuration.JsonSettings));
 #pragma warning restore 618
 
                     await ExecuteAsync(cmd);

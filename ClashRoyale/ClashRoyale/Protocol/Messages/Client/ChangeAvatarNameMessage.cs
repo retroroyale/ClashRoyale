@@ -23,7 +23,6 @@ namespace ClashRoyale.Protocol.Messages.Client
         public override async void Process()
         {
             if (!string.IsNullOrEmpty(Name))
-            {
                 if (Name.Length > 2 && Name.Length <= 15)
                 {
                     var home = Device.Player.Home;
@@ -47,7 +46,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                         {
                             Command = new LogicChangeNameCommand(Device)
                             {
-                                NameSet = home.NameSet 
+                                NameSet = home.NameSet
                             }
                         }.Send();
 
@@ -56,7 +55,6 @@ namespace ClashRoyale.Protocol.Messages.Client
                         Device.Player.Save();
                     }
                 }
-            }
         }
     }
 }

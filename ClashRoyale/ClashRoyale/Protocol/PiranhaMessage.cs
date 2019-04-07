@@ -67,7 +67,7 @@ namespace ClashRoyale.Protocol
         }
 
         /// <summary>
-        /// Writes this message to the clients channel
+        ///     Writes this message to the clients channel
         /// </summary>
         /// <returns></returns>
         public async Task Send()

@@ -1,5 +1,4 @@
-﻿using System;
-using ClashRoyale.Extensions;
+﻿using ClashRoyale.Extensions;
 using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan;
@@ -34,10 +33,9 @@ namespace ClashRoyale.Protocol.Messages.Client
             var member = alliance?.GetMember(MemberId);
             var sender = alliance?.GetMember(home.Id);
 
-            if(member != null && sender != null)
-            {
+            if (member != null && sender != null)
                 if (GameUtils.IsHigherRoleThan(sender.Role, member.Role))
-                {                 
+                {
                     var player = await member.GetPlayer();
 
                     if (player != null)
@@ -48,7 +46,9 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                         var entry = new AllianceEventStreamEntry
                         {
-                            EventType = GameUtils.IsHigherRoleThan(NewRole, oldRole) ? AllianceEventStreamEntry.Type.Promote : AllianceEventStreamEntry.Type.Demote
+                            EventType = GameUtils.IsHigherRoleThan(NewRole, oldRole)
+                                ? AllianceEventStreamEntry.Type.Promote
+                                : AllianceEventStreamEntry.Type.Demote
                         };
 
                         entry.SetTarget(Device.Player);
@@ -56,7 +56,6 @@ namespace ClashRoyale.Protocol.Messages.Client
                         alliance.AddEntry(entry);
 
                         if (member.IsOnline)
-                        {
                             await new AvailableServerCommand(player.Device)
                             {
                                 Command = new LogicChangeAllianceRoleCommand(player.Device)
@@ -65,13 +64,12 @@ namespace ClashRoyale.Protocol.Messages.Client
                                     NewRole = NewRole
                                 }
                             }.Send();
-                        }
 
-                        if (NewRole == (int)Alliance.Role.Leader)
+                        if (NewRole == (int) Alliance.Role.Leader)
                         {
                             var oldLeader = await sender.GetPlayer();
 
-                            sender.Role = (int)Alliance.Role.CoLeader;
+                            sender.Role = (int) Alliance.Role.CoLeader;
                             oldLeader.Home.AllianceInfo.Role = (int) Alliance.Role.CoLeader;
 
                             oldLeader.Save();
@@ -90,7 +88,6 @@ namespace ClashRoyale.Protocol.Messages.Client
                         player.Save();
                     }
                 }
-            }
         }
     }
 }

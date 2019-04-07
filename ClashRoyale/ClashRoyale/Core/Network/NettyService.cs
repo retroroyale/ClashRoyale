@@ -35,7 +35,7 @@ namespace ClashRoyale.Core.Network
                 .Handler(new LoggingHandler("SRV-ICR"))
                 .ChildHandler(new ActionChannelInitializer<IChannel>(channel =>
                 {
-                    var pipeline = channel.Pipeline;          
+                    var pipeline = channel.Pipeline;
                     pipeline.AddFirst("FrameDecoder", new LengthFieldBasedFrameDecoder(512, 2, 3, 2, 0));
                     pipeline.AddLast("TimeoutHandler", new TimeoutHandler());
                     pipeline.AddLast("PacketProcessor", new PacketHandler());

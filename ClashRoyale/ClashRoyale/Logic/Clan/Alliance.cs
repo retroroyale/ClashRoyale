@@ -131,14 +131,14 @@ namespace ClashRoyale.Logic.Clan
                     {
                         var player = await newLeader.GetPlayer();
 
-                        newLeader.Role = (int)Role.Leader;
-                        player.Home.AllianceInfo.Role = (int)Role.Leader;
+                        newLeader.Role = (int) Role.Leader;
+                        player.Home.AllianceInfo.Role = (int) Role.Leader;
 
                         player.Save();
                     }
                 }
 
-                Members.RemoveAt(index); 
+                Members.RemoveAt(index);
             }
         }
 

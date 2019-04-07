@@ -44,7 +44,7 @@ namespace ClashRoyale.Protocol.Messages.Server
                 }
 
                 Writer.WriteScString(Player1.Home.Name);
-                Writer.WriteVInt(Player1.Home.ExpLevel); 
+                Writer.WriteVInt(Player1.Home.ExpLevel);
                 Writer.WriteVInt(3800);
 
                 Writer.WriteVInt(0);
@@ -88,7 +88,9 @@ namespace ClashRoyale.Protocol.Messages.Server
                     Writer.WriteVInt(info.Badge); // Badge 
                 }
                 else
+                {
                     Writer.WriteVInt(0);
+                }
                 //
 
                 Writer.WriteVInt(29);
@@ -160,7 +162,9 @@ namespace ClashRoyale.Protocol.Messages.Server
                     Writer.WriteVInt(info.Badge); // Badge 
                 }
                 else
+                {
                     Writer.WriteVInt(0);
+                }
                 //
 
                 Writer.WriteVInt(0);
@@ -317,7 +321,6 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(1); // Player
             Writer.WriteVInt(0);
 #else
-
             Writer.WriteVInt(3668); // Enemy 
             Writer.WriteVInt(0);
             Writer.WriteVInt(3668); // Player

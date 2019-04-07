@@ -32,7 +32,9 @@ namespace ClashRoyale
         public static async void Initialize()
         {
             Logger = new Logger();
-            Logger.Log($"Starting at {DateTime.Now.ToLongTimeString()} on {(ServerUtils.IsLinux ? "Linux" : "Windows")}...", null);
+            Logger.Log(
+                $"Starting at {DateTime.Now.ToLongTimeString()} on {(ServerUtils.IsLinux ? "Linux" : "Windows")}...",
+                null);
 
             Configuration = new Configuration();
             Configuration.Initialize();
@@ -45,7 +47,7 @@ namespace ClashRoyale
 
             PlayerDb = new PlayerDb();
             AllianceDb = new AllianceDb();
-            Redis = new Redis();        
+            Redis = new Redis();
 
             Battles = new Battles();
             Players = new Players();

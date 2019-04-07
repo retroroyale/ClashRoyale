@@ -1,5 +1,4 @@
-﻿using System;
-using ClashRoyale.Database;
+﻿using ClashRoyale.Database;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;
 using ClashRoyale.Protocol.Commands.Server;
@@ -46,7 +45,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                     alliance.AddEntry(entry);
 
                     alliance.Save();
-                    alliance.UpdateOnlineCount();                  
+                    alliance.UpdateOnlineCount();
                 }
                 else
                 {

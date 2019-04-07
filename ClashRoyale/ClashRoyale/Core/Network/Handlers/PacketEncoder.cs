@@ -9,7 +9,7 @@ namespace ClashRoyale.Core.Network.Handlers
     {
         public override Task WriteAsync(IChannelHandlerContext context, object msg)
         {
-            var message = (PiranhaMessage)msg;
+            var message = (PiranhaMessage) msg;
 
             if (message != null)
             {

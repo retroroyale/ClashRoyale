@@ -42,7 +42,8 @@ namespace ClashRoyale.Logic
                     return;
                 }
 
-                if (Activator.CreateInstance(LogicScrollMessageFactory.Messages[id], this, buffer) is PiranhaMessage message
+                if (Activator.CreateInstance(LogicScrollMessageFactory.Messages[id], this, buffer) is PiranhaMessage
+                    message
                 )
                     try
                     {

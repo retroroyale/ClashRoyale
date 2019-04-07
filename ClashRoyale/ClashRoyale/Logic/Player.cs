@@ -594,7 +594,7 @@ namespace ClashRoyale.Logic
 
             st.Stop();
             Logger.Log($"Player {Home.Id} saved in {st.ElapsedMilliseconds}ms.", GetType(), ErrorLevel.Debug);
-#else 
+#else
             await Redis.Cache(this);
             await PlayerDb.Save(this);
 #endif

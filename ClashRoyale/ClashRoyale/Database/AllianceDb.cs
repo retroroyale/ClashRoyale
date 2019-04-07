@@ -144,7 +144,8 @@ namespace ClashRoyale.Database
                 )
                 {
 #pragma warning disable 618
-                    cmd.Parameters?.AddWithValue("@data", JsonConvert.SerializeObject(alliance, Configuration.JsonSettings));
+                    cmd.Parameters?.AddWithValue("@data",
+                        JsonConvert.SerializeObject(alliance, Configuration.JsonSettings));
 #pragma warning restore 618
 
                     await ExecuteAsync(cmd);
@@ -213,7 +214,8 @@ namespace ClashRoyale.Database
                 )
                 {
 #pragma warning disable 618
-                    cmd.Parameters?.AddWithValue("@data", JsonConvert.SerializeObject(alliance, Configuration.JsonSettings));
+                    cmd.Parameters?.AddWithValue("@data",
+                        JsonConvert.SerializeObject(alliance, Configuration.JsonSettings));
 #pragma warning restore 618
 
                     await ExecuteAsync(cmd);

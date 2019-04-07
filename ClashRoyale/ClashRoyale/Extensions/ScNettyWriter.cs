@@ -19,9 +19,13 @@ namespace ClashRoyale.Extensions
         public static void WriteScString(this IByteBuffer buffer, string value)
         {
             if (value == null)
+            {
                 buffer.WriteInt(-1);
+            }
             else if (value.Length == 0)
+            {
                 buffer.WriteInt(0);
+            }
             else
             {
                 var bytes = Encoding.UTF8.GetBytes(value);

@@ -1,5 +1,4 @@
-﻿using System;
-using ClashRoyale.Extensions;
+﻿using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;
 using ClashRoyale.Protocol.Commands.Server;

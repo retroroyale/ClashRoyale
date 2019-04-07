@@ -1,5 +1,4 @@
-﻿using System;
-using ClashRoyale.Database;
+﻿using ClashRoyale.Database;
 using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 using ClashRoyale.Protocol.Messages.Server;
@@ -67,8 +66,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                     {
                         ErrorCode = 7,
                         ContentUrl = Resources.Configuration.PatchUrl,
-                        ResourceFingerprintData = Resources.Fingerprint.Json,
-
+                        ResourceFingerprintData = Resources.Fingerprint.Json
                     }.Send();
                     return;
                 }
