@@ -4,8 +4,9 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Security.Cryptography;
+using System.Text;
 using SevenZip.Sdk;
-using SevenZip.Sdk.Compression.Lzma;
+using Encoder = SevenZip.Sdk.Compression.Lzma.Encoder;
 
 namespace ClashRoyale.Extensions.Utils
 {
@@ -45,13 +46,12 @@ namespace ClashRoyale.Extensions.Utils
             return ipAddress;
         }
 
-        public static string GetChecksum(string fileName)
+        public static string GetChecksum(string text)
         {
             using (var hasher = new SHA1CryptoServiceProvider())
-            using (var fileStream = File.OpenRead(fileName))
             {
-                return BitConverter.ToString(hasher.ComputeHash(fileStream)).Replace("-", string.Empty)
-                    .ToLowerInvariant();
+                return hasher.ComputeHash(Encoding.UTF8.GetBytes(text)).Aggregate(string.Empty,
+                    (current, num) => current + num.ToString("x2"));
             }
         }
 
@@ -59,8 +59,8 @@ namespace ClashRoyale.Extensions.Utils
         {
             using (var hasher = new SHA1CryptoServiceProvider())
             {
-                return BitConverter.ToString(hasher.ComputeHash(data)).Replace("-", string.Empty)
-                    .ToLowerInvariant();
+                return hasher.ComputeHash(data).Aggregate(string.Empty,
+                    (current, num) => current + num.ToString("x2"));
             }
         }
 

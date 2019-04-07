@@ -41,11 +41,11 @@ namespace ClashRoyale
             Sentry = new SentryReport();
             Csv = new Csv();
 
+            UpdateManager = new UpdateManager();
+
             PlayerDb = new PlayerDb();
             AllianceDb = new AllianceDb();
-            Redis = new Redis();
-
-            UpdateManager = new UpdateManager();
+            Redis = new Redis();        
 
             Battles = new Battles();
             Players = new Players();

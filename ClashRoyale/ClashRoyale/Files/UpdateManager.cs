@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using ClashRoyale.Extensions.Utils;
 
@@ -12,16 +13,39 @@ namespace ClashRoyale.Files
 
         public UpdateManager()
         {
+            if (!Resources.Configuration.UseContentPatch) return;
             if (!AssetsChanged) return;
 
-            Logger.Log("Assets have been updated. Creating patch...",GetType());
+            Logger.Log("Assets have been updated. Creating patch...", GetType());
 
             CreatePatch();
+
+            Logger.Log($"Fingerprint updated to v.{Resources.Fingerprint.GetVersion}", GetType());
+        }
+
+        public bool AssetsChanged
+        {
+            get
+            {
+                var files = Resources.Fingerprint.Files;
+                return Directory.GetDirectories(BaseDir).Where(d => !d.Contains("update")).Any(dir =>
+                    (from file in Directory.GetFiles(dir)
+                        let sha = ServerUtils.GetChecksum(ServerUtils.CompressData(File.ReadAllBytes(file)))
+                        let name = file.Replace(BaseDir, string.Empty).Replace('\\', '/')
+                        let index = files.FindIndex(x => x.File == name)
+                        where index > -1
+                        let check = files[index]
+                        where check.Sha != sha
+                        select sha).Any());
+            }
         }
 
         public void CreatePatch()
         {
             if (!Directory.Exists(PatchDir)) Directory.CreateDirectory(PatchDir);
+
+            var files = new List<Asset>();
+            var fingerprint = Resources.Fingerprint;
 
             foreach (var dir in Directory.GetDirectories(BaseDir))
             {
@@ -38,19 +62,23 @@ namespace ClashRoyale.Files
                     var name = Path.GetFileName(updatedFile);
                     var newPath = newDir + name;
 
-                    File.WriteAllBytes(newPath, data);
+                    files.Add(new Asset
+                    {
+                        File = dir.Split('/').Last() + "/" + name,
+                        Sha = ServerUtils.GetChecksum(data)
+                    });
+
+                    File.WriteAllBytes(newPath, data);        
                 }
             }
 
-            // TODO: update Fingerprint & rename temp dir
-        }
+            fingerprint.Files = files;
+            fingerprint.Version[2]++;
+  
+            fingerprint.Sha = ServerUtils.GetChecksum(fingerprint.GetVersion);
+            fingerprint.Save();
 
-        public bool AssetsChanged =>
-            Directory.GetDirectories(BaseDir).Any(dir =>
-                (from file in Directory.GetFiles(dir)
-                    let name = file.Replace(BaseDir, string.Empty).Replace('\\', '/')
-                    let data = ServerUtils.CompressData(File.ReadAllBytes(file))
-                    let sha = ServerUtils.GetChecksum(data)
-                    select Resources.Fingerprint.Files.FindIndex(a => a.File == name)).Any(index => index > -1));
+            Directory.Move(TempDir, PatchDir + fingerprint.Sha);
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace ClashRoyale.Protocol.Messages.Server
         public LoginFailedMessage(Device device) : base(device)
         {
             Id = 20103;
+            Version = 4;
         }
 
         public byte ErrorCode { get; set; }

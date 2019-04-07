@@ -9,23 +9,25 @@ namespace ClashRoyale.Files
 {
     public class Fingerprint
     {
+        public const string Path = "GameAssets/fingerprint.json";
+
         public Fingerprint()
         {
             try
             {
-                if (File.Exists("GameAssets/fingerprint.json"))
+                if (File.Exists(Path))
                 {
-                    Json = File.ReadAllText("GameAssets/fingerprint.json");
+                    Json = File.ReadAllText(Path);
                     Files = new List<Asset>();
 
                     var json = JObject.Parse(Json);
                     {
                         Sha = json["sha"].ToObject<string>();
-                        Version = json["version"].ToObject<string>().Split('.').Select(int.Parse) as int[];
+                        Version = json["version"].ToObject<string>().Split('.').Select(int.Parse).ToArray();
 
                         foreach (var file in json["files"]) Files.Add(file.ToObject<Asset>());
 
-                        Logger.Log($"Fingerprint v.{json["version"].ToObject<string>()} loaded.",
+                        Logger.Log($"Fingerprint v.{GetVersion} loaded.",
                             GetType());
                     }
                 }
@@ -42,16 +44,31 @@ namespace ClashRoyale.Files
             }
         }
 
-        public string Json { get; set; }
-        public string Sha { get; set; }
-        public int[] Version { get; set; }
-        public List<Asset> Files { get; set; }
+        [JsonIgnore] public string Json { get; set; }
+        [JsonIgnore] public int[] Version { get; set; }
 
-        public int GetMajorVersion => Version?[0] ?? 3;
-        public int GetBuildVersion => Version?[1] ?? 377;
-        public int GetContentVersion => Version?[2] ?? 3;
+        [JsonIgnore] public int GetMajorVersion => Version?[0] ?? 3;
+        [JsonIgnore] public int GetBuildVersion => Version?[1] ?? 377;
+        [JsonIgnore] public int GetContentVersion => Version?[2] ?? 3;
 
-        public string GetVersion => GetMajorVersion + "." + GetBuildVersion + "." + GetContentVersion;
+        [JsonProperty("files")] public List<Asset> Files { get; set; }
+        [JsonProperty("sha")] public string Sha { get; set; }
+
+        [JsonProperty("version")]
+        public string GetVersion => $"{GetMajorVersion}.{GetBuildVersion}.{GetContentVersion}";
+
+        public void Save()
+        {
+            var json = JsonConvert.SerializeObject(this, new JsonSerializerSettings
+            {
+                DefaultValueHandling = DefaultValueHandling.Include,
+                Formatting = Formatting.None
+            });
+
+            Json = json.Replace("/", "\\/"); // Somehow cr hates correct paths
+
+            File.WriteAllText(Path, Json);
+        }
     }
 
     public class Asset

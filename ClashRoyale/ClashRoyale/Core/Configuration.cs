@@ -26,6 +26,7 @@ namespace ClashRoyale.Core
         [JsonProperty("redis_server")] public string RedisServer = "127.0.0.1";
         [JsonProperty("sentry_api")] public string SentryApiUrl = "";
         [JsonProperty("server_port")] public int ServerPort = 9339;
+        [JsonProperty("use_content_patch")] public bool UseContentPatch;
         [JsonProperty("update_url")] public string UpdateUrl = "https://github.com/retroroyale/ClashRoyale";
 
         public void Initialize()
@@ -46,6 +47,7 @@ namespace ClashRoyale.Core
                     SentryApiUrl = config.SentryApiUrl;
                     EncryptionKey = config.EncryptionKey;
                     ServerPort = config.ServerPort;
+                    UseContentPatch = config.UseContentPatch;
                 }
                 catch (Exception)
                 {
