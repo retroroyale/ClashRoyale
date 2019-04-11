@@ -92,7 +92,7 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(0);
                 packet.WriteVInt(1); // Current Freechest Id
 
-                // Timer?
+                // Free Chest Timer
                 packet.WriteVInt(1584540);
                 packet.WriteVInt(1645300);
 
@@ -401,7 +401,7 @@ namespace ClashRoyale.Logic
 
         public void LogicClientAvatar(IByteBuffer packet)
         {
-            // PlayerId
+            // Id - Account Id - HomeId
             for (var i = 0; i < 3; i++)
             {
                 packet.WriteVInt(Home.HighId);
@@ -411,7 +411,7 @@ namespace ClashRoyale.Logic
             // Name
             {
                 packet.WriteScString(Home.NameSet > 0 ? Home.Name : null);
-                packet.WriteBoolean(Home.NameSet > 1); // Name changed
+                packet.WriteBoolean(Home.NameSet > 1); // NameSetByUser
             }
 
             // Profile
@@ -421,14 +421,13 @@ namespace ClashRoyale.Logic
 
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);
-
                 packet.WriteVInt(100); // Legendary Trophies
 
                 packet.WriteVInt(0); // Current Session Trophies
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);
-                packet.WriteVInt(0);
 
+                packet.WriteVInt(0);
                 packet.WriteVInt(0); // Rank
                 packet.WriteVInt(0); // Trophies
             }
@@ -531,7 +530,7 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(Home.ExpPoints); // ExpPoints
             packet.WriteVInt(Home.ExpLevel); // ExpLevel
 
-            packet.WriteVInt(0); // NameSet
+            packet.WriteVInt(0); // AvatarUserLevelTier
 
             if (Home.AllianceInfo.HasAlliance)
             {
@@ -546,9 +545,7 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(info.Role);
             }
             else
-            {
                 packet.WriteVInt(Home.NameSet == 0 ? 6 : 7); // HasAlliance
-            }
 
             // Battle Statistics
             {
