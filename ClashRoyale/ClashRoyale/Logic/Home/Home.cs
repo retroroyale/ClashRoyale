@@ -9,11 +9,12 @@ namespace ClashRoyale.Logic.Home
 {
     public class Home
     {
-        public AllianceInfo AllianceInfo = new AllianceInfo();
-        public Arena Arena = new Arena();
-        public Chests.Chests Chests = new Chests.Chests();
-        public Deck Deck = new Deck();
-        public Shop.Shop Shop = new Shop.Shop();
+        [JsonProperty("clan_info")] public AllianceInfo AllianceInfo = new AllianceInfo();
+        [JsonProperty("deck")] public Deck Deck = new Deck();
+        [JsonProperty("chests")] public Chests.Chests Chests = new Chests.Chests();
+        [JsonProperty("shop")] public Shop.Shop Shop = new Shop.Shop();
+
+        [JsonIgnore] public Arena Arena = new Arena();
 
         public Home()
         {
@@ -45,30 +46,30 @@ namespace ClashRoyale.Logic.Home
             Chests.Home = this;
         }
 
-        public string Name { get; set; }
-        public string UserToken { get; set; }
-        public int NameSet { get; set; }
-        public string IpAddress { get; set; }
-        public int HighId { get; set; }
-        public int LowId { get; set; }
-        public string PreferredDeviceLanguage { get; set; }
-        public string FacebookId { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
+        [JsonProperty("token")] public string UserToken { get; set; }
+        [JsonProperty("name_set")] public int NameSet { get; set; }
+        [JsonProperty("ip")] public string IpAddress { get; set; }
+        [JsonProperty("high_id")] public int HighId { get; set; }
+        [JsonProperty("low_id")] public int LowId { get; set; }
+        [JsonProperty("language")] public string PreferredDeviceLanguage { get; set; }
+        [JsonProperty("fcb_id")] public string FacebookId { get; set; }
 
         // Shop
-        public int ShopDay { get; set; }
+        [JsonProperty("shop_day")] public int ShopDay { get; set; }
 
         // Resources
-        public int Diamonds { get; set; }
-        public int Gold { get; set; }
+        [JsonProperty("diamonds")] public int Diamonds { get; set; }
+        [JsonProperty("gold")] public int Gold { get; set; }
 
         // Crownchest
-        public int Crowns { get; set; }
-        public int NewCrowns { get; set; }
+        [JsonProperty("crowns")] public int Crowns { get; set; }
+        [JsonProperty("new_crowns")] public int NewCrowns { get; set; }
 
         // Player Stats
-        public int Trophies { get; set; }
-        public int ExpLevel { get; set; }
-        public int ExpPoints { get; set; }
+        [JsonProperty("trophies")] public int Trophies { get; set; }
+        [JsonProperty("exp_level")] public int ExpLevel { get; set; }
+        [JsonProperty("exp_points")] public int ExpPoints { get; set; }
 
         [JsonIgnore]
         public long Id

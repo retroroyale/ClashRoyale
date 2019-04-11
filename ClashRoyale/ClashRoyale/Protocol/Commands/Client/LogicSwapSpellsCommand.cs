@@ -10,21 +10,21 @@ namespace ClashRoyale.Protocol.Commands.Client
         {
         }
 
-        public int CardId { get; set; }
-        public int DeckIndex { get; set; }
+        public int CardOffset { get; set; }
+        public int DeckOffset { get; set; }
 
         public override void Decode()
         {
             Buffer.ReadVInt();
             Buffer.ReadVInt();
 
-            CardId = Buffer.ReadVInt();
-            DeckIndex = Buffer.ReadVInt();
+            CardOffset = Buffer.ReadVInt();
+            DeckOffset = Buffer.ReadVInt();
         }
 
         public override void Process()
         {
-            Device.Player.Home.Deck.SwapCard(CardId, DeckIndex);
+            Device.Player.Home.Deck.SwapCard(CardOffset, DeckOffset);
         }
     }
 }

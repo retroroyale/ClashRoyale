@@ -6,6 +6,7 @@ namespace ClashRoyale.Files
 {
     public class Csv
     {
+        // TODO: Reorder
         public enum Types
         {
             Abilities = 1,
@@ -62,68 +63,68 @@ namespace ClashRoyale.Files
             TveGamemodes = 52
         }
 
-        public static readonly List<Tuple<string, int>> Gamefiles = new List<Tuple<string, int>>();
+        public static readonly List<Tuple<string, Types>> Gamefiles = new List<Tuple<string, Types>>();
         public static Gamefiles Tables;
 
         public Csv()
         {
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/abilities.csv", 1));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/achievements.csv", 2));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/alliance_badges.csv", 3));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/alliance_roles.csv", 4));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/area_effect_objects.csv", 5));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/arenas.csv", 6));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/buildings.csv", 7));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/character_buffs.csv", 8));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/characters.csv", 9));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/chest_order.csv", 10));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/configuration_definitions.csv", 11));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/content_tests.csv", 12));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/decos.csv", 13));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/draft_deck.csv", 14));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/event_categories.csv", 15));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/event_category_definitions.csv", 16));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/event_category_enums.csv", 17));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/event_category_object_definitions.csv", 18));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/event_targeting_definitions.csv", 19));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/exp_levels.csv", 20));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/gamble_chests.csv", 21));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/game_modes.csv", 22));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/globals.csv", 23));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/heroes.csv", 24));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/locales.csv", 25));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/locations.csv", 26));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/npcs.csv", 27));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/predefined_decks.csv", 28));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/projectiles.csv", 29));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/pve_boss.csv", 30));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/pve_gamemodes.csv", 31));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/pve_waves.csv", 32));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/quest_order.csv", 33));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/rarities.csv", 34));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/regions.csv", 35));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/resource_packs.csv", 36));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/resources.csv", 37));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/shop.csv", 38));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/skins.csv", 39));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/spell_sets.csv", 40));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/spells_buildings.csv", 41));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/spells_characters.csv", 42));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/spells_heroes.csv", 43));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/spells_other.csv", 44));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/survival_modes.csv", 45));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/taunts.csv", 46));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/tournament_tiers.csv", 47));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/treasure_chests.csv", 48));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/tutorial_chest_order.csv", 49));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/tutorials_home.csv", 50));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/tutorials_npc.csv", 51));
-            Gamefiles.Add(new Tuple<string, int>("GameAssets/csv_logic/tve_gamemodes.csv", 52));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/abilities.csv", Types.Abilities));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/achievements.csv", Types.Achievements));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/alliance_badges.csv", Types.AllianceBadges));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/alliance_roles.csv", Types.AllianceRoles));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/area_effect_objects.csv", Types.AreaEffectObjects));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/arenas.csv", Types.Arenas));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/buildings.csv", Types.Buildings));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/character_buffs.csv", Types.CharacterBuffs));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/characters.csv", Types.Characters));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/chest_order.csv", Types.ChestOrder));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/configuration_definitions.csv", Types.ConfigurationDefinitions));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/content_tests.csv", Types.ContentTests));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/decos.csv", Types.Decos));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/draft_deck.csv", Types.DraftDeck));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/event_categories.csv", Types.EventCategories));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/event_category_definitions.csv", Types.EventCategoryDefinitions));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/event_category_enums.csv", Types.EventCategoryEnums));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/event_category_object_definitions.csv", Types.EventCategoryObjectDefinitions));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/event_targeting_definitions.csv", Types.EventTargetingDefinitions));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/exp_levels.csv", Types.ExpLevels));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/gamble_chests.csv", Types.GambleChests));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/game_modes.csv", Types.GameModes));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/globals.csv", Types.Globals));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/heroes.csv", Types.Heroes));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/locales.csv", Types.Locales));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/locations.csv", Types.Locations));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/npcs.csv", Types.Npcs));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/predefined_decks.csv", Types.PredefinedDecks));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/projectiles.csv", Types.Projectiles));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/pve_boss.csv", Types.PveBoss));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/pve_gamemodes.csv", Types.PveGamemodes));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/pve_waves.csv", Types.PveWaves));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/quest_order.csv", Types.QuestOrder));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/rarities.csv", Types.Rarities));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/regions.csv", Types.Regions));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/resource_packs.csv", Types.ResourcePacks));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/resources.csv", Types.Resources));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/shop.csv", Types.Shop));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/skins.csv", Types.Skins));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/spell_sets.csv", Types.SpellSets));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/spells_buildings.csv", Types.SpellsBuildings));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/spells_characters.csv", Types.SpellsCharacters));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/spells_heroes.csv", Types.SpellsHeroes));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/spells_other.csv", Types.SpellsOther));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/survival_modes.csv", Types.SurvivalModes));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/taunts.csv", Types.Taunts));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/tournament_tiers.csv", Types.TournamentTiers));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/treasure_chests.csv", Types.TreasureChests));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/tutorial_chest_order.csv", Types.TutorialChestOrder));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/tutorials_home.csv", Types.TutorialsHome));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/tutorials_npc.csv", Types.TutorialsNpc));
+            Gamefiles.Add(new Tuple<string, Types>("GameAssets/csv_logic/tve_gamemodes.csv", Types.TveGamemodes));
 
             Tables = new Gamefiles();
 
             foreach (var (item1, item2) in Gamefiles)
-                Tables.Initialize(new Table(item1), item2);
+                Tables.Initialize(new Table(item1), (int)item2);
 
             Logger.Log($"Succesfully loaded {Gamefiles.Count} Gamefiles.", GetType());
         }

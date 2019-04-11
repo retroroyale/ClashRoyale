@@ -307,18 +307,18 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Writer.WriteVInt(0);
 
 #if DEBUG
-            Writer.WriteVInt(1); // Enemy 
+            Writer.WriteVInt(10000); // Enemy 
             Writer.WriteVInt(0);
-            Writer.WriteVInt(1); // Player
+            Writer.WriteVInt(10000); // Player
             Writer.WriteVInt(0);
-            Writer.WriteVInt(1); // Enemy
+            Writer.WriteVInt(10000); // Enemy
             Writer.WriteVInt(0);
-            Writer.WriteVInt(1); // Player
+            Writer.WriteVInt(10000); // Player
             Writer.WriteVInt(0);
 
-            Writer.WriteVInt(1); // Enemy
+            Writer.WriteVInt(100000); // Enemy
             Writer.WriteVInt(0);
-            Writer.WriteVInt(1); // Player
+            Writer.WriteVInt(100000); // Player
             Writer.WriteVInt(0);
 #else
             Writer.WriteVInt(3668); // Enemy 

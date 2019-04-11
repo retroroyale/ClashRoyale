@@ -69,11 +69,11 @@ namespace ClashRoyale.Logic.Home.Decks
             return index > -1 ? this[index] : null;
         }
 
-        public void SwapCard(int collectionIndex, int deckIndex)
+        public void SwapCard(int cardOffset, int deckOffset)
         {
-            var old = this[deckIndex];
-            this[deckIndex] = this[collectionIndex + 8];
-            this[collectionIndex + 8] = old;
+            var old = this[deckOffset];
+            this[deckOffset] = this[cardOffset + 8];
+            this[cardOffset + 8] = old;
         }
 
         public void UpgradeCard(int classId, int instanceId)

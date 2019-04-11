@@ -20,12 +20,37 @@ namespace ClashRoyale.Logic.Home.Decks.Items
             Hero = 4
         }
 
+        /// <summary>
+        /// Create a new card with given values
+        /// </summary>
+        /// <param name="classId"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="isNew"></param>
+        /// <param name="count"></param>
         public Card(int classId, int instanceId, bool isNew, int count = 0)
         {
             ClassId = classId;
             InstanceId = instanceId;
             IsNew = isNew;
             Count = count;
+        }
+
+        /// <summary>
+        /// Copy values from a different class to this new instance
+        /// </summary>
+        /// <param name="card"></param>
+        public Card(Card card)
+        {
+            Count = card.Count;
+            InstanceId = card.InstanceId;
+            ClassId = card.ClassId;
+            Level = card.Level;
+            IsNew = card.IsNew;
+        }
+
+        public Card()
+        {
+            // Json.
         }
 
         public int Count { get; set; }
