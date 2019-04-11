@@ -80,7 +80,7 @@ namespace ClashRoyale.Logic
                             {
                                 player.Home.AddCrowns(3);
 
-                                await new BattleEndMessage(player.Device).Send();
+                                await new BattleResultMessage(player.Device).Send();
 
                                 Remove(player);
                             }

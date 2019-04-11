@@ -3,9 +3,9 @@ using ClashRoyale.Logic;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {
-    public class BattleEndMessage : PiranhaMessage
+    public class BattleResultMessage : PiranhaMessage
     {
-        public BattleEndMessage(Device device) : base(device)
+        public BattleResultMessage(Device device) : base(device)
         {
             Id = 20225;
         }
@@ -16,7 +16,7 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(31); // Trophies (Own)
 
             Writer.WriteVInt(0);
-            Writer.WriteVInt(35); // Trophies (Opponent)
+            Writer.WriteVInt(31); // Trophies (Opponent)
 
             Writer.WriteVInt(0);
             Writer.WriteVInt(63);
