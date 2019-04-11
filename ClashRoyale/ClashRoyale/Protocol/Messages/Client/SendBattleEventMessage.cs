@@ -39,7 +39,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                     var enemy = battle?.GetEnemy(Device.Player.Home.Id);
 
                     if (enemy != null)
-                        await new BattleEventData(enemy)
+                        await new BattleEventMessage(enemy)
                         {
                             EventId = EventId,
                             Tick = Tick,

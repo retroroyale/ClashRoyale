@@ -21,7 +21,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override async void Process()
         {
-            await new CheckNameChange(Device)
+            await new AvatarNameCheckResponseMessage(Device)
             {
                 Name = Name
             }.Send();

@@ -3,9 +3,9 @@ using ClashRoyale.Logic;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {
-    public class CheckNameChange : PiranhaMessage
+    public class AvatarNameCheckResponseMessage : PiranhaMessage
     {
-        public CheckNameChange(Device device) : base(device)
+        public AvatarNameCheckResponseMessage(Device device) : base(device)
         {
             Id = 20300;
         }
@@ -14,8 +14,8 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            Writer.WriteByte(0);
-            Writer.WriteInt(0);
+            Writer.WriteBoolean(false); // IsValid
+            Writer.WriteInt(0); // ErrorCode
             Writer.WriteScString(Name);
         }
     }

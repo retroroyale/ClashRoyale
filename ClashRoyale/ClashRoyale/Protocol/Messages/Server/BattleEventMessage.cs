@@ -3,9 +3,9 @@ using ClashRoyale.Logic;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {
-    public class BattleEventData : PiranhaMessage
+    public class BattleEventMessage : PiranhaMessage
     {
-        public BattleEventData(Device device) : base(device)
+        public BattleEventMessage(Device device) : base(device)
         {
             Id = 22952;
         }
