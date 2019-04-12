@@ -29,13 +29,9 @@ namespace ClashRoyale.Database
 
             _playerSeed = MaxPlayerId();
 
-            if (_playerSeed > -1)
+            if (_playerSeed <= -1)
             {
-                Logger.Log($"Successfully loaded MySql with {_playerSeed} player(s)", GetType());
-            }
-            else
-            {
-                Logger.Log("Failed to load MySql-Players!", GetType());
+                Logger.Log($"MysqlConnection for players failed [{Resources.Configuration.MySqlServer}]!", GetType());
                 Program.Exit();
             }
         }

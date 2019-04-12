@@ -126,7 +126,7 @@ namespace ClashRoyale.Files
             foreach (var (item1, item2) in Gamefiles)
                 Tables.Initialize(new Table(item1), (int)item2);
 
-            Logger.Log($"Succesfully loaded {Gamefiles.Count} Gamefiles.", GetType());
+            Logger.Log($"{Gamefiles.Count} Gamefiles loaded.", GetType());
         }
     }
 }

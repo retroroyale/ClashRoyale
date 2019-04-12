@@ -33,7 +33,7 @@ namespace ClashRoyale
         {
             Logger = new Logger();
             Logger.Log(
-                $"Starting at {DateTime.Now.ToLongTimeString()} on {(ServerUtils.IsLinux ? "Linux" : "Windows")}...",
+                $"Starting [{DateTime.Now.ToLongTimeString()} - {(ServerUtils.IsLinux ? "Linux" : "Windows")}]...",
                 null);
 
             Configuration = new Configuration();
@@ -47,6 +47,9 @@ namespace ClashRoyale
 
             PlayerDb = new PlayerDb();
             AllianceDb = new AllianceDb();
+
+            Logger.Log($"Successfully loaded MySql with {await PlayerDb.Count()} player(s) & {await AllianceDb.Count()} clan(s)", null);
+
             Redis = new Redis();
 
             Battles = new Battles();

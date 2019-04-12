@@ -29,13 +29,9 @@ namespace ClashRoyale.Database
 
             _allianceSeed = MaxAllianceId();
 
-            if (_allianceSeed > -1)
+            if (_allianceSeed <= -1)
             {
-                Logger.Log($"Successfully loaded MySql with {_allianceSeed} alliance(s)", GetType());
-            }
-            else
-            {
-                Logger.Log("Failed to load MySql-Alliances!", GetType());
+                Logger.Log($"MysqlConnection for clans failed [{Resources.Configuration.MySqlServer}]!", GetType());
                 Program.Exit();
             }
         }
@@ -288,6 +284,6 @@ namespace ClashRoyale.Database
             }
 
             #endregion
-        }
+        }      
     }
 }

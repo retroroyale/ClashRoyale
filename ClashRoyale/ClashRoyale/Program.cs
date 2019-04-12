@@ -8,21 +8,11 @@ namespace ClashRoyale
         {
             Console.Title = "ClashRoyale";
 
-            var color = true;
-            foreach (var c in
-                "\n______________             ______ ________                     ______     \r\n__  ____/__  /_____ __________  /____  __ \\__________  _______ ___  /____ \r\n_  /    __  /_  __ `/_  ___/_  __ \\_  /_/ /  __ \\_  / / /  __ `/_  /_  _ \\\r\n/ /___  _  / / /_/ /_(__  )_  / / /  _, _// /_/ /  /_/ // /_/ /_  / /  __/\r\n\\____/  /_/  \\__,_/ /____/ /_/ /_//_/ |_| \\____/_\\__, / \\__,_/ /_/  \\___/ \r\n                                                /____/                    \n\n"
-            )
-            {
-                Console.ForegroundColor = color ? ConsoleColor.Blue : ConsoleColor.Cyan;
-                Console.Write(c);
-                color = !color;
-            }
-
-            Console.ResetColor();
+            Console.WriteLine("\n______________             ______ ________                     ______     \r\n__  ____/__  /_____ __________  /____  __ \\__________  _______ ___  /____ \r\n_  /    __  /_  __ `/_  ___/_  __ \\_  /_/ /  __ \\_  / / /  __ `/_  /_  _ \\\r\n/ /___  _  / / /_/ /_(__  )_  / / /  _, _// /_/ /  /_/ // /_/ /_  / /  __/\r\n\\____/  /_/  \\__,_/ /____/ /_/ /_//_/ |_| \\____/_\\__, / \\__,_/ /_/  \\___/ \r\n                                                /____/                    \n\n");
 
             Resources.Initialize();
 
-            Console.ReadKey(true);
+            Console.Read();
         }
 
         public static void Exit()

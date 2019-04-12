@@ -89,6 +89,7 @@ namespace ClashRoyale.Logic.Home
             var diamondCost = 1;
 
             if (amount > 100)
+            {
                 if (amount > 1000)
                     if (amount > 10000)
                         if (amount > 100000)
@@ -104,8 +105,8 @@ namespace ClashRoyale.Logic.Home
                         diamondCost = 500;
                 else
                     diamondCost = 60;
-            else
-                diamondCost = 8;
+            }
+            else diamondCost = 8;
 
 
             Gold += amount;

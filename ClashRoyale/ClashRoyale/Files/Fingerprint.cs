@@ -27,7 +27,7 @@ namespace ClashRoyale.Files
 
                         foreach (var file in json["files"]) Files.Add(file.ToObject<Asset>());
 
-                        Logger.Log($"Fingerprint v.{GetVersion} loaded.",
+                        Logger.Log($"Fingerprint [v{GetVersion}] loaded.",
                             GetType());
                     }
                 }
