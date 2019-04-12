@@ -12,7 +12,7 @@ namespace ClashRoyale
 
             Resources.Initialize();
 
-            Console.Read();
+            Console.ReadKey();
         }
 
         public static void Exit()
