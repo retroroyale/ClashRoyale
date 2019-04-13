@@ -48,8 +48,16 @@ namespace ClashRoyale.Database
             }
         }
 
+        /// <summary>
+        /// Returns true wether the client is connected
+        /// </summary>
         public static bool IsConnected => _server != null;
 
+        /// <summary>
+        /// Cache a player
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public static async Task Cache(Player player)
         {
             if (player == null) return;
@@ -65,6 +73,11 @@ namespace ClashRoyale.Database
             }
         }
 
+        /// <summary>
+        /// Cache an alliance
+        /// </summary>
+        /// <param name="alliance"></param>
+        /// <returns></returns>
         public static async Task Cache(Alliance alliance)
         {
             if (alliance == null) return;
@@ -80,6 +93,11 @@ namespace ClashRoyale.Database
             }
         }
 
+        /// <summary>
+        /// Uncache a player 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static async Task UncachePlayer(long id)
         {
             try
@@ -92,6 +110,11 @@ namespace ClashRoyale.Database
             }
         }
 
+        /// <summary>
+        /// Uncache an alliance
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static async Task UncacheAlliance(long id)
         {
             try
@@ -104,6 +127,11 @@ namespace ClashRoyale.Database
             }
         }
 
+        /// <summary>
+        /// Get the player from the cache
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static async Task<Player> GetPlayer(long id)
         {
             try
@@ -125,6 +153,11 @@ namespace ClashRoyale.Database
             return null;
         }
 
+        /// <summary>
+        /// Get an alliance from the cache
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static async Task<Alliance> GetAlliance(long id)
         {
             try
@@ -146,6 +179,19 @@ namespace ClashRoyale.Database
             return null;
         }
 
+        /// <summary>
+        /// Get a random alliance from the cache
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<Alliance> GetRandomAlliance()
+        {
+            return await GetAlliance(long.Parse(await _alliances.KeyRandomAsync()));
+        }
+
+        /// <summary>
+        /// Returns the amount of cached players
+        /// </summary>
+        /// <returns></returns>
         public static int CachedPlayers()
         {
             try
@@ -163,6 +209,10 @@ namespace ClashRoyale.Database
             }
         }
 
+        /// <summary>
+        /// Returns the amount of cached alliances 
+        /// </summary>
+        /// <returns></returns>
         public static int CachedAlliances()
         {
             try

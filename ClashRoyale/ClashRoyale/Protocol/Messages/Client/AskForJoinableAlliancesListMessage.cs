@@ -13,7 +13,10 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override async void Process()
         {
-            await new AllianceListMessage(Device).Send();
+            await new JoinableAllianceListMessage(Device)
+            {
+                Alliances = await Resources.Alliances.GetRandomAlliances()
+            }.Send();
         }
     }
 }

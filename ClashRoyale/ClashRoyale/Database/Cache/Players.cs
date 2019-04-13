@@ -7,8 +7,12 @@ namespace ClashRoyale.Database.Cache
 {
     public class Players : Dictionary<long, Player>
     {
-        public object SyncObject = new object();
+        private readonly object SyncObject = new object();
 
+        /// <summary>
+        /// Login a player
+        /// </summary>
+        /// <param name="player"></param>
         public void Login(Player player)
         {
             lock (SyncObject)
@@ -17,6 +21,10 @@ namespace ClashRoyale.Database.Cache
             }
         }
 
+        /// <summary>
+        /// Logout a player and save it
+        /// </summary>
+        /// <param name="userId"></param>
         public void Logout(long userId)
         {
             lock (SyncObject)
@@ -36,6 +44,12 @@ namespace ClashRoyale.Database.Cache
             }
         }
 
+        /// <summary>
+        /// Get a player from cache or database
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="onlineOnly"></param>
+        /// <returns></returns>
         public async Task<Player> GetPlayer(long userId, bool onlineOnly = false)
         {
             lock (SyncObject)

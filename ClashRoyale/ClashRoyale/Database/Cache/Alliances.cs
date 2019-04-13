@@ -7,8 +7,12 @@ namespace ClashRoyale.Database.Cache
 {
     public class Alliances : Dictionary<long, Alliance>
     {
-        public object SyncObject = new object();
+        private readonly object SyncObject = new object();
 
+        /// <summary>
+        /// Add an alliance to the server
+        /// </summary>
+        /// <param name="alliance"></param>
         public void Add(Alliance alliance)
         {
             lock (SyncObject)
@@ -17,6 +21,10 @@ namespace ClashRoyale.Database.Cache
             }
         }
 
+        /// <summary>
+        /// Remove an alliance from the server and save it
+        /// </summary>
+        /// <param name="allianceId"></param>
         public new void Remove(long allianceId)
         {
             lock (SyncObject)
@@ -34,6 +42,12 @@ namespace ClashRoyale.Database.Cache
             }
         }
 
+        /// <summary>
+        /// Get an alliance from cache or database
+        /// </summary>
+        /// <param name="allianceId"></param>
+        /// <param name="onlineOnly"></param>
+        /// <returns></returns>
         public async Task<Alliance> GetAlliance(long allianceId, bool onlineOnly = false)
         {
             lock (SyncObject)
@@ -55,6 +69,36 @@ namespace ClashRoyale.Database.Cache
             await Redis.Cache(alliance);
 
             return alliance;
+        }
+
+        /// <summary>
+        /// Returns a list of random cached Alliances
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public async Task<List<Alliance>> GetRandomAlliances(int count = 40, bool notFull = true)
+        {
+            var alliances = new List<Alliance>(count);
+
+            for (var i = 0; i < count; i++)
+            {
+                var alliance = await Redis.GetRandomAlliance();
+
+                if (alliance != null && alliances.FindIndex(a => a.Id == alliance.Id) == -1)
+                {
+                    if (notFull)
+                    {
+                        if (alliance.Members.Count < 50)
+                        {
+                            alliances.Add(alliance);
+                        }
+                    }
+                    else
+                        alliances.Add(alliance);
+                }
+            }
+
+            return alliances;
         }
     }
 }
