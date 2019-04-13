@@ -7,7 +7,7 @@ namespace ClashRoyale.Database.Cache
 {
     public class Alliances : Dictionary<long, Alliance>
     {
-        private readonly object SyncObject = new object();
+        private readonly object _syncObject = new object();
 
         /// <summary>
         /// Add an alliance to the server
@@ -15,7 +15,7 @@ namespace ClashRoyale.Database.Cache
         /// <param name="alliance"></param>
         public void Add(Alliance alliance)
         {
-            lock (SyncObject)
+            lock (_syncObject)
             {
                 if (!ContainsKey(alliance.Id)) Add(alliance.Id, alliance);
             }
@@ -27,7 +27,7 @@ namespace ClashRoyale.Database.Cache
         /// <param name="allianceId"></param>
         public new void Remove(long allianceId)
         {
-            lock (SyncObject)
+            lock (_syncObject)
             {
                 if (ContainsKey(allianceId))
                 {
@@ -50,7 +50,7 @@ namespace ClashRoyale.Database.Cache
         /// <returns></returns>
         public async Task<Alliance> GetAlliance(long allianceId, bool onlineOnly = false)
         {
-            lock (SyncObject)
+            lock (_syncObject)
             {
                 if (ContainsKey(allianceId))
                     return this[allianceId];

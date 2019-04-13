@@ -7,7 +7,7 @@ namespace ClashRoyale.Database.Cache
 {
     public class Players : Dictionary<long, Player>
     {
-        private readonly object SyncObject = new object();
+        private readonly object _syncObject = new object();
 
         /// <summary>
         /// Login a player
@@ -15,7 +15,7 @@ namespace ClashRoyale.Database.Cache
         /// <param name="player"></param>
         public void Login(Player player)
         {
-            lock (SyncObject)
+            lock (_syncObject)
             {
                 if (!ContainsKey(player.Home.Id)) Add(player.Home.Id, player);
             }
@@ -27,7 +27,7 @@ namespace ClashRoyale.Database.Cache
         /// <param name="userId"></param>
         public void Logout(long userId)
         {
-            lock (SyncObject)
+            lock (_syncObject)
             {
                 if (ContainsKey(userId))
                 {
@@ -52,7 +52,7 @@ namespace ClashRoyale.Database.Cache
         /// <returns></returns>
         public async Task<Player> GetPlayer(long userId, bool onlineOnly = false)
         {
-            lock (SyncObject)
+            lock (_syncObject)
             {
                 if (ContainsKey(userId))
                     return this[userId];
