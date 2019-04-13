@@ -13,6 +13,9 @@ namespace ClashRoyale.Database.Cache
 
         public Random Random = new Random();
 
+        /// <summary>
+        /// Get a player from the queue and remove it
+        /// </summary>
         public Player Dequeue
         {
             get
@@ -34,6 +37,10 @@ namespace ClashRoyale.Database.Cache
             }
         }
 
+        /// <summary>
+        /// Adds a player to the queue and sends the estimated time
+        /// </summary>
+        /// <param name="player"></param>
         public void Enqueue(Player player)
         {
             lock (PlayerQueue)
@@ -57,6 +64,11 @@ namespace ClashRoyale.Database.Cache
             }
         }
 
+        /// <summary>
+        /// Sends MatchmakeInfoMessage
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="estimatedDuration"></param>
         public async void SendInfo(Device device, int estimatedDuration)
         {
             await new MatchmakeInfoMessage(device)
@@ -65,6 +77,11 @@ namespace ClashRoyale.Database.Cache
             }.Send();
         }
 
+        /// <summary>
+        /// Remove a player from queue and returns true wether he has been removed
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public bool Cancel(Player player)
         {
             lock (PlayerQueue)
@@ -77,6 +94,10 @@ namespace ClashRoyale.Database.Cache
             }
         }
 
+        /// <summary>
+        /// Adds a battle to the list
+        /// </summary>
+        /// <param name="battle"></param>
         public void Add(Battle battle)
         {
             battle.BattleId = _seed++;
@@ -85,6 +106,10 @@ namespace ClashRoyale.Database.Cache
                 Add(battle.BattleId, battle);
         }
 
+        /// <summary>
+        /// Remove a battle with the id
+        /// </summary>
+        /// <param name="id"></param>
         public new void Remove(long id)
         {
             if (ContainsKey(id))

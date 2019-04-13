@@ -23,6 +23,9 @@ namespace ClashRoyale.Files
             Logger.Log($"Fingerprint updated to v.{Resources.Fingerprint.GetVersion}", GetType());
         }
 
+        /// <summary>
+        /// Returns true wether the files have been updated
+        /// </summary>
         public bool AssetsChanged
         {
             get
@@ -40,6 +43,9 @@ namespace ClashRoyale.Files
             }
         }
 
+        /// <summary>
+        /// Creates a new patch if the files have been updated
+        /// </summary>
         public void CreatePatch()
         {
             if (!Directory.Exists(PatchDir)) Directory.CreateDirectory(PatchDir);

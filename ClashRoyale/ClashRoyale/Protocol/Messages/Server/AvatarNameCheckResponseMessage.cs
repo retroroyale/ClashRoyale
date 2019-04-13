@@ -12,6 +12,13 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public string Name { get; set; }
 
+        // Errorcodes:
+        // 1 = invalid
+        // 2 = too short
+        // 3 = already changed
+        // 4 = invalid mirror
+        // 5 = low level
+
         public override void Encode()
         {
             Writer.WriteBoolean(false); // IsValid
