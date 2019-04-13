@@ -3,6 +3,7 @@ using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace ClashRoyale.Logic.Home.Decks.Items
 {
@@ -113,19 +114,14 @@ namespace ClashRoyale.Logic.Home.Decks.Items
 
         public static int Id(int classId, int instanceId)
         {
-            switch (classId)
+            if (classId >= 27)
             {
-                case 27:
-                {
-                    instanceId += 58;
-                    break;
-                }
+                instanceId += Csv.Tables.Get(Csv.Types.SpellsCharacters).GetDatas().Count();
+            }
 
-                case 28:
-                {
-                    instanceId += 72;
-                    break;
-                }
+            if (classId == 28)
+            {
+                instanceId += Csv.Tables.Get(Csv.Types.SpellsBuildings).GetDatas().Count();
             }
 
             return instanceId + 1;

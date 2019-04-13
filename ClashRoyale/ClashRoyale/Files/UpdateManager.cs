@@ -33,7 +33,7 @@ namespace ClashRoyale.Files
                 var files = Resources.Fingerprint.Files;
                 return Directory.GetDirectories(BaseDir).Where(d => !d.Contains("update")).Any(dir =>
                     (from file in Directory.GetFiles(dir)
-                        let sha = ServerUtils.GetChecksum(ServerUtils.CompressData(File.ReadAllBytes(file)))
+                        let sha = ServerUtils.GetChecksum(file.Contains("sc") ? File.ReadAllBytes(file) : ServerUtils.CompressData(File.ReadAllBytes(file)))
                         let name = file.Replace(BaseDir, string.Empty).Replace('\\', '/')
                         let index = files.FindIndex(x => x.File == name)
                         where index > -1
@@ -64,7 +64,7 @@ namespace ClashRoyale.Files
 
                 foreach (var updatedFile in Directory.GetFiles(dir))
                 {
-                    var data = ServerUtils.CompressData(File.ReadAllBytes(updatedFile));
+                    var data = updatedFile.Contains("sc") ? File.ReadAllBytes(updatedFile) : ServerUtils.CompressData(File.ReadAllBytes(updatedFile)); // only compress csv
                     var name = Path.GetFileName(updatedFile);
                     var newPath = newDir + name;
 
