@@ -63,9 +63,9 @@ namespace ClashRoyale.Protocol
                 //{14318, typeof(SelectSpellsFromCoOpenMessage)},
                 //{14319, typeof(OfferChestForCoOpenMessage)},
                 //{14321, typeof(RespondToAllianceJoinRequestMessage)},
-                //{14322, typeof(SendAllianceInvitationMessage)},
+                {14322, typeof(SendAllianceInvitationMessage)},
                 //{14323, typeof(JoinAllianceUsingInvitationMessage)},
-                //{14324, typeof(SearchAlliancesMessage)},
+                {14324, typeof(SearchAlliancesMessage)},
                 //{14330, typeof(SendAllianceMailMessage)},
 
                 {14401, typeof(AskForAllianceRankingListMessage)},

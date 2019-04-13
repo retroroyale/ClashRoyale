@@ -5,17 +5,19 @@ using System.Collections.Generic;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {
-    public class JoinableAllianceListMessage : PiranhaMessage
+    public class AllianceListMessage : PiranhaMessage
     {
-        public JoinableAllianceListMessage(Device device) : base(device)
+        public AllianceListMessage(Device device) : base(device)
         {
-            Id = 24304;
+            Id = 24310;
         }
 
         public List<Alliance> Alliances { get; set; }
+        public string Query { get; set; }
 
         public override void Encode()
         {
+            Writer.WriteScString(Query);
             Writer.WriteVInt(Alliances.Count);
 
             foreach (var alliance in Alliances)
