@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using SevenZip.Sdk;
@@ -12,13 +13,18 @@ namespace ClashRoyale.Extensions.Utils
 {
     public class ServerUtils
     {
-        public static bool IsLinux
+        public static string GetOSName()
         {
-            get
-            {
-                var p = (int) Environment.OSVersion.Platform;
-                return p == 4 || p == 6 || p == 128;
-            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return "Windows";
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                return "MacOS";
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                return "Linux";
+
+            return "Unknown-" + Environment.OSVersion;
         }
 
         public static string GetIp4Address()
