@@ -33,7 +33,7 @@ namespace ClashRoyale
         {
             Logger = new Logger();
             Logger.Log(
-                $"Starting [{DateTime.Now.ToLongTimeString()} - {(ServerUtils.IsLinux ? "Linux" : "Windows")}]...",
+                $"Starting [{DateTime.Now.ToLongTimeString()} - {ServerUtils.GetOSName()}]...",
                 null);
 
             Configuration = new Configuration();
