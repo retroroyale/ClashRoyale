@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Extensions
@@ -25,83 +24,32 @@ namespace ClashRoyale.Extensions
         }
 
         /// <summary>
-        ///     Decodes a VInt
+        /// Decodes a VInt (Variable Length Integer) - special greets to nameless who made this way smaller
         /// </summary>
         /// <param name="byteBuffer"></param>
         /// <returns></returns>
         public static int ReadVInt(this IByteBuffer byteBuffer)
         {
-            try
+            byte b;
+            var sign = ((b = byteBuffer.ReadByte()) >> 6) & 1;
+            var i = b & 0x3F;
+
+            for (;;)
             {
-                var b = byteBuffer.ReadByte();
-                var v5 = b & 0x80;
-                var lr = b & 0x3F;
-
-                if ((b & 0x40) != 0)
-                {
-                    if (v5 == 0)
-                        return lr;
-
-                    b = byteBuffer.ReadByte();
-                    v5 = ((b << 6) & 0x1FC0) | lr;
-                    if ((b & 0x80) != 0)
-                    {
-                        b = byteBuffer.ReadByte();
-                        v5 = v5 | ((b << 13) & 0xFE000);
-                        if ((b & 0x80) != 0)
-                        {
-                            b = byteBuffer.ReadByte();
-                            v5 = v5 | ((b << 20) & 0x7F00000);
-                            if ((b & 0x80) != 0)
-                            {
-                                b = byteBuffer.ReadByte();
-                                lr = (int) (v5 | (b << 27) | 0x80000000);
-                            }
-                            else
-                            {
-                                lr = (int) (v5 | 0xF8000000);
-                            }
-                        }
-                        else
-                        {
-                            lr = (int) (v5 | 0xFFF00000);
-                        }
-                    }
-                    else
-                    {
-                        lr = (int) (v5 | 0xFFFFE000);
-                    }
-                }
-                else
-                {
-                    if (v5 == 0)
-                        return lr;
-
-                    b = byteBuffer.ReadByte();
-                    lr |= (b << 6) & 0x1FC0;
-                    if ((b & 0x80) == 0)
-                        return lr;
-
-                    b = byteBuffer.ReadByte();
-                    lr |= (b << 13) & 0xFE000;
-                    if ((b & 0x80) == 0)
-                        return lr;
-
-                    b = byteBuffer.ReadByte();
-                    lr |= (b << 20) & 0x7F00000;
-                    if ((b & 0x80) == 0)
-                        return lr;
-
-                    b = byteBuffer.ReadByte();
-                    lr |= b << 27;
-                }
-
-                return lr;
-            }
-            catch (IndexOutOfRangeException)
-            {
+                if ((b & 0x80) == 0) break;
+                i |= ((b = byteBuffer.ReadByte()) & 0x7F) << 6;
+                if ((b & 0x80) == 0) break;
+                i |= ((b = byteBuffer.ReadByte()) & 0x7F) << (6 + 7);
+                if ((b & 0x80) == 0) break;
+                i |= ((b = byteBuffer.ReadByte()) & 0x7F) << (6 + 7 + 7);
+                if ((b & 0x80) == 0) break;
+                i |= ((b = byteBuffer.ReadByte()) & 0x7F) << (6 + 7 + 7 + 7);
+                if ((b & 0x80) == 0) break;
                 return -1;
             }
+
+            i ^= -sign;
+            return i;
         }
     }
 }

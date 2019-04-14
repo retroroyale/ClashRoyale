@@ -10,7 +10,7 @@ namespace ClashRoyale.Database.Cache
         private readonly object _syncObject = new object();
 
         /// <summary>
-        /// Login a player
+        ///     Login a player
         /// </summary>
         /// <param name="player"></param>
         public void Login(Player player)
@@ -22,7 +22,7 @@ namespace ClashRoyale.Database.Cache
         }
 
         /// <summary>
-        /// Logout a player and save it
+        ///     Logout a player and save it
         /// </summary>
         /// <param name="userId"></param>
         public void Logout(long userId)
@@ -45,7 +45,7 @@ namespace ClashRoyale.Database.Cache
         }
 
         /// <summary>
-        /// Get a player from cache or database
+        ///     Get a player from cache or database
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="onlineOnly"></param>

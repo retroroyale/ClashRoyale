@@ -10,7 +10,7 @@ namespace ClashRoyale.Database.Cache
         private readonly object _syncObject = new object();
 
         /// <summary>
-        /// Add an alliance to the server
+        ///     Add an alliance to the server
         /// </summary>
         /// <param name="alliance"></param>
         public void Add(Alliance alliance)
@@ -22,7 +22,7 @@ namespace ClashRoyale.Database.Cache
         }
 
         /// <summary>
-        /// Remove an alliance from the server and save it
+        ///     Remove an alliance from the server and save it
         /// </summary>
         /// <param name="allianceId"></param>
         public new void Remove(long allianceId)
@@ -43,7 +43,7 @@ namespace ClashRoyale.Database.Cache
         }
 
         /// <summary>
-        /// Get an alliance from cache or database
+        ///     Get an alliance from cache or database
         /// </summary>
         /// <param name="allianceId"></param>
         /// <param name="onlineOnly"></param>
@@ -72,7 +72,7 @@ namespace ClashRoyale.Database.Cache
         }
 
         /// <summary>
-        /// Returns a list of random cached Alliances
+        ///     Returns a list of random cached Alliances
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
@@ -88,13 +88,12 @@ namespace ClashRoyale.Database.Cache
                 {
                     if (notFull)
                     {
-                        if (alliance.Members.Count < 50)
-                        {
-                            alliances.Add(alliance);
-                        }
+                        if (alliance.Members.Count < 50) alliances.Add(alliance);
                     }
                     else
+                    {
                         alliances.Add(alliance);
+                    }
                 }
             }
 

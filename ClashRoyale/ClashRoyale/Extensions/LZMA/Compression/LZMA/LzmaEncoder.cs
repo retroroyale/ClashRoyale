@@ -175,6 +175,7 @@ namespace SevenZip.Sdk.Compression.Lzma
                         _numFastBytes = (uint) numFastBytes;
                         break;
                     }
+
                     case CoderPropId.Algorithm:
                     {
                         /*
@@ -186,6 +187,7 @@ namespace SevenZip.Sdk.Compression.Lzma
 						*/
                         break;
                     }
+
                     case CoderPropId.MatchFinder:
                     {
                         if (!(prop is string))
@@ -205,6 +207,7 @@ namespace SevenZip.Sdk.Compression.Lzma
 
                         break;
                     }
+
                     case CoderPropId.DictionarySize:
                     {
                         const int kDicLogSizeMaxCompress = 30;
@@ -226,6 +229,7 @@ namespace SevenZip.Sdk.Compression.Lzma
                         _distTableSize = (uint) dicLogSize * 2;
                         break;
                     }
+
                     case CoderPropId.PosStateBits:
                     {
                         if (!(prop is int))
@@ -239,6 +243,7 @@ namespace SevenZip.Sdk.Compression.Lzma
                         _posStateMask = ((uint) 1 << _posStateBits) - 1;
                         break;
                     }
+
                     case CoderPropId.LitPosBits:
                     {
                         if (!(prop is int))
@@ -251,6 +256,7 @@ namespace SevenZip.Sdk.Compression.Lzma
                         _numLiteralPosStateBits = v;
                         break;
                     }
+
                     case CoderPropId.LitContextBits:
                     {
                         if (!(prop is int))
@@ -264,6 +270,7 @@ namespace SevenZip.Sdk.Compression.Lzma
                         _numLiteralContextBits = v;
                         break;
                     }
+
                     case CoderPropId.EndMarker:
                     {
                         if (!(prop is bool))
@@ -272,6 +279,7 @@ namespace SevenZip.Sdk.Compression.Lzma
                         SetWriteEndMarkerMode((bool) prop);
                         break;
                     }
+
                     default:
                         throw new InvalidParamException();
                 }

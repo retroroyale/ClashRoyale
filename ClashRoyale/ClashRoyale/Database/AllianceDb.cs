@@ -284,6 +284,6 @@ namespace ClashRoyale.Database
             }
 
             #endregion
-        }      
+        }
     }
 }

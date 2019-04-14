@@ -10,11 +10,11 @@ namespace ClashRoyale.Logic.Home
     public class Home
     {
         [JsonProperty("clan_info")] public AllianceInfo AllianceInfo = new AllianceInfo();
-        [JsonProperty("deck")] public Deck Deck = new Deck();
-        [JsonProperty("chests")] public Chests.Chests Chests = new Chests.Chests();
-        [JsonProperty("shop")] public Shop.Shop Shop = new Shop.Shop();
 
         [JsonIgnore] public Arena Arena = new Arena();
+        [JsonProperty("chests")] public Chests.Chests Chests = new Chests.Chests();
+        [JsonProperty("deck")] public Deck Deck = new Deck();
+        [JsonProperty("shop")] public Shop.Shop Shop = new Shop.Shop();
 
         public Home()
         {
@@ -106,7 +106,10 @@ namespace ClashRoyale.Logic.Home
                 else
                     diamondCost = 60;
             }
-            else diamondCost = 8;
+            else
+            {
+                diamondCost = 8;
+            }
 
 
             Gold += amount;
