@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ClashRoyale.Extensions
 {
-    public static class Helpers
+    public static class ExtensionMethods
     {
         public static void UpdateOrInsert<T>(this List<T> list, int index, T item)
         {
