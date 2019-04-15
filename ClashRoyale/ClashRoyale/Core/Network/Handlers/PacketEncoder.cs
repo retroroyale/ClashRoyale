@@ -9,25 +9,20 @@ namespace ClashRoyale.Core.Network.Handlers
     {
         public override Task WriteAsync(IChannelHandlerContext context, object msg)
         {
-            var message = (PiranhaMessage) msg;
+            if (!(msg is PiranhaMessage message)) return base.WriteAsync(context, null);
 
-            if (message != null)
-            {
-                message.Encode();
-                message.Encrypt();
+            message.Encode();
+            message.Encrypt();
 
-                var buffer = Unpooled.Buffer(7 + message.Length);
+            var buffer = Unpooled.Buffer(7 + message.Length);
 
-                buffer.WriteUnsignedShort(message.Id);
-                buffer.WriteMedium(message.Length);
-                buffer.WriteUnsignedShort(message.Version);
+            buffer.WriteUnsignedShort(message.Id);
+            buffer.WriteMedium(message.Length);
+            buffer.WriteUnsignedShort(message.Version);
 
-                buffer.WriteBytes(message.Writer);
+            buffer.WriteBytes(message.Writer);
 
-                return base.WriteAsync(context, buffer);
-            }
-
-            return base.WriteAsync(context, null);
+            return base.WriteAsync(context, buffer);
         }
     }
 }

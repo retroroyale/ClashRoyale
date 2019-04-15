@@ -7,14 +7,14 @@ namespace ClashRoyale.Files.CsvHelpers
     public class DataTable
     {
         protected List<Data> Data;
-        protected int Index;
+        protected Csv.Types Index;
 
         public DataTable()
         {
             Data = new List<Data>();
         }
 
-        public DataTable(Table table, int index)
+        public DataTable(Table table, Csv.Types index)
         {
             Index = index;
             Data = new List<Data>();
@@ -38,264 +38,264 @@ namespace ClashRoyale.Files.CsvHelpers
 
         public Data Create(Row row)
         {
-            switch (Index)
+            switch ((Csv.Types)Index)
             {
-                case 1:
+                case Csv.Types.Abilities:
                 {
                     return new Abilities(row, this);
                 }
 
-                case 2:
+                case Csv.Types.Achievements:
                 {
                     return new Achievements(row, this);
                 }
 
-                case 3:
+                case Csv.Types.AllianceBadges:
                 {
                     return new AllianceBadges(row, this);
                 }
 
-                case 4:
+                case Csv.Types.AllianceRoles:
                 {
                     return new AllianceRoles(row, this);
                 }
 
-                case 5:
+                case Csv.Types.AreaEffectObjects:
                 {
                     return new AreaEffectObjects(row, this);
                 }
 
-                case 6:
+                case Csv.Types.Arenas:
                 {
                     return new Arenas(row, this);
                 }
 
-                case 7:
+                case Csv.Types.Buildings:
                 {
                     return new Buildings(row, this);
                 }
 
-                case 8:
+                case Csv.Types.CharacterBuffs:
                 {
                     return new CharacterBuffs(row, this);
                 }
 
-                case 9:
+                case Csv.Types.Characters:
                 {
                     return new Characters(row, this);
                 }
 
-                case 10:
+                case Csv.Types.ChestOrder:
                 {
                     return new ChestOrder(row, this);
                 }
 
-                case 11:
+                case Csv.Types.ConfigurationDefinitions:
                 {
                     return new ConfigurationDefinitions(row, this);
                 }
 
-                case 12:
+                case Csv.Types.ContentTests:
                 {
                     return new ContentTests(row, this);
                 }
 
-                case 13:
+                case Csv.Types.Decos:
                 {
                     return new Decos(row, this);
                 }
 
-                case 14:
+                case Csv.Types.DraftDeck:
                 {
                     return new DraftDeck(row, this);
                 }
 
-                case 15:
+                case Csv.Types.EventCategories:
                 {
                     return new EventCategories(row, this);
                 }
 
-                case 16:
+                case Csv.Types.EventCategoryDefinitions:
                 {
                     return new EventCategoryDefinitions(row, this);
                 }
 
-                case 17:
+                case Csv.Types.EventCategoryEnums:
                 {
                     return new EventCategoryEnums(row, this);
                 }
 
-                case 18:
+                case Csv.Types.EventCategoryObjectDefinitions:
                 {
                     return new EventCategoryObjectDefinitions(row, this);
                 }
 
-                case 19:
+                case Csv.Types.EventTargetingDefinitions:
                 {
                     return new EventTargetingDefinitions(row, this);
                 }
 
-                case 20:
+                case Csv.Types.ExpLevels:
                 {
                     return new ExpLevels(row, this);
                 }
 
-                case 21:
+                case Csv.Types.GambleChests:
                 {
                     return new GambleChests(row, this);
                 }
 
-                case 22:
+                case Csv.Types.GameModes:
                 {
                     return new GameModes(row, this);
                 }
 
-                case 23:
+                case Csv.Types.Globals:
                 {
                     return new Globals(row, this);
                 }
 
-                case 24:
+                case Csv.Types.Heroes:
                 {
                     return new Heroes(row, this);
                 }
 
-                case 25:
+                case Csv.Types.Locales:
                 {
                     return new Locales(row, this);
                 }
 
-                case 26:
+                case Csv.Types.Locations:
                 {
                     return new Locations(row, this);
                 }
 
-                case 27:
+                case Csv.Types.Npcs:
                 {
                     return new Npcs(row, this);
                 }
 
-                case 28:
+                case Csv.Types.PredefinedDecks:
                 {
                     return new PredefinedDecks(row, this);
                 }
 
-                case 29:
+                case Csv.Types.Projectiles:
                 {
                     return new Projectiles(row, this);
                 }
 
-                case 30:
+                case Csv.Types.PveBoss:
                 {
                     return new PveBoss(row, this);
                 }
 
-                case 31:
+                case Csv.Types.PveGamemodes:
                 {
                     return new PveGamemodes(row, this);
                 }
 
-                case 32:
+                case Csv.Types.PveWaves:
                 {
                     return new PveWaves(row, this);
                 }
 
-                case 33:
+                case Csv.Types.QuestOrder:
                 {
                     return new QuestOrder(row, this);
                 }
 
-                case 34:
+                case Csv.Types.Rarities:
                 {
                     return new Rarities(row, this);
                 }
 
-                case 35:
+                case Csv.Types.Regions:
                 {
                     return new Regions(row, this);
                 }
 
-                case 36:
+                case Csv.Types.ResourcePacks:
                 {
                     return new ResourcePacks(row, this);
                 }
 
-                case 37:
+                case Csv.Types.Resources:
                 {
                     return new CsvLogic.Resources(row, this);
                 }
 
-                case 38:
+                case Csv.Types.Shop:
                 {
                     return new Shop(row, this);
                 }
 
-                case 39:
+                case Csv.Types.Skins:
                 {
                     return new Skins(row, this);
                 }
 
-                case 40:
+                case Csv.Types.SpellSets:
                 {
                     return new SpellSets(row, this);
                 }
 
-                case 41:
+                case Csv.Types.SpellsBuildings:
                 {
                     return new SpellsBuildings(row, this);
                 }
 
-                case 42:
+                case Csv.Types.SpellsCharacters:
                 {
                     return new SpellsCharacters(row, this);
                 }
 
-                case 43:
+                case Csv.Types.SpellsHeroes:
                 {
                     return new SpellsHeroes(row, this);
                 }
 
-                case 44:
+                case Csv.Types.SpellsOther:
                 {
                     return new SpellsOther(row, this);
                 }
 
-                case 45:
+                case Csv.Types.SurvivalModes:
                 {
                     return new SurvivalModes(row, this);
                 }
 
-                case 46:
+                case Csv.Types.Taunts:
                 {
                     return new Taunts(row, this);
                 }
 
-                case 47:
+                case Csv.Types.TournamentTiers:
                 {
                     return new TournamentTiers(row, this);
                 }
 
-                case 48:
+                case Csv.Types.TreasureChests:
                 {
                     return new TreasureChests(row, this);
                 }
 
-                case 49:
+                case Csv.Types.TutorialChestOrder:
                 {
                     return new TutorialChestOrder(row, this);
                 }
 
-                case 50:
+                case Csv.Types.TutorialsHome:
                 {
                     return new TutorialsHome(row, this);
                 }
 
-                case 51:
+                case Csv.Types.TutorialsNpc:
                 {
                     return new TutorialsNpc(row, this);
                 }
 
-                case 52:
+                case Csv.Types.TveGamemodes:
                 {
                     return new TveGamemodes(row, this);
                 }
@@ -329,7 +329,7 @@ namespace ClashRoyale.Files.CsvHelpers
 
         public int GetIndex()
         {
-            return Index;
+            return (int)Index;
         }
     }
 }

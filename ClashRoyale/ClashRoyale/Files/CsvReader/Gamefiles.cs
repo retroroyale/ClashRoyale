@@ -30,9 +30,9 @@ namespace ClashRoyale.Files.CsvReader
             return _dataTables[index - 1];
         }
 
-        public void Initialize(Table table, int index)
+        public void Initialize(Table table, Csv.Types index)
         {
-            _dataTables[index - 1] = new DataTable(table, index);
+            _dataTables[(int)index - 1] = new DataTable(table, index);
         }
     }
 }
