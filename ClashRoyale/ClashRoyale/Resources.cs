@@ -10,7 +10,7 @@ using ClashRoyale.Files;
 
 namespace ClashRoyale
 {
-    public class Resources
+    public static class Resources
     {
         public static Logger Logger { get; set; }
         public static SentryReport Sentry { get; set; }
