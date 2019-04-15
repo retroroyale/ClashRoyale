@@ -60,7 +60,7 @@ namespace ClashRoyale
 
             Netty = new NettyService();
 
-            await Task.Factory.StartNew(Netty.RunServerAsync);
+            await Task.Run(Netty.RunServerAsync);
         }
     }
 }
