@@ -13,7 +13,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override async void Process()
         {
-            await new TournamentListMessage(Device).Send();
+            await new TournamentListMessage(Device).SendAsync();
         }
     }
 }

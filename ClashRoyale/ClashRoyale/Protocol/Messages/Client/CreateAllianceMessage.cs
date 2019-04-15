@@ -40,7 +40,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
             if (player.Home.UseGold(1000))
             {
-                var alliance = await AllianceDb.Create();
+                var alliance = await AllianceDb.CreateAsync();
 
                 if (alliance != null)
                 {
@@ -66,13 +66,13 @@ namespace ClashRoyale.Protocol.Messages.Client
                             AllianceName = Name,
                             AllianceBadge = Badge
                         }
-                    }.Send();
+                    }.SendAsync();
 
                     alliance.UpdateOnlineCount();
                 }
                 else
                 {
-                    await Device.Disconnect();
+                    await Device.DisconnectAsync();
                 }
             }
         }

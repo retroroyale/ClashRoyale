@@ -48,7 +48,7 @@ namespace ClashRoyale
             PlayerDb = new PlayerDb();
             AllianceDb = new AllianceDb();
 
-            Logger.Log($"Successfully loaded MySql with {await PlayerDb.Count()} player(s) & {await AllianceDb.Count()} clan(s)", null);
+            Logger.Log($"Successfully loaded MySql with {await PlayerDb.CountAsync()} player(s) & {await AllianceDb.CountAsync()} clan(s)", null);
 
             Redis = new Redis();
 

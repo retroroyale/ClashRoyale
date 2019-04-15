@@ -34,7 +34,7 @@ namespace ClashRoyale.Protocol.Commands.Client
                 {
                     Chest = chest
                 }
-            }.Send();
+            }.SendAsync();
         }
     }
 }

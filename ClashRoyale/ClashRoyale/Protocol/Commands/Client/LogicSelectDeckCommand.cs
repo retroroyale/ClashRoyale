@@ -23,7 +23,7 @@ namespace ClashRoyale.Protocol.Commands.Client
 
         public override async void Process()
         {
-            await new OutOfSyncMessage(Device).Send();
+            await new OutOfSyncMessage(Device).SendAsync();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace ClashRoyale.Core.Network.Handlers
             var packet = new byte[buffer.ReadableBytes];
             buffer.GetBytes(buffer.ReaderIndex, packet);
 
-            await Device.Process(Unpooled.CopiedBuffer(packet));
+            await Device.ProcessAsync(Unpooled.CopiedBuffer(packet));
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext context)
@@ -51,7 +51,7 @@ namespace ClashRoyale.Core.Network.Handlers
 
                 if (player.Home.AllianceInfo.HasAlliance)
                 {
-                    var alliance = await Resources.Alliances.GetAlliance(player.Home.AllianceInfo.Id);
+                    var alliance = await Resources.Alliances.GetAllianceAsync(player.Home.AllianceInfo.Id);
                     if (alliance != null)
                     {
                         if (alliance.Online < 1)

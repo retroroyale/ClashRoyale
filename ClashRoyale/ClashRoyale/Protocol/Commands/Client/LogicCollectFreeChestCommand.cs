@@ -20,7 +20,7 @@ namespace ClashRoyale.Protocol.Commands.Client
                 {
                     Chest = Device.Player.Home.Chests.BuyChest(1, Chest.ChestType.Free)
                 }
-            }.Send();
+            }.SendAsync();
         }
     }
 }

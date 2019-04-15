@@ -25,7 +25,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
             if (info.HasAlliance)
             {
-                var alliance = await Resources.Alliances.GetAlliance(info.Id);
+                var alliance = await Resources.Alliances.GetAllianceAsync(info.Id);
 
                 if (alliance != null)
                 {

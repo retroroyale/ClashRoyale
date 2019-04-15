@@ -14,7 +14,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         public override async void Process()
         {
             if (Resources.Battles.Cancel(Device.Player))
-                await new CancelMatchmakeDoneMessage(Device).Send();
+                await new CancelMatchmakeDoneMessage(Device).SendAsync();
         }
     }
 }

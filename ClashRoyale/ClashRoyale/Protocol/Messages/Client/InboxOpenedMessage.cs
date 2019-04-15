@@ -13,7 +13,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override async void Process()
         {
-            await new InboxListMessage(Device).Send();
+            await new InboxListMessage(Device).SendAsync();
         }
     }
 }

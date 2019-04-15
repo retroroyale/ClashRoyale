@@ -24,7 +24,7 @@ namespace ClashRoyale.Protocol.Messages.Client
             await new AvatarNameCheckResponseMessage(Device)
             {
                 Name = Name
-            }.Send();
+            }.SendAsync();
         }
     }
 }

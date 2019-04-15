@@ -46,7 +46,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                             Value = Value,
                             HighId = Device.Player.Home.HighId,
                             LowId = Device.Player.Home.LowId
-                        }.Send();
+                        }.SendAsync();
 
                     break;
                 }

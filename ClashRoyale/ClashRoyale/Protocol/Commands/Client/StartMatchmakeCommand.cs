@@ -25,8 +25,8 @@ namespace ClashRoyale.Protocol.Commands.Client
         {
             if (Is2V2)
             {
-                await new MatchmakeFailedMessage(Device).Send();
-                await new CancelMatchmakeDoneMessage(Device).Send();
+                await new MatchmakeFailedMessage(Device).SendAsync();
+                await new CancelMatchmakeDoneMessage(Device).SendAsync();
             }
             else
             {

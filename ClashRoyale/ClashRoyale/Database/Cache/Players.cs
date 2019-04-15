@@ -50,7 +50,7 @@ namespace ClashRoyale.Database.Cache
         /// <param name="userId"></param>
         /// <param name="onlineOnly"></param>
         /// <returns></returns>
-        public async Task<Player> GetPlayer(long userId, bool onlineOnly = false)
+        public async Task<Player> GetPlayerAsync(long userId, bool onlineOnly = false)
         {
             lock (_syncObject)
             {
@@ -60,15 +60,15 @@ namespace ClashRoyale.Database.Cache
 
             if (onlineOnly) return null;
 
-            if (!Redis.IsConnected) return await PlayerDb.Get(userId);
+            if (!Redis.IsConnected) return await PlayerDb.GetAsync(userId);
 
-            var player = await Redis.GetPlayer(userId);
+            var player = await Redis.GetPlayerAsync(userId);
 
             if (player != null) return player;
 
-            player = await PlayerDb.Get(userId);
+            player = await PlayerDb.GetAsync(userId);
 
-            await Redis.Cache(player);
+            await Redis.CacheAsync(player);
 
             return player;
         }

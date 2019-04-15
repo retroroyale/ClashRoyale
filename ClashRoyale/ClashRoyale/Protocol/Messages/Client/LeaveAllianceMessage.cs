@@ -17,7 +17,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         public override async void Process()
         {
             var home = Device.Player.Home;
-            var alliance = await Resources.Alliances.GetAlliance(home.AllianceInfo.Id);
+            var alliance = await Resources.Alliances.GetAllianceAsync(home.AllianceInfo.Id);
 
             if (alliance != null)
             {
@@ -31,7 +31,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                     {
                         AllianceId = alliance.Id
                     }
-                }.Send();
+                }.SendAsync();
 
                 if (alliance.Members.Count != 0)
                 {
@@ -49,8 +49,8 @@ namespace ClashRoyale.Protocol.Messages.Client
                 }
                 else
                 {
-                    await AllianceDb.Delete(alliance.Id);
-                    await Redis.UncacheAlliance(alliance.Id);
+                    await AllianceDb.DeleteAsync(alliance.Id);
+                    await Redis.UncacheAllianceAsync(alliance.Id);
                 }
             }
         }

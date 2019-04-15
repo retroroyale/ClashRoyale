@@ -25,7 +25,7 @@ namespace ClashRoyale.Logic
         /// </summary>
         /// <param name="buffer"></param>
         /// <returns></returns>
-        public async Task Process(IByteBuffer buffer)
+        public async Task ProcessAsync(IByteBuffer buffer)
         {
             var id = buffer.ReadUnsignedShort();
             var length = buffer.ReadMedium();
@@ -38,7 +38,7 @@ namespace ClashRoyale.Logic
                     Logger.Log($"Message ID: {id}, V: {version}, L: {length} is not known.", GetType(),
                         ErrorLevel.Warning);
 
-                    await Disconnect();
+                    await DisconnectAsync();
                     return;
                 }
 
@@ -71,9 +71,9 @@ namespace ClashRoyale.Logic
         ///     Disconnect a client by sending OutOfSyncMessage
         /// </summary>
         /// <returns></returns>
-        public async Task Disconnect()
+        public async Task DisconnectAsync()
         {
-            await new OutOfSyncMessage(this).Send();
+            await new OutOfSyncMessage(this).SendAsync();
         }
 
         #region Objects

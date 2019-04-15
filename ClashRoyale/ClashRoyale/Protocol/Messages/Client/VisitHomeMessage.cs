@@ -22,8 +22,8 @@ namespace ClashRoyale.Protocol.Messages.Client
         {
             await new VisitedHomeDataMessage(Device)
             {
-                Player = await Resources.Players.GetPlayer(UserId)
-            }.Send();
+                Player = await Resources.Players.GetPlayerAsync(UserId)
+            }.SendAsync();
         }
     }
 }

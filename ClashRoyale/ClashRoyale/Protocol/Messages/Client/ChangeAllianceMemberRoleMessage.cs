@@ -28,7 +28,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         public override async void Process()
         {
             var home = Device.Player.Home;
-            var alliance = await Resources.Alliances.GetAlliance(home.AllianceInfo.Id);
+            var alliance = await Resources.Alliances.GetAllianceAsync(home.AllianceInfo.Id);
 
             var member = alliance?.GetMember(MemberId);
             var sender = alliance?.GetMember(home.Id);
@@ -36,7 +36,7 @@ namespace ClashRoyale.Protocol.Messages.Client
             if (member != null && sender != null)
                 if (GameUtils.IsHigherRoleThan(sender.Role, member.Role))
                 {
-                    var player = await member.GetPlayer();
+                    var player = await member.GetPlayerAsync();
 
                     if (player != null)
                     {
@@ -63,11 +63,11 @@ namespace ClashRoyale.Protocol.Messages.Client
                                     AllianceId = alliance.Id,
                                     NewRole = NewRole
                                 }
-                            }.Send();
+                            }.SendAsync();
 
                         if (NewRole == (int) Alliance.Role.Leader)
                         {
-                            var oldLeader = await sender.GetPlayer();
+                            var oldLeader = await sender.GetPlayerAsync();
 
                             sender.Role = (int) Alliance.Role.CoLeader;
                             oldLeader.Home.AllianceInfo.Role = (int) Alliance.Role.CoLeader;

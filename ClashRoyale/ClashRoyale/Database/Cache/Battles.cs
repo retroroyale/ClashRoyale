@@ -74,7 +74,7 @@ namespace ClashRoyale.Database.Cache
             await new MatchmakeInfoMessage(device)
             {
                 EstimatedDuration = estimatedDuration
-            }.Send();
+            }.SendAsync();
         }
 
         /// <summary>

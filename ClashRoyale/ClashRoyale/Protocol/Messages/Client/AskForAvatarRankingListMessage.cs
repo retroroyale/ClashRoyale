@@ -13,7 +13,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override async void Process()
         {
-            await new AvatarRankingListMessage(Device).Send();
+            await new AvatarRankingListMessage(Device).SendAsync();
         }
     }
 }
