@@ -8,6 +8,7 @@ namespace ClashRoyale.Protocol.Messages.Server
         public LoginOkMessage(Device device) : base(device)
         {
             Id = 20104;
+            Version = 1;
         }
 
         public override void Encode()
@@ -39,10 +40,9 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteScString("DE");
             Writer.WriteScString("Berlin");
 
-            Writer.WriteScString(string.Empty);
+            Writer.WriteScString("https://game-assets.clashroyaleapp.com");
+            Writer.WriteScString(Resources.Configuration.PatchUrl);
             Writer.WriteScString("https://event-assets.clashroyale.com");
-
-            Writer.WriteByte(3);
         }
     }
 }
