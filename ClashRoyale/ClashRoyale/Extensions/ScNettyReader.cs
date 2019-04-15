@@ -36,10 +36,7 @@ namespace ClashRoyale.Extensions
                 if ((b & 0x80) != 0) i |= ((b = byteBuffer.ReadByte()) & 0x7F) << offset;
                 else break;
 
-            if ((b & 0x80) != 0) return -1;
-
-            i ^= -sign;
-            return i;
+            return (b & 0x80) != 0 ? -1 : i ^ -sign;
         }
     }
 }
