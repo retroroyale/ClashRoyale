@@ -8,19 +8,18 @@ namespace ClashRoyale.Core
     {
         public SentryReport()
         {
-            if (!string.IsNullOrEmpty(Resources.Configuration.SentryApiUrl))
-            {
-                Client = new RavenClient(Resources.Configuration.SentryApiUrl)
-                {
-                    Logger = "ClashRoyale",
-                    IgnoreBreadcrumbs = true
-                };
+            if (string.IsNullOrEmpty(Resources.Configuration.SentryApiUrl)) return;
 
-                Client.Tags.Add("contentVersion", Resources.Fingerprint.GetVersion);
-            }
+            Client = new RavenClient(Resources.Configuration.SentryApiUrl)
+            {
+                Logger = "ClashRoyale",
+                IgnoreBreadcrumbs = true
+            };
+
+            Client.Tags.Add("contentVersion", Resources.Fingerprint.GetVersion);
         }
 
-        public RavenClient Client { get; set; }
+        private RavenClient Client { get; }
 
         public async void Report(string message, Type type, ErrorLevel level)
         {

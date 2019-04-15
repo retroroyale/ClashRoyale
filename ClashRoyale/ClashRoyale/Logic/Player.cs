@@ -545,7 +545,9 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(info.Role);
             }
             else
+            {
                 packet.WriteVInt(Home.NameSet == 0 ? 6 : 7); // HasAlliance
+            }
 
             // Battle Statistics
             {

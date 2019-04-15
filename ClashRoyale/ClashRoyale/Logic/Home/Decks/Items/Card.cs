@@ -1,9 +1,9 @@
-﻿using ClashRoyale.Extensions;
+﻿using System.Linq;
+using ClashRoyale.Extensions;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
-using System.Linq;
 
 namespace ClashRoyale.Logic.Home.Decks.Items
 {
@@ -19,7 +19,7 @@ namespace ClashRoyale.Logic.Home.Decks.Items
         }
 
         /// <summary>
-        /// Create a new card with given values
+        ///     Create a new card with given values
         /// </summary>
         /// <param name="classId"></param>
         /// <param name="instanceId"></param>
@@ -34,7 +34,7 @@ namespace ClashRoyale.Logic.Home.Decks.Items
         }
 
         /// <summary>
-        /// Copy values from a different class to this new instance
+        ///     Copy values from a different class to this new instance
         /// </summary>
         /// <param name="card"></param>
         public Card(Card card)
@@ -114,15 +114,9 @@ namespace ClashRoyale.Logic.Home.Decks.Items
 
         public static int Id(int classId, int instanceId)
         {
-            if (classId >= 27)
-            {
-                instanceId += Csv.Tables.Get(Csv.Types.SpellsCharacters).GetDatas().Count();
-            }
+            if (classId >= 27) instanceId += Csv.Tables.Get(Csv.Types.SpellsCharacters).GetDatas().Count();
 
-            if (classId == 28)
-            {
-                instanceId += Csv.Tables.Get(Csv.Types.SpellsBuildings).GetDatas().Count();
-            }
+            if (classId == 28) instanceId += Csv.Tables.Get(Csv.Types.SpellsBuildings).GetDatas().Count();
 
             return instanceId + 1;
         }

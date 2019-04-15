@@ -1,7 +1,7 @@
-﻿using ClashRoyale.Extensions;
+﻿using System.Collections.Generic;
+using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan;
-using System.Collections.Generic;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {

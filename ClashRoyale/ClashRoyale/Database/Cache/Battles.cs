@@ -8,13 +8,11 @@ namespace ClashRoyale.Database.Cache
     public class Battles : Dictionary<long, Battle>
     {
         private long _seed = 1;
-
-        public List<Player> PlayerQueue = new List<Player>();
-
-        public Random Random = new Random();
+        private readonly List<Player> _playerQueue = new List<Player>();
+        private readonly Random _random = new Random();
 
         /// <summary>
-        /// Get a player from the queue and remove it
+        ///     Get a player from the queue and remove it
         /// </summary>
         public Player Dequeue
         {
@@ -22,12 +20,12 @@ namespace ClashRoyale.Database.Cache
             {
                 Player player;
 
-                lock (PlayerQueue)
+                lock (_playerQueue)
                 {
-                    if (PlayerQueue.Count <= 0) return null;
+                    if (_playerQueue.Count <= 0) return null;
 
-                    player = PlayerQueue[0];
-                    PlayerQueue.RemoveAt(0);
+                    player = _playerQueue[0];
+                    _playerQueue.RemoveAt(0);
 
                     if (!player.Device.IsConnected)
                         return null;
@@ -38,34 +36,34 @@ namespace ClashRoyale.Database.Cache
         }
 
         /// <summary>
-        /// Adds a player to the queue and sends the estimated time
+        ///     Adds a player to the queue and sends the estimated time
         /// </summary>
         /// <param name="player"></param>
         public void Enqueue(Player player)
         {
-            lock (PlayerQueue)
+            lock (_playerQueue)
             {
-                if (PlayerQueue.Contains(player)) return;
+                if (_playerQueue.Contains(player)) return;
 
-                PlayerQueue.Add(player);
+                _playerQueue.Add(player);
 
-                var estimatedTime = Random.Next(601, 901);
+                var estimatedTime = _random.Next(601, 901);
 
                 if (Count > 0)
                     if (Count > 5)
                         if (Count > 25)
-                            estimatedTime = Count > Random.Next(61, 101) ? 5 : Random.Next(6, 16);
+                            estimatedTime = Count > _random.Next(61, 101) ? 5 : _random.Next(6, 16);
                         else
-                            estimatedTime = Random.Next(30, 61);
+                            estimatedTime = _random.Next(30, 61);
                     else
-                        estimatedTime = Random.Next(101, 601);
+                        estimatedTime = _random.Next(101, 601);
 
                 SendInfo(player.Device, estimatedTime);
             }
         }
 
         /// <summary>
-        /// Sends MatchmakeInfoMessage
+        ///     Sends MatchmakeInfoMessage
         /// </summary>
         /// <param name="device"></param>
         /// <param name="estimatedDuration"></param>
@@ -78,24 +76,24 @@ namespace ClashRoyale.Database.Cache
         }
 
         /// <summary>
-        /// Remove a player from queue and returns true wether he has been removed
+        ///     Remove a player from queue and returns true wether he has been removed
         /// </summary>
         /// <param name="player"></param>
         /// <returns></returns>
         public bool Cancel(Player player)
         {
-            lock (PlayerQueue)
+            lock (_playerQueue)
             {
-                if (!PlayerQueue.Contains(player)) return false;
+                if (!_playerQueue.Contains(player)) return false;
 
-                PlayerQueue.Remove(player);
+                _playerQueue.Remove(player);
 
                 return true;
             }
         }
 
         /// <summary>
-        /// Adds a battle to the list
+        ///     Adds a battle to the list
         /// </summary>
         /// <param name="battle"></param>
         public void Add(Battle battle)
@@ -107,7 +105,7 @@ namespace ClashRoyale.Database.Cache
         }
 
         /// <summary>
-        /// Remove a battle with the id
+        ///     Remove a battle with the id
         /// </summary>
         /// <param name="id"></param>
         public new void Remove(long id)
