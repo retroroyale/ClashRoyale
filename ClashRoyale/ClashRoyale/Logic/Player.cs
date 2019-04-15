@@ -588,8 +588,8 @@ namespace ClashRoyale.Logic
             var st = new Stopwatch();
             st.Start();
 
-            await Redis.Cache(this);
-            await PlayerDb.Save(this);
+            await Redis.CacheAsync(this);
+            await PlayerDb.SaveAsync(this);
 
             st.Stop();
             Logger.Log($"Player {Home.Id} saved in {st.ElapsedMilliseconds}ms.", GetType(), ErrorLevel.Debug);

@@ -31,7 +31,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         public override async void Process()
         {
             var home = Device.Player.Home;
-            var alliance = await Resources.Alliances.GetAlliance(home.AllianceInfo.Id);
+            var alliance = await Resources.Alliances.GetAllianceAsync(home.AllianceInfo.Id);
 
             if (alliance != null)
             {
@@ -48,7 +48,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                 if (Badge != oldBadge)
                     foreach (var member in alliance.Members)
                     {
-                        var player = await member.GetPlayer();
+                        var player = await member.GetPlayerAsync();
 
                         if (player != null)
                         {

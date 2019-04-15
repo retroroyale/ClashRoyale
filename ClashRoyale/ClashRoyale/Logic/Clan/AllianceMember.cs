@@ -71,9 +71,9 @@ namespace ClashRoyale.Logic.Clan
             packet.WriteLong(Id);
         }
 
-        public async Task<Player> GetPlayer(bool onlineOnly = false)
+        public async Task<Player> GetPlayerAsync(bool onlineOnly = false)
         {
-            return await Resources.Players.GetPlayer(Id, onlineOnly);
+            return await Resources.Players.GetPlayerAsync(Id, onlineOnly);
         }
     }
 }

@@ -70,7 +70,7 @@ namespace ClashRoyale.Protocol
         ///     Writes this message to the clients channel
         /// </summary>
         /// <returns></returns>
-        public async Task Send()
+        public async Task SendAsync()
         {
             try
             {

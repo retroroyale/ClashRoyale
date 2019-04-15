@@ -27,7 +27,7 @@ namespace ClashRoyale.Protocol.Messages.Client
             {
                 ClassId = ClassId,
                 InstanceId = InstanceId
-            }.Send();
+            }.SendAsync();
         }
     }
 }

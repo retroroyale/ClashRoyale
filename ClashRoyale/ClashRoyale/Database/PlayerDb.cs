@@ -90,7 +90,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task<long> Count()
+        public static async Task<long> CountAsync()
         {
             #region Count
 
@@ -122,7 +122,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task<Player> Create()
+        public static async Task<Player> CreateAsync()
         {
             #region Create
 
@@ -161,7 +161,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task<Player> Get(long id)
+        public static async Task<Player> GetAsync(long id)
         {
             #region Get
 
@@ -200,7 +200,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task<Player> Get(string facebookId)
+        public static async Task<Player> GetAsync(string facebookId)
         {
             #region Get
 
@@ -237,7 +237,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task Save(Player player)
+        public static async Task SaveAsync(Player player)
         {
             #region Save
 
@@ -265,7 +265,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task Delete(long id)
+        public static async Task DeleteAsync(long id)
         {
             #region Delete
 
@@ -278,7 +278,7 @@ namespace ClashRoyale.Database
                     await ExecuteAsync(cmd);
 
                     if (Redis.IsConnected)
-                        await Redis.UncachePlayer(id);
+                        await Redis.UncachePlayerAsync(id);
                 }
             }
             catch (Exception exception)
@@ -289,7 +289,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task<List<Player>> GetGlobalPlayerRanking()
+        public static async Task<List<Player>> GetGlobalPlayerRankingAsync()
         {
             #region GetGlobal
 
@@ -326,7 +326,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task<List<Player>> GetLocalPlayerRanking(string language)
+        public static async Task<List<Player>> GetLocalPlayerRankingAsync(string language)
         {
             #region GetLocal
 

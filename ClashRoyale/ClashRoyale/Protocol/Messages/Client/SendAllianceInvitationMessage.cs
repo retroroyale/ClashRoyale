@@ -17,7 +17,7 @@ namespace ClashRoyale.Protocol.Messages.Client
             await new ServerErrorMessage(Device)
             {
                 Message = "Coming soon"
-            }.Send();
+            }.SendAsync();
         }
     }
 }

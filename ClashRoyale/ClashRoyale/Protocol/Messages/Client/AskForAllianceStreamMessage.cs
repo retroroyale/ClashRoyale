@@ -13,13 +13,13 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override async void Process()
         {
-            var alliance = await Resources.Alliances.GetAlliance(Device.Player.Home.AllianceInfo.Id);
+            var alliance = await Resources.Alliances.GetAllianceAsync(Device.Player.Home.AllianceInfo.Id);
 
             if (alliance != null)
                 await new AllianceStreamMessage(Device)
                 {
                     Entries = alliance.Stream
-                }.Send();
+                }.SendAsync();
         }
     }
 }

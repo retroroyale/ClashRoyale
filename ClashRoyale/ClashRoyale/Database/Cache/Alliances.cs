@@ -48,7 +48,7 @@ namespace ClashRoyale.Database.Cache
         /// <param name="allianceId"></param>
         /// <param name="onlineOnly"></param>
         /// <returns></returns>
-        public async Task<Alliance> GetAlliance(long allianceId, bool onlineOnly = false)
+        public async Task<Alliance> GetAllianceAsync(long allianceId, bool onlineOnly = false)
         {
             lock (_syncObject)
             {
@@ -58,15 +58,15 @@ namespace ClashRoyale.Database.Cache
 
             if (onlineOnly) return null;
 
-            if (!Redis.IsConnected) return await AllianceDb.Get(allianceId);
+            if (!Redis.IsConnected) return await AllianceDb.GetAsync(allianceId);
 
-            var alliance = await Redis.GetAlliance(allianceId);
+            var alliance = await Redis.GetAllianceAsync(allianceId);
 
             if (alliance != null) return alliance;
 
-            alliance = await AllianceDb.Get(allianceId);
+            alliance = await AllianceDb.GetAsync(allianceId);
 
-            await Redis.Cache(alliance);
+            await Redis.CacheAsync(alliance);
 
             return alliance;
         }
@@ -76,13 +76,13 @@ namespace ClashRoyale.Database.Cache
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
-        public async Task<List<Alliance>> GetRandomAlliances(int count = 40, bool notFull = true)
+        public async Task<List<Alliance>> GetRandomAlliancesAsync(int count = 40, bool notFull = true)
         {
             var alliances = new List<Alliance>(count);
 
             for (var i = 0; i < count; i++)
             {
-                var alliance = await Redis.GetRandomAlliance();
+                var alliance = await Redis.GetRandomAllianceAsync();
 
                 if (alliance != null && alliances.FindIndex(a => a.Id == alliance.Id) == -1)
                 {

@@ -10,7 +10,7 @@ using ClashRoyale.Files;
 
 namespace ClashRoyale
 {
-    public class Resources
+    public static class Resources
     {
         public static Logger Logger { get; set; }
         public static SentryReport Sentry { get; set; }
@@ -48,9 +48,7 @@ namespace ClashRoyale
             PlayerDb = new PlayerDb();
             AllianceDb = new AllianceDb();
 
-            Logger.Log(
-                $"Successfully loaded MySql with {await PlayerDb.Count()} player(s) & {await AllianceDb.Count()} clan(s)",
-                null);
+            Logger.Log($"Successfully loaded MySql with {await PlayerDb.CountAsync()} player(s) & {await AllianceDb.CountAsync()} clan(s)", null);
 
             Redis = new Redis();
 
@@ -62,7 +60,7 @@ namespace ClashRoyale
 
             Netty = new NettyService();
 
-            await Task.Factory.StartNew(Netty.RunServerAsync);
+            await Task.Run(Netty.RunServerAsync);
         }
     }
 }

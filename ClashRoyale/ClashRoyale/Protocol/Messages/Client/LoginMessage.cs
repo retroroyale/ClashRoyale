@@ -67,13 +67,13 @@ namespace ClashRoyale.Protocol.Messages.Client
                         ErrorCode = 7,
                         ContentUrl = Resources.Configuration.PatchUrl,
                         ResourceFingerprintData = Resources.Fingerprint.Json
-                    }.Send();
+                    }.SendAsync();
                     return;
                 }
 
             if (UserId <= 0 && string.IsNullOrEmpty(UserToken))
             {
-                Device.Player = await PlayerDb.Create();
+                Device.Player = await PlayerDb.CreateAsync();
 
                 var home = Device.Player.Home;
 
@@ -81,15 +81,15 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                 Device.Player.Device = Device;
 
-                await new LoginOkMessage(Device).Send();
+                await new LoginOkMessage(Device).SendAsync();
 
                 Resources.Players.Login(Device.Player);
 
-                await new OwnHomeDataMessage(Device).Send();
+                await new OwnHomeDataMessage(Device).SendAsync();
             }
             else
             {
-                var player = await Resources.Players.GetPlayer(UserId);
+                var player = await Resources.Players.GetPlayerAsync(UserId);
 
                 if (player != null)
                 {
@@ -98,11 +98,11 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                     Resources.Players.Login(Device.Player);
 
-                    await new LoginOkMessage(Device).Send();
+                    await new LoginOkMessage(Device).SendAsync();
 
                     if (player.Home.AllianceInfo.HasAlliance)
                     {
-                        var alliance = await Resources.Alliances.GetAlliance(player.Home.AllianceInfo.Id);
+                        var alliance = await Resources.Alliances.GetAllianceAsync(player.Home.AllianceInfo.Id);
 
                         if (alliance != null)
                         {
@@ -111,13 +111,13 @@ namespace ClashRoyale.Protocol.Messages.Client
                             await new AllianceStreamMessage(Device)
                             {
                                 Entries = alliance.Stream
-                            }.Send();
+                            }.SendAsync();
 
                             alliance.UpdateOnlineCount();
                         }
                     }
 
-                    await new OwnHomeDataMessage(Device).Send();
+                    await new OwnHomeDataMessage(Device).SendAsync();
                 }
                 else
                 {
@@ -125,7 +125,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                     await new LoginFailedMessage(Device)
                     {
                         ErrorCode = 10
-                    }.Send();
+                    }.SendAsync();
                 }
             }
         }

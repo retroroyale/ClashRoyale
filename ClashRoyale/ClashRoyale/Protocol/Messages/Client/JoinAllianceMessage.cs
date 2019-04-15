@@ -23,14 +23,14 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override async void Process()
         {
-            var alliance = await Resources.Alliances.GetAlliance(AllianceId);
+            var alliance = await Resources.Alliances.GetAllianceAsync(AllianceId);
             var home = Device.Player.Home;
 
             if (alliance != null)
             {
                 if (alliance.Members.Count <= 0 || alliance.Members.Count >= 50)
                 {
-                    await new AllianceJoinFailedMessage(Device).Send();
+                    await new AllianceJoinFailedMessage(Device).SendAsync();
                 }
                 else
                 {
@@ -46,12 +46,12 @@ namespace ClashRoyale.Protocol.Messages.Client
                             AllianceName = alliance.Name,
                             AllianceBadge = alliance.Badge
                         }
-                    }.Send();
+                    }.SendAsync();
 
                     await new AllianceStreamMessage(Device)
                     {
                         Entries = alliance.Stream
-                    }.Send();
+                    }.SendAsync();
 
                     var entry = new AllianceEventStreamEntry
                     {

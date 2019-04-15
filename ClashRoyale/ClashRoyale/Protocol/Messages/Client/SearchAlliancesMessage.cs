@@ -16,8 +16,8 @@ namespace ClashRoyale.Protocol.Messages.Client
             // TODO:
             await new AllianceListMessage(Device)
             {
-                Alliances = await Resources.Alliances.GetRandomAlliances()
-            }.Send();
+                Alliances = await Resources.Alliances.GetRandomAlliancesAsync()
+            }.SendAsync();
         }
     }
 }

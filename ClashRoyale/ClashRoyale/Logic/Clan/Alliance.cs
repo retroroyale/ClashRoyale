@@ -129,7 +129,7 @@ namespace ClashRoyale.Logic.Clan
                     var newLeader = Members.FirstOrDefault(m => m.Id != member.Id);
                     if (newLeader != null)
                     {
-                        var player = await newLeader.GetPlayer();
+                        var player = await newLeader.GetPlayerAsync();
 
                         newLeader.Role = (int) Role.Leader;
                         player.Home.AllianceInfo.Role = (int) Role.Leader;
@@ -151,13 +151,13 @@ namespace ClashRoyale.Logic.Clan
 
             foreach (var member in Members.Where(m => m.IsOnline).ToList())
             {
-                var player = await member.GetPlayer(true);
+                var player = await member.GetPlayerAsync(true);
 
                 if (player != null)
                     await new AllianceStreamEntryMessage(player.Device)
                     {
                         Entry = entry
-                    }.Send();
+                    }.SendAsync();
             }
         }
 
@@ -181,13 +181,13 @@ namespace ClashRoyale.Logic.Clan
 
             foreach (var member in Members.Where(m => m.IsOnline))
             {
-                var player = await Resources.Players.GetPlayer(member.Id, true);
+                var player = await Resources.Players.GetPlayerAsync(member.Id, true);
 
                 if (player != null)
                     await new AllianceOnlineStatusUpdatedMessage(player.Device)
                     {
                         Count = count
-                    }.Send();
+                    }.SendAsync();
             }
         }
 
@@ -197,8 +197,8 @@ namespace ClashRoyale.Logic.Clan
             var st = new Stopwatch();
             st.Start();
 
-            await Redis.Cache(this);
-            await AllianceDb.Save(this);
+            await Redis.CacheAsync(this);
+            await AllianceDb.SaveAsync(this);
 
             st.Stop();
             Logger.Log($"Alliance {Id} saved in {st.ElapsedMilliseconds}ms.", GetType(), ErrorLevel.Debug);

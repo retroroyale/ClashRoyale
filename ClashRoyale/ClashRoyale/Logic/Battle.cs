@@ -45,8 +45,8 @@ namespace ClashRoyale.Logic
                     Player2 = this[0]
                 };
 
-                await s1.Send();
-                await s2.Send();
+                await s1.SendAsync();
+                await s2.SendAsync();
 
                 StartTime = DateTime.UtcNow;
 
@@ -80,7 +80,7 @@ namespace ClashRoyale.Logic
                             {
                                 player.Home.AddCrowns(3);
 
-                                await new BattleResultMessage(player.Device).Send();
+                                await new BattleResultMessage(player.Device).SendAsync();
 
                                 Remove(player);
                             }
@@ -91,7 +91,7 @@ namespace ClashRoyale.Logic
                             {
                                 Turn = BattleTime,
                                 Commands = GetOwnQueue(player.Home.Id)
-                            }.Send();
+                            }.SendAsync();
                         }
                     }
                     else

@@ -43,7 +43,7 @@ namespace ClashRoyale.Protocol.Messages.Client
             await new LoginFailedMessage(Device)
             {
                 ErrorCode = 8
-            }.Send();
+            }.SendAsync();
         }
     }
 }

@@ -60,7 +60,7 @@ namespace ClashRoyale.Database
         /// </summary>
         /// <param name="player"></param>
         /// <returns></returns>
-        public static async Task Cache(Player player)
+        public static async Task CacheAsync(Player player)
         {
             if (player == null) return;
 
@@ -80,7 +80,7 @@ namespace ClashRoyale.Database
         /// </summary>
         /// <param name="alliance"></param>
         /// <returns></returns>
-        public static async Task Cache(Alliance alliance)
+        public static async Task CacheAsync(Alliance alliance)
         {
             if (alliance == null) return;
 
@@ -100,7 +100,7 @@ namespace ClashRoyale.Database
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static async Task UncachePlayer(long id)
+        public static async Task UncachePlayerAsync(long id)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace ClashRoyale.Database
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static async Task UncacheAlliance(long id)
+        public static async Task UncacheAllianceAsync(long id)
         {
             try
             {
@@ -134,7 +134,7 @@ namespace ClashRoyale.Database
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static async Task<Player> GetPlayer(long id)
+        public static async Task<Player> GetPlayerAsync(long id)
         {
             try
             {
@@ -143,8 +143,8 @@ namespace ClashRoyale.Database
                 if (!string.IsNullOrEmpty(data))
                     return JsonConvert.DeserializeObject<Player>(data, Configuration.JsonSettings);
 
-                var player = await PlayerDb.Get(id);
-                await Cache(player);
+                var player = await PlayerDb.GetAsync(id);
+                await CacheAsync(player);
                 return player;
             }
             catch (Exception exception)
@@ -160,7 +160,7 @@ namespace ClashRoyale.Database
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static async Task<Alliance> GetAlliance(long id)
+        public static async Task<Alliance> GetAllianceAsync(long id)
         {
             try
             {
@@ -169,8 +169,8 @@ namespace ClashRoyale.Database
                 if (!string.IsNullOrEmpty(data))
                     return JsonConvert.DeserializeObject<Alliance>(data, Configuration.JsonSettings);
 
-                var alliance = await AllianceDb.Get(id);
-                await Cache(alliance);
+                var alliance = await AllianceDb.GetAsync(id);
+                await CacheAsync(alliance);
                 return alliance;
             }
             catch (Exception exception)
@@ -185,11 +185,11 @@ namespace ClashRoyale.Database
         ///     Get a random alliance from the cache
         /// </summary>
         /// <returns></returns>
-        public static async Task<Alliance> GetRandomAlliance()
+        public static async Task<Alliance> GetRandomAllianceAsync()
         {
             try
             {
-                return await GetAlliance(long.Parse(await _alliances.KeyRandomAsync()));
+                return await GetAllianceAsync(long.Parse(await _alliances.KeyRandomAsync()));
             }
             catch (Exception)
             {

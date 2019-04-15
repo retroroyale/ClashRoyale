@@ -90,7 +90,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task<long> Count()
+        public static async Task<long> CountAsync()
         {
             #region Count
 
@@ -122,7 +122,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task<Alliance> Create()
+        public static async Task<Alliance> CreateAsync()
         {
             #region Create
 
@@ -159,7 +159,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task<Alliance> Get(long id)
+        public static async Task<Alliance> GetAsync(long id)
         {
             #region Get 
 
@@ -198,7 +198,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task Save(Alliance alliance)
+        public static async Task SaveAsync(Alliance alliance)
         {
             #region Save 
 
@@ -225,7 +225,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task Delete(long id)
+        public static async Task DeleteAsync(long id)
         {
             #region Delete
 
@@ -238,7 +238,7 @@ namespace ClashRoyale.Database
                     await ExecuteAsync(cmd);
 
                     if (Redis.IsConnected)
-                        await Redis.UncacheAlliance(id);
+                        await Redis.UncacheAllianceAsync(id);
                 }
             }
             catch (Exception exception)
@@ -249,7 +249,7 @@ namespace ClashRoyale.Database
             #endregion
         }
 
-        public static async Task<List<Alliance>> GetGlobalAlliances()
+        public static async Task<List<Alliance>> GetGlobalAlliancesAsync()
         {
             #region Global
 

@@ -39,7 +39,7 @@ namespace ClashRoyale.Core.Leaderboards
             {
                 try
                 {
-                    var currentGlobalPlayerRanking = await PlayerDb.GetGlobalPlayerRanking();
+                    var currentGlobalPlayerRanking = await PlayerDb.GetGlobalPlayerRankingAsync();
                     for (var i = 0; i < currentGlobalPlayerRanking.Count; i++)
                         GlobalPlayers.UpdateOrInsert(i, currentGlobalPlayerRanking[i]);
                 }
