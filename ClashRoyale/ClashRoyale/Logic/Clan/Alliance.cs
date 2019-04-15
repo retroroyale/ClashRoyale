@@ -203,8 +203,8 @@ namespace ClashRoyale.Logic.Clan
             st.Stop();
             Logger.Log($"Alliance {Id} saved in {st.ElapsedMilliseconds}ms.", GetType(), ErrorLevel.Debug);
 #else
-            await Redis.Cache(this);
-            await AllianceDb.Save(this);
+            await Redis.CacheAsync(this);
+            await AllianceDb.SaveAsync(this);
 #endif
         }
     }

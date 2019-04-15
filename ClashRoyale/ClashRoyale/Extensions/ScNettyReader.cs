@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Extensions
@@ -32,9 +33,8 @@ namespace ClashRoyale.Extensions
         {
             int b, sign = ((b = byteBuffer.ReadByte()) >> 6) & 1, i = b & 0x3F;
 
-            for (int j = 0, offset = 6; j < 4; j++, offset += 7)
-                if ((b & 0x80) != 0) i |= ((b = byteBuffer.ReadByte()) & 0x7F) << offset;
-                else break;
+            for (int j = 0, offset = 6; j < 4 && (b & 0x80) != 0; j++, offset += 7)
+                i |= ((b = byteBuffer.ReadByte()) & 0x7F) << offset;
 
             return (b & 0x80) != 0 ? -1 : i ^ -sign;
         }
