@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Extensions
@@ -7,7 +6,7 @@ namespace ClashRoyale.Extensions
     /// <summary>
     ///     This implements a few extensions for games from supercell
     /// </summary>
-    public static class ScNettyReader
+    public static class NettyReader
     {
         /// <summary>
         ///     Decodes a string based on the length

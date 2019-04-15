@@ -9,7 +9,7 @@ namespace ClashRoyale.Extensions
     /// <summary>
     ///     This implements a few extensions for games from supercell
     /// </summary>
-    public static class ScNettyWriter
+    public static class NettyWriter
     {
         /// <summary>
         ///     Encodes a string based on the length

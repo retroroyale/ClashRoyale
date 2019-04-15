@@ -16,23 +16,33 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteLong(Device.Player.Home.Id);
             Writer.WriteScString(Device.Player.Home.UserToken);
 
-            Writer.WriteScString(string.Empty);
-            Writer.WriteScString("G:1");
+            Writer.WriteScString(string.Empty); // GamecenterId
+            Writer.WriteScString(string.Empty); // FacebookId
 
-            Writer.WriteInt(Resources.Fingerprint.GetMajorVersion);
-            Writer.WriteInt(Resources.Fingerprint.GetBuildVersion);
-            Writer.WriteInt(Resources.Fingerprint.GetContentVersion);
+            Writer.WriteVInt(Resources.Fingerprint.GetMajorVersion);
+            Writer.WriteVInt(Resources.Fingerprint.GetBuildVersion);
+            Writer.WriteVInt(Resources.Fingerprint.GetContentVersion);
 
             Writer.WriteScString("prod");
+            Writer.WriteVInt(0); // SessionCount
+            Writer.WriteVInt(0); // PlayTime
+            Writer.WriteVInt(0); // DaysSinceStartedPlaying
+
+            Writer.WriteScString(string.Empty); // FacebookAppId
+            Writer.WriteScString(string.Empty); // ServerTime
+            Writer.WriteScString(string.Empty); // AccountCreateDate
+
+            Writer.WriteVInt(0);
+            Writer.WriteScString("G:1"); // GoogleServiceId
             Writer.WriteScString(string.Empty);
 
             Writer.WriteScString("DE");
             Writer.WriteScString("Berlin");
 
             Writer.WriteScString(string.Empty);
-
             Writer.WriteScString("https://event-assets.clashroyale.com");
-            Writer.WriteVInt(3);
+
+            Writer.WriteByte(3);
         }
     }
 }
