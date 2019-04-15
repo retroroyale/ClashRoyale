@@ -1,0 +1,62 @@
+﻿namespace ClashRoyale.Files
+{
+    public partial class Csv
+    {
+        // TODO: Reorder
+        public enum Types
+        {
+            Abilities = 1,
+            Achievements = 2,
+            AllianceBadges = 3,
+            AllianceRoles = 4,
+            AreaEffectObjects = 5,
+            Arenas = 6,
+            Buildings = 7,
+            CharacterBuffs = 8,
+            Characters = 9,
+            ChestOrder = 10,
+            ConfigurationDefinitions = 11,
+            ContentTests = 12,
+            Decos = 13,
+            DraftDeck = 14,
+            EventCategories = 15,
+            EventCategoryDefinitions = 16,
+            EventCategoryEnums = 17,
+            EventCategoryObjectDefinitions = 18,
+            EventTargetingDefinitions = 19,
+            ExpLevels = 20,
+            GambleChests = 21,
+            GameModes = 22,
+            Globals = 23,
+            Heroes = 24,
+            Locales = 25,
+            Locations = 26,
+            Npcs = 27,
+            PredefinedDecks = 28,
+            Projectiles = 29,
+            PveBoss = 30,
+            PveGamemodes = 31,
+            PveWaves = 32,
+            QuestOrder = 33,
+            Rarities = 34,
+            Regions = 35,
+            ResourcePacks = 36,
+            Resources = 37,
+            Shop = 38,
+            Skins = 39,
+            SpellSets = 40,
+            SpellsBuildings = 41,
+            SpellsCharacters = 42,
+            SpellsHeroes = 43,
+            SpellsOther = 44,
+            SurvivalModes = 45,
+            Taunts = 46,
+            TournamentTiers = 47,
+            TreasureChests = 48,
+            TutorialChestOrder = 49,
+            TutorialsHome = 50,
+            TutorialsNpc = 51,
+            TveGamemodes = 52
+        }
+    }
+}
