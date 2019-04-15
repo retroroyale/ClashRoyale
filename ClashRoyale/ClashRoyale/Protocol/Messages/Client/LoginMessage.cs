@@ -81,9 +81,9 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                 Device.Player.Device = Device;
 
-                await new LoginOkMessage(Device).SendAsync();
-
                 Resources.Players.Login(Device.Player);
+
+                await new LoginOkMessage(Device).SendAsync();
 
                 await new OwnHomeDataMessage(Device).SendAsync();
             }

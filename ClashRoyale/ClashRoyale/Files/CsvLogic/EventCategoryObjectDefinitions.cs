@@ -11,17 +11,11 @@ namespace ClashRoyale.Files.CsvLogic
         }
 
         public string Name { get; set; }
-
         public string PropertyName { get; set; }
-
         public string PropertyType { get; set; }
-
         public bool IsRequired { get; set; }
-
         public string ObjectType { get; set; }
-
         public int DefaultInt { get; set; }
-
         public string DefaultString { get; set; }
     }
 }

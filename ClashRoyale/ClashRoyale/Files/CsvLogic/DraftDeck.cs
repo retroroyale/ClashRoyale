@@ -11,9 +11,7 @@ namespace ClashRoyale.Files.CsvLogic
         }
 
         public string Name { get; set; }
-
         public string RequiredSets { get; set; }
-
         public string OptionalSets { get; set; }
     }
 }

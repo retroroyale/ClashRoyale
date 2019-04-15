@@ -11,11 +11,8 @@ namespace ClashRoyale.Files.CsvLogic
         }
 
         public string Name { get; set; }
-
         public string CSVFiles { get; set; }
-
         public string CSVRows { get; set; }
-
         public string CustomNames { get; set; }
     }
 }

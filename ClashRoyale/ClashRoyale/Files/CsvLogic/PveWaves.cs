@@ -11,13 +11,9 @@ namespace ClashRoyale.Files.CsvLogic
         }
 
         public string Name { get; set; }
-
         public string Spells { get; set; }
-
         public int PositionX { get; set; }
-
         public int PositionY { get; set; }
-
         public int Delay { get; set; }
     }
 }

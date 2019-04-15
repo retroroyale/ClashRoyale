@@ -11,17 +11,11 @@ namespace ClashRoyale.Files.CsvLogic
         }
 
         public string Name { get; set; }
-
         public string IconFile { get; set; }
-
         public string TID { get; set; }
-
         public string AreaEffectObject { get; set; }
-
         public string Buff { get; set; }
-
         public int BuffTime { get; set; }
-
         public string Effect { get; set; }
     }
 }

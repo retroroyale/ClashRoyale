@@ -11,11 +11,8 @@ namespace ClashRoyale.Files.CsvLogic
         }
 
         public string Name { get; set; }
-
         public string Waves { get; set; }
-
         public int WaveDuration { get; set; }
-
         public bool Repeat { get; set; }
     }
 }

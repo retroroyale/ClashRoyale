@@ -11,11 +11,8 @@ namespace ClashRoyale.Files.CsvLogic
         }
 
         public string Name { get; set; }
-
         public string IconSWF { get; set; }
-
         public string IconExportName { get; set; }
-
         public string Category { get; set; }
     }
 }

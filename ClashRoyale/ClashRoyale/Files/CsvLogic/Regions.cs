@@ -11,13 +11,9 @@ namespace ClashRoyale.Files.CsvLogic
         }
 
         public string Name { get; set; }
-
         public string TID { get; set; }
-
         public string DisplayName { get; set; }
-
         public bool IsCountry { get; set; }
-
         public bool RegionPopup { get; set; }
     }
 }

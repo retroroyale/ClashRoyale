@@ -11,9 +11,7 @@ namespace ClashRoyale.Files.CsvLogic
         }
 
         public string Name { get; set; }
-
         public int GoldPrice { get; set; }
-
         public string Location { get; set; }
     }
 }

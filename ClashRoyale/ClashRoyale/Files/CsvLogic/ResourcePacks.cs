@@ -11,13 +11,9 @@ namespace ClashRoyale.Files.CsvLogic
         }
 
         public string Name { get; set; }
-
         public string TID { get; set; }
-
         public string Resource { get; set; }
-
         public int Amount { get; set; }
-
         public string IconFile { get; set; }
     }
 }

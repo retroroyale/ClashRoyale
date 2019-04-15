@@ -11,17 +11,11 @@ namespace ClashRoyale.Files.CsvLogic
         }
 
         public string Name { get; set; }
-
         public string Waves { get; set; }
-
         public string VictoryCondition { get; set; }
-
         public string ForcedCards { get; set; }
-
         public string Location { get; set; }
-
         public string ComputerPlayerType { get; set; }
-
         public string TowerRules { get; set; }
     }
 }

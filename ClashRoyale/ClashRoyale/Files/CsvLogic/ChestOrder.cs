@@ -11,7 +11,6 @@ namespace ClashRoyale.Files.CsvLogic
         }
 
         public string Name { get; set; }
-
         public string Chest { get; set; }
     }
 }
