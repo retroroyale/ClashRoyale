@@ -12,7 +12,7 @@ namespace ClashRoyale.Logic.Clan
         {
             Id = player.Home.Id;
             Role = (int) role;
-            Score = player.Home.Trophies;
+            Score = player.Home.Arena.Trophies;
             Name = player.Home.Name;
         }
 

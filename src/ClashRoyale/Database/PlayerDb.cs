@@ -136,7 +136,7 @@ namespace ClashRoyale.Database
 
                 using (var cmd =
                     new MySqlCommand(
-                        $"INSERT INTO player (`Id`, `Trophies`, `Language`, `FacebookId`, `Home`) VALUES ({id + 1}, {player.Home.Trophies}, @language, @fb, @home)")
+                        $"INSERT INTO player (`Id`, `Trophies`, `Language`, `FacebookId`, `Home`) VALUES ({id + 1}, {player.Home.Arena.Trophies}, @language, @fb, @home)")
                 )
                 {
 #pragma warning disable 618
@@ -245,7 +245,7 @@ namespace ClashRoyale.Database
             {
                 using (var cmd =
                     new MySqlCommand(
-                        $"UPDATE player SET `Trophies`='{player.Home.Trophies}', `Language`='{player.Home.PreferredDeviceLanguage}', `FacebookId`=@fb, `Home`=@home WHERE Id = '{player.Home.Id}'")
+                        $"UPDATE player SET `Trophies`='{player.Home.Arena.Trophies}', `Language`='{player.Home.PreferredDeviceLanguage}', `FacebookId`=@fb, `Home`=@home WHERE Id = '{player.Home.Id}'")
                 )
                 {
 #pragma warning disable 618

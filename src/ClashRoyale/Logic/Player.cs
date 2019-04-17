@@ -242,8 +242,7 @@ namespace ClashRoyale.Logic
 
             // Arena
             {
-                packet.WriteVInt(54); // Class Id
-                packet.WriteVInt(11); // Instance Id
+                packet.WriteData(Home.Arena.ArenaData(Home.Arena.CurrentArena));
             }
 
             // Shop
@@ -416,8 +415,8 @@ namespace ClashRoyale.Logic
 
             // Profile
             {
-                packet.WriteVInt(12); // Arena 
-                packet.WriteVInt(3800); // Trophies 
+                packet.WriteVInt(Home.Arena.CurrentArena + 1); // Arena 
+                packet.WriteVInt(Home.Arena.Trophies); // Trophies 
 
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);

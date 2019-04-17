@@ -11,7 +11,7 @@ namespace ClashRoyale.Logic.Home
     {
         [JsonProperty("clan_info")] public AllianceInfo AllianceInfo = new AllianceInfo();
 
-        [JsonIgnore] public Arena Arena = new Arena();
+        [JsonProperty("arena")] public Arena Arena = new Arena();
         [JsonProperty("chests")] public Chests.Chests Chests = new Chests.Chests();
         [JsonProperty("deck")] public Deck Deck = new Deck();
         [JsonProperty("shop")] public Shop.Shop Shop = new Shop.Shop();
@@ -67,7 +67,6 @@ namespace ClashRoyale.Logic.Home
         [JsonProperty("new_crowns")] public int NewCrowns { get; set; }
 
         // Player Stats
-        [JsonProperty("trophies")] public int Trophies { get; set; }
         [JsonProperty("exp_level")] public int ExpLevel { get; set; }
         [JsonProperty("exp_points")] public int ExpPoints { get; set; }
 

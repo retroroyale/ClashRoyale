@@ -48,7 +48,7 @@ namespace ClashRoyale.Logic.Clan.StreamEntry.Entries
         {
             base.SetSender(player);
 
-            SenderScore = player.Home.Trophies;
+            SenderScore = player.Home.Arena.Trophies;
         }
     }
 }

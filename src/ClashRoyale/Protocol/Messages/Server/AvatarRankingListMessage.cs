@@ -26,7 +26,7 @@ namespace ClashRoyale.Protocol.Messages.Server
                 buffer.WriteScString(player.Home.Name);
 
                 buffer.WriteVInt(count + 1);
-                buffer.WriteVInt(3800);
+                buffer.WriteVInt(player.Home.Arena.Trophies);
                 buffer.WriteVInt(200);
 
                 buffer.WriteVInt(0);

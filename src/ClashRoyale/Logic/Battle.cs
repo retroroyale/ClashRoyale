@@ -90,8 +90,11 @@ namespace ClashRoyale.Logic
                         {
                             if (BattleSeconds > 10)
                             {
-                                if(Is1Vs1)
+                                if (Is1Vs1)
+                                {
                                     player.Home.AddCrowns(3);
+                                    player.Home.Arena.AddTrophies(31);
+                                }
 
                                 await new BattleResultMessage(player.Device).SendAsync();
 
