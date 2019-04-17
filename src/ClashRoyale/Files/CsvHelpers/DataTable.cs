@@ -6,15 +6,15 @@ namespace ClashRoyale.Files.CsvHelpers
 {
     public class DataTable
     {
-        protected List<Data> Data;
-        protected Csv.Types Index;
+        public List<Data> Data;
+        public Csv.Files Index;
 
         public DataTable()
         {
             Data = new List<Data>();
         }
 
-        public DataTable(Table table, Csv.Types index)
+        public DataTable(Table table, Csv.Files index)
         {
             Index = index;
             Data = new List<Data>();
@@ -30,272 +30,269 @@ namespace ClashRoyale.Files.CsvHelpers
 
         public int Count()
         {
-            if (Data != null)
-                return Data.Count;
-
-            return 0;
+            return Data?.Count ?? 0;
         }
 
         public Data Create(Row row)
         {
-            switch ((Csv.Types)Index)
+            switch (Index)
             {
-                case Csv.Types.Abilities:
+                case Csv.Files.Abilities:
                 {
                     return new Abilities(row, this);
                 }
 
-                case Csv.Types.Achievements:
+                case Csv.Files.Achievements:
                 {
                     return new Achievements(row, this);
                 }
 
-                case Csv.Types.AllianceBadges:
+                case Csv.Files.AllianceBadges:
                 {
                     return new AllianceBadges(row, this);
                 }
 
-                case Csv.Types.AllianceRoles:
+                case Csv.Files.AllianceRoles:
                 {
                     return new AllianceRoles(row, this);
                 }
 
-                case Csv.Types.AreaEffectObjects:
+                case Csv.Files.AreaEffectObjects:
                 {
                     return new AreaEffectObjects(row, this);
                 }
 
-                case Csv.Types.Arenas:
+                case Csv.Files.Arenas:
                 {
                     return new Arenas(row, this);
                 }
 
-                case Csv.Types.Buildings:
+                case Csv.Files.Buildings:
                 {
                     return new Buildings(row, this);
                 }
 
-                case Csv.Types.CharacterBuffs:
+                case Csv.Files.CharacterBuffs:
                 {
                     return new CharacterBuffs(row, this);
                 }
 
-                case Csv.Types.Characters:
+                case Csv.Files.Characters:
                 {
                     return new Characters(row, this);
                 }
 
-                case Csv.Types.ChestOrder:
+                case Csv.Files.ChestOrder:
                 {
                     return new ChestOrder(row, this);
                 }
 
-                case Csv.Types.ConfigurationDefinitions:
+                case Csv.Files.ConfigurationDefinitions:
                 {
                     return new ConfigurationDefinitions(row, this);
                 }
 
-                case Csv.Types.ContentTests:
+                case Csv.Files.ContentTests:
                 {
                     return new ContentTests(row, this);
                 }
 
-                case Csv.Types.Decos:
+                case Csv.Files.Decos:
                 {
                     return new Decos(row, this);
                 }
 
-                case Csv.Types.DraftDeck:
+                case Csv.Files.DraftDeck:
                 {
                     return new DraftDeck(row, this);
                 }
 
-                case Csv.Types.EventCategories:
+                case Csv.Files.EventCategories:
                 {
                     return new EventCategories(row, this);
                 }
 
-                case Csv.Types.EventCategoryDefinitions:
+                case Csv.Files.EventCategoryDefinitions:
                 {
                     return new EventCategoryDefinitions(row, this);
                 }
 
-                case Csv.Types.EventCategoryEnums:
+                case Csv.Files.EventCategoryEnums:
                 {
                     return new EventCategoryEnums(row, this);
                 }
 
-                case Csv.Types.EventCategoryObjectDefinitions:
+                case Csv.Files.EventCategoryObjectDefinitions:
                 {
                     return new EventCategoryObjectDefinitions(row, this);
                 }
 
-                case Csv.Types.EventTargetingDefinitions:
+                case Csv.Files.EventTargetingDefinitions:
                 {
                     return new EventTargetingDefinitions(row, this);
                 }
 
-                case Csv.Types.ExpLevels:
+                case Csv.Files.ExpLevels:
                 {
                     return new ExpLevels(row, this);
                 }
 
-                case Csv.Types.GambleChests:
+                case Csv.Files.GambleChests:
                 {
                     return new GambleChests(row, this);
                 }
 
-                case Csv.Types.GameModes:
+                case Csv.Files.GameModes:
                 {
                     return new GameModes(row, this);
                 }
 
-                case Csv.Types.Globals:
+                case Csv.Files.Globals:
                 {
                     return new Globals(row, this);
                 }
 
-                case Csv.Types.Heroes:
+                case Csv.Files.Heroes:
                 {
                     return new Heroes(row, this);
                 }
 
-                case Csv.Types.Locales:
+                case Csv.Files.Locales:
                 {
                     return new Locales(row, this);
                 }
 
-                case Csv.Types.Locations:
+                case Csv.Files.Locations:
                 {
                     return new Locations(row, this);
                 }
 
-                case Csv.Types.Npcs:
+                case Csv.Files.Npcs:
                 {
                     return new Npcs(row, this);
                 }
 
-                case Csv.Types.PredefinedDecks:
+                case Csv.Files.PredefinedDecks:
                 {
                     return new PredefinedDecks(row, this);
                 }
 
-                case Csv.Types.Projectiles:
+                case Csv.Files.Projectiles:
                 {
                     return new Projectiles(row, this);
                 }
 
-                case Csv.Types.PveBoss:
+                case Csv.Files.PveBoss:
                 {
                     return new PveBoss(row, this);
                 }
 
-                case Csv.Types.PveGamemodes:
+                case Csv.Files.PveGamemodes:
                 {
                     return new PveGamemodes(row, this);
                 }
 
-                case Csv.Types.PveWaves:
+                case Csv.Files.PveWaves:
                 {
                     return new PveWaves(row, this);
                 }
 
-                case Csv.Types.QuestOrder:
+                case Csv.Files.QuestOrder:
                 {
                     return new QuestOrder(row, this);
                 }
 
-                case Csv.Types.Rarities:
+                case Csv.Files.Rarities:
                 {
                     return new Rarities(row, this);
                 }
 
-                case Csv.Types.Regions:
+                case Csv.Files.Regions:
                 {
                     return new Regions(row, this);
                 }
 
-                case Csv.Types.ResourcePacks:
+                case Csv.Files.ResourcePacks:
                 {
                     return new ResourcePacks(row, this);
                 }
 
-                case Csv.Types.Resources:
+                case Csv.Files.Resources:
                 {
                     return new CsvLogic.Resources(row, this);
                 }
 
-                case Csv.Types.Shop:
+                case Csv.Files.Shop:
                 {
                     return new Shop(row, this);
                 }
 
-                case Csv.Types.Skins:
+                case Csv.Files.Skins:
                 {
                     return new Skins(row, this);
                 }
 
-                case Csv.Types.SpellSets:
+                case Csv.Files.SpellSets:
                 {
                     return new SpellSets(row, this);
                 }
 
-                case Csv.Types.SpellsBuildings:
+                case Csv.Files.SpellsBuildings:
                 {
                     return new SpellsBuildings(row, this);
                 }
 
-                case Csv.Types.SpellsCharacters:
+                case Csv.Files.SpellsCharacters:
                 {
                     return new SpellsCharacters(row, this);
                 }
 
-                case Csv.Types.SpellsHeroes:
+                case Csv.Files.SpellsHeroes:
                 {
                     return new SpellsHeroes(row, this);
                 }
 
-                case Csv.Types.SpellsOther:
+                case Csv.Files.SpellsOther:
                 {
                     return new SpellsOther(row, this);
                 }
 
-                case Csv.Types.SurvivalModes:
+                case Csv.Files.SurvivalModes:
                 {
                     return new SurvivalModes(row, this);
                 }
 
-                case Csv.Types.Taunts:
+                case Csv.Files.Taunts:
                 {
                     return new Taunts(row, this);
                 }
 
-                case Csv.Types.TournamentTiers:
+                case Csv.Files.TournamentTiers:
                 {
                     return new TournamentTiers(row, this);
                 }
 
-                case Csv.Types.TreasureChests:
+                case Csv.Files.TreasureChests:
                 {
                     return new TreasureChests(row, this);
                 }
 
-                case Csv.Types.TutorialChestOrder:
+                case Csv.Files.TutorialChestOrder:
                 {
                     return new TutorialChestOrder(row, this);
                 }
 
-                case Csv.Types.TutorialsHome:
+                case Csv.Files.TutorialsHome:
                 {
                     return new TutorialsHome(row, this);
                 }
 
-                case Csv.Types.TutorialsNpc:
+                case Csv.Files.TutorialsNpc:
                 {
                     return new TutorialsNpc(row, this);
                 }
 
-                case Csv.Types.TveGamemodes:
+                case Csv.Files.TveGamemodes:
                 {
                     return new TveGamemodes(row, this);
                 }

@@ -7,7 +7,7 @@ namespace ClashRoyale.Files.CsvLogic
     {
         public CharacterBuffs(Row row, DataTable datatable) : base(row, datatable)
         {
-            LoadData(this, GetType(), row);
+            LoadData(this, GetType(), row, 9);
         }
 
         public string Name { get; set; }

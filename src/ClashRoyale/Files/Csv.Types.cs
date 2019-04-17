@@ -2,8 +2,7 @@
 {
     public partial class Csv
     {
-        // TODO: Reorder
-        public enum Types
+        public enum Files
         {
             Abilities = 1,
             Achievements = 2,

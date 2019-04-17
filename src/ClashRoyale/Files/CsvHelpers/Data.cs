@@ -7,7 +7,8 @@ namespace ClashRoyale.Files.CsvHelpers
 {
     public class Data
     {
-        private readonly int _id;
+        private int _dataType;
+        private int _id;
         protected DataTable DataTable;
         protected Row Row;
 
@@ -15,11 +16,13 @@ namespace ClashRoyale.Files.CsvHelpers
         {
             Row = row;
             DataTable = dataTable;
-            _id = GlobalId.CreateGlobalId(dataTable.GetIndex() + 1, dataTable.Count());
         }
 
-        public static void LoadData(Data data, Type type, Row row)
+        public void LoadData(Data data, Type type, Row row, int dataType = -1)
         {
+            _dataType = dataType;
+            _id = GlobalId.CreateGlobalId(_dataType, DataTable.Count());
+
             foreach (var property in type.GetProperties())
                 if (property.PropertyType.IsGenericType)
                 {
@@ -82,7 +85,7 @@ namespace ClashRoyale.Files.CsvHelpers
 
         public int GetDataType()
         {
-            return DataTable.GetIndex() - 3;
+            return _dataType;
         }
 
         public int GetGlobalId()

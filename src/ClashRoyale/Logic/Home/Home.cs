@@ -84,7 +84,7 @@ namespace ClashRoyale.Logic.Home
 
         public void BuyResourcePack(int id)
         {
-            var packs = Csv.Tables.Get(Csv.Types.ResourcePacks).GetDataWithInstanceId<ResourcePacks>(id);
+            var packs = Csv.Tables.Get(Csv.Files.ResourcePacks).GetDataWithInstanceId<ResourcePacks>(id);
             var amount = packs.Amount;
             var diamondCost = 1;
 
@@ -124,7 +124,7 @@ namespace ClashRoyale.Logic.Home
 
                 for (var i = ExpLevel; i < 13; i++)
                 {
-                    var data = Csv.Tables.Get(Csv.Types.ExpLevels).GetDataWithInstanceId<ExpLevels>(ExpLevel - 1);
+                    var data = Csv.Tables.Get(Csv.Files.ExpLevels).GetDataWithInstanceId<ExpLevels>(ExpLevel - 1);
                     if (data.ExpToNextLevel <= ExpPoints)
                     {
                         ExpLevel++;

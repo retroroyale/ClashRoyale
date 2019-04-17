@@ -65,7 +65,7 @@ namespace ClashRoyale.Logic.Home.Shop
         {
             if (this[index] is SpellShopItem item)
             {
-                var globals = Csv.Tables.Get(Csv.Types.Globals);
+                var globals = Csv.Tables.Get(Csv.Files.Globals);
                 var price = 0;
                 var limit = 0;
 
@@ -117,7 +117,7 @@ namespace ClashRoyale.Logic.Home.Shop
             {
                 case 26:
                 {
-                    var datas = Csv.Tables.Get(Csv.Types.SpellsCharacters).GetDatas()
+                    var datas = Csv.Tables.Get(Csv.Files.SpellsCharacters).GetDatas()
                         .Where(s => !((SpellsCharacters) s).NotInUse &&
                                     ((SpellsCharacters) s).Rarity == rarity.ToString());
 
@@ -133,7 +133,7 @@ namespace ClashRoyale.Logic.Home.Shop
 
                 case 27:
                 {
-                    var datas = Csv.Tables.Get(Csv.Types.SpellsBuildings).GetDatas()
+                    var datas = Csv.Tables.Get(Csv.Files.SpellsBuildings).GetDatas()
                         .Where(s => !((SpellsBuildings) s).NotInUse &&
                                     ((SpellsBuildings) s).Rarity == rarity.ToString());
 
@@ -149,7 +149,7 @@ namespace ClashRoyale.Logic.Home.Shop
 
                 case 28:
                 {
-                    var datas = Csv.Tables.Get(Csv.Types.SpellsOther).GetDatas()
+                    var datas = Csv.Tables.Get(Csv.Files.SpellsOther).GetDatas()
                         .Where(s => !((SpellsOther) s).NotInUse && ((SpellsOther) s).Rarity == rarity.ToString());
 
                     if (datas.ElementAt(random.Next(0, datas.Count())) is SpellsOther c)

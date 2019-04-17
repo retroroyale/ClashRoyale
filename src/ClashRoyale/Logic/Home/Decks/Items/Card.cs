@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 using ClashRoyale.Extensions;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
@@ -72,22 +72,22 @@ namespace ClashRoyale.Logic.Home.Decks.Items
                 {
                     case 26:
                     {
-                        var data = Csv.Tables.Get(Csv.Types.SpellsCharacters)
+                        var data = Csv.Tables.Get(Csv.Files.SpellsCharacters)
                             .GetDataWithInstanceId<SpellsCharacters>(InstanceId);
-                        return Csv.Tables.Get(Csv.Types.Rarities).GetData<Rarities>(data.Rarity);
+                        return Csv.Tables.Get(Csv.Files.Rarities).GetData<Rarities>(data.Rarity);
                     }
 
                     case 27:
                     {
-                        var data = Csv.Tables.Get(Csv.Types.SpellsBuildings)
+                        var data = Csv.Tables.Get(Csv.Files.SpellsBuildings)
                             .GetDataWithInstanceId<SpellsBuildings>(InstanceId);
-                        return Csv.Tables.Get(Csv.Types.Rarities).GetData<Rarities>(data.Rarity);
+                        return Csv.Tables.Get(Csv.Files.Rarities).GetData<Rarities>(data.Rarity);
                     }
 
                     case 28:
                     {
-                        var data = Csv.Tables.Get(Csv.Types.SpellsOther).GetDataWithInstanceId<SpellsOther>(InstanceId);
-                        return Csv.Tables.Get(Csv.Types.Rarities).GetData<Rarities>(data.Rarity);
+                        var data = Csv.Tables.Get(Csv.Files.SpellsOther).GetDataWithInstanceId<SpellsOther>(InstanceId);
+                        return Csv.Tables.Get(Csv.Files.Rarities).GetData<Rarities>(data.Rarity);
                     }
                 }
 
@@ -114,9 +114,8 @@ namespace ClashRoyale.Logic.Home.Decks.Items
 
         public static int Id(int classId, int instanceId)
         {
-            if (classId >= 27) instanceId += Csv.Tables.Get(Csv.Types.SpellsCharacters).GetDatas().Count();
-
-            if (classId == 28) instanceId += Csv.Tables.Get(Csv.Types.SpellsBuildings).GetDatas().Count();
+            if (classId >= 27) instanceId += Csv.Tables.Get(Csv.Files.SpellsCharacters).Count();
+            if (classId == 28) instanceId += Csv.Tables.Get(Csv.Files.SpellsBuildings).Count();
 
             return instanceId + 1;
         }

@@ -13,17 +13,17 @@ namespace ClashRoyale.Logic.Home.Decks
         {
             var cards = new List<Card>();
 
-            foreach (var data in Csv.Tables.Get(Csv.Types.SpellsCharacters).GetDatas())
+            foreach (var data in Csv.Tables.Get(Csv.Files.SpellsCharacters).GetDatas())
                 if (data is SpellsCharacters character)
                     if (!character.NotInUse)
                         cards.Add(new Card(26, data.GetInstanceId(), false));
 
-            foreach (var data in Csv.Tables.Get(Csv.Types.SpellsBuildings).GetDatas())
+            foreach (var data in Csv.Tables.Get(Csv.Files.SpellsBuildings).GetDatas())
                 if (data is SpellsBuildings building)
                     if (!building.NotInUse)
                         cards.Add(new Card(27, data.GetInstanceId(), false));
 
-            foreach (var data in Csv.Tables.Get(Csv.Types.SpellsOther).GetDatas())
+            foreach (var data in Csv.Tables.Get(Csv.Files.SpellsOther).GetDatas())
                 if (data is SpellsOther spell)
                     if (!spell.NotInUse)
                         cards.Add(new Card(28, data.GetInstanceId(), false));
@@ -42,7 +42,7 @@ namespace ClashRoyale.Logic.Home.Decks
             {
                 case 1:
                 {
-                    var datas = Csv.Tables.Get(Csv.Types.SpellsCharacters).GetDatas()
+                    var datas = Csv.Tables.Get(Csv.Files.SpellsCharacters).GetDatas()
                         .Where(s => !((SpellsCharacters) s).NotInUse &&
                                     ((SpellsCharacters) s).Rarity == rarity.ToString());
 
@@ -55,7 +55,7 @@ namespace ClashRoyale.Logic.Home.Decks
 
                 case 2:
                 {
-                    var datas = Csv.Tables.Get(Csv.Types.SpellsOther).GetDatas()
+                    var datas = Csv.Tables.Get(Csv.Files.SpellsOther).GetDatas()
                         .Where(s => !((SpellsOther) s).NotInUse && ((SpellsOther) s).Rarity == rarity.ToString());
 
                     var enumerable = datas.ToList();
@@ -67,7 +67,7 @@ namespace ClashRoyale.Logic.Home.Decks
 
                 case 3:
                 {
-                    var datas = Csv.Tables.Get(Csv.Types.SpellsBuildings).GetDatas()
+                    var datas = Csv.Tables.Get(Csv.Files.SpellsBuildings).GetDatas()
                         .Where(s => !((SpellsBuildings) s).NotInUse &&
                                     ((SpellsBuildings) s).Rarity == rarity.ToString());
 
@@ -92,7 +92,7 @@ namespace ClashRoyale.Logic.Home.Decks
             {
                 case 26:
                 {
-                    var datas = Csv.Tables.Get(Csv.Types.SpellsCharacters).GetDatas()
+                    var datas = Csv.Tables.Get(Csv.Files.SpellsCharacters).GetDatas()
                         .Where(s => !((SpellsCharacters) s).NotInUse);
 
                     if (datas.ElementAt(random.Next(0, datas.Count())) is SpellsCharacters c)
@@ -103,7 +103,7 @@ namespace ClashRoyale.Logic.Home.Decks
 
                 case 27:
                 {
-                    var datas = Csv.Tables.Get(Csv.Types.SpellsBuildings).GetDatas()
+                    var datas = Csv.Tables.Get(Csv.Files.SpellsBuildings).GetDatas()
                         .Where(s => !((SpellsBuildings) s).NotInUse);
 
                     if (datas.ElementAt(random.Next(0, datas.Count())) is SpellsBuildings c)
@@ -114,7 +114,7 @@ namespace ClashRoyale.Logic.Home.Decks
 
                 case 28:
                 {
-                    var datas = Csv.Tables.Get(Csv.Types.SpellsOther).GetDatas()
+                    var datas = Csv.Tables.Get(Csv.Files.SpellsOther).GetDatas()
                         .Where(s => !((SpellsOther) s).NotInUse);
 
                     if (datas.ElementAt(random.Next(0, datas.Count())) is SpellsOther c)

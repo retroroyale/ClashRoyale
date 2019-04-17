@@ -27,7 +27,7 @@ namespace ClashRoyale.Core.Leaderboards
             _timer.Elapsed += TimerCallback;
             _timer.Start();
 
-            foreach (var locales in Csv.Tables.Get(Csv.Types.Locales).GetDatas())
+            foreach (var locales in Csv.Tables.Get(Csv.Files.Locales).GetDatas())
                 LocalPlayers.Add(((Locales) locales).Name, new List<Player>(200));
 
             TimerCallback(null, null);

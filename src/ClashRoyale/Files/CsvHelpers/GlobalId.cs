@@ -2,22 +2,22 @@
 {
     public static class GlobalId
     {
-        private const int Reference = 1125899907;
+        private const int kReference = 1125899907;
 
-        public static int CreateGlobalId(int index, int count)
+        public static int CreateGlobalId(int classId, int instanceId)
         {
-            return count + 1000000 * index;
+            return classId * 1000000 + instanceId;
         }
 
-        public static int GetClassId(int type)
+        public static int GetClassId(int globalId)
         {
-            type = (int) ((Reference * (long) type) >> 32);
+            var type = (int) ((kReference * (long)globalId) >> 32);
             return (type >> 18) + (type >> 31);
         }
 
         public static int GetInstanceId(int globalId)
         {
-            var referenceT = (int) ((Reference * (long) globalId) >> 32);
+            var referenceT = (int) ((kReference * (long) globalId) >> 32);
             return globalId - 1000000 * ((referenceT >> 18) + (referenceT >> 31));
         }
     }

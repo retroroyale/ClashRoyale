@@ -14,8 +14,7 @@ namespace ClashRoyale.Logic
             AutoReset = true
         };
 
-        public Queue<byte[]> Commands1 = new Queue<byte[]>();
-        public Queue<byte[]> Commands2 = new Queue<byte[]>();
+        public Dictionary<long, Queue<byte[]>> Commands = new Dictionary<long, Queue<byte[]>>();
         public long BattleId { get; set; }
 
         private DateTime StartTime { get; set; }
@@ -31,22 +30,21 @@ namespace ClashRoyale.Logic
 
             try
             {
+                foreach (var player in this)
+                {
+                    Commands.Add(player.Home.Id, new Queue<byte[]>());
+                }
+
                 _battleTimer.Elapsed += BattleTick;
 
-                var s1 = new SectorStateMessage(this[0].Device)
+                foreach (var player in this)
                 {
-                    Player1 = this[1],
-                    Player2 = this[0]
-                };
-
-                var s2 = new SectorStateMessage(this[1].Device)
-                {
-                    Player1 = this[1],
-                    Player2 = this[0]
-                };
-
-                await s1.SendAsync();
-                await s2.SendAsync();
+                    await new SectorStateMessage(player.Device)
+                    {
+                        Player1 = this[1],
+                        Player2 = this[0]
+                    }.SendAsync();
+                }
 
                 StartTime = DateTime.UtcNow;
 
@@ -123,42 +121,12 @@ namespace ClashRoyale.Logic
 
         public Queue<byte[]> GetEnemyQueue(long userId)
         {
-            var index = FindIndex(p => p.Home.Id == userId);
-
-            switch (index)
-            {
-                case 0:
-                {
-                    return Commands2;
-                }
-
-                case 1:
-                {
-                    return Commands1;
-                }
-            }
-
-            return null;
+            return Commands.FirstOrDefault(cmd => cmd.Key != userId).Value;
         }
 
         public Queue<byte[]> GetOwnQueue(long userId)
         {
-            var index = FindIndex(p => p.Home.Id == userId);
-
-            switch (index)
-            {
-                case 0:
-                {
-                    return Commands1;
-                }
-
-                case 1:
-                {
-                    return Commands2;
-                }
-            }
-
-            return null;
+            return Commands.FirstOrDefault(cmd => cmd.Key == userId).Value;
         }
     }
 }

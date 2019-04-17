@@ -76,7 +76,6 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(1);
 
-                //
                 var info = Player1.Home.AllianceInfo;
                 if (info.HasAlliance)
                 {
@@ -91,7 +90,6 @@ namespace ClashRoyale.Protocol.Messages.Server
                 {
                     Writer.WriteVInt(0);
                 }
-                //
 
                 Writer.WriteVInt(29);
                 Writer.WriteVInt(0);
@@ -149,8 +147,7 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(2);
-
-                //        
+      
                 var info = Player2.Home.AllianceInfo;
                 if (info.HasAlliance)
                 {
@@ -165,7 +162,6 @@ namespace ClashRoyale.Protocol.Messages.Server
                 {
                     Writer.WriteVInt(0);
                 }
-                //
 
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(0);
@@ -222,13 +218,13 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(count);
             Writer.WriteVInt(count);
 
-            Writer.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(1));
-            Writer.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(1));
-            Writer.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(1));
-            Writer.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(1));
+            Writer.WriteData(Csv.Tables.Get(Csv.Files.Buildings).GetDataWithInstanceId<Buildings>(1));
+            Writer.WriteData(Csv.Tables.Get(Csv.Files.Buildings).GetDataWithInstanceId<Buildings>(1));
+            Writer.WriteData(Csv.Tables.Get(Csv.Files.Buildings).GetDataWithInstanceId<Buildings>(1));
+            Writer.WriteData(Csv.Tables.Get(Csv.Files.Buildings).GetDataWithInstanceId<Buildings>(1));
 
-            Writer.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(0));
-            Writer.WriteData(Csv.Tables.Get(Csv.Types.Buildings).GetDataWithInstanceId<Buildings>(0));
+            Writer.WriteData(Csv.Tables.Get(Csv.Files.Buildings).GetDataWithInstanceId<Buildings>(0));
+            Writer.WriteData(Csv.Tables.Get(Csv.Files.Buildings).GetDataWithInstanceId<Buildings>(0));
 
             Writer.WriteVInt(1);
             Writer.WriteVInt(0);
@@ -306,21 +302,6 @@ namespace ClashRoyale.Protocol.Messages.Server
             for (var index = 0; index < 48; index++)
                 Writer.WriteVInt(0);
 
-#if DEBUG
-            Writer.WriteVInt(10000); // Enemy 
-            Writer.WriteVInt(0);
-            Writer.WriteVInt(10000); // Player
-            Writer.WriteVInt(0);
-            Writer.WriteVInt(10000); // Enemy
-            Writer.WriteVInt(0);
-            Writer.WriteVInt(10000); // Player
-            Writer.WriteVInt(0);
-
-            Writer.WriteVInt(100000); // Enemy
-            Writer.WriteVInt(0);
-            Writer.WriteVInt(100000); // Player
-            Writer.WriteVInt(0);
-#else
             Writer.WriteVInt(3668); // Enemy 
             Writer.WriteVInt(0);
             Writer.WriteVInt(3668); // Player
@@ -334,7 +315,6 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(0);
             Writer.WriteVInt(5832); // Player
             Writer.WriteVInt(0);
-#endif
 
             for (var index = 0; index < count; index++)
                 Writer.WriteHex("00000000000000A401A401");

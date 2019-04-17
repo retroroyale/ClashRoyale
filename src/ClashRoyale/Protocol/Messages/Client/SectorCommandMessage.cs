@@ -27,37 +27,37 @@ namespace ClashRoyale.Protocol.Messages.Client
         {
             Device.LastSectorCommand = DateTime.UtcNow;
 
-            if (Count >= 0 && Count <= 128)
-                for (var index = 0; index < Count; index++)
-                {
-                    var type = Reader.ReadVInt();
+            if (Count < 0 || Count > 128) return;
 
-                    if (type >= 500) break;
+            for (var i = 0; i < Count; i++)
+            {
+                var type = Reader.ReadVInt();
 
-                    if (LogicCommandManager.Commands.ContainsKey(type))
-                        try
+                if (type >= 500) break;
+
+                if (LogicCommandManager.Commands.ContainsKey(type))
+                    try
+                    {
+                        if (Activator.CreateInstance(LogicCommandManager.Commands[type], Device,
+                                Reader) is
+                            LogicCommand
+                            command)
                         {
-                            if (Activator.CreateInstance(LogicCommandManager.Commands[type], Device,
-                                    Reader) is
-                                LogicCommand
-                                command)
-                            {
-                                command.Decode();
+                            command.Decode();
+                            command.Encode();
+                            command.Process();
 
-                                command.Encode();
-                                command.Process();
-
-                                Logger.Log($"SectorCommand {type} with Tick {Tick} has been processed.",
-                                    GetType(), ErrorLevel.Debug);
-                            }
+                            Logger.Log($"SectorCommand {type} with Tick {Tick} has been processed.",
+                                GetType(), ErrorLevel.Debug);
                         }
-                        catch (Exception exception)
-                        {
-                            Logger.Log(exception, GetType(), ErrorLevel.Error);
-                        }
-                    else
-                        Logger.Log($"SectorCommand {type} is unhandled.", GetType(), ErrorLevel.Warning);
-                }
+                    }
+                    catch (Exception exception)
+                    {
+                        Logger.Log(exception, GetType(), ErrorLevel.Error);
+                    }
+                else
+                    Logger.Log($"SectorCommand {type} is unhandled.", GetType(), ErrorLevel.Warning);
+            }
         }
     }
 }

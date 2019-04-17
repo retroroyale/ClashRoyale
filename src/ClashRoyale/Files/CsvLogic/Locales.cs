@@ -7,7 +7,7 @@ namespace ClashRoyale.Files.CsvLogic
     {
         public Locales(Row row, DataTable datatable) : base(row, datatable)
         {
-            LoadData(this, GetType(), row);
+            LoadData(this, GetType(), row, 1);
         }
 
         public string Name { get; set; }

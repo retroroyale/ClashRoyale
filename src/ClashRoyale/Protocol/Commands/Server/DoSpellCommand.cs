@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Extensions;
+﻿using System;
+using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Home.Decks.Items;
 using DotNetty.Buffers;
@@ -18,8 +19,8 @@ namespace ClashRoyale.Protocol.Commands.Server
         public int SenderLowId { get; set; }
         public int SpellDeckIndex { get; set; }
         public int SpellIndex { get; set; }
-        public int TroopType { get; set; }
-        public int TroopId { get; set; }
+        public int ClassId { get; set; }
+        public int InstanceId { get; set; }
         public int TroopLevel { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
@@ -37,8 +38,8 @@ namespace ClashRoyale.Protocol.Commands.Server
 
             SpellDeckIndex = Buffer.ReadVInt();
 
-            TroopType = Buffer.ReadVInt();
-            TroopId = Buffer.ReadVInt();
+            ClassId = Buffer.ReadVInt();
+            InstanceId = Buffer.ReadVInt();
 
             SpellIndex = Buffer.ReadVInt();
 
@@ -55,7 +56,7 @@ namespace ClashRoyale.Protocol.Commands.Server
                 Data.WriteVInt(Type);
 
                 Data.WriteVInt(ClientTick);
-                Data.WriteVInt(Checksum);
+                Data.WriteVInt(63); // Checksum
 
                 Data.WriteVInt(SenderHighId);
                 Data.WriteVInt(SenderLowId);
@@ -63,49 +64,46 @@ namespace ClashRoyale.Protocol.Commands.Server
 
             Data.WriteVInt(SpellDeckIndex);
 
-            Data.WriteVInt(TroopType);
-            Data.WriteVInt(TroopId);
+            Data.WriteVInt(ClassId);
+            Data.WriteVInt(InstanceId);
 
-            Data.WriteVInt(SpellIndex);
+            Data.WriteVInt(63); // SpellIndex
         }
 
         public override void Process()
         {
             var battle = Device.Player.Battle;
+            if (battle == null) return;
 
-            if (battle != null)
+            var data = Data.ReadBytes(Data.ReadableBytes).Array;
+
+            var buffer = Unpooled.Buffer(9);
             {
-                var data = new byte[Data.ReadableBytes];
-                Data.GetBytes(Data.ReaderIndex, data);
+                buffer.WriteBytes(data);
 
-                var buffer = Unpooled.Buffer();
+                buffer.WriteVInt(TroopLevel);
+
+                buffer.WriteVInt(X);
+                buffer.WriteVInt(Y);
+
+                battle.GetOwnQueue(Device.Player.Home.Id).Enqueue(buffer.Array);
+            }
+
+            var enemyBuffer = Unpooled.Buffer(1);
+            {
+                enemyBuffer.WriteBytes(data);
+
+                enemyBuffer.WriteVInt(1); // IsAttack
                 {
-                    buffer.WriteBuffer(data);
-
-                    buffer.WriteVInt(TroopLevel);
-
-                    buffer.WriteVInt(X);
-                    buffer.WriteVInt(Y);
-
-                    battle.GetOwnQueue(Device.Player.Home.Id).Enqueue(buffer.Array);
+                    enemyBuffer.WriteVInt(Card.Id(ClassId, InstanceId));
                 }
 
-                var attackBuffer = Unpooled.Buffer();
-                {
-                    attackBuffer.WriteBuffer(data);
+                enemyBuffer.WriteVInt(TroopLevel);
 
-                    attackBuffer.WriteVInt(1); // IsAttack
-                    {
-                        attackBuffer.WriteVInt(Card.Id(TroopType, TroopId));
-                    }
+                enemyBuffer.WriteVInt(X);
+                enemyBuffer.WriteVInt(Y);
 
-                    attackBuffer.WriteVInt(TroopLevel);
-
-                    attackBuffer.WriteVInt(X);
-                    attackBuffer.WriteVInt(Y);
-
-                    battle.GetEnemyQueue(Device.Player.Home.Id).Enqueue(attackBuffer.Array);
-                }
+                battle.GetEnemyQueue(Device.Player.Home.Id).Enqueue(enemyBuffer.Array);
             }
         }
     }

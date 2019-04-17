@@ -7,7 +7,7 @@ namespace ClashRoyale.Files.CsvLogic
     {
         public TutorialsNpc(Row row, DataTable datatable) : base(row, datatable)
         {
-            LoadData(this, GetType(), row);
+            LoadData(this, GetType(), row, 48);
         }
 
         public string Name { get; set; }

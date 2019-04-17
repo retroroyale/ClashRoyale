@@ -7,7 +7,7 @@ namespace ClashRoyale.Files.CsvLogic
     {
         public ResourcePacks(Row row, DataTable datatable) : base(row, datatable)
         {
-            LoadData(this, GetType(), row);
+            LoadData(this, GetType(), row, 55);
         }
 
         public string Name { get; set; }

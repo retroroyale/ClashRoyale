@@ -10,9 +10,10 @@ namespace ClashRoyale.Files.CsvReader
 
         public Gamefiles()
         {
-            if (Csv.Gamefiles.Count > 0)
-                for (var i = 0; i < Csv.Gamefiles.Count; i++)
-                    _dataTables.Add(new DataTable());
+            if (Csv.Gamefiles.Count <= 0) return;
+
+            for (var i = 0; i < Csv.Gamefiles.Count; i++)
+                _dataTables.Add(new DataTable());
         }
 
         public void Dispose()
@@ -20,7 +21,7 @@ namespace ClashRoyale.Files.CsvReader
             _dataTables.Clear();
         }
 
-        public DataTable Get(Csv.Types index)
+        public DataTable Get(Csv.Files index)
         {
             return _dataTables[(int) index - 1];
         }
@@ -30,7 +31,7 @@ namespace ClashRoyale.Files.CsvReader
             return _dataTables[index - 1];
         }
 
-        public void Initialize(Table table, Csv.Types index)
+        public void Initialize(Table table, Csv.Files index)
         {
             _dataTables[(int)index - 1] = new DataTable(table, index);
         }

@@ -7,15 +7,12 @@ namespace ClashRoyale.Files.CsvClient
     {
         public BackgroundDecos(Row row, DataTable datatable) : base(row, datatable)
         {
-            LoadData(this, GetType(), row);
+            LoadData(this, GetType(), row, 50);
         }
 
         public string Name { get; set; }
-
         public string FileName { get; set; }
-
         public string ExportName { get; set; }
-
         public string Layer { get; set; }
     }
 }

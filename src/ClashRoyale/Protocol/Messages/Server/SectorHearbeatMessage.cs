@@ -22,7 +22,9 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(Commands.Count);
 
             for (var i = 0; i < Commands.Count; i++)
-                Writer.WriteBuffer(Commands.Dequeue());
+            {
+                Writer.WriteBytes(Commands.Dequeue());
+            }
         }
     }
 }

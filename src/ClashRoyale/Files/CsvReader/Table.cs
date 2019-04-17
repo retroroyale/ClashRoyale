@@ -57,12 +57,9 @@ namespace ClashRoyale.Files.CsvReader
             if (index == -1)
                 return 0;
 
-            var c = _columns[columnIndex];
             int nextOffset;
             if (index + 1 >= _rows.Count)
-            {
-                nextOffset = c.GetSize();
-            }
+                nextOffset = _columns[columnIndex].GetSize();
             else
             {
                 var nextRow = _rows[index + 1];

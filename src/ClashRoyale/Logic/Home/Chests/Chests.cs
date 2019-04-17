@@ -14,7 +14,7 @@ namespace ClashRoyale.Logic.Home.Chests
 
         public Chest BuyChest(int instanceId, Chest.ChestType type)
         {
-            var chests = Csv.Tables.Get(Csv.Types.TreasureChests);
+            var chests = Csv.Tables.Get(Csv.Files.TreasureChests);
             var mainchest = chests.GetDataWithInstanceId<TreasureChests>(instanceId);
             var baseChest = chests.GetData<TreasureChests>(mainchest.BaseChest);
             var random = new Random();

@@ -7,7 +7,7 @@ namespace ClashRoyale.Files.CsvLogic
     {
         public GambleChests(Row row, DataTable datatable) : base(row, datatable)
         {
-            LoadData(this, GetType(), row);
+            LoadData(this, GetType(), row, 43);
         }
 
         public string Name { get; set; }

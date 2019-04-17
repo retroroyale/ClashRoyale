@@ -100,18 +100,8 @@ namespace ClashRoyale.Extensions
         /// <param name="value"></param>
         public static void WriteData(this IByteBuffer buffer, Data value)
         {
-            buffer.WriteVInt(value.GetDataType() + 31);
+            buffer.WriteVInt(value.GetDataType());
             buffer.WriteVInt(value.GetInstanceId());
-        }
-
-        /// <summary>
-        ///     Encodes raw bytes to the buffer
-        /// </summary>
-        /// <param name="buffer"></param>
-        /// <param name="bytes"></param>
-        public static void WriteBuffer(this IByteBuffer buffer, byte[] bytes)
-        {
-            buffer.WriteBytes(Unpooled.WrappedBuffer(bytes));
         }
 
         /// <summary>
@@ -122,7 +112,7 @@ namespace ClashRoyale.Extensions
         public static void WriteHex(this IByteBuffer buffer, string value)
         {
             var tmp = value.Replace("-", string.Empty);
-            buffer.WriteBuffer(Enumerable.Range(0, tmp.Length).Where(x => x % 2 == 0)
+            buffer.WriteBytes(Enumerable.Range(0, tmp.Length).Where(x => x % 2 == 0)
                 .Select(x => Convert.ToByte(tmp.Substring(x, 2), 16)).ToArray());
         }
     }

@@ -8,7 +8,7 @@ namespace ClashRoyale.Files.CsvLogic
     {
         public Rarities(Row row, DataTable datatable) : base(row, datatable)
         {
-            LoadData(this, GetType(), row);
+            LoadData(this, GetType(), row, 14);
         }
 
         public string Name { get; set; }

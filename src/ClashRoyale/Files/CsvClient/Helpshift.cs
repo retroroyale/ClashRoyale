@@ -7,11 +7,10 @@ namespace ClashRoyale.Files.CsvClient
     {
         public Helpshift(Row row, DataTable datatable) : base(row, datatable)
         {
-            LoadData(this, GetType(), row);
+            LoadData(this, GetType(), row, 62);
         }
 
         public string Name { get; set; }
-
         public string HelpshiftId { get; set; }
     }
 }

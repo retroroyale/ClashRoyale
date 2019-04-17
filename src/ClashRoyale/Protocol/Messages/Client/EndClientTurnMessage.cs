@@ -44,7 +44,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                 return;
             }
 
-            for (var index = 0; index < Count; index++)
+            for (var i = 0; i < Count; i++)
             {
                 var type = Reader.ReadVInt();
 
