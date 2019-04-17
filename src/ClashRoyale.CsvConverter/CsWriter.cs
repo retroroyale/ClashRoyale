@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace ClashRoyaleCsvConverter
+namespace ClashRoyale.CsvConverter
 {
     public class CsWriter
     {

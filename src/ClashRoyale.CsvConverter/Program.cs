@@ -1,13 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using ClashRoyaleCsvConverter.Extensions;
+using ClashRoyale.CsvConverter.Extensions;
 
-namespace ClashRoyaleCsvConverter
+namespace ClashRoyale.CsvConverter
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             Console.Title = "ClashRoyale CSV Converter v0.2";
 

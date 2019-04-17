@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace ClashRoyaleCsvConverter.Extensions
+namespace ClashRoyale.CsvConverter.Extensions
 {
     internal class Prefixed : TextWriter
     {
