@@ -161,6 +161,22 @@ namespace ClashRoyale.Logic.Clan
             }
         }
 
+        public async void RemoveEntry(AllianceStreamEntry entry)
+        {
+            Stream.RemoveAll(e => e.Id == entry.Id);
+
+            foreach (var member in Members.Where(m => m.IsOnline).ToList())
+            {
+                var player = await member.GetPlayerAsync(true);
+
+                if (player != null)
+                    await new AllianceStreamEntryRemovedMessage(player.Device)
+                    {
+                        EntryId = entry.Id
+                    }.SendAsync();
+            }
+        }
+
         public int GetRole(long id)
         {
             var index = Members.FindIndex(x => x.Id == id);

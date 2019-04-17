@@ -68,6 +68,15 @@ namespace ClashRoyale.Protocol.Messages.Client
                         }
                     }.SendAsync();
 
+                    await new AvailableServerCommand(Device)
+                    {
+                        Command = new LogicChangeAllianceRoleCommand(Device)
+                        {
+                            AllianceId = alliance.Id,
+                            NewRole = 2
+                        }
+                    }.SendAsync();
+
                     alliance.UpdateOnlineCount();
                 }
                 else

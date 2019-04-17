@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using ClashRoyale.Logic;
+﻿using ClashRoyale.Logic;
 using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
 
@@ -23,18 +22,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                 if (entry != null)
                 {
-                    alliance.Stream.Remove(entry);
-
-                    foreach (var member in alliance.Members.Where(m => m.IsOnline).ToList())
-                    {
-                        var player = await member.GetPlayerAsync(true);
-
-                        if (player != null)
-                            await new AllianceStreamEntryRemovedMessage(player.Device)
-                            {
-                                EntryId = entry.Id
-                            }.SendAsync();
-                    }
+                    alliance.RemoveEntry(entry);
 
                     await new CancelChallengeDoneMessage(Device).SendAsync();
                 }
