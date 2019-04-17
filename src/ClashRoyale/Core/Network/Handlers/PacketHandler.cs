@@ -54,6 +54,12 @@ namespace ClashRoyale.Core.Network.Handlers
                     var alliance = await Resources.Alliances.GetAllianceAsync(player.Home.AllianceInfo.Id);
                     if (alliance != null)
                     {
+                        var entry = alliance.Stream.Find(e => e.SenderId == player.Home.Id && e.StreamEntryType == 10);
+                        if (entry != null)
+                        {
+                            alliance.RemoveEntry(entry);
+                        }
+
                         if (alliance.Online < 1)
                         {
                             Resources.Alliances.Remove(alliance.Id);

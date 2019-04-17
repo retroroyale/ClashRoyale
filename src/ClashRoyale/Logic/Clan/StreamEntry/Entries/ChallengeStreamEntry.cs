@@ -34,6 +34,8 @@ namespace ClashRoyale.Logic.Clan.StreamEntry.Entries
 
             packet.WriteBoolean(Closed); // Closed
             packet.WriteVInt(Spectators); // Spectators
+
+            packet.WriteBoolean(false);
         }
 
         public void SetTarget(Player target)

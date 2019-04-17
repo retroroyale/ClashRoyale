@@ -23,6 +23,12 @@ namespace ClashRoyale.Logic
         public int BattleSeconds => BattleTime / 2;
 
         public bool IsReady => Count >= 1;
+        public bool Is1Vs1 { get; set; }
+
+        public Battle(bool is1Vs1)
+        {
+            Is1Vs1 = is1Vs1;
+        }
 
         public async void Start()
         {
@@ -76,7 +82,8 @@ namespace ClashRoyale.Logic
                         {
                             if (BattleSeconds > 10)
                             {
-                                player.Home.AddCrowns(3);
+                                if(Is1Vs1)
+                                    player.Home.AddCrowns(3);
 
                                 await new BattleResultMessage(player.Device).SendAsync();
 

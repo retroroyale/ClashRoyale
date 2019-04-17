@@ -29,53 +29,50 @@ namespace ClashRoyale.Protocol.Messages.Client
             var home = Device.Player.Home;
             var alliance = await Resources.Alliances.GetAllianceAsync(home.AllianceInfo.Id);
 
-            if (alliance != null)
+            var entry = alliance?.Stream.Find(e => e.Id == StreamId);
+
+            if (entry != null)
             {
-                var entry = alliance.Stream.Find(e => e.Id == StreamId);
+                alliance.RemoveEntry(entry);
 
-                if (entry != null)
+                var newEntry = (JoinRequestAllianceStreamEntry)entry;
+                newEntry.Id = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+                newEntry.State = Accepted ? 2 : 0;
+
+                newEntry.SetTarget(Device.Player);
+
+                alliance.AddEntry(newEntry);
+
+                if (Accepted)
                 {
-                    alliance.RemoveEntry(entry);
+                    var player = await Resources.Players.GetPlayerAsync(newEntry.SenderId);
+                    alliance.Add(new AllianceMember(player, Alliance.Role.Member));
 
-                    var newEntry = (JoinRequestAllianceStreamEntry)entry;
-                    newEntry.Id = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-                    newEntry.State = Accepted ? 2 : 0;
+                    player.Home.AllianceInfo = alliance.GetAllianceInfo(player.Home.Id);
 
-                    newEntry.SetTarget(Device.Player);
-
-                    alliance.AddEntry(newEntry);
-
-                    if (Accepted)
+                    if (player.Device != null)
                     {
-                        var player = await Resources.Players.GetPlayerAsync(newEntry.SenderId);
-                        alliance.Add(new AllianceMember(player, Alliance.Role.Member));
-
-                        player.Home.AllianceInfo = alliance.GetAllianceInfo(player.Home.Id);
-
-                        if (player.Device != null)
+                        await new AvailableServerCommand(player.Device)
                         {
-                            await new AvailableServerCommand(player.Device)
+                            Command = new LogicJoinAllianceCommand(player.Device)
                             {
-                                Command = new LogicJoinAllianceCommand(player.Device)
-                                {
-                                    AllianceId = alliance.Id,
-                                    AllianceName = alliance.Name,
-                                    AllianceBadge = alliance.Badge
-                                }
-                            }.SendAsync();
+                                AllianceId = alliance.Id,
+                                AllianceName = alliance.Name,
+                                AllianceBadge = alliance.Badge
+                            }
+                        }.SendAsync();
 
-                            await new AllianceStreamMessage(player.Device)
-                            {
-                                Entries = alliance.Stream
-                            }.SendAsync();
-                        }
-
-                        player.Save();
+                        await new AllianceStreamMessage(player.Device)
+                        {
+                            Entries = alliance.Stream
+                        }.SendAsync();
                     }
 
-                    alliance.Save();
-                    alliance.UpdateOnlineCount();
+                    player.Save();
                 }
+
+                alliance.Save();
+                alliance.UpdateOnlineCount();
             }
         }
     }

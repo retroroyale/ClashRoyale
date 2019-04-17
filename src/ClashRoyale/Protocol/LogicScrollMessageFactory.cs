@@ -41,7 +41,7 @@ namespace ClashRoyale.Protocol
                 {14113, typeof(VisitHomeMessage)},
                 //{14114, typeof(HomeBattleReplayMessage)},
                 //{14117, typeof(HomeBattleReplayViewedMessage)},
-                //{14120, typeof(AcceptChallengeMessage)},
+                {14120, typeof(AcceptChallengeMessage)},
                 {14123, typeof(CancelChallengeMessage)},
                 //{14201, typeof(BindFacebookAccountMessage)},
                 //{14211, typeof(UnbindFacebookAccountMessage)},
