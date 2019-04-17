@@ -1,0 +1,20 @@
+version: '1.0.{build}'
+image: Visual Studio 2017
+branches:
+  only:
+  - master
+init:
+  - cmd: git config --global core.autocrlf true
+before_build:
+  - cmd: dotnet --version
+  - cmd: dotnet restore  ./src/ClashRoyale/ClashRoyale.csproj --verbosity m
+build_script:
+  - cmd: dotnet publish ./src/ClashRoyale/ClashRoyale.csproj
+artifacts:
+ - path: '\src\ClashRoyale\bin\Debug\netcoreapp2.2\publish'
+   name: ClashRoyale
+clone_depth: 1
+test_script:
+  - cmd: dotnet restore ./src/ClashRoyale/ClashRoyale.csproj --verbosity m
+  - cmd: cd tests
+  - cmd: dotnet xunit
