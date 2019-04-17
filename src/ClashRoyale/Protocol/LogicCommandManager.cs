@@ -26,6 +26,7 @@ namespace ClashRoyale.Protocol
                 {516, typeof(LogicBuyChestCommand)},
                 {517, typeof(LogicBuyResourcesCommand)},
                 {518, typeof(LogicBuySpellCommand)},
+                //{522, typeof(LogicChallengeCommand)},
                 {525, typeof(StartMatchmakeCommand)},
                 {526, typeof(LogicChestNextCardCommand)}
                 // {557, typeof()} // NewLeaguesSeen?

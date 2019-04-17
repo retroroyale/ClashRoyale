@@ -32,8 +32,8 @@ namespace ClashRoyale.Logic.Clan.StreamEntry
         public virtual void Encode(IByteBuffer packet)
         {
             packet.WriteVInt(StreamEntryType);
-            packet.WriteVInt(0);
 
+            packet.WriteVInt(0); 
             packet.WriteVInt(Id);
 
             packet.WriteVInt(SenderHighId);

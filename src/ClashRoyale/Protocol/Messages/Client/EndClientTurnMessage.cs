@@ -59,9 +59,6 @@ namespace ClashRoyale.Protocol.Messages.Client
                             LogicCommand
                             command)
                         {
-                            command.Tick = Reader.ReadVInt();
-                            Reader.ReadVInt();
-
                             command.Decode();
                             command.Process();
 

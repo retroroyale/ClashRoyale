@@ -1,5 +1,4 @@
-﻿using ClashRoyale.Extensions;
-using ClashRoyale.Logic;
+﻿using ClashRoyale.Logic;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {
@@ -10,21 +9,11 @@ namespace ClashRoyale.Protocol.Messages.Server
             Id = 24318;
         }
 
-        public int EntryId { get; set; }
+        public long EntryId { get; set; }
 
         public override void Encode()
         {
-            Writer.WriteVInt(32);
-            Writer.WriteVInt(0);
-
-            Writer.WriteVInt(0);
-            Writer.WriteVInt(0);
-
-            Writer.WriteVInt(0);
-            Writer.WriteVInt(0);
-
-            Writer.WriteVInt(0);
-            Writer.WriteVInt(EntryId);
+            Writer.WriteLong(EntryId);
         }
     }
 }

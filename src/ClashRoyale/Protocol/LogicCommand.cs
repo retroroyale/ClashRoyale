@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Logic;
+﻿using ClashRoyale.Extensions;
+using ClashRoyale.Logic;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Protocol
@@ -27,6 +28,8 @@ namespace ClashRoyale.Protocol
 
         public virtual void Decode()
         {
+            Tick = Buffer.ReadVInt();
+            Buffer.ReadVInt();
         }
 
         public virtual void Encode()

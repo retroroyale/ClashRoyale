@@ -1,5 +1,6 @@
 ﻿using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan.StreamEntry;
+using ClashRoyale.Logic.Clan.StreamEntry.Entries;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {
@@ -14,6 +15,14 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
+            if (Entry.StreamEntryType == 10)
+            {
+                if (Entry.SenderId == Device.Player.Home.Id)
+                {
+                    ((ChallengeStreamEntry)Entry).Closed = true;
+                }
+            }
+
             Entry.Encode(Writer);
         }
     }

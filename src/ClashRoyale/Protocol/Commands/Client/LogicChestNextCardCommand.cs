@@ -12,6 +12,8 @@ namespace ClashRoyale.Protocol.Commands.Client
 
         public override void Decode()
         {
+            base.Decode();
+
             Buffer.ReadVInt();
             Buffer.ReadVInt();
         }

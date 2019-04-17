@@ -13,6 +13,11 @@ namespace ClashRoyale.Logic.Clan.StreamEntry.Entries
 
         [JsonProperty("msg")] public string Message { get; set; }
         [JsonProperty("sender_score")] public int SenderScore { get; set; }
+        [JsonProperty("closed")] public bool Closed { get; set; }
+        [JsonProperty("active")] public bool Active { get; set; }
+        [JsonProperty("target_name")] public string TargetName { get; set; }
+
+        [JsonIgnore] public int Spectators { get; set; }
 
         public override void Encode(IByteBuffer packet)
         {
@@ -20,19 +25,20 @@ namespace ClashRoyale.Logic.Clan.StreamEntry.Entries
 
             packet.WriteScString(Message);
 
-            packet.WriteBoolean(false);
+            packet.WriteBoolean(Active); // IsActive
+
+            if(Active)
+                packet.WriteScString(TargetName);
 
             packet.WriteVInt(SenderScore);
 
-            packet.WriteBoolean(false);
-            packet.WriteBoolean(false);
+            packet.WriteBoolean(Closed); // Closed
+            packet.WriteVInt(Spectators); // Spectators
+        }
 
-            packet.WriteVInt(1);
-
-            packet.WriteBoolean(false);
-
-            packet.WriteBoolean(false);
-            packet.WriteBoolean(false);
+        public void SetTarget(Player target)
+        {
+            TargetName = target.Home.Name;
         }
 
         public override void SetSender(Player player)
