@@ -46,7 +46,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                 alliance.Save();
 
-                // TODO: Update Entry + Battle Result
+                // TODO: Update Entry + Battle Result + Card levels
             }
         }
     }

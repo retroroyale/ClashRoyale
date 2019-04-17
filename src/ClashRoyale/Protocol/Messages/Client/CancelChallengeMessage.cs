@@ -23,9 +23,9 @@ namespace ClashRoyale.Protocol.Messages.Client
                 if (entry != null)
                 {
                     alliance.RemoveEntry(entry);
-
-                    await new CancelChallengeDoneMessage(Device).SendAsync();
                 }
+
+                await new CancelChallengeDoneMessage(Device).SendAsync();
             }
         }
     }
