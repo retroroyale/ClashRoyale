@@ -13,6 +13,7 @@ namespace ClashRoyale.Logic.Clan.StreamEntry.Entries
 
         [JsonProperty("msg")] public string Message { get; set; }
         [JsonProperty("sender_score")] public int SenderScore { get; set; }
+        [JsonProperty("arena")] public int Arena { get; set; }
         [JsonProperty("closed")] public bool Closed { get; set; }
         [JsonProperty("active")] public bool Active { get; set; }
         [JsonProperty("target_name")] public string TargetName { get; set; }

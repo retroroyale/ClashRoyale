@@ -16,7 +16,8 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public Player Player1 { get; set; }
         public Player Player2 { get; set; }
-
+        public int Arena { get; set; } 
+        
         public override void Encode()
         {
             const int count = 6;
@@ -179,10 +180,10 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Writer.WriteVInt(0);
             }
 
-            Writer.WriteVInt(14);
-            Writer.WriteVInt(2);
+            Writer.WriteVInt(Csv.Tables.Get(Csv.Files.Locations).GetData<Locations>(Csv.Tables.Get(Csv.Files.Arenas).GetDataWithInstanceId<Arenas>(Arena).PvpLocation).GetInstanceId() - 1); // Location
+            Writer.WriteVInt(2); // Players
             Writer.WriteVInt(0);
-            Writer.WriteVInt(21); // Arena 
+            Writer.WriteVInt(Arena); // Arena 
 
             Writer.WriteVInt(Player1.Home.HighId);
             Writer.WriteVInt(Player1.Home.LowId);

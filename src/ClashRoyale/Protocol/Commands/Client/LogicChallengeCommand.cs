@@ -42,7 +42,8 @@ namespace ClashRoyale.Protocol.Commands.Client
             {
                 var entry = new ChallengeStreamEntry
                 {
-                    Message = Message
+                    Message = Message,
+                    Arena = Arena + 1
                 };
 
                 entry.SetSender(Device.Player);

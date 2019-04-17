@@ -24,6 +24,13 @@ namespace ClashRoyale.Logic
 
         public bool IsReady => Count >= 1;
         public bool Is1Vs1 { get; set; }
+        public int Arena = 21;
+
+        public Battle(bool is1Vs1, int arena)
+        {
+            Is1Vs1 = is1Vs1;
+            Arena = arena;
+        }
 
         public Battle(bool is1Vs1)
         {
@@ -48,7 +55,8 @@ namespace ClashRoyale.Logic
                     await new SectorStateMessage(player.Device)
                     {
                         Player1 = this[1],
-                        Player2 = this[0]
+                        Player2 = this[0],
+                        Arena = Arena
                     }.SendAsync();
                 }
 
