@@ -63,8 +63,8 @@ namespace ClashRoyale.Logic.Clan
 
             packet.WriteVInt(0); // Chest Crowns
             packet.WriteVInt(65039); // Chest ??
-            packet.WriteVInt(63);
-            packet.WriteVInt(63);
+            packet.WriteVInt(-1);
+            packet.WriteVInt(-1);
             packet.WriteVInt(31);
             packet.WriteVInt(7);
 

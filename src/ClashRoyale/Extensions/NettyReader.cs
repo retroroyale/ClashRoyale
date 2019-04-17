@@ -35,7 +35,7 @@ namespace ClashRoyale.Extensions
             for (var j = 0; j < 4 && (b & 0x80) != 0; j++, offset += 7)
                 i |= ((b = byteBuffer.ReadByte()) & 0x7F) << offset;
 
-            return (b & 0x80) == 0 ? (sign == 1 ? i | (int)(0xFFFFFFFF << offset) : i) | i : -1;
+            return (b & 0x80) != 0 ? -1 : i | (sign == 1 && offset < 32 ? i | (int)(0xFFFFFFFF << offset) : i);
         }
     }
 }

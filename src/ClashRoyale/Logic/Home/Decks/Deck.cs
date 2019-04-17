@@ -36,7 +36,7 @@ namespace ClashRoyale.Logic.Home.Decks
             foreach (var card in GetRange(0, 8))
                 packet.WriteVInt(card.GlobalId);
 
-            packet.WriteVInt(-1);
+            packet.WriteByte(255);
 
             foreach (var card in GetRange(0, 8))
                 card.Encode(packet);

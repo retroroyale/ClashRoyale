@@ -56,7 +56,7 @@ namespace ClashRoyale.Protocol.Commands.Server
                 Data.WriteVInt(Type);
 
                 Data.WriteVInt(ClientTick);
-                Data.WriteVInt(63); // Checksum
+                Data.WriteVInt(Checksum); 
 
                 Data.WriteVInt(SenderHighId);
                 Data.WriteVInt(SenderLowId);
@@ -67,7 +67,7 @@ namespace ClashRoyale.Protocol.Commands.Server
             Data.WriteVInt(ClassId);
             Data.WriteVInt(InstanceId);
 
-            Data.WriteVInt(63); // SpellIndex
+            Data.WriteVInt(SpellIndex); 
         }
 
         public override void Process()

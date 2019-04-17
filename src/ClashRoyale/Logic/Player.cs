@@ -220,7 +220,7 @@ namespace ClashRoyale.Logic
             }
 
             packet.WriteVInt(0);
-            packet.WriteVInt(63);
+            packet.WriteVInt(-1);
 
             // Request Cooldown
             packet.WriteVInt(1714640);
@@ -230,7 +230,7 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
-            packet.WriteVInt(63);
+            packet.WriteVInt(-1);
 
             packet.WriteVInt(Home.NameSet == 0 ? 1 : 3); // 1 = SetNamePopup, 2 = Upgrade Card Tutorial, 3 = NameSet
 

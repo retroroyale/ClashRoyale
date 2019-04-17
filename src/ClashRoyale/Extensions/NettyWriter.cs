@@ -42,44 +42,25 @@ namespace ClashRoyale.Extensions
         /// <param name="value"></param>
         public static void WriteVInt(this IByteBuffer buffer, int value)
         {
-            try
-            {
-                if (value > 0x3F)
-                {
-                    buffer.WriteByte((byte) ((value & 0x3F) | 0x80));
-                    if (value > 0x1FFF)
-                    {
-                        buffer.WriteByte((byte) ((value >> 0x6) | 0x80));
-                        if (value > 0xFFFFF)
-                        {
-                            buffer.WriteByte((byte) ((value >> 0xD) | 0x80));
-                            if (value > 0x7FFFFFF)
-                            {
-                                buffer.WriteByte((byte) ((value >> 0x14) | 0x80));
-                                value >>= 0x1B & 0x7F;
-                            }
-                            else
-                            {
-                                value >>= 0x14 & 0x7F;
-                            }
-                        }
-                        else
-                        {
-                            value >>= 0xD & 0x7F;
-                        }
-                    }
-                    else
-                    {
-                        value >>= 0x6 & 0x7F;
-                    }
-                }
+            var temp = (value >> 25) & 0x40;
+            var flipped = value ^ (value >> 31);
 
-                buffer.WriteByte((byte) value);
-            }
-            catch (IndexOutOfRangeException)
+            temp |= value & 0x3F;
+            value >>= 6;
+
+            if ((flipped >>= 6) == 0)
             {
-                // Ignored.
+                buffer.WriteByte(temp);
+                return;
             }
+
+            buffer.WriteByte(temp | 0x80);
+
+            do
+            {
+                buffer.WriteByte((value & 0x7F) | ((flipped >>= 7) != 0 ? 0x80 : 0));
+                value >>= 7;
+            } while (flipped != 0);
         }
 
         /// <summary>
