@@ -89,7 +89,7 @@ namespace ClashRoyale.Protocol.Commands.Server
                 battle.GetOwnQueue(Device.Player.Home.Id).Enqueue(buffer.Array);
             }
 
-            var enemyBuffer = Unpooled.Buffer(1);
+            var enemyBuffer = Unpooled.Buffer(9);
             {
                 enemyBuffer.WriteBytes(data);
 
