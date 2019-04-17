@@ -19,7 +19,7 @@ The server supports battles, for those a patched client is neccessary.
 
 for Ubuntu use these commands:
 ```
-git clone https://github.com/retroroyale/ClashRoyale.git && cd src/ClashRoyale/ClashRoyale
+git clone https://github.com/retroroyale/ClashRoyale.git && cd ClashRoyale/src/ClashRoyale
 
 dotnet publish "ClashRoyale.csproj" -c Release -o app
 ```
