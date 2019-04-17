@@ -180,7 +180,7 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Writer.WriteVInt(0);
             }
 
-            Writer.WriteVInt(Csv.Tables.Get(Csv.Files.Locations).GetData<Locations>(Csv.Tables.Get(Csv.Files.Arenas).GetDataWithInstanceId<Arenas>(Arena).PvpLocation).GetInstanceId() - 1); // Location
+            Writer.WriteVInt(Csv.Tables.Get(Csv.Files.Locations).GetData<Locations>(Csv.Tables.Get(Csv.Files.Arenas).GetDataWithInstanceId<Arenas>(Arena - 1).PvpLocation).GetInstanceId() + 1); // Location
             Writer.WriteVInt(2); // Players
             Writer.WriteVInt(0);
             Writer.WriteVInt(Arena); // Arena 
