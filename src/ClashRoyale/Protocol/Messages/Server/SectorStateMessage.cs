@@ -22,19 +22,20 @@ namespace ClashRoyale.Protocol.Messages.Server
         {
             const int count = 6;
 
-            Writer.WriteVInt(0);
-
+            Writer.WriteBoolean(false); // IsCompressed
             Writer.WriteVInt(0); // Time
             Writer.WriteVInt(0); // Checksum
             Writer.WriteVInt(TimeUtils.CurrentUnixTimestamp); // Timestamp
-            Writer.WriteVInt(11);
 
-            Writer.WriteVInt(0);
-            Writer.WriteByte(38);
+            Writer.WriteVInt(11);
+            Writer.WriteVInt(0); // Time
+            Writer.WriteVInt(38); // Random
+
             Writer.WriteVInt(9);
             Writer.WriteVInt(4);
+
             Writer.WriteVInt(7419667);
-            Writer.WriteByte(1);
+            Writer.WriteVInt(1);
 
             // Player 1
             {
@@ -182,7 +183,7 @@ namespace ClashRoyale.Protocol.Messages.Server
 
             Writer.WriteVInt(Csv.Tables.Get(Csv.Files.Locations).GetData<Locations>(Csv.Tables.Get(Csv.Files.Arenas).GetDataWithInstanceId<Arenas>(Arena - 1).PvpLocation).GetInstanceId() + 1); // Location
             Writer.WriteVInt(2); // Players
-            Writer.WriteVInt(0);
+            Writer.WriteVInt(0); // Npc
             Writer.WriteVInt(Arena); // Arena 
 
             Writer.WriteVInt(Player1.Home.HighId);
@@ -202,15 +203,17 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(0);
             Writer.WriteVInt(0);
 
-            Writer.WriteVInt(0);
-            Writer.WriteVInt(0);
-            Writer.WriteVInt(0);
-            Writer.WriteVInt(0);
-            Writer.WriteVInt(0);
-            Writer.WriteVInt(0);
-            Writer.WriteVInt(0);
+            Writer.WriteBoolean(false);
+            Writer.WriteBoolean(false);
 
-            Writer.WriteByte(2);
+            Writer.WriteBoolean(false);
+            Writer.WriteBoolean(false);
+
+            Writer.WriteBoolean(false); 
+            Writer.WriteBoolean(false); 
+
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(2);
             Writer.WriteVInt(1);
 
             Writer.WriteVInt(0);
@@ -298,11 +301,16 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(0);
             Writer.WriteVInt(0);
 
-            Writer.WriteHex("00007F7F7F7F7F7F7F7F");
+            Writer.WriteVInt(0);
+            Writer.WriteVInt(0);
+
+            for (var index = 0; index < 8; index++)
+                Writer.WriteVInt(-1);
 
             for (var index = 0; index < 48; index++)
                 Writer.WriteVInt(0);
 
+            // LogicHitpointComponent
             Writer.WriteVInt(3668); // Enemy 
             Writer.WriteVInt(0);
             Writer.WriteVInt(3668); // Player
@@ -311,12 +319,12 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(0);
             Writer.WriteVInt(3668); // Player
             Writer.WriteVInt(0);
-
             Writer.WriteVInt(5832); // Enemy
             Writer.WriteVInt(0);
             Writer.WriteVInt(5832); // Player
             Writer.WriteVInt(0);
 
+            // LogicCharacterBuffComponent
             for (var index = 0; index < count; index++)
                 Writer.WriteHex("00000000000000A401A401");
 
