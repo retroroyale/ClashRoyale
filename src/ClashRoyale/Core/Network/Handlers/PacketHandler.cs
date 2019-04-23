@@ -82,7 +82,7 @@ namespace ClashRoyale.Core.Network.Handlers
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
-            if(exception.GetType() != typeof(ReadTimeoutException) || exception.GetType() != typeof(WriteTimeoutException))
+            if(exception.GetType() != typeof(ReadTimeoutException) && exception.GetType() != typeof(WriteTimeoutException))
                 Logger.Log(exception, GetType(), ErrorLevel.Error);
 
             context.CloseAsync();
