@@ -9,6 +9,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         public KeepAliveMessage(Device device, IByteBuffer buffer) : base(device, buffer)
         {
             Id = 10108;
+            RequiredState = Device.State.NotDefinied;
         }
 
         public override async void Process()

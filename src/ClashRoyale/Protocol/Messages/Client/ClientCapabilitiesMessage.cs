@@ -9,6 +9,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         public ClientCapabilitiesMessage(Device device, IByteBuffer buffer) : base(device, buffer)
         {
             Id = 10107;
+            RequiredState = Device.State.NotDefinied;
         }
 
         public int Ping { get; set; }

@@ -47,7 +47,7 @@ namespace ClashRoyale.Logic
                 )
                     try
                     {
-                        if (message.RequiredState != CurrentState)
+                        if (message.RequiredState != CurrentState && message.RequiredState != State.NotDefinied)
                         {
                             Logger.Log($"[C] Message {id} is not allowed in this state!", GetType(),
                                 ErrorLevel.Warning);
@@ -105,7 +105,8 @@ namespace ClashRoyale.Logic
             Login = 1,
             Replay = 2,
             Battle = 3,
-            Home = 4
+            Home = 4,
+            NotDefinied = 5
         }
 
         #endregion Objects
