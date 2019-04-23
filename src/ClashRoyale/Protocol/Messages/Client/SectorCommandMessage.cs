@@ -11,6 +11,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         public SectorCommandMessage(Device device, IByteBuffer buffer) : base(device, buffer)
         {
             Id = 12904;
+            RequiredState = Device.State.Battle;
         }
 
         public int Tick { get; set; }

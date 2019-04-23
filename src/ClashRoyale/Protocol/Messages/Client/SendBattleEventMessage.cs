@@ -10,6 +10,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         public SendBattleEventMessage(Device device, IByteBuffer buffer) : base(device, buffer)
         {
             Id = 12951;
+            RequiredState = Device.State.Battle;
         }
 
         public int EventId { get; set; }
