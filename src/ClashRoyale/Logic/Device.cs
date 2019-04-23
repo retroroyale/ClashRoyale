@@ -47,6 +47,14 @@ namespace ClashRoyale.Logic
                 )
                     try
                     {
+                        if (message.RequiredState != CurrentState)
+                        {
+                            Logger.Log($"[C] Message {id} is not allowed in this state!", GetType(),
+                                ErrorLevel.Warning);
+                            await DisconnectAsync();
+                            return;
+                        }
+
                         message.Id = id;
                         message.Length = length;
                         message.Version = version;

@@ -12,6 +12,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         {
             Id = 10101;
             device.CurrentState = Device.State.Login;
+            RequiredState = Device.State.Login;
         }
 
         public long UserId { get; set; }

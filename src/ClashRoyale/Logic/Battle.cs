@@ -9,12 +9,16 @@ namespace ClashRoyale.Logic
 {
     public class Battle : List<Player>
     {
-        private readonly Timer _battleTimer = new Timer(1000)
-        {
-            AutoReset = true
-        };
+        private readonly Timer _battleTimer = new Timer(1000);
 
         public Dictionary<long, Queue<byte[]>> Commands = new Dictionary<long, Queue<byte[]>>();
+
+        public Battle(bool is1Vs1, int arena)
+        {
+            Is1Vs1 = is1Vs1;
+            Arena = arena;
+        }
+
         public long BattleId { get; set; }
 
         private DateTime StartTime { get; set; }
@@ -26,34 +30,23 @@ namespace ClashRoyale.Logic
         public bool Is1Vs1 { get; set; }
         public int Arena { get; set; }
 
-        public Battle(bool is1Vs1, int arena)
-        {
-            Is1Vs1 = is1Vs1;
-            Arena = arena;
-        }
-
         public async void Start()
         {
             if (!IsReady) return;
 
             try
             {
-                foreach (var player in this)
-                {
-                    Commands.Add(player.Home.Id, new Queue<byte[]>());
-                }
+                foreach (var player in this) Commands.Add(player.Home.Id, new Queue<byte[]>());
 
                 _battleTimer.Elapsed += BattleTick;
 
                 foreach (var player in this)
-                {
                     await new SectorStateMessage(player.Device)
                     {
                         Player1 = this[1],
                         Player2 = this[0],
                         Arena = Arena
                     }.SendAsync();
-                }
 
                 StartTime = DateTime.UtcNow;
 
@@ -126,10 +119,19 @@ namespace ClashRoyale.Logic
             base.Remove(player);
         }
 
-        public Device GetEnemy(long userId) => this.FirstOrDefault(p => p.Home.Id != userId)?.Device;
+        public Device GetEnemy(long userId)
+        {
+            return this.FirstOrDefault(p => p.Home.Id != userId)?.Device;
+        }
 
-        public Queue<byte[]> GetEnemyQueue(long userId) => Commands.FirstOrDefault(cmd => cmd.Key != userId).Value;
+        public Queue<byte[]> GetEnemyQueue(long userId)
+        {
+            return Commands.FirstOrDefault(cmd => cmd.Key != userId).Value;
+        }
 
-        public Queue<byte[]> GetOwnQueue(long userId) => Commands.FirstOrDefault(cmd => cmd.Key == userId).Value;
+        public Queue<byte[]> GetOwnQueue(long userId)
+        {
+            return Commands.FirstOrDefault(cmd => cmd.Key == userId).Value;
+        }
     }
 }

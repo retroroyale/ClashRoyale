@@ -10,6 +10,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         public ClientHelloMessage(Device device, IByteBuffer buffer) : base(device, buffer)
         {
             Id = 10100;
+            RequiredState = Device.State.Disconnected;
         }
 
         public int Protocol { get; set; }
