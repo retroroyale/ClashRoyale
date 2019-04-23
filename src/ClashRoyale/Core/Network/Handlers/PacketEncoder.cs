@@ -14,15 +14,15 @@ namespace ClashRoyale.Core.Network.Handlers
             message.Encode();
             message.Encrypt();
 
-            var buffer = Unpooled.Buffer(7 + message.Length);
+            var buffer = Unpooled.Buffer(7);
 
             buffer.WriteUnsignedShort(message.Id);
             buffer.WriteMedium(message.Length);
             buffer.WriteUnsignedShort(message.Version);
 
-            buffer.WriteBytes(message.Writer);
+            base.WriteAsync(context, buffer);
 
-            return base.WriteAsync(context, buffer);
+            return base.WriteAsync(context, message.Writer);
         }
     }
 }
