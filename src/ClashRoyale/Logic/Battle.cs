@@ -9,7 +9,7 @@ namespace ClashRoyale.Logic
 {
     public class Battle : List<Player>
     {
-        private readonly Timer _battleTimer = new Timer(500)
+        private readonly Timer _battleTimer = new Timer(1000)
         {
             AutoReset = true
         };
@@ -24,17 +24,12 @@ namespace ClashRoyale.Logic
 
         public bool IsReady => Count >= 1;
         public bool Is1Vs1 { get; set; }
-        public int Arena = 21;
+        public int Arena { get; set; }
 
         public Battle(bool is1Vs1, int arena)
         {
             Is1Vs1 = is1Vs1;
             Arena = arena;
-        }
-
-        public Battle(bool is1Vs1)
-        {
-            Is1Vs1 = is1Vs1;
         }
 
         public async void Start()
@@ -88,18 +83,17 @@ namespace ClashRoyale.Logic
                     {
                         if (player.Device.SecondsSinceLastCommand > 2)
                         {
-                            if (BattleSeconds > 10)
+                            if (BattleSeconds <= 8) continue;
+
+                            if (Is1Vs1)
                             {
-                                if (Is1Vs1)
-                                {
-                                    player.Home.AddCrowns(3);
-                                    player.Home.Arena.AddTrophies(31);
-                                }
-
-                                await new BattleResultMessage(player.Device).SendAsync();
-
-                                Remove(player);
+                                player.Home.AddCrowns(3);
+                                player.Home.Arena.AddTrophies(31);
                             }
+
+                            await new BattleResultMessage(player.Device).SendAsync();
+
+                            Remove(player);
                         }
                         else
                         {
@@ -132,19 +126,10 @@ namespace ClashRoyale.Logic
             base.Remove(player);
         }
 
-        public Device GetEnemy(long userId)
-        {
-            return this.FirstOrDefault(p => p.Home.Id != userId)?.Device;
-        }
+        public Device GetEnemy(long userId) => this.FirstOrDefault(p => p.Home.Id != userId)?.Device;
 
-        public Queue<byte[]> GetEnemyQueue(long userId)
-        {
-            return Commands.FirstOrDefault(cmd => cmd.Key != userId).Value;
-        }
+        public Queue<byte[]> GetEnemyQueue(long userId) => Commands.FirstOrDefault(cmd => cmd.Key != userId).Value;
 
-        public Queue<byte[]> GetOwnQueue(long userId)
-        {
-            return Commands.FirstOrDefault(cmd => cmd.Key == userId).Value;
-        }
+        public Queue<byte[]> GetOwnQueue(long userId) => Commands.FirstOrDefault(cmd => cmd.Key == userId).Value;
     }
 }
