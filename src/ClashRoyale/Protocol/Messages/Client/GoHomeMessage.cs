@@ -10,6 +10,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         {
             Id = 14101;
             Save = true;
+            RequiredState = Device.State.Battle;
         }
 
         public override async void Process()

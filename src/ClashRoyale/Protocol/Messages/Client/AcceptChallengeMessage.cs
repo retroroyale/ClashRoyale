@@ -25,30 +25,28 @@ namespace ClashRoyale.Protocol.Messages.Client
             var alliance = await Resources.Alliances.GetAllianceAsync(home.AllianceInfo.Id);
 
             var entry = alliance?.Stream.Find(e => e.Id == EntryId);
+            if (entry == null) return;
 
-            if (entry != null)
+            alliance.RemoveEntry(entry);
+
+            var enemy = await Resources.Players.GetPlayerAsync(entry.SenderId);
+
+            if (enemy.Device != null)
             {
-                alliance.RemoveEntry(entry);
-
-                var enemy = await Resources.Players.GetPlayerAsync(entry.SenderId);
-
-                if (enemy.Device != null)
+                var battle = new Battle(false, ((ChallengeStreamEntry)entry).Arena)
                 {
-                    var battle = new Battle(false, ((ChallengeStreamEntry)entry).Arena)
-                    {
-                        Device.Player, enemy
-                    };
+                    Device.Player, enemy
+                };
 
-                    Device.Player.Battle = battle;
-                    enemy.Battle = battle;
+                Device.Player.Battle = battle;
+                enemy.Battle = battle;
 
-                    battle.Start();
-                }
-
-                alliance.Save();
-
-                // TODO: Update Entry + Battle Result + Card levels
+                battle.Start();
             }
+
+            alliance.Save();
+
+            // TODO: Update Entry + Battle Result + Card levels
         }
     }
 }

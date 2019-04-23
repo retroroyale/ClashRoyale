@@ -26,36 +26,34 @@ namespace ClashRoyale.Protocol.Messages.Client
         public override async void Process()
         {
             var alliance = await Resources.Alliances.GetAllianceAsync(AllianceId);
+            if (alliance == null) return;
 
-            if (alliance != null)
+            if (alliance.Members.Count <= 0 || alliance.Members.Count >= 50)
             {
-                if (alliance.Members.Count <= 0 || alliance.Members.Count >= 50)
+                await new AllianceJoinRequestFailedMessage(Device).SendAsync();
+            }
+            else if (alliance.Stream.FindIndex(e => e.StreamEntryType == 3 && e.SenderId == Device.Player.Home.Id && ((JoinRequestAllianceStreamEntry)e).State == 1) > -1)
+            {
+                await new AllianceJoinRequestFailedMessage(Device)
                 {
-                    await new AllianceJoinRequestFailedMessage(Device).SendAsync();
-                }
-                else if (alliance.Stream.FindIndex(e => e.StreamEntryType == 3 && e.SenderId == Device.Player.Home.Id && ((JoinRequestAllianceStreamEntry)e).State == 1) > -1)
+                    Reason = 2
+                }.SendAsync();
+            }
+            else
+            {
+                await new AllianceJoinRequestOkMessage(Device).SendAsync();
+
+                var entry = new JoinRequestAllianceStreamEntry
                 {
-                    await new AllianceJoinRequestFailedMessage(Device)
-                    {
-                        Reason = 2
-                    }.SendAsync();
-                }
-                else
-                {
-                    await new AllianceJoinRequestOkMessage(Device).SendAsync();
+                    Message = Message,
+                    State = 1
+                };
 
-                    var entry = new JoinRequestAllianceStreamEntry
-                    {
-                        Message = Message,
-                        State = 1
-                    };
+                entry.SetTarget(Device.Player);
+                entry.SetSender(Device.Player);
+                alliance.AddEntry(entry);
 
-                    entry.SetTarget(Device.Player);
-                    entry.SetSender(Device.Player);
-                    alliance.AddEntry(entry);
-
-                    alliance.Save();
-                }
+                alliance.Save();
             }
         }
     }

@@ -37,52 +37,50 @@ namespace ClashRoyale.Protocol.Messages.Client
         public override async void Process()
         {
             var player = Device.Player;
+            if (!player.Home.UseGold(1000)) return;
 
-            if (player.Home.UseGold(1000))
+            var alliance = await AllianceDb.CreateAsync();
+
+            if (alliance != null)
             {
-                var alliance = await AllianceDb.CreateAsync();
+                alliance.Name = Name;
+                alliance.Description = Description;
+                alliance.Badge = Badge;
+                alliance.Type = Type;
+                alliance.RequiredScore = RequiredScore;
+                alliance.Region = Region;
 
-                if (alliance != null)
+                alliance.Members.Add(
+                    new AllianceMember(player, Alliance.Role.Leader));
+
+                player.Home.AllianceInfo = alliance.GetAllianceInfo(player.Home.Id);
+
+                alliance.Save();
+
+                await new AvailableServerCommand(Device)
                 {
-                    alliance.Name = Name;
-                    alliance.Description = Description;
-                    alliance.Badge = Badge;
-                    alliance.Type = Type;
-                    alliance.RequiredScore = RequiredScore;
-                    alliance.Region = Region;
-
-                    alliance.Members.Add(
-                        new AllianceMember(player, Alliance.Role.Leader));
-
-                    player.Home.AllianceInfo = alliance.GetAllianceInfo(player.Home.Id);
-
-                    alliance.Save();
-
-                    await new AvailableServerCommand(Device)
+                    Command = new LogicJoinAllianceCommand(Device)
                     {
-                        Command = new LogicJoinAllianceCommand(Device)
-                        {
-                            AllianceId = alliance.Id,
-                            AllianceName = Name,
-                            AllianceBadge = Badge
-                        }
-                    }.SendAsync();
+                        AllianceId = alliance.Id,
+                        AllianceName = Name,
+                        AllianceBadge = Badge
+                    }
+                }.SendAsync();
 
-                    await new AvailableServerCommand(Device)
-                    {
-                        Command = new LogicChangeAllianceRoleCommand(Device)
-                        {
-                            AllianceId = alliance.Id,
-                            NewRole = 2
-                        }
-                    }.SendAsync();
-
-                    alliance.UpdateOnlineCount();
-                }
-                else
+                await new AvailableServerCommand(Device)
                 {
-                    await Device.DisconnectAsync();
-                }
+                    Command = new LogicChangeAllianceRoleCommand(Device)
+                    {
+                        AllianceId = alliance.Id,
+                        NewRole = 2
+                    }
+                }.SendAsync();
+
+                alliance.UpdateOnlineCount();
+            }
+            else
+            {
+                await Device.DisconnectAsync();
             }
         }
     }

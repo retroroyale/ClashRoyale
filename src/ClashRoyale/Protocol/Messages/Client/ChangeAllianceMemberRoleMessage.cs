@@ -33,61 +33,58 @@ namespace ClashRoyale.Protocol.Messages.Client
             var member = alliance?.GetMember(MemberId);
             var sender = alliance?.GetMember(home.Id);
 
-            if (member != null && sender != null)
-                if (GameUtils.IsHigherRoleThan(sender.Role, member.Role))
+            if (member == null || sender == null) return;
+            if (!GameUtils.IsHigherRoleThan(sender.Role, member.Role)) return;
+
+            var player = await member.GetPlayerAsync();
+            if (player == null) return;
+
+            var oldRole = member.Role;
+            member.Role = NewRole;
+            player.Home.AllianceInfo.Role = NewRole;
+
+            var entry = new AllianceEventStreamEntry
+            {
+                EventType = GameUtils.IsHigherRoleThan(NewRole, oldRole)
+                    ? AllianceEventStreamEntry.Type.Promote
+                    : AllianceEventStreamEntry.Type.Demote
+            };
+
+            entry.SetTarget(Device.Player);
+            entry.SetSender(player);
+            alliance.AddEntry(entry);
+
+            if (member.IsOnline)
+                await new AvailableServerCommand(player.Device)
                 {
-                    var player = await member.GetPlayerAsync();
-
-                    if (player != null)
+                    Command = new LogicChangeAllianceRoleCommand(player.Device)
                     {
-                        var oldRole = member.Role;
-                        member.Role = NewRole;
-                        player.Home.AllianceInfo.Role = NewRole;
-
-                        var entry = new AllianceEventStreamEntry
-                        {
-                            EventType = GameUtils.IsHigherRoleThan(NewRole, oldRole)
-                                ? AllianceEventStreamEntry.Type.Promote
-                                : AllianceEventStreamEntry.Type.Demote
-                        };
-
-                        entry.SetTarget(Device.Player);
-                        entry.SetSender(player);
-                        alliance.AddEntry(entry);
-
-                        if (member.IsOnline)
-                            await new AvailableServerCommand(player.Device)
-                            {
-                                Command = new LogicChangeAllianceRoleCommand(player.Device)
-                                {
-                                    AllianceId = alliance.Id,
-                                    NewRole = NewRole
-                                }
-                            }.SendAsync();
-
-                        if (NewRole == (int) Alliance.Role.Leader)
-                        {
-                            var oldLeader = await sender.GetPlayerAsync();
-
-                            sender.Role = (int) Alliance.Role.CoLeader;
-                            oldLeader.Home.AllianceInfo.Role = (int) Alliance.Role.CoLeader;
-
-                            oldLeader.Save();
-
-                            var demoteEntry = new AllianceEventStreamEntry
-                            {
-                                EventType = AllianceEventStreamEntry.Type.Demote
-                            };
-
-                            demoteEntry.SetTarget(Device.Player);
-                            demoteEntry.SetSender(Device.Player);
-                            alliance.AddEntry(demoteEntry);
-                        }
-
-                        alliance.Save();
-                        player.Save();
+                        AllianceId = alliance.Id,
+                        NewRole = NewRole
                     }
-                }
+                }.SendAsync();
+
+            if (NewRole == (int) Alliance.Role.Leader)
+            {
+                var oldLeader = await sender.GetPlayerAsync();
+
+                sender.Role = (int) Alliance.Role.CoLeader;
+                oldLeader.Home.AllianceInfo.Role = (int) Alliance.Role.CoLeader;
+
+                oldLeader.Save();
+
+                var demoteEntry = new AllianceEventStreamEntry
+                {
+                    EventType = AllianceEventStreamEntry.Type.Demote
+                };
+
+                demoteEntry.SetTarget(Device.Player);
+                demoteEntry.SetSender(Device.Player);
+                alliance.AddEntry(demoteEntry);
+            }
+
+            alliance.Save();
+            player.Save();
         }
     }
 }

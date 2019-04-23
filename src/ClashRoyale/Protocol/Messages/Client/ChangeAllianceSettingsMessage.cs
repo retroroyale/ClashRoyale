@@ -32,28 +32,27 @@ namespace ClashRoyale.Protocol.Messages.Client
         {
             var home = Device.Player.Home;
             var alliance = await Resources.Alliances.GetAllianceAsync(home.AllianceInfo.Id);
+            if (alliance == null) return;
 
-            if (alliance != null)
+            var oldBadge = alliance.Badge;
+
+            alliance.Type = Type;
+            alliance.Badge = Badge;
+            alliance.Region = Region;
+            alliance.Description = Description;
+            alliance.RequiredScore = RequiredScore;
+
+            alliance.Save();
+
+            if (Badge == oldBadge) return;
+
+            foreach (var member in alliance.Members)
             {
-                var oldBadge = alliance.Badge;
+                var player = await member.GetPlayerAsync();
+                if (player == null) continue;
 
-                alliance.Type = Type;
-                alliance.Badge = Badge;
-                alliance.Region = Region;
-                alliance.Description = Description;
-                alliance.RequiredScore = RequiredScore;
-
-                alliance.Save();
-
-                if (Badge != oldBadge)
-                    foreach (var member in alliance.Members)
-                    {
-                        var player = await member.GetPlayerAsync();
-
-                        if (player != null)
-                        {
-                            // TODO:
-                            /*if (member.IsOnline)
+                // TODO:
+                /*if (member.IsOnline)
                             {
                                 await new AvailableServerCommand(player.Device)
                                 {
@@ -65,10 +64,8 @@ namespace ClashRoyale.Protocol.Messages.Client
                                 }.Send();
                             }*/
 
-                            player.Home.AllianceInfo.Badge = Badge;
-                            player.Save();
-                        }
-                    }
+                player.Home.AllianceInfo.Badge = Badge;
+                player.Save();
             }
         }
     }

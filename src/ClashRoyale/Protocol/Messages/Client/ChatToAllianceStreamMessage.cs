@@ -22,23 +22,19 @@ namespace ClashRoyale.Protocol.Messages.Client
         public override async void Process()
         {
             var info = Device.Player.Home.AllianceInfo;
+            if (!info.HasAlliance) return;
 
-            if (info.HasAlliance)
+            var alliance = await Resources.Alliances.GetAllianceAsync(info.Id);
+            if (alliance == null) return;
+
+            var entry = new ChatStreamEntry
             {
-                var alliance = await Resources.Alliances.GetAllianceAsync(info.Id);
+                Message = Message
+            };
 
-                if (alliance != null)
-                {
-                    var entry = new ChatStreamEntry
-                    {
-                        Message = Message
-                    };
+            entry.SetSender(Device.Player);
 
-                    entry.SetSender(Device.Player);
-
-                    alliance.AddEntry(entry);
-                }
-            }
+            alliance.AddEntry(entry);
         }
     }
 }

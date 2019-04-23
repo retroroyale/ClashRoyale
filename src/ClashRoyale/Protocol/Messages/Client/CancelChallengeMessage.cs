@@ -15,18 +15,16 @@ namespace ClashRoyale.Protocol.Messages.Client
         {
             var home = Device.Player.Home;
             var alliance = await Resources.Alliances.GetAllianceAsync(home.AllianceInfo.Id);
+            if (alliance == null) return;
 
-            if (alliance != null)
+            var entry = alliance.Stream.Find(e => e.SenderId == home.Id && e.StreamEntryType == 10);
+
+            if (entry != null)
             {
-                var entry = alliance.Stream.Find(e => e.SenderId == home.Id && e.StreamEntryType == 10);
-
-                if (entry != null)
-                {
-                    alliance.RemoveEntry(entry);
-                }
-
-                await new CancelChallengeDoneMessage(Device).SendAsync();
+                alliance.RemoveEntry(entry);
             }
+
+            await new CancelChallengeDoneMessage(Device).SendAsync();
         }
     }
 }

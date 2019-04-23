@@ -18,40 +18,38 @@ namespace ClashRoyale.Protocol.Messages.Client
         {
             var home = Device.Player.Home;
             var alliance = await Resources.Alliances.GetAllianceAsync(home.AllianceInfo.Id);
+            if (alliance == null) return;
 
-            if (alliance != null)
+            alliance.Remove(home.Id);
+            home.AllianceInfo.Reset();
+            Device.Player.Save();
+
+            await new AvailableServerCommand(Device)
             {
-                alliance.Remove(home.Id);
-                home.AllianceInfo.Reset();
-                Device.Player.Save();
-
-                await new AvailableServerCommand(Device)
+                Command = new LogicLeaveAllianceCommand(Device)
                 {
-                    Command = new LogicLeaveAllianceCommand(Device)
-                    {
-                        AllianceId = alliance.Id
-                    }
-                }.SendAsync();
-
-                if (alliance.Members.Count != 0)
-                {
-                    var entry = new AllianceEventStreamEntry
-                    {
-                        EventType = AllianceEventStreamEntry.Type.Leave
-                    };
-
-                    entry.SetTarget(Device.Player);
-                    entry.SetSender(Device.Player);
-                    alliance.AddEntry(entry);
-
-                    alliance.Save();
-                    alliance.UpdateOnlineCount();
+                    AllianceId = alliance.Id
                 }
-                else
+            }.SendAsync();
+
+            if (alliance.Members.Count != 0)
+            {
+                var entry = new AllianceEventStreamEntry
                 {
-                    await AllianceDb.DeleteAsync(alliance.Id);
-                    await Redis.UncacheAllianceAsync(alliance.Id);
-                }
+                    EventType = AllianceEventStreamEntry.Type.Leave
+                };
+
+                entry.SetTarget(Device.Player);
+                entry.SetSender(Device.Player);
+                alliance.AddEntry(entry);
+
+                alliance.Save();
+                alliance.UpdateOnlineCount();
+            }
+            else
+            {
+                await AllianceDb.DeleteAsync(alliance.Id);
+                await Redis.UncacheAllianceAsync(alliance.Id);
             }
         }
     }

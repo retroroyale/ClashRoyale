@@ -22,39 +22,36 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public override async void Process()
         {
-            if (!string.IsNullOrEmpty(Name))
-                if (Name.Length > 2 && Name.Length <= 15)
+            if (string.IsNullOrEmpty(Name)) return;
+            if (Name.Length <= 2 || Name.Length > 15) return;
+
+            var home = Device.Player.Home;
+            if (home.NameSet >= 2) return;
+
+            home.Name = Name;
+
+            var info = Device.Player.Home.AllianceInfo;
+
+            if (info.HasAlliance)
+            {
+                var alliance = await Resources.Alliances.GetAllianceAsync(info.Id);
+
+                alliance.GetMember(home.Id).Name = Name;
+
+                alliance.Save();
+            }
+
+            await new AvailableServerCommand(Device)
+            {
+                Command = new LogicChangeNameCommand(Device)
                 {
-                    var home = Device.Player.Home;
-
-                    if (home.NameSet < 2)
-                    {
-                        home.Name = Name;
-
-                        var info = Device.Player.Home.AllianceInfo;
-
-                        if (info.HasAlliance)
-                        {
-                            var alliance = await Resources.Alliances.GetAllianceAsync(info.Id);
-
-                            alliance.GetMember(home.Id).Name = Name;
-
-                            alliance.Save();
-                        }
-
-                        await new AvailableServerCommand(Device)
-                        {
-                            Command = new LogicChangeNameCommand(Device)
-                            {
-                                NameSet = home.NameSet
-                            }
-                        }.SendAsync();
-
-                        home.NameSet++;
-
-                        Device.Player.Save();
-                    }
+                    NameSet = home.NameSet
                 }
+            }.SendAsync();
+
+            home.NameSet++;
+
+            Device.Player.Save();
         }
     }
 }

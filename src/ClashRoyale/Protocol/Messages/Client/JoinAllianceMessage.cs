@@ -25,49 +25,46 @@ namespace ClashRoyale.Protocol.Messages.Client
         {
             var alliance = await Resources.Alliances.GetAllianceAsync(AllianceId);
             var home = Device.Player.Home;
+            if (alliance == null) return;
 
-            if (alliance != null)
+            if (alliance.Members.Count <= 0 || alliance.Members.Count >= 50)
             {
-                if (alliance.Members.Count <= 0 || alliance.Members.Count >= 50)
-                {
-                    await new AllianceJoinFailedMessage(Device).SendAsync();
-                }
-                else
-                {
-                    alliance.Add(new AllianceMember(Device.Player, Alliance.Role.Member));
-
-                    home.AllianceInfo = alliance.GetAllianceInfo(home.Id);
-
-                    await new AvailableServerCommand(Device)
-                    {
-                        Command = new LogicJoinAllianceCommand(Device)
-                        {
-                            AllianceId = alliance.Id,
-                            AllianceName = alliance.Name,
-                            AllianceBadge = alliance.Badge
-                        }
-                    }.SendAsync();
-
-                    await new AllianceStreamMessage(Device)
-                    {
-                        Entries = alliance.Stream
-                    }.SendAsync();
-
-                    var entry = new AllianceEventStreamEntry
-                    {
-                        EventType = AllianceEventStreamEntry.Type.Join
-                    };
-
-                    entry.SetTarget(Device.Player);
-                    entry.SetSender(Device.Player);
-                    alliance.AddEntry(entry);
-
-                    alliance.Save();
-                    Device.Player.Save();
-
-                    alliance.UpdateOnlineCount();
-                }
+                await new AllianceJoinFailedMessage(Device).SendAsync();
+                return;
             }
+
+            alliance.Add(new AllianceMember(Device.Player, Alliance.Role.Member));
+
+            home.AllianceInfo = alliance.GetAllianceInfo(home.Id);
+
+            await new AvailableServerCommand(Device)
+            {
+                Command = new LogicJoinAllianceCommand(Device)
+                {
+                    AllianceId = alliance.Id,
+                    AllianceName = alliance.Name,
+                    AllianceBadge = alliance.Badge
+                }
+            }.SendAsync();
+
+            await new AllianceStreamMessage(Device)
+            {
+                Entries = alliance.Stream
+            }.SendAsync();
+
+            var entry = new AllianceEventStreamEntry
+            {
+                EventType = AllianceEventStreamEntry.Type.Join
+            };
+
+            entry.SetTarget(Device.Player);
+            entry.SetSender(Device.Player);
+            alliance.AddEntry(entry);
+
+            alliance.Save();
+            Device.Player.Save();
+
+            alliance.UpdateOnlineCount();
         }
     }
 }
