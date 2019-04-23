@@ -1,6 +1,7 @@
 ﻿using System;
 using ClashRoyale.Logic;
 using DotNetty.Buffers;
+using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Channels;
 using SharpRaven.Data;
 
@@ -81,7 +82,9 @@ namespace ClashRoyale.Core.Network.Handlers
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
-            Logger.Log(exception, GetType(), ErrorLevel.Error);
+            if(exception.GetType() != typeof(ReadTimeoutException) || exception.GetType() != typeof(WriteTimeoutException))
+                Logger.Log(exception, GetType(), ErrorLevel.Error);
+
             context.CloseAsync();
         }
     }
