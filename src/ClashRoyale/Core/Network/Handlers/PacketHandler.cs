@@ -22,10 +22,7 @@ namespace ClashRoyale.Core.Network.Handlers
             var buffer = (IByteBuffer) message;
             if (buffer == null) return;
 
-            var packet = new byte[buffer.ReadableBytes];
-            buffer.GetBytes(buffer.ReaderIndex, packet);
-
-            await Device.ProcessAsync(Unpooled.CopiedBuffer(packet));
+            await Device.ProcessAsync(Unpooled.CopiedBuffer(buffer));
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext context)
