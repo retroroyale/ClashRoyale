@@ -9,6 +9,7 @@ namespace ClashRoyale.Protocol.Messages.Client
         public RequestSectorStateMessage(Device device, IByteBuffer buffer) : base(device, buffer)
         {
             Id = 12903;
+            RequiredState = Device.State.Battle;
         }
 
         public int LastTick { get; set; }
