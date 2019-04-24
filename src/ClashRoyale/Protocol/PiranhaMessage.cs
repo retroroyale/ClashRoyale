@@ -33,24 +33,23 @@ namespace ClashRoyale.Protocol
         {
             if (Length <= 0) return;
 
-            var buffer = Reader.ReadBytes(Length).Array;
+            var buffer = Reader.ReadBytes(Length);
 
             Device.Rc4.Decrypt(ref buffer);
 
-            Reader = Unpooled.CopiedBuffer(buffer);
-            Length = (ushort) buffer.Length;
+            Reader = buffer;
+            Length = (ushort) buffer.ReadableBytes;
         }
 
         public virtual void Encrypt()
         {
             if (Writer.ReadableBytes <= 0) return;
 
-            var buffer = Writer.ReadBytes(Writer.ReadableBytes).Array;
+            var buffer = Writer;
 
             Device.Rc4.Encrypt(ref buffer);
 
-            Writer = Unpooled.CopiedBuffer(buffer);
-            Length = (ushort) buffer.Length;
+            Length = (ushort) buffer.ReadableBytes;
         }
 
         public virtual void Decode()

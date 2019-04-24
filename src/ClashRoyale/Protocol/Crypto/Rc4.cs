@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using DotNetty.Buffers;
 
 namespace ClashRoyale.Protocol.Crypto
 {
@@ -8,11 +9,6 @@ namespace ClashRoyale.Protocol.Crypto
         public Rc4(byte[] key)
         {
             Key = Ksa(key);
-        }
-
-        public Rc4(string key)
-        {
-            Key = Ksa(Encoding.UTF8.GetBytes(key));
         }
 
         public byte[] Key { get; set; }
@@ -75,6 +71,30 @@ namespace ClashRoyale.Protocol.Crypto
             }
         }
 
+        public void Encrypt(ref IByteBuffer data)
+        {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+
+            for (var k = 0; k < data.ReadableBytes; k++)
+            {
+                var b = data.GetByte(k) ^ Encryptor.Prga();
+                data.SetByte(k, b);
+            }
+        }
+
+        public void Decrypt(ref IByteBuffer data)
+        {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+
+            for (var k = 0; k < data.ReadableBytes; k++)
+            {
+                var b = data.GetByte(k) ^ Decryptor.Prga();
+                data.SetByte(k, b);
+            }
+        }
+
         public void Encrypt(ref byte[] data)
         {
             if (data == null)
@@ -89,7 +109,7 @@ namespace ClashRoyale.Protocol.Crypto
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            for (var k = 0; k < data.Length; k++)
+            for (var k = 0; k < data.Length; k++) 
                 data[k] ^= Decryptor.Prga();
         }
 
