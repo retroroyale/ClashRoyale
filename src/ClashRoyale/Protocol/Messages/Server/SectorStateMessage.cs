@@ -23,7 +23,7 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(TimeUtils.CurrentUnixTimestamp); // Timestamp
 
             Writer.WriteVInt(11);
-            Writer.WriteVInt(Battle.BattleTime); // Time
+            Writer.WriteVInt(0); // Time
             Writer.WriteVInt(38); // Random
 
             Writer.WriteVInt(9);
