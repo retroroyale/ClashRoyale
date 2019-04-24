@@ -1,5 +1,6 @@
 ﻿using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
+using ClashRoyale.Logic.Battle;
 using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
 
@@ -35,7 +36,7 @@ namespace ClashRoyale.Protocol.Commands.Client
                 var enemy = Resources.Battles.Dequeue;
                 if (enemy != null)
                 {
-                    var battle = new Battle (true, enemy.Home.Arena.CurrentArena + 1)
+                    var battle = new LogicBattle(true, enemy.Home.Arena.CurrentArena + 1)
                     {
                         Device.Player, enemy
                     };

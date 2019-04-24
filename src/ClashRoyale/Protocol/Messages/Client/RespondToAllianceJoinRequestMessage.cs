@@ -34,7 +34,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
             alliance.RemoveEntry(entry);
 
-            var newEntry = (JoinRequestAllianceStreamEntry)entry;
+            var newEntry = (JoinRequestAllianceStreamEntry) entry;
             newEntry.Id = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
             newEntry.State = Accepted ? 2 : 0;
 

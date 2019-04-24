@@ -8,10 +8,12 @@ namespace ClashRoyale.Protocol
 {
     public class PiranhaMessage
     {
+        public Device.State RequiredState = Device.State.Home;
+
         public PiranhaMessage(Device device)
         {
             Device = device;
-            Writer = Unpooled.Buffer();
+            Writer = Unpooled.Buffer(7);
         }
 
         public PiranhaMessage(Device device, IByteBuffer buffer)
@@ -23,7 +25,6 @@ namespace ClashRoyale.Protocol
         public IByteBuffer Writer { get; set; }
         public IByteBuffer Reader { get; set; }
         public Device Device { get; set; }
-        public Device.State RequiredState = Device.State.Home;
         public ushort Id { get; set; }
         public int Length { get; set; }
         public ushort Version { get; set; }

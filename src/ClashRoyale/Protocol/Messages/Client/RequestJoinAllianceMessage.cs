@@ -32,7 +32,9 @@ namespace ClashRoyale.Protocol.Messages.Client
             {
                 await new AllianceJoinRequestFailedMessage(Device).SendAsync();
             }
-            else if (alliance.Stream.FindIndex(e => e.StreamEntryType == 3 && e.SenderId == Device.Player.Home.Id && ((JoinRequestAllianceStreamEntry)e).State == 1) > -1)
+            else if (alliance.Stream.FindIndex(e =>
+                         e.StreamEntryType == 3 && e.SenderId == Device.Player.Home.Id &&
+                         ((JoinRequestAllianceStreamEntry) e).State == 1) > -1)
             {
                 await new AllianceJoinRequestFailedMessage(Device)
                 {

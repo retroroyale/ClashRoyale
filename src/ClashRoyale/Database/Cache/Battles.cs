@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using ClashRoyale.Logic;
+using ClashRoyale.Logic.Battle;
 using ClashRoyale.Protocol.Messages.Server;
 
 namespace ClashRoyale.Database.Cache
 {
-    public class Battles : Dictionary<long, Battle>
+    public class Battles : Dictionary<long, LogicBattle>
     {
-        private long _seed = 1;
         private readonly List<Player> _playerQueue = new List<Player>();
         private readonly Random _random = new Random();
+        private long _seed = 1;
 
         /// <summary>
         ///     Get a player from the queue and remove it
@@ -96,7 +97,7 @@ namespace ClashRoyale.Database.Cache
         ///     Adds a battle to the list
         /// </summary>
         /// <param name="battle"></param>
-        public void Add(Battle battle)
+        public void Add(LogicBattle battle)
         {
             battle.BattleId = _seed++;
 

@@ -19,10 +19,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
             var entry = alliance.Stream.Find(e => e.SenderId == home.Id && e.StreamEntryType == 10);
 
-            if (entry != null)
-            {
-                alliance.RemoveEntry(entry);
-            }
+            if (entry != null) alliance.RemoveEntry(entry);
 
             await new CancelChallengeDoneMessage(Device).SendAsync();
         }

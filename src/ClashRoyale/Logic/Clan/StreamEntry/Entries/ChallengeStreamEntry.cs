@@ -28,7 +28,7 @@ namespace ClashRoyale.Logic.Clan.StreamEntry.Entries
 
             packet.WriteBoolean(Active); // IsActive
 
-            if(Active)
+            if (Active)
                 packet.WriteScString(TargetName);
 
             packet.WriteVInt(SenderScore);

@@ -11,7 +11,7 @@
 
         public static int GetClassId(int globalId)
         {
-            var type = (int) ((kReference * (long)globalId) >> 32);
+            var type = (int) ((kReference * (long) globalId) >> 32);
             return (type >> 18) + (type >> 31);
         }
 

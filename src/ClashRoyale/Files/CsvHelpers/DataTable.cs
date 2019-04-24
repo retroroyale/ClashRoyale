@@ -54,7 +54,7 @@ namespace ClashRoyale.Files.CsvHelpers
 
         public int GetIndex()
         {
-            return (int)Index;
+            return (int) Index;
         }
     }
 }

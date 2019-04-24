@@ -33,7 +33,7 @@ namespace ClashRoyale.Logic.Clan.StreamEntry
         {
             packet.WriteVInt(StreamEntryType);
 
-            packet.WriteVInt(0); 
+            packet.WriteVInt(0);
             packet.WriteVInt(Id);
 
             packet.WriteVInt(SenderHighId);

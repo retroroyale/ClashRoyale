@@ -21,7 +21,7 @@ namespace ClashRoyale.Logic.Clan.StreamEntry.Entries
 
             packet.WriteScString(Message);
             packet.WriteScString(ResponderName);
-            packet.WriteVInt(State); 
+            packet.WriteVInt(State);
         }
 
         public void SetTarget(Player target)

@@ -6,22 +6,19 @@ namespace ClashRoyale.Logic.Home
 {
     public class Arena
     {
-        [JsonIgnore] public Home Home { get; set; }
-
-        [JsonProperty("arena")] public int CurrentArena { get; set; }
-        [JsonProperty("trophies")] public int Trophies { get; set; }
-
         public Arena()
         {
             CurrentArena = 1;
         }
 
+        [JsonIgnore] public Home Home { get; set; }
+
+        [JsonProperty("arena")] public int CurrentArena { get; set; }
+        [JsonProperty("trophies")] public int Trophies { get; set; }
+
         public async void AddTrophies(int trophies)
         {
-            while (ArenaData(CurrentArena + 1).TrophyLimit <= Trophies + trophies)
-            {
-                CurrentArena++;
-            }
+            while (ArenaData(CurrentArena + 1).TrophyLimit <= Trophies + trophies) CurrentArena++;
 
             Trophies += trophies;
 
@@ -37,6 +34,9 @@ namespace ClashRoyale.Logic.Home
             }
         }
 
-        public Arenas ArenaData(int arena) => Csv.Tables.Get(Csv.Files.Arenas).GetDataWithInstanceId<Arenas>(arena);
+        public Arenas ArenaData(int arena)
+        {
+            return Csv.Tables.Get(Csv.Files.Arenas).GetDataWithInstanceId<Arenas>(arena);
+        }
     }
 }

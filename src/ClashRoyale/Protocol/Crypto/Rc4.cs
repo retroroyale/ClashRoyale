@@ -73,9 +73,6 @@ namespace ClashRoyale.Protocol.Crypto
 
         public void Encrypt(ref IByteBuffer data)
         {
-            if (data == null)
-                throw new ArgumentNullException(nameof(data));
-
             for (var k = 0; k < data.ReadableBytes; k++)
             {
                 var b = data.GetByte(k) ^ Encryptor.Prga();
@@ -85,9 +82,6 @@ namespace ClashRoyale.Protocol.Crypto
 
         public void Decrypt(ref IByteBuffer data)
         {
-            if (data == null)
-                throw new ArgumentNullException(nameof(data));
-
             for (var k = 0; k < data.ReadableBytes; k++)
             {
                 var b = data.GetByte(k) ^ Decryptor.Prga();
@@ -109,7 +103,7 @@ namespace ClashRoyale.Protocol.Crypto
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            for (var k = 0; k < data.Length; k++) 
+            for (var k = 0; k < data.Length; k++)
                 data[k] ^= Decryptor.Prga();
         }
 

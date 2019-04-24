@@ -2,6 +2,7 @@
 using ClashRoyale.Database;
 using ClashRoyale.Extensions;
 using ClashRoyale.Extensions.Utils;
+using ClashRoyale.Logic.Battle;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
 using SharpRaven.Data;
@@ -22,7 +23,7 @@ namespace ClashRoyale.Logic
 
         public Home.Home Home { get; set; }
 
-        [JsonIgnore] public Battle Battle { get; set; }
+        [JsonIgnore] public LogicBattle Battle { get; set; }
         [JsonIgnore] public Device Device { get; set; }
 
         public void RankingEntry(IByteBuffer packet)

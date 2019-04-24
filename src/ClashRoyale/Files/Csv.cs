@@ -68,7 +68,7 @@ namespace ClashRoyale.Files
             Tables = new Gamefiles();
 
             foreach (var file in Gamefiles)
-                Tables.Initialize(new Table(file), (Files)Gamefiles.IndexOf(file) + 1);
+                Tables.Initialize(new Table(file), (Files) Gamefiles.IndexOf(file) + 1);
 
             Logger.Log($"{Gamefiles.Count} Gamefiles loaded.", GetType());
         }

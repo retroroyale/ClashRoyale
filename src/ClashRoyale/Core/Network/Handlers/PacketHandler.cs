@@ -53,10 +53,7 @@ namespace ClashRoyale.Core.Network.Handlers
                     if (alliance != null)
                     {
                         var entry = alliance.Stream.Find(e => e.SenderId == player.Home.Id && e.StreamEntryType == 10);
-                        if (entry != null)
-                        {
-                            alliance.RemoveEntry(entry);
-                        }
+                        if (entry != null) alliance.RemoveEntry(entry);
 
                         if (alliance.Online < 1)
                         {
@@ -79,7 +76,8 @@ namespace ClashRoyale.Core.Network.Handlers
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
-            if(exception.GetType() != typeof(ReadTimeoutException) && exception.GetType() != typeof(WriteTimeoutException))
+            if (exception.GetType() != typeof(ReadTimeoutException) &&
+                exception.GetType() != typeof(WriteTimeoutException))
                 Logger.Log(exception, GetType(), ErrorLevel.Error);
 
             context.CloseAsync();

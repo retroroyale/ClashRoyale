@@ -1,5 +1,4 @@
-﻿using System;
-using ClashRoyale.Extensions;
+﻿using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Home.Decks.Items;
 using DotNetty.Buffers;
@@ -56,7 +55,7 @@ namespace ClashRoyale.Protocol.Commands.Server
                 Data.WriteVInt(Type);
 
                 Data.WriteVInt(ClientTick);
-                Data.WriteVInt(Checksum); 
+                Data.WriteVInt(Checksum);
 
                 Data.WriteVInt(SenderHighId);
                 Data.WriteVInt(SenderLowId);
@@ -67,7 +66,7 @@ namespace ClashRoyale.Protocol.Commands.Server
             Data.WriteVInt(ClassId);
             Data.WriteVInt(InstanceId);
 
-            Data.WriteVInt(SpellIndex); 
+            Data.WriteVInt(SpellIndex);
         }
 
         public override void Process()

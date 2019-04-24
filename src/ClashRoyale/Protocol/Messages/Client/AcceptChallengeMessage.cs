@@ -1,5 +1,5 @@
-﻿using System;
-using ClashRoyale.Logic;
+﻿using ClashRoyale.Logic;
+using ClashRoyale.Logic.Battle;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;
 using DotNetty.Buffers;
 
@@ -33,7 +33,7 @@ namespace ClashRoyale.Protocol.Messages.Client
 
             if (enemy.Device != null)
             {
-                var battle = new Battle(false, ((ChallengeStreamEntry)entry).Arena)
+                var battle = new LogicBattle(false, ((ChallengeStreamEntry) entry).Arena)
                 {
                     Device.Player, enemy
                 };

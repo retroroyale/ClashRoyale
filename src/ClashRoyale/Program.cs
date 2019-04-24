@@ -16,6 +16,9 @@ namespace ClashRoyale
             Console.Read();
         }
 
-        public static void Exit() => Environment.Exit(0);
+        public static void Exit()
+        {
+            Environment.Exit(0);
+        }
     }
 }
