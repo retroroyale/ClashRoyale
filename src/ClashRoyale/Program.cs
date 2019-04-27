@@ -4,12 +4,8 @@ namespace ClashRoyale
 {
     public static class Program
     {
-        public static string[] Arguments { get; private set; }
-
-        private static void Main(string[] args)
+        private static void Main()
         {
-            Arguments = args ?? Array.Empty<string>();
-
             Console.Title = "ClashRoyale Server Emulator";
 
             Console.WriteLine(
