@@ -6,8 +6,9 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-using SevenZip.Sdk;
-using Encoder = SevenZip.Sdk.Compression.Lzma.Encoder;
+
+using SevenZip;
+using LZMAEncoder = SevenZip.Compression.LZMA.Encoder;
 
 namespace ClashRoyale.Extensions.Utils
 {
@@ -72,7 +73,7 @@ namespace ClashRoyale.Extensions.Utils
 
         public static byte[] CompressData(byte[] input)
         {
-            var encoder = new Encoder();
+            var encoder = new LZMAEncoder();
 
             using (var uncompressed = new MemoryStream(input))
             {
@@ -80,14 +81,14 @@ namespace ClashRoyale.Extensions.Utils
                 {
                     encoder.SetCoderProperties(new[]
                     {
-                        CoderPropId.DictionarySize,
-                        CoderPropId.PosStateBits,
-                        CoderPropId.LitContextBits,
-                        CoderPropId.LitPosBits,
-                        CoderPropId.Algorithm,
-                        CoderPropId.NumFastBytes,
-                        CoderPropId.MatchFinder,
-                        CoderPropId.EndMarker
+                        CoderPropID.DictionarySize,
+                        CoderPropID.PosStateBits,
+                        CoderPropID.LitContextBits,
+                        CoderPropID.LitPosBits,
+                        CoderPropID.Algorithm,
+                        CoderPropID.NumFastBytes,
+                        CoderPropID.MatchFinder,
+                        CoderPropID.EndMarker
                     }, new object[]
                     {
                         262144,
