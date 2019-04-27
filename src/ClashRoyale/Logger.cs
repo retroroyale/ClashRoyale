@@ -11,9 +11,8 @@ namespace ClashRoyale
 
         public Logger()
         {
-            if (!Directory.Exists("Logs"))
-                Directory.CreateDirectory("Logs");
-
+            Directory.CreateDirectory("Logs");
+            
             _logger = LogManager.GetCurrentClassLogger();
         }
 
