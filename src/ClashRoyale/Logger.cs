@@ -7,12 +7,16 @@ namespace ClashRoyale
 {
     public class Logger
     {
+#if DEBUG
+        private static readonly object _consoleSync = new object();
+#endif
+
         private static NLog.Logger _logger;
 
         public Logger()
         {
             Directory.CreateDirectory("Logs");
-            
+
             _logger = LogManager.GetCurrentClassLogger();
         }
 
@@ -21,50 +25,60 @@ namespace ClashRoyale
             switch (logType)
             {
                 case ErrorLevel.Info:
-                {
-                    _logger.Info(message);
+                    {
+                        _logger.Info(message);
 
-                    Console.WriteLine($"[{logType.ToString()}] {message}");
-                    break;
-                }
+                        Console.WriteLine($"[{logType.ToString()}] {message}");
+                        break;
+                    }
 
                 case ErrorLevel.Warning:
-                {
-                    _logger.Warn(message);
+                    {
+                        _logger.Warn(message);
 #if DEBUG
-                    Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                    Console.WriteLine($"[{logType.ToString()}] {message}");
-                    Console.ResetColor();
+                        lock (_consoleSync)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                            Console.WriteLine($"[{logType.ToString()}] {message}");
+                            Console.ResetColor();
+                        }
 
-                    Resources.Sentry.Report(message.ToString(), type, logType);
+                        Resources.Sentry.Report(message.ToString(), type, logType);
 #endif
-                    break;
-                }
+                        break;
+                    }
 
                 case ErrorLevel.Error:
-                {
-                    _logger.Error(message);
+                    {
+                        _logger.Error(message);
 #if DEBUG
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"[{logType.ToString()}] {message}");
-                    Console.ResetColor();
 
-                    Resources.Sentry.Report(message.ToString(), type, logType);
+                        lock (_consoleSync)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"[{logType.ToString()}] {message}");
+                            Console.ResetColor();
+                        }
+
+                        Resources.Sentry.Report(message.ToString(), type, logType);
 #endif
-                    break;
-                }
+                        break;
+                    }
 
                 case ErrorLevel.Debug:
-                {
+                    {
 #if DEBUG
-                    _logger.Debug(message);
+                        _logger.Debug(message);
 
-                    Console.ForegroundColor = ConsoleColor.DarkCyan;
-                    Console.WriteLine($"[{logType.ToString()}] {message}");
-                    Console.ResetColor();
+                        lock (_consoleSync)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkCyan;
+                            Console.WriteLine($"[{logType.ToString()}] {message}");
+                            Console.ResetColor();
+                        }
 #endif
-                    break;
-                }
+                        break;
+                    }
             }
         }
     }
