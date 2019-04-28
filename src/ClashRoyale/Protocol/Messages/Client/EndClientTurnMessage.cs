@@ -23,7 +23,7 @@ namespace ClashRoyale.Protocol.Messages.Client
             Count = Reader.ReadVInt();
         }
 
-        public override async void Process()
+        public override void Process()
         {
             if (Tick < 0)
             {

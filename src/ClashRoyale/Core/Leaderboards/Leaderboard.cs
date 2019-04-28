@@ -16,7 +16,7 @@ namespace ClashRoyale.Core.Leaderboards
         private readonly Timer _timer = new Timer(20000);
 
         public List<Player> GlobalPlayerRanking = new List<Player>(200);
-        public Dictionary<string, List<Player>> LocalPlayerRanking = new Dictionary<string, List<Player>>(11);
+        public Dictionary<string, List<Player>> LocalPlayerRanking = new Dictionary<string, List<Player>>(18);
 
         public Leaderboard()
         {
