@@ -80,7 +80,7 @@ namespace ClashRoyale.Protocol.Messages.Client
             }
             else
             {
-                await Device.DisconnectAsync();
+                Device.Disconnect();
             }
         }
     }

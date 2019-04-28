@@ -8,7 +8,7 @@ namespace ClashRoyale.Protocol.Messages.Server
         public HomeBattleReplayDataMessage(Device device) : base(device)
         {
             Id = 24114;
-            Device.CurrentState = Device.State.Replay;
+            Device.CurrentState = Device.State.Battle;
         }
 
         public override void Encode()

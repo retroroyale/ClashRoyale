@@ -17,12 +17,12 @@ namespace ClashRoyale.Core.Network.Handlers
         public Device Device { get; set; }
         public IChannel Channel { get; set; }
 
-        public override async void ChannelRead(IChannelHandlerContext context, object message)
+        public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var buffer = (IByteBuffer) message;
             if (buffer == null) return;
 
-            await Device.ProcessAsync(Unpooled.CopiedBuffer(buffer));
+            Device.Process(buffer);
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext context)

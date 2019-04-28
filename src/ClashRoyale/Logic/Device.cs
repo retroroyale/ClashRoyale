@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using ClashRoyale.Core.Network.Handlers;
 using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Protocol;
@@ -25,7 +24,7 @@ namespace ClashRoyale.Logic
         /// </summary>
         /// <param name="buffer"></param>
         /// <returns></returns>
-        public async Task ProcessAsync(IByteBuffer buffer)
+        public void Process(IByteBuffer buffer)
         {
             var id = buffer.ReadUnsignedShort();
             var length = buffer.ReadMedium();
@@ -37,8 +36,7 @@ namespace ClashRoyale.Logic
                 {
                     Logger.Log($"Message ID: {id}, V: {version}, L: {length} is not known.", GetType(),
                         ErrorLevel.Warning);
-
-                    await DisconnectAsync();
+                    Disconnect();
                     return;
                 }
 
@@ -51,7 +49,7 @@ namespace ClashRoyale.Logic
                         {
                             Logger.Log($"[C] Message {id} is not allowed in this state!", GetType(),
                                 ErrorLevel.Warning);
-                            await DisconnectAsync();
+                            Disconnect();
                             return;
                         }
 
@@ -79,7 +77,7 @@ namespace ClashRoyale.Logic
         ///     Disconnect a client by sending OutOfSyncMessage
         /// </summary>
         /// <returns></returns>
-        public async Task DisconnectAsync()
+        public async void Disconnect()
         {
             await new OutOfSyncMessage(this).SendAsync();
         }
@@ -103,10 +101,9 @@ namespace ClashRoyale.Logic
         {
             Disconnected = 0,
             Login = 1,
-            Replay = 2,
-            Battle = 3,
-            Home = 4,
-            NotDefinied = 5
+            Battle = 2,
+            Home = 3,
+            NotDefinied = 4
         }
 
         #endregion Objects

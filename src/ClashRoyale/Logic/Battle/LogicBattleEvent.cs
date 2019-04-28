@@ -1,9 +1,27 @@
-﻿namespace ClashRoyale.Logic.Battle
+﻿using System;
+using System.Collections.Generic;
+using SharpRaven.Data;
+
+namespace ClashRoyale.Logic.Battle
 {
     public class LogicBattleEvent
     {
+        private readonly List<int> _coords;
+        private readonly List<int> _params;
+        private readonly List<int> _ticks;
+
         /// <summary>
-        /// Save this instance as Json
+        ///     Initialize the instance
+        /// </summary>
+        public LogicBattleEvent()
+        {
+            _ticks = new List<int>();
+            _coords = new List<int>();
+            _params = new List<int>();
+        }
+
+        /// <summary>
+        ///     Save this instance as Json
         /// </summary>
         public void SaveJson()
         {
@@ -11,7 +29,7 @@
         }
 
         /// <summary>
-        /// Load this instance from Json
+        ///     Load this instance from Json
         /// </summary>
         public void LoadJson()
         {
@@ -19,7 +37,7 @@
         }
 
         /// <summary>
-        /// Returns the AccountId
+        ///     Returns the AccountId
         /// </summary>
         /// <returns></returns>
         public long GetAccountId()
@@ -30,7 +48,7 @@
         }
 
         /// <summary>
-        /// Set the type of this Event
+        ///     Set the type of this Event
         /// </summary>
         /// <param name="type"></param>
         public void SetType(byte type)
@@ -39,7 +57,7 @@
         }
 
         /// <summary>
-        /// Get the type of this event
+        ///     Get the type of this event
         /// </summary>
         /// <returns></returns>
         public new byte GetType()
@@ -50,49 +68,72 @@
         }
 
         /// <summary>
-        /// Set the tick of this instance
+        ///     Set the tick of this instance
         /// </summary>
         /// <param name="tick"></param>
         public void SetTick(int tick)
         {
-            // TODO
+            if (_ticks.Count > 0)
+            {
+                Logger.Log("replay event: setting tick will clear old ticks and coords", base.GetType(),
+                    ErrorLevel.Debug);
+                return;
+            }
+
+            _ticks.Add(tick);
         }
 
         /// <summary>
-        /// Returns the tick of this instance
+        ///     Returns the tick of this instance
         /// </summary>
         /// <returns></returns>
-        public int GetTick()
+        public int GetTick(int index)
         {
-            return 0;
+            if (index <= 0) throw new ArgumentOutOfRangeException(nameof(index));
 
-            // TODO
+            if (_ticks.Count >= 1) return _ticks[index];
+
+            return -1;
         }
 
         /// <summary>
-        /// Add coordinates to this event
+        ///     Add coordinates to this event
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
         public void AddCoord(int x, int y, int z)
         {
-            // TODO
+            if (GetNumCoords() < 1)
+            {
+                Logger.Log("replay event: ticks array should never be smaller than coords array", base.GetType(),
+                    ErrorLevel.Debug);
+            }
+            else
+            {
+                Logger.Log("replay event: clearing ticks to keep array sizes consistent", base.GetType(),
+                    ErrorLevel.Debug);
+                _ticks.Clear();
+            }
+
+            // TODO: fix params
+
+            /*_coords.Add(x);
+            _coords.Add(y);
+            _coords.Add(z);*/
         }
 
         /// <summary>
-        /// Returns the num of coords
+        ///     Returns the num of coords
         /// </summary>
         /// <returns></returns>
         public int GetNumCoords()
         {
-            return 0;
-
-            // TODO
+            return _coords.Count;
         }
 
         /// <summary>
-        /// Returns the X coordinate
+        ///     Returns the X coordinate
         /// </summary>
         /// <returns></returns>
         public int GetCoordX()
@@ -103,7 +144,7 @@
         }
 
         /// <summary>
-        /// Returns the Y coordinate
+        ///     Returns the Y coordinate
         /// </summary>
         /// <returns></returns>
         public int GetCoordY()
@@ -114,18 +155,16 @@
         }
 
         /// <summary>
-        /// Returns the param count 
+        ///     Returns the param count
         /// </summary>
         /// <returns></returns>
         public int GetParamCount()
         {
-            return 0;
-
-            // TODO
+            return _params.Count;
         }
 
         /// <summary>
-        /// Returns the param
+        ///     Returns the param
         /// </summary>
         /// <returns></returns>
         public int GetParam()
@@ -136,7 +175,7 @@
         }
 
         /// <summary>
-        /// Set the param for this instance
+        ///     Set the param for this instance
         /// </summary>
         public void SetParam()
         {

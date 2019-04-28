@@ -28,7 +28,7 @@ namespace ClashRoyale.Protocol.Messages.Client
             if (Tick < 0)
             {
                 Logger.Log($"Client Tick ({Tick}) is corrupted. Disconnecting.", GetType(), ErrorLevel.Warning);
-                await Device.DisconnectAsync();
+                Device.Disconnect();
                 return;
             }
 
@@ -36,7 +36,7 @@ namespace ClashRoyale.Protocol.Messages.Client
             {
                 Logger.Log($"OutOfSync! Client Tick: {Tick}, Server Tick: {Device.ServerTick}", GetType(),
                     ErrorLevel.Debug);
-                await Device.DisconnectAsync();
+                Device.Disconnect();
                 return;
             }
 
