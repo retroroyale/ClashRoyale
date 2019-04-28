@@ -1,12 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-
 using SevenZip;
 using LZMAEncoder = SevenZip.Compression.LZMA.Encoder;
 
@@ -14,43 +11,16 @@ namespace ClashRoyale.Extensions.Utils
 {
     public class ServerUtils
     {
-        public static string GetOSName()
+        public static string GetOsName()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 return "Windows";
-
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 return "MacOS";
-
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 return "Linux";
 
             return "Unknown-" + Environment.OSVersion;
-        }
-
-        public static string GetIp4Address()
-        {
-            var ipAddress = string.Empty;
-            var nics = NetworkInterface.GetAllNetworkInterfaces();
-
-            foreach (var nic in nics)
-            {
-                if (nic.OperationalStatus != OperationalStatus.Up)
-                    continue;
-
-                var adapterStat = nic.GetIPv4Statistics();
-                var uniCast = nic.GetIPProperties().UnicastAddresses;
-
-                if (uniCast == null) continue;
-
-                if (uniCast.Where(uni => adapterStat.UnicastPacketsReceived > 0
-                                         && adapterStat.UnicastPacketsSent > 0
-                                         && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback).Any(uni =>
-                    uni.Address.AddressFamily == AddressFamily.InterNetwork))
-                    ipAddress = nic.GetIPProperties().UnicastAddresses[0].Address.ToString();
-            }
-
-            return ipAddress;
         }
 
         public static string GetChecksum(string text)

@@ -13,27 +13,23 @@ namespace ClashRoyale.Core.Leaderboards
 {
     public class Leaderboard
     {
-        private readonly Timer _timer = new Timer(20000)
-        {
-            AutoReset = true
-        };
+        private readonly Timer _timer = new Timer(20000);
 
-        public List<Player> GlobalPlayers = new List<Player>(200);
-
-        public Dictionary<string, List<Player>> LocalPlayers = new Dictionary<string, List<Player>>(11);
+        public List<Player> GlobalPlayerRanking = new List<Player>(200);
+        public Dictionary<string, List<Player>> LocalPlayerRanking = new Dictionary<string, List<Player>>(11);
 
         public Leaderboard()
         {
-            _timer.Elapsed += TimerCallback;
+            _timer.Elapsed += Tick;
             _timer.Start();
 
             foreach (var locales in Csv.Tables.Get(Csv.Files.Locales).GetDatas())
-                LocalPlayers.Add(((Locales) locales).Name, new List<Player>(200));
+                LocalPlayerRanking.Add(((Locales) locales).Name, new List<Player>(200));
 
-            TimerCallback(null, null);
+            Tick(null, null);
         }
 
-        public async void TimerCallback(object state, ElapsedEventArgs args)
+        public async void Tick(object state, ElapsedEventArgs args)
         {
             await Task.Run(async () =>
             {
@@ -41,7 +37,14 @@ namespace ClashRoyale.Core.Leaderboards
                 {
                     var currentGlobalPlayerRanking = await PlayerDb.GetGlobalPlayerRankingAsync();
                     for (var i = 0; i < currentGlobalPlayerRanking.Count; i++)
-                        GlobalPlayers.UpdateOrInsert(i, currentGlobalPlayerRanking[i]);
+                        GlobalPlayerRanking.UpdateOrInsert(i, currentGlobalPlayerRanking[i]);
+
+                    foreach (var (key, value) in LocalPlayerRanking)
+                    {
+                        var currentLocalPlayerRanking = await PlayerDb.GetLocalPlayerRankingAsync(key);
+                        for (var i = 0; i < currentLocalPlayerRanking.Count; i++)
+                            value.UpdateOrInsert(i, currentLocalPlayerRanking[i]);
+                    }
                 }
                 catch (Exception exception)
                 {

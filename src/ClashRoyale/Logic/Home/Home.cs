@@ -49,7 +49,8 @@ namespace ClashRoyale.Logic.Home
         [JsonProperty("name")] public string Name { get; set; }
         [JsonProperty("token")] public string UserToken { get; set; }
         [JsonProperty("name_set")] public int NameSet { get; set; }
-        [JsonProperty("ip")] public string IpAddress { get; set; }
+        [JsonProperty("last_ip")] public string LastIpAddress { get; set; }
+        [JsonProperty("created_ip")] public string CreatedIpAddress { get; set; }
         [JsonProperty("high_id")] public int HighId { get; set; }
         [JsonProperty("low_id")] public int LowId { get; set; }
         [JsonProperty("language")] public string PreferredDeviceLanguage { get; set; }

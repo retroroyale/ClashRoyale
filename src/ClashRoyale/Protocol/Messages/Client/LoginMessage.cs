@@ -78,6 +78,8 @@ namespace ClashRoyale.Protocol.Messages.Client
 
                 var home = Device.Player.Home;
 
+                home.CreatedIpAddress = Device.GetIp();
+                home.LastIpAddress = home.CreatedIpAddress;
                 home.PreferredDeviceLanguage = PreferredDeviceLanguage;
 
                 Device.Player.Device = Device;
@@ -98,6 +100,8 @@ namespace ClashRoyale.Protocol.Messages.Client
                     player.Device = Device;
 
                     Resources.Players.Login(Device.Player);
+
+                    player.Home.LastIpAddress = Device.GetIp();
 
                     await new LoginOkMessage(Device).SendAsync();
 

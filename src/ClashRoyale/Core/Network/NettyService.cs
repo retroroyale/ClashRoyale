@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using ClashRoyale.Core.Network.Handlers;
-using ClashRoyale.Extensions.Utils;
 using DotNetty.Codecs;
 using DotNetty.Handlers.Logging;
 using DotNetty.Handlers.Timeout;
@@ -43,9 +42,10 @@ namespace ClashRoyale.Core.Network
                 }));
 
             var boundChannel = await ServerBootstrap.BindAsync(Resources.Configuration.ServerPort);
+            var endpoint = (IPEndPoint) boundChannel.LocalAddress;
 
             Logger.Log(
-                $"Listening on {ServerUtils.GetIp4Address()}:{((IPEndPoint) boundChannel.LocalAddress).Port}. Let's play ClashRoyale!",
+                $"Listening on {endpoint.Address.MapToIPv4()}:{endpoint.Port}. Let's play ClashRoyale!",
                 GetType());
         }
     }

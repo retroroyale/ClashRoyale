@@ -31,20 +31,5 @@ namespace ClashRoyale.Extensions.Utils
         }
 
         public static int CurrentUnixTimestamp => (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-
-        public static int ToTick(TimeSpan duration)
-        {
-            return (int) (duration.TotalSeconds * 20);
-        }
-
-        public static int ToTick(int seconds)
-        {
-            return seconds * 20;
-        }
-
-        public static int FromTick(int tick)
-        {
-            return tick / 20;
-        }
     }
 }

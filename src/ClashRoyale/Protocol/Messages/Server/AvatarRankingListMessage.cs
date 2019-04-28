@@ -1,7 +1,6 @@
 ﻿using ClashRoyale.Extensions;
 using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Logic;
-using DotNetty.Buffers;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {
@@ -14,32 +13,29 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            var count = 0;
-            var buffer = Unpooled.Buffer();
-
-            foreach (var player in Resources.Leaderboard.GlobalPlayers)
-            {
-                if (player == null) continue;
-
-                buffer.WriteVInt(player.Home.HighId);
-                buffer.WriteVInt(player.Home.LowId);
-                buffer.WriteScString(player.Home.Name);
-
-                buffer.WriteVInt(count + 1);
-                buffer.WriteVInt(player.Home.Arena.Trophies);
-                buffer.WriteVInt(200);
-
-                buffer.WriteVInt(0);
-                buffer.WriteVInt(0);
-                buffer.WriteVInt(0);
-
-                player.RankingEntry(buffer);
-
-                count++;
-            }
+            var players = Resources.Leaderboard.GlobalPlayerRanking;
+            var count = players.Count;
 
             Writer.WriteVInt(count);
-            Writer.WriteBytes(buffer);
+
+            for (var i = 0; i < count; i++)
+            {
+                var player = players[i];
+
+                Writer.WriteVInt(player.Home.HighId);
+                Writer.WriteVInt(player.Home.LowId);
+                Writer.WriteScString(player.Home.Name);
+
+                Writer.WriteVInt(count + 1);
+                Writer.WriteVInt(player.Home.Arena.Trophies);
+                Writer.WriteVInt(200);
+
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+                Writer.WriteVInt(0);
+
+                player.RankingEntry(Writer);
+            }
 
             Writer.WriteInt(0);
             Writer.WriteInt(TimeUtils.GetSecondsUntilNextMonth);
