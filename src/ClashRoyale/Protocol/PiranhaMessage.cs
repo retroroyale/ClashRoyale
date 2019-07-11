@@ -39,7 +39,7 @@ namespace ClashRoyale.Protocol
             Device.Rc4.Decrypt(ref buffer);
 
             Reader = buffer;
-            Length = (ushort) buffer.ReadableBytes;
+            Length = buffer.ReadableBytes;
         }
 
         public virtual void Encrypt()
@@ -50,7 +50,7 @@ namespace ClashRoyale.Protocol
 
             Device.Rc4.Encrypt(ref buffer);
 
-            Length = (ushort) buffer.ReadableBytes;
+            Length = buffer.ReadableBytes;
         }
 
         public virtual void Decode()
