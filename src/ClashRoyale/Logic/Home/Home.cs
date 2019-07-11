@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using ClashRoyale.Logic.Clan;
 using ClashRoyale.Logic.Home.Decks;
+using ClashRoyale.Logic.Sessions;
 using Newtonsoft.Json;
 
 namespace ClashRoyale.Logic.Home
@@ -49,12 +52,13 @@ namespace ClashRoyale.Logic.Home
         [JsonProperty("name")] public string Name { get; set; }
         [JsonProperty("token")] public string UserToken { get; set; }
         [JsonProperty("name_set")] public int NameSet { get; set; }
-        [JsonProperty("last_ip")] public string LastIpAddress { get; set; }
         [JsonProperty("created_ip")] public string CreatedIpAddress { get; set; }
         [JsonProperty("high_id")] public int HighId { get; set; }
         [JsonProperty("low_id")] public int LowId { get; set; }
         [JsonProperty("language")] public string PreferredDeviceLanguage { get; set; }
         [JsonProperty("fcb_id")] public string FacebookId { get; set; }
+        [JsonProperty("sessions")] public List<Session> Sessions = new List<Session>(50);
+        [JsonProperty("totalSessions")] public int TotalSessions { get; set; }
 
         // Shop
         [JsonProperty("shop_day")] public int ShopDay { get; set; }

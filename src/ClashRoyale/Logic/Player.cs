@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Globalization;
 using ClashRoyale.Database;
 using ClashRoyale.Extensions;
 using ClashRoyale.Extensions.Utils;
@@ -580,6 +582,23 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
             packet.WriteVInt(0); // AccountCreated
             packet.WriteVInt(0); // PlayTime
+        }
+
+        /// <summary>
+        /// Validates this session
+        /// </summary>
+        public void ValidateSession()
+        {
+            var session = Device.Session;
+            session.Duration = (long)DateTime.UtcNow.Subtract(session.SessionStart).TotalSeconds;
+            session.StartDate = session.SessionStart.ToString(CultureInfo.InvariantCulture);
+
+            while (Home.Sessions.Count >= 50)
+            {
+                Home.Sessions.RemoveAt(0);
+            }
+
+            Home.Sessions.Add(session);
         }
 
         public async void Save()

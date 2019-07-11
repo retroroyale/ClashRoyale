@@ -43,27 +43,32 @@ namespace ClashRoyale.Core.Network.Handlers
         {
             if (Device?.Player?.Home != null)
             {
-                var player = Device.Player;
-
-                Resources.Players.Logout(player.Home.Id);
-
-                if (player.Home.AllianceInfo.HasAlliance)
+                var player = await Resources.Players.GetPlayerAsync(Device.Player.Home.Id, true);
+                if (player != null)
                 {
-                    var alliance = await Resources.Alliances.GetAllianceAsync(player.Home.AllianceInfo.Id);
-                    if (alliance != null)
+                    if (player.Device.Session.SessionId == Device.Session.SessionId)
                     {
-                        var entry = alliance.Stream.Find(e => e.SenderId == player.Home.Id && e.StreamEntryType == 10);
-                        if (entry != null) alliance.RemoveEntry(entry);
+                        Resources.Players.LogoutById(player.Home.Id);
 
-                        if (alliance.Online < 1)
+                        if (player.Home.AllianceInfo.HasAlliance)
                         {
-                            Resources.Alliances.Remove(alliance.Id);
-                            Logger.Log($"Uncached Clan {alliance.Id} because no member is online.", GetType(),
-                                ErrorLevel.Debug);
-                        }
-                        else
-                        {
-                            alliance.UpdateOnlineCount();
+                            var alliance = await Resources.Alliances.GetAllianceAsync(player.Home.AllianceInfo.Id);
+                            if (alliance != null)
+                            {
+                                var entry = alliance.Stream.Find(e => e.SenderId == player.Home.Id && e.StreamEntryType == 10);
+                                if (entry != null) alliance.RemoveEntry(entry);
+
+                                if (alliance.Online < 1)
+                                {
+                                    Resources.Alliances.Remove(alliance.Id);
+                                    Logger.Log($"Uncached Clan {alliance.Id} because no member is online.", GetType(),
+                                        ErrorLevel.Debug);
+                                }
+                                else
+                                {
+                                    alliance.UpdateOnlineCount();
+                                }
+                            }
                         }
                     }
                 }

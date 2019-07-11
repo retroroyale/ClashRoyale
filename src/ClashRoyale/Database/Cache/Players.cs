@@ -12,35 +12,94 @@ namespace ClashRoyale.Database.Cache
         /// <summary>
         ///     Login a player
         /// </summary>
-        /// <param name="player"></param>
-        public void Login(Player player)
+        /// <param name="userId"></param>
+        /// <param name="token"></param>
+        public async Task<Player> Login(long userId, string token)
         {
+            Player player;
+
+            if (userId <= 0 && string.IsNullOrEmpty(token))
+            {
+                player = await PlayerDb.CreateAsync();
+            }
+            else
+            {
+                var p = await Redis.GetPlayerAsync(userId);
+
+                if (p != null)
+                    player = p;
+                else
+                    player = await PlayerDb.GetAsync(userId);
+
+                if (player == null) return null;
+                if (player.Home.UserToken != token) return null;
+            }
+
             lock (_syncObject)
             {
-                if (!ContainsKey(player.Home.Id)) Add(player.Home.Id, player);
+                if (player == null) return null;
+
+                Logout(ref player);
+
+                var result = TryAdd(player.Home.Id, player);
+
+                if (!result) return null;
+
+                //Logger.Log($"User {player.Home.Id} logged in.", GetType(), ErrorLevel.Debug);
+
+                return player;
             }
         }
 
         /// <summary>
-        ///     Logout a player and save it
+        ///     Called when a player logs out
         /// </summary>
-        /// <param name="userId"></param>
-        public void Logout(long userId)
+        /// <param name="player"></param>
+        public void Logout(ref Player player)
         {
             lock (_syncObject)
             {
-                if (ContainsKey(userId))
-                {
-                    var player = this[userId];
+                if (!ContainsKey(player.Home.Id)) return;
 
-                    Resources.Battles.Cancel(player);
+                var p = this[player.Home.Id];
+                p.ValidateSession();
 
-                    player.Save();
+                Resources.Battles.Cancel(player);
 
-                    var result = Remove(userId);
+                p.Save();
 
-                    if (!result) Logger.Log($"Couldn't logout player {userId}", GetType(), ErrorLevel.Error);
-                }
+                player = p;
+
+                var result = Remove(p.Home.Id);
+
+                if (!result) Logger.Log($"Couldn't logout player {p.Home.Id}", GetType(), ErrorLevel.Error);
+                //else Logger.Log($"User {player.UserId} logged out.", GetType(), ErrorLevel.Debug);
+            }
+        }
+
+        /// <summary>
+        /// Log out a player by the UserId
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public bool LogoutById(long userId)
+        {
+            lock (_syncObject)
+            {
+                if (!ContainsKey(userId)) return true;
+
+                var player = this[userId];
+                player.ValidateSession();
+
+                Resources.Battles.Cancel(player);
+
+                player.Save();
+
+                var result = Remove(userId);
+
+                if (!result) Logger.Log($"Couldn't logout player {userId}", GetType(), ErrorLevel.Error);
+
+                return result;
             }
         }
 

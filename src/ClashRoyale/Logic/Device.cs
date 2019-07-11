@@ -2,6 +2,7 @@
 using System.Net;
 using ClashRoyale.Core.Network.Handlers;
 using ClashRoyale.Extensions.Utils;
+using ClashRoyale.Logic.Sessions;
 using ClashRoyale.Logic.Time;
 using ClashRoyale.Protocol;
 using ClashRoyale.Protocol.Crypto;
@@ -92,6 +93,7 @@ namespace ClashRoyale.Logic
 
         #region Objects
 
+        public Session Session = new Session();
         public Rc4Core Rc4 = new Rc4Core(Resources.Configuration.EncryptionKey, "nonce");
         public PacketHandler Handler { get; set; }
 

@@ -1,6 +1,8 @@
-﻿using ClashRoyale.Database;
+﻿using System;
+using ClashRoyale.Database;
 using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
+using ClashRoyale.Logic.Sessions;
 using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
 
@@ -72,66 +74,56 @@ namespace ClashRoyale.Protocol.Messages.Client
                     return;
                 }
 
-            if (UserId <= 0 && string.IsNullOrEmpty(UserToken))
+            var player = await Resources.Players.Login(UserId, UserToken);
+
+            if (player != null)
             {
-                Device.Player = await PlayerDb.CreateAsync();
+                Device.Player = player;
+                player.Device = Device;
 
-                var home = Device.Player.Home;
+                var ip = Device.GetIp();
 
-                home.CreatedIpAddress = Device.GetIp();
-                home.LastIpAddress = home.CreatedIpAddress;
-                home.PreferredDeviceLanguage = PreferredDeviceLanguage;
+                if (UserId <= 0)
+                {
+                    player.Home.CreatedIpAddress = ip;
+                }
 
-                Device.Player.Device = Device;
-
-                Resources.Players.Login(Device.Player);
+                Device.Player.Home.PreferredDeviceLanguage = PreferredDeviceLanguage;
+                Device.Session.Ip = ip;
+                Device.Session.GameVersion = $"{ClientMajorVersion}.{ClientMinorVersion}";
+                Device.Session.Location = await Location.GetByIpAsync(ip);
+                Device.Session.DeviceCode = DeviceModel;
+                Device.Session.SessionId = Guid.NewGuid().ToString();
+                player.Home.TotalSessions++;
 
                 await new LoginOkMessage(Device).SendAsync();
+
+                if (player.Home.AllianceInfo.HasAlliance)
+                {
+                    var alliance = await Resources.Alliances.GetAllianceAsync(player.Home.AllianceInfo.Id);
+
+                    if (alliance != null)
+                    {
+                        Resources.Alliances.Add(alliance);
+
+                        await new AllianceStreamMessage(Device)
+                        {
+                            Entries = alliance.Stream
+                        }.SendAsync();
+
+                        alliance.UpdateOnlineCount();
+                    }
+                }
 
                 await new OwnHomeDataMessage(Device).SendAsync();
             }
             else
             {
-                var player = await Resources.Players.GetPlayerAsync(UserId);
-
-                if (player != null)
+                // If the account was not found we send LoginFailed
+                await new LoginFailedMessage(Device)
                 {
-                    Device.Player = player;
-                    player.Device = Device;
-
-                    Resources.Players.Login(Device.Player);
-
-                    player.Home.LastIpAddress = Device.GetIp();
-
-                    await new LoginOkMessage(Device).SendAsync();
-
-                    if (player.Home.AllianceInfo.HasAlliance)
-                    {
-                        var alliance = await Resources.Alliances.GetAllianceAsync(player.Home.AllianceInfo.Id);
-
-                        if (alliance != null)
-                        {
-                            Resources.Alliances.Add(alliance);
-
-                            await new AllianceStreamMessage(Device)
-                            {
-                                Entries = alliance.Stream
-                            }.SendAsync();
-
-                            alliance.UpdateOnlineCount();
-                        }
-                    }
-
-                    await new OwnHomeDataMessage(Device).SendAsync();
-                }
-                else
-                {
-                    // If the account was not found we send LoginFailed
-                    await new LoginFailedMessage(Device)
-                    {
-                        ErrorCode = 10
-                    }.SendAsync();
-                }
+                    ErrorCode = 10
+                }.SendAsync();
             }
         }
     }
