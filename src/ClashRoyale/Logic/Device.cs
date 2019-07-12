@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using ClashRoyale.Core.Network.Handlers;
-using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Logic.Sessions;
 using ClashRoyale.Logic.Time;
 using ClashRoyale.Protocol;

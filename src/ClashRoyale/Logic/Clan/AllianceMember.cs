@@ -61,11 +61,12 @@ namespace ClashRoyale.Logic.Clan
             packet.WriteVInt(0); // Current Rank
             packet.WriteVInt(0); // Previus Rank
 
-            packet.WriteVInt(0); // Chest Crowns
-            packet.WriteVInt(65039); // Chest ??
-            packet.WriteVInt(-1);
-            packet.WriteVInt(-1);
-            packet.WriteVInt(31);
+            packet.WriteVInt(40); // Chest Crowns
+            packet.WriteBoolean(false); // Not in this Clan Chest
+            packet.WriteVInt(0);
+            packet.WriteVInt(0);
+
+            packet.WriteVInt(0);
             packet.WriteVInt(7);
 
             packet.WriteLong(Id);
