@@ -36,7 +36,7 @@ namespace ClashRoyale.Protocol.Commands.Client
                 var enemy = Resources.Battles.Dequeue;
                 if (enemy != null)
                 {
-                    var battle = new LogicBattle(true, enemy.Home.Arena.CurrentArena + 1)
+                    var battle = new LogicBattle(false, enemy.Home.Arena.CurrentArena + 1)
                     {
                         Device.Player, enemy
                     };

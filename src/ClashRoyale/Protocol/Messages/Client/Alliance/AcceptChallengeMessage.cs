@@ -33,10 +33,12 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
 
             if (enemy.Device != null)
             {
-                var battle = new LogicBattle(false, ((ChallengeStreamEntry) entry).Arena)
+                var battle = new LogicBattle(true, ((ChallengeStreamEntry) entry).Arena)
                 {
                     Device.Player, enemy
                 };
+
+                Resources.Battles.Add(battle);
 
                 Device.Player.Battle = battle;
                 enemy.Battle = battle;

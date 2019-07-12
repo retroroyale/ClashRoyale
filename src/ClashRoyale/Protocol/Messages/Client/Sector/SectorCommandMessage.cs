@@ -30,6 +30,15 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
 
             if (Count < 0 || Count > 128) return;
 
+            var battle = Device.Player.Battle;
+            if (battle != null)
+            {
+                if (!battle.IsRunning)
+                {
+                    battle.BattleTimer.Start();
+                }
+            }
+
             for (var i = 0; i < Count; i++)
             {
                 var type = Reader.ReadVInt();

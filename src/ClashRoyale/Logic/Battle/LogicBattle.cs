@@ -13,14 +13,17 @@ namespace ClashRoyale.Logic.Battle
 {
     public class LogicBattle : List<Player>
     {
-        private readonly Timer _battleTimer = new Timer(750);
+        public Timer BattleTimer;
 
         public Dictionary<long, Queue<byte[]>> Commands = new Dictionary<long, Queue<byte[]>>();
 
-        public LogicBattle(bool is1Vs1, int arena)
+        public LogicBattle(bool isFriendly, int arena)
         {
-            Is1Vs1 = is1Vs1;
+            IsFriendly = isFriendly;
             Arena = arena;
+
+            BattleTimer = new Timer(750);
+            BattleTimer.Elapsed += Tick;
         }
 
         public long BattleId { get; set; }
@@ -30,8 +33,9 @@ namespace ClashRoyale.Logic.Battle
         public int BattleTime => (int) DateTime.UtcNow.Subtract(StartTime).TotalSeconds * 2;
         public int BattleSeconds => BattleTime / 2;
 
+        public bool IsRunning => BattleTimer.Enabled;
         public bool IsReady => Count >= 1;
-        public bool Is1Vs1 { get; set; }
+        public bool IsFriendly { get; set; }
         public int Arena { get; set; }
 
         public async void Start()
@@ -40,19 +44,18 @@ namespace ClashRoyale.Logic.Battle
 
             try
             {
-                foreach (var player in this) Commands.Add(player.Home.Id, new Queue<byte[]>());
-
-                _battleTimer.Elapsed += Tick;
-
                 foreach (var player in this)
+                {
+                    Commands.Add(player.Home.Id, new Queue<byte[]>());
+
                     await new SectorStateMessage(player.Device)
                     {
                         Battle = this
                     }.SendAsync();
+                }
 
                 StartTime = DateTime.UtcNow;
-
-                _battleTimer.Start();
+                BattleTimer.Start();
             }
             catch (Exception)
             {
@@ -332,7 +335,7 @@ namespace ClashRoyale.Logic.Battle
 
         public void Stop()
         {
-            _battleTimer.Stop();
+            BattleTimer.Stop();
 
             Resources.Battles.Remove(BattleId);
         }
@@ -348,13 +351,15 @@ namespace ClashRoyale.Logic.Battle
                         {
                             if (BattleSeconds <= 8) continue;
 
-                            if (Is1Vs1)
+                            if (!IsFriendly)
                             {
                                 player.Home.AddCrowns(3);
                                 player.Home.Arena.AddTrophies(31);
                             }
 
                             await new BattleResultMessage(player.Device).SendAsync();
+
+                            player.Battle = null;
 
                             Remove(player);
                         }

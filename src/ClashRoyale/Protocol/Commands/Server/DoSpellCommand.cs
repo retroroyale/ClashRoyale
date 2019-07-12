@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Extensions;
+﻿using System;
+using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Home.Decks.Items;
 using DotNetty.Buffers;
