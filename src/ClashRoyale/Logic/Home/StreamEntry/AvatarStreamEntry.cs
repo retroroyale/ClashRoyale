@@ -14,6 +14,7 @@ namespace ClashRoyale.Logic.Home.StreamEntry
         [JsonProperty("lowId")] public int SenderLowId { get; set; }
         [JsonProperty("sender_name")] public string SenderName { get; set; }
         [JsonProperty("sender_role")] public int SenderRole { get; set; }
+        [JsonProperty("removed")] public bool IsRemoved { get; set; }
         [JsonProperty("new")] public bool IsNew { get; set; }
 
         [JsonIgnore] public int AgeSeconds => (int) (DateTime.UtcNow - CreationDateTime).TotalSeconds;
@@ -40,12 +41,11 @@ namespace ClashRoyale.Logic.Home.StreamEntry
             packet.WriteVInt(SenderLowId);
             packet.WriteVInt(SenderHighId);
             packet.WriteVInt(SenderLowId);
-
             packet.WriteScString(SenderName);
-            packet.WriteVInt(0); // Level
-            packet.WriteVInt(SenderRole);
 
             packet.WriteVInt(AgeSeconds);
+
+            packet.WriteBoolean(IsRemoved);
             packet.WriteBoolean(IsNew);
         }
 

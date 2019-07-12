@@ -8,7 +8,7 @@ namespace ClashRoyale.Logic.Clan.StreamEntry
     public class AllianceStreamEntry
     {
         [JsonProperty("creation")] public DateTime CreationDateTime = DateTime.UtcNow;
-        [JsonProperty("id")] public int Id = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+        [JsonProperty("id")] public int Id { get; set; }
         [JsonProperty("type")] public int StreamEntryType { get; set; }
         [JsonProperty("highId")] public int SenderHighId { get; set; }
         [JsonProperty("lowId")] public int SenderLowId { get; set; }

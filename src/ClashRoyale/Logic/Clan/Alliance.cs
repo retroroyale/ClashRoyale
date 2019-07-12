@@ -110,9 +110,12 @@ namespace ClashRoyale.Logic.Clan
 
         public void Add(AllianceMember member)
         {
-            var index = Members.FindIndex(x => x.Id == member.Id);
+            lock (Members)
+            {
+                var index = Members.FindIndex(x => x.Id == member.Id);
 
-            if (index == -1) Members.Add(member);
+                if (index == -1) Members.Add(member);
+            }
         }
 
         public async void Remove(long id)
@@ -138,16 +141,25 @@ namespace ClashRoyale.Logic.Clan
                     }
                 }
 
-                Members.RemoveAt(index);
+                lock (Members)
+                {
+                    Members.RemoveAt(index);
+                }
             }
         }
 
         public async void AddEntry(AllianceStreamEntry entry)
         {
-            while (Stream.Count >= 40)
-                Stream.RemoveAt(0);
+            lock (Stream)
+            {
+                while (Stream.Count >= 40)
+                    Stream.RemoveAt(0);
 
-            Stream.Add(entry);
+                var max = Stream.Max(x => x.Id);
+                entry.Id = Stream.Count > 0 ? max == int.MaxValue ? 1 : max + 1 : 1; // If we ever reach that value... but who knows...
+
+                Stream.Add(entry);
+            }
 
             foreach (var member in Members.Where(m => m.IsOnline).ToList())
             {
@@ -163,7 +175,10 @@ namespace ClashRoyale.Logic.Clan
 
         public async void RemoveEntry(AllianceStreamEntry entry)
         {
-            Stream.RemoveAll(e => e.Id == entry.Id);
+            lock (Stream)
+            {
+                Stream.RemoveAll(e => e.Id == entry.Id);
+            }
 
             foreach (var member in Members.Where(m => m.IsOnline).ToList())
             {
@@ -179,23 +194,29 @@ namespace ClashRoyale.Logic.Clan
 
         public int GetRole(long id)
         {
-            var index = Members.FindIndex(x => x.Id == id);
+            lock (Members)
+            {
+                var index = Members.FindIndex(x => x.Id == id);
 
-            return index > -1 ? Members[index].Role : 1;
+                return index > -1 ? Members[index].Role : 1;
+            }
         }
 
         public AllianceMember GetMember(long id)
         {
-            var index = Members.FindIndex(x => x.Id == id);
+            lock (Members)
+            {
+                var index = Members.FindIndex(x => x.Id == id);
 
-            return index > -1 ? Members[index] : null;
+                return index > -1 ? Members[index] : null;
+            }
         }
 
         public async void UpdateOnlineCount()
         {
             var count = Online;
 
-            foreach (var member in Members.Where(m => m.IsOnline))
+            foreach (var member in Members.Where(m => m.IsOnline).ToList())
             {
                 var player = await Resources.Players.GetPlayerAsync(member.Id, true);
 

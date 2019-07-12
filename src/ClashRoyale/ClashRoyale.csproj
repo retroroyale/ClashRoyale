@@ -233,4 +233,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logic\Home\StreamEntry\Entries\" />
+  </ItemGroup>
+
 </Project>

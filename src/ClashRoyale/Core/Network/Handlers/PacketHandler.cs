@@ -61,8 +61,8 @@ namespace ClashRoyale.Core.Network.Handlers
                                 if (alliance.Online < 1)
                                 {
                                     Resources.Alliances.Remove(alliance.Id);
-                                    Logger.Log($"Uncached Clan {alliance.Id} because no member is online.", GetType(),
-                                        ErrorLevel.Debug);
+                                    /*Logger.Log($"Uncached Clan {alliance.Id} because no member is online.", GetType(),
+                                        ErrorLevel.Debug);*/
                                 }
                                 else
                                 {

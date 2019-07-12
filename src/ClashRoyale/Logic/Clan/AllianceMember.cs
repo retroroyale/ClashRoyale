@@ -65,8 +65,8 @@ namespace ClashRoyale.Logic.Clan
             packet.WriteBoolean(false); // Not in this Clan Chest
             packet.WriteVInt(0);
             packet.WriteVInt(0);
-
             packet.WriteVInt(0);
+
             packet.WriteVInt(7);
 
             packet.WriteLong(Id);
