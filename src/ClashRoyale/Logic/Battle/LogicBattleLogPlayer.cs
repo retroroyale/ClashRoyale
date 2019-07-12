@@ -3,15 +3,15 @@
     public class LogicBattleLogPlayer
     {
         /// <summary>
-        /// Set the AccountId for this instance
+        ///     Set the AccountId for this instance
         /// </summary>
-        public void SetAccountId(/*LogicLong*/)
+        public void SetAccountId( /*LogicLong*/)
         {
             // TODO
         }
 
         /// <summary>
-        /// Returns the AccountId for this instance
+        ///     Returns the AccountId for this instance
         /// </summary>
         /// <returns></returns>
         public long GetAccountId()
@@ -22,15 +22,15 @@
         }
 
         /// <summary>
-        /// Set the HomeId for this instance
+        ///     Set the HomeId for this instance
         /// </summary>
-        public void SetHomeId(/*LogicLong*/)
+        public void SetHomeId( /*LogicLong*/)
         {
             // TODO
         }
 
         /// <summary>
-        /// Returns the HomeId of this instance
+        ///     Returns the HomeId of this instance
         /// </summary>
         /// <returns></returns>
         public long GetHomeId()
@@ -41,15 +41,15 @@
         }
 
         /// <summary>
-        /// Set the AllianceId for this instance
+        ///     Set the AllianceId for this instance
         /// </summary>
-        public void SetAllianceId(/*LogicLong*/)
+        public void SetAllianceId( /*LogicLong*/)
         {
             // TODO
         }
 
         /// <summary>
-        /// Returns the AllianceId of this instance
+        ///     Returns the AllianceId of this instance
         /// </summary>
         /// <returns></returns>
         public long GetAllianceId()
@@ -60,7 +60,7 @@
         }
 
         /// <summary>
-        /// Set the Stars of this instance
+        ///     Set the Stars of this instance
         /// </summary>
         public void SetStars()
         {
@@ -68,7 +68,7 @@
         }
 
         /// <summary>
-        /// Returns the Stars of this instance
+        ///     Returns the Stars of this instance
         /// </summary>
         /// <returns></returns>
         public int GetStars()
@@ -79,7 +79,7 @@
         }
 
         /// <summary>
-        /// Set PrevScore for this instance
+        ///     Set PrevScore for this instance
         /// </summary>
         public void SetPrevScore()
         {
@@ -87,7 +87,7 @@
         }
 
         /// <summary>
-        /// Get PrevScore of this instance
+        ///     Get PrevScore of this instance
         /// </summary>
         public int GetPrevScore()
         {
@@ -97,7 +97,7 @@
         }
 
         /// <summary>
-        /// Set Score for this instance
+        ///     Set Score for this instance
         /// </summary>
         public void SetScore()
         {
@@ -105,7 +105,7 @@
         }
 
         /// <summary>
-        /// Get Score of this instance
+        ///     Get Score of this instance
         /// </summary>
         public void GetScore()
         {
@@ -113,7 +113,7 @@
         }
 
         /// <summary>
-        /// Set HighscoreRank for this instance
+        ///     Set HighscoreRank for this instance
         /// </summary>
         public void SetHighscoreRank()
         {
@@ -121,7 +121,7 @@
         }
 
         /// <summary>
-        /// Get HighscoreRank of this instance
+        ///     Get HighscoreRank of this instance
         /// </summary>
         public int GetHighscoreRank()
         {
@@ -131,7 +131,7 @@
         }
 
         /// <summary>
-        /// Set Name for this instance
+        ///     Set Name for this instance
         /// </summary>
         public void SetName()
         {
@@ -139,7 +139,7 @@
         }
 
         /// <summary>
-        /// Get Name of this instance
+        ///     Get Name of this instance
         /// </summary>
         public string GetName()
         {
@@ -149,7 +149,7 @@
         }
 
         /// <summary>
-        /// Set AllianceName for this instance
+        ///     Set AllianceName for this instance
         /// </summary>
         public void SetAllianceName()
         {
@@ -157,7 +157,7 @@
         }
 
         /// <summary>
-        /// Get AllianceName of this instance
+        ///     Get AllianceName of this instance
         /// </summary>
         public string GetAllianceName()
         {
@@ -167,7 +167,7 @@
         }
 
         /// <summary>
-        /// Set AllianceBadgeData for this instance
+        ///     Set AllianceBadgeData for this instance
         /// </summary>
         public void SetAllianceBadgeData()
         {
@@ -175,7 +175,7 @@
         }
 
         /// <summary>
-        /// Get AllianceBadgeData of this instance
+        ///     Get AllianceBadgeData of this instance
         /// </summary>
         public void GetAllianceBadgeData()
         {
@@ -183,7 +183,7 @@
         }
 
         /// <summary>
-        /// Get the Json of this instance
+        ///     Get the Json of this instance
         /// </summary>
         public void GetJson()
         {
@@ -191,7 +191,7 @@
         }
 
         /// <summary>
-        /// Load this instance by Json
+        ///     Load this instance by Json
         /// </summary>
         public void LoadJson()
         {
@@ -199,7 +199,7 @@
         }
 
         /// <summary>
-        /// Set Deck for this instance
+        ///     Set Deck for this instance
         /// </summary>
         public void SetDeck()
         {
@@ -207,7 +207,7 @@
         }
 
         /// <summary>
-        /// Get the Deck of this instance
+        ///     Get the Deck of this instance
         /// </summary>
         public void GetDeck()
         {
@@ -215,7 +215,7 @@
         }
 
         /// <summary>
-        /// Get the ChestData of this instance
+        ///     Get the ChestData of this instance
         /// </summary>
         public void GetChestData()
         {
@@ -223,7 +223,7 @@
         }
 
         /// <summary>
-        /// Set the ChestData for this instance
+        ///     Set the ChestData for this instance
         /// </summary>
         public void SetChestData()
         {

@@ -75,8 +75,8 @@ namespace ClashRoyale.Logic.Battle
 
             foreach (var player in this)
             {
-                packet.WriteVInt(player.Home.HighId); 
-                packet.WriteVInt(player.Home.LowId); 
+                packet.WriteVInt(player.Home.HighId);
+                packet.WriteVInt(player.Home.LowId);
                 packet.WriteVInt(0);
             }
 

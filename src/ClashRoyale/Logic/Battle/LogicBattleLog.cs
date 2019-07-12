@@ -3,7 +3,7 @@
     public class LogicBattleLog
     {
         /// <summary>
-        /// GetPlayer by the index
+        ///     GetPlayer by the index
         /// </summary>
         /// <param name="index"></param>
         public void GetPlayer(int index)
@@ -12,15 +12,15 @@
         }
 
         /// <summary>
-        /// Get a Player by LogicLong
+        ///     Get a Player by LogicLong
         /// </summary>
-        public void GetPlayer(/*LogicLong*/)
+        public void GetPlayer( /*LogicLong*/)
         {
             // TODO
         }
 
         /// <summary>
-        /// Returns the Json of this instance
+        ///     Returns the Json of this instance
         /// </summary>
         public void GetJson()
         {
@@ -28,7 +28,7 @@
         }
 
         /// <summary>
-        /// Load this instance from Json
+        ///     Load this instance from Json
         /// </summary>
         public void LoadJson()
         {
@@ -36,7 +36,7 @@
         }
 
         /// <summary>
-        /// Returns the ArenaData of this instance
+        ///     Returns the ArenaData of this instance
         /// </summary>
         public void GetArenaData()
         {
@@ -44,7 +44,7 @@
         }
 
         /// <summary>
-        /// Sets the ArenaData for this instance
+        ///     Sets the ArenaData for this instance
         /// </summary>
         public void SetArenaData()
         {

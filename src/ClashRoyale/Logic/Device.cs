@@ -76,10 +76,13 @@ namespace ClashRoyale.Logic
         }
 
         /// <summary>
-        /// Returns the Ipv4 Address of the client
+        ///     Returns the Ipv4 Address of the client
         /// </summary>
         /// <returns></returns>
-        public string GetIp() => ((IPEndPoint) Handler.Channel.RemoteAddress).Address.MapToIPv4().ToString();
+        public string GetIp()
+        {
+            return ((IPEndPoint) Handler.Channel.RemoteAddress).Address.MapToIPv4().ToString();
+        }
 
         /// <summary>
         ///     Disconnect a client by sending OutOfSyncMessage
@@ -101,7 +104,9 @@ namespace ClashRoyale.Logic
         public DateTime LastVisitHome { get; set; }
         public DateTime LastSectorCommand { get; set; }
 
-        public int ServerTick => LogicTime.GetSecondsInTicks((int)DateTime.UtcNow.Subtract(LastVisitHome).TotalSeconds);
+        public int ServerTick =>
+            LogicTime.GetSecondsInTicks((int) DateTime.UtcNow.Subtract(LastVisitHome).TotalSeconds);
+
         public int SecondsSinceLastCommand => (int) DateTime.UtcNow.Subtract(LastSectorCommand).TotalSeconds;
 
         public State CurrentState { get; set; }

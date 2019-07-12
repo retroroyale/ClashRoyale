@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using ClashRoyale.Logic.Clan;
@@ -17,6 +16,7 @@ namespace ClashRoyale.Logic.Home
         [JsonProperty("arena")] public Arena Arena = new Arena();
         [JsonProperty("chests")] public Chests.Chests Chests = new Chests.Chests();
         [JsonProperty("deck")] public Deck Deck = new Deck();
+        [JsonProperty("sessions")] public List<Session> Sessions = new List<Session>(50);
         [JsonProperty("shop")] public Shop.Shop Shop = new Shop.Shop();
 
         public Home()
@@ -57,7 +57,6 @@ namespace ClashRoyale.Logic.Home
         [JsonProperty("low_id")] public int LowId { get; set; }
         [JsonProperty("language")] public string PreferredDeviceLanguage { get; set; }
         [JsonProperty("fcb_id")] public string FacebookId { get; set; }
-        [JsonProperty("sessions")] public List<Session> Sessions = new List<Session>(50);
         [JsonProperty("totalSessions")] public int TotalSessions { get; set; }
 
         // Shop

@@ -78,7 +78,7 @@ namespace ClashRoyale.Database.Cache
         }
 
         /// <summary>
-        /// Log out a player by the UserId
+        ///     Log out a player by the UserId
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
