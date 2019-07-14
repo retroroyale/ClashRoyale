@@ -13,11 +13,12 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
 
         public override async void Process()
         {
-            // TODO:
-            await new ServerErrorMessage(Device)
+            await new AllianceInvitationSendFailedMessage(Device)
             {
-                Message = "Coming soon"
+                Reason = 6
             }.SendAsync();
+
+            // TODO
         }
     }
 }

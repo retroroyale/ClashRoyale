@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Battle;
 using ClashRoyale.Protocol.Messages.Server;
@@ -40,8 +41,11 @@ namespace ClashRoyale.Database.Cache
         ///     Adds a player to the queue and sends the estimated time
         /// </summary>
         /// <param name="player"></param>
-        public void Enqueue(Player player)
+        public async void Enqueue(Player player)
         {
+            var players = Resources.Players;
+            var playerCount = players.Count;
+
             lock (_playerQueue)
             {
                 if (_playerQueue.Contains(player)) return;
@@ -50,16 +54,27 @@ namespace ClashRoyale.Database.Cache
 
                 var estimatedTime = _random.Next(601, 901);
 
-                if (Count > 0)
-                    if (Count > 5)
-                        if (Count > 25)
-                            estimatedTime = Count > _random.Next(61, 101) ? 5 : _random.Next(6, 16);
+                if (playerCount > 0)
+                    if (playerCount > 5)
+                        if (playerCount > 25)
+                            estimatedTime = playerCount > _random.Next(61, 101) ? 5 : _random.Next(6, 16);
                         else
                             estimatedTime = _random.Next(30, 61);
                     else
                         estimatedTime = _random.Next(101, 601);
 
                 SendInfo(player.Device, estimatedTime);
+            }
+
+            if (playerCount > 100) return;
+
+            // Notify other players 
+            foreach (var p in Resources.Players.Values.ToList())
+            {
+                if (p.Device.IsConnected && p.Home.Id != player.Home.Id)
+                {
+                    await new PvpMatchmakeNotificationMessage(p.Device).SendAsync();
+                }
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Sessions;
