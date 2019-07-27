@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ClashRoyale.Extensions;
-using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using ClashRoyale.Logic.Home.Decks.Items;
 using ClashRoyale.Logic.Home.Shop.Items;
+using ClashRoyale.Utilities.Netty;
+using ClashRoyale.Utilities.Utils;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
 

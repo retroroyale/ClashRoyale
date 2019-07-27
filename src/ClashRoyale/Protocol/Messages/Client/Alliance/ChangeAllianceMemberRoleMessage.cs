@@ -1,9 +1,9 @@
-﻿using ClashRoyale.Extensions;
-using ClashRoyale.Extensions.Utils;
-using ClashRoyale.Logic;
+﻿using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;
 using ClashRoyale.Protocol.Commands.Server;
 using ClashRoyale.Protocol.Messages.Server;
+using ClashRoyale.Utilities.Netty;
+using ClashRoyale.Utilities.Utils;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Protocol.Messages.Client.Alliance

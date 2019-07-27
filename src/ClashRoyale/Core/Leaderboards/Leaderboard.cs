@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Timers;
 using ClashRoyale.Database;
-using ClashRoyale.Extensions;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using ClashRoyale.Logic;
+using ClashRoyale.Utilities;
 using SharpRaven.Data;
 
 namespace ClashRoyale.Core.Leaderboards

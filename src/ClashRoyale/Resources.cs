@@ -5,8 +5,8 @@ using ClashRoyale.Core.Leaderboards;
 using ClashRoyale.Core.Network;
 using ClashRoyale.Database;
 using ClashRoyale.Database.Cache;
-using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Files;
+using ClashRoyale.Utilities.Utils;
 
 namespace ClashRoyale
 {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using ClashRoyale.Database;
-using ClashRoyale.Extensions;
 using ClashRoyale.Logic.Clan.StreamEntry;
 using ClashRoyale.Protocol.Messages.Server;
+using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
 using SharpRaven.Data;
@@ -156,7 +156,9 @@ namespace ClashRoyale.Logic.Clan
                     Stream.RemoveAt(0);
 
                 var max = Stream.Max(x => x.Id);
-                entry.Id = Stream.Count > 0 ? max == int.MaxValue ? 1 : max + 1 : 1; // If we ever reach that value... but who knows...
+                entry.Id = Stream.Count > 0
+                    ? max == int.MaxValue ? 1 : max + 1
+                    : 1; // If we ever reach that value... but who knows...
 
                 Stream.Add(entry);
             }

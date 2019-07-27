@@ -1,5 +1,5 @@
-﻿using ClashRoyale.Extensions;
-using ClashRoyale.Logic;
+﻿using ClashRoyale.Logic;
+using ClashRoyale.Utilities.Netty;
 
 namespace ClashRoyale.Protocol.Commands.Server
 {

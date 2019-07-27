@@ -1,6 +1,6 @@
 ﻿using System;
-using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
+using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 using SharpRaven.Data;
 
@@ -32,12 +32,8 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
 
             var battle = Device.Player.Battle;
             if (battle != null)
-            {
                 if (!battle.IsRunning)
-                {
                     battle.BattleTimer.Start();
-                }
-            }
 
             for (var i = 0; i < Count; i++)
             {

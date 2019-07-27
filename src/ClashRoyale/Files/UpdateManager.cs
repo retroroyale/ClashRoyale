@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using ClashRoyale.Extensions.Utils;
+using ClashRoyale.Utilities.Utils;
 
 namespace ClashRoyale.Files
 {
@@ -35,7 +36,7 @@ namespace ClashRoyale.Files
                     (from file in Directory.GetFiles(dir)
                         let sha = ServerUtils.GetChecksum(file.Contains("sc")
                             ? File.ReadAllBytes(file)
-                            : ServerUtils.CompressData(File.ReadAllBytes(file)))
+                            : CompressionUtils.CompressData(File.ReadAllBytes(file)))
                         let name = file.Replace(BaseDir, string.Empty).Replace('\\', '/')
                         let index = files.FindIndex(x => x.File == name)
                         where index > -1
@@ -68,7 +69,7 @@ namespace ClashRoyale.Files
                 {
                     var data = updatedFile.Contains("sc")
                         ? File.ReadAllBytes(updatedFile)
-                        : ServerUtils.CompressData(File.ReadAllBytes(updatedFile)); // only compress csv
+                        : CompressionUtils.CompressData(File.ReadAllBytes(updatedFile)); // only compress csv
                     var name = Path.GetFileName(updatedFile);
                     var newPath = newDir + name;
 

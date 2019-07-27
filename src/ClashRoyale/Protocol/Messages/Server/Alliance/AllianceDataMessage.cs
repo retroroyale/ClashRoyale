@@ -1,6 +1,6 @@
-﻿using ClashRoyale.Extensions;
-using ClashRoyale.Logic;
+﻿using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan;
+using ClashRoyale.Utilities.Netty;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {

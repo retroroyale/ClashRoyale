@@ -8,7 +8,7 @@ namespace ClashRoyale
     public class Logger
     {
 #if DEBUG
-        private static readonly object _consoleSync = new object();
+        private static readonly object ConsoleSync = new object();
 #endif
 
         private static NLog.Logger _logger;
@@ -36,7 +36,7 @@ namespace ClashRoyale
                 {
                     _logger.Warn(message);
 #if DEBUG
-                    lock (_consoleSync)
+                    lock (ConsoleSync)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkMagenta;
                         Console.WriteLine($"[{logType.ToString()}] {message}");
@@ -53,7 +53,7 @@ namespace ClashRoyale
                     _logger.Error(message);
 #if DEBUG
 
-                    lock (_consoleSync)
+                    lock (ConsoleSync)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"[{logType.ToString()}] {message}");
@@ -70,7 +70,7 @@ namespace ClashRoyale
 #if DEBUG
                     _logger.Debug(message);
 
-                    lock (_consoleSync)
+                    lock (ConsoleSync)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkCyan;
                         Console.WriteLine($"[{logType.ToString()}] {message}");

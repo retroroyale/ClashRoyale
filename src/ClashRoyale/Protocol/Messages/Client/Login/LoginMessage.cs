@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
-using ClashRoyale.Extensions;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Sessions;
 using ClashRoyale.Protocol.Messages.Server;
+using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Protocol.Messages.Client.Login

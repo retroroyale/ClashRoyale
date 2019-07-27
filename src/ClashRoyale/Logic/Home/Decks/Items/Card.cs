@@ -1,6 +1,6 @@
-﻿using ClashRoyale.Extensions;
-using ClashRoyale.Files;
+﻿using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
+using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
 

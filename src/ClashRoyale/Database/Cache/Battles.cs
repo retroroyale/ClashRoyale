@@ -70,12 +70,8 @@ namespace ClashRoyale.Database.Cache
 
             // Notify other players 
             foreach (var p in Resources.Players.Values.ToList())
-            {
                 if (p.Device.IsConnected && p.Home.Id != player.Home.Id)
-                {
                     await new PvpMatchmakeNotificationMessage(p.Device).SendAsync();
-                }
-            }
         }
 
         /// <summary>

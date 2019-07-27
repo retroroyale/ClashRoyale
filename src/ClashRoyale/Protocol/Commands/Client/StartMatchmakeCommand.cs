@@ -1,7 +1,7 @@
-﻿using ClashRoyale.Extensions;
-using ClashRoyale.Logic;
+﻿using ClashRoyale.Logic;
 using ClashRoyale.Logic.Battle;
 using ClashRoyale.Protocol.Messages.Server;
+using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Protocol.Commands.Client

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ClashRoyale.Extensions
+namespace ClashRoyale.Utilities
 {
     public static class ExtensionMethods
     {

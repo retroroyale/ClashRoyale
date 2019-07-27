@@ -1,4 +1,4 @@
-﻿using ClashRoyale.Extensions;
+﻿using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Logic.Home.Shop.Items

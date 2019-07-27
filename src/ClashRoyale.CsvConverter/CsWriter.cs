@@ -43,7 +43,7 @@ namespace ClashRoyale.CsvConverter
                 return string.Empty;
 
             var result = _string.Split('_');
-            var newString = string.Empty;        
+            var newString = string.Empty;
             foreach (var s in result)
             {
                 var _char = s.ToCharArray();

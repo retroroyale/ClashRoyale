@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClashRoyale", "ClashRoyale\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{D6D54D90-8753-44E8-8A0E-850B590D0453}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale.CsvConverter", "ClashRoyale.CsvConverter\ClashRoyale.CsvConverter.csproj", "{5640CE8D-2965-4DA2-A20F-79FA2D97DC6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClashRoyale.CsvConverter", "ClashRoyale.CsvConverter\ClashRoyale.CsvConverter.csproj", "{5640CE8D-2965-4DA2-A20F-79FA2D97DC6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale.Battles", "ClashRoyale.Battles\ClashRoyale.Battles.csproj", "{40433C6F-5D54-4197-9C05-49D7DA9797EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale.Utilities", "ClashRoyale.Utilities\ClashRoyale.Utilities.csproj", "{7F835EF1-3FC7-40A5-81C4-502071DBEB1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +27,14 @@ Global
 		{5640CE8D-2965-4DA2-A20F-79FA2D97DC6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5640CE8D-2965-4DA2-A20F-79FA2D97DC6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5640CE8D-2965-4DA2-A20F-79FA2D97DC6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40433C6F-5D54-4197-9C05-49D7DA9797EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40433C6F-5D54-4197-9C05-49D7DA9797EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40433C6F-5D54-4197-9C05-49D7DA9797EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40433C6F-5D54-4197-9C05-49D7DA9797EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F835EF1-3FC7-40A5-81C4-502071DBEB1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F835EF1-3FC7-40A5-81C4-502071DBEB1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F835EF1-3FC7-40A5-81C4-502071DBEB1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F835EF1-3FC7-40A5-81C4-502071DBEB1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

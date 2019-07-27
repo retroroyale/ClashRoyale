@@ -1,12 +1,12 @@
 ﻿using System.Text;
 using DotNetty.Buffers;
 
-namespace ClashRoyale.Extensions
+namespace ClashRoyale.Utilities.Netty
 {
     /// <summary>
     ///     This implements a few extensions for games from supercell
     /// </summary>
-    public static class NettyReader
+    public static class Reader
     {
         /// <summary>
         ///     Decodes a string based on the length

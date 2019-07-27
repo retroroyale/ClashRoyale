@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using ClashRoyale.Extensions;
 using ClashRoyale.Logic.Home.Decks.Items;
+using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Logic.Home.Chests.Items

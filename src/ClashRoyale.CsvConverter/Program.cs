@@ -38,6 +38,7 @@ namespace ClashRoyale.CsvConverter
                 foreach (var file in files)
                 {
                     if (Path.GetExtension(file) != ".csv") continue;
+
                     var header = File.ReadLines(file).ToList()[0].Replace("\"", "").Split(',');
                     var types = File.ReadLines(file).ToList()[1].Replace("\"", "").Split(',');
 

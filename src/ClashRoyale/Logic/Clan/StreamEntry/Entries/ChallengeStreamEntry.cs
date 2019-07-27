@@ -1,4 +1,4 @@
-﻿using ClashRoyale.Extensions;
+﻿using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
 

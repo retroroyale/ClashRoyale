@@ -1,6 +1,6 @@
 ﻿using System;
-using ClashRoyale.Extensions;
-using ClashRoyale.Extensions.Utils;
+using ClashRoyale.Utilities.Netty;
+using ClashRoyale.Utilities.Utils;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
 

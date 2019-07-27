@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ClashRoyale.Extensions.Utils
+namespace ClashRoyale.Utilities.Utils
 {
     public class GameUtils
     {
