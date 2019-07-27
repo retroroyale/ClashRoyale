@@ -37,7 +37,7 @@ namespace ClashRoyale.Core.Network
                     pipeline.AddFirst("FrameDecoder", new LengthFieldBasedFrameDecoder(512, 2, 3, 2, 0));
                     pipeline.AddLast("ReadTimeoutHandler", new ReadTimeoutHandler(20));
                     pipeline.AddLast("WriteTimeoutHandler", new WriteTimeoutHandler(20));
-                    pipeline.AddLast("PacketProcessor", new PacketHandler());
+                    pipeline.AddLast("PacketHandler", new PacketHandler());
                     pipeline.AddLast("PacketEncoder", new PacketEncoder());
                 }));
 

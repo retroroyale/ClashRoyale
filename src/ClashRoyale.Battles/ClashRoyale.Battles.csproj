@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Network\Handlers\" />
     <Folder Include="Logic\" />
     <Folder Include="Protocol\" />
   </ItemGroup>

@@ -49,6 +49,14 @@ namespace ClashRoyale.Logic.Battle
                 {
                     Commands.Add(player.Home.Id, new Queue<byte[]>());
 
+                    /*await new UdpConnectionInfoMessage(player.Device)
+                    {
+                        Nonce = "SCROLL",
+                        ServerPort = 9449,
+                        ServerHost = "192.168.2.143",
+                        SessionId = new byte[10]
+                    }.SendAsync();*/
+
                     await new SectorStateMessage(player.Device)
                     {
                         Battle = this

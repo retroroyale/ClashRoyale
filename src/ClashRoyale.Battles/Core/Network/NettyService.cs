@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
+using ClashRoyale.Battles.Core.Network.Handlers;
 using DotNetty.Codecs;
 using DotNetty.Handlers.Logging;
 using DotNetty.Handlers.Timeout;
@@ -31,6 +32,7 @@ namespace ClashRoyale.Battles.Core.Network
                     pipeline.AddFirst("FrameDecoder", new LengthFieldBasedFrameDecoder(512, 2, 3, 2, 0));
                     pipeline.AddLast("ReadTimeoutHandler", new ReadTimeoutHandler(20));
                     pipeline.AddLast("WriteTimeoutHandler", new WriteTimeoutHandler(20));
+                    pipeline.AddLast("PacketHandler", new PacketHandler());
                 }));
 
             var boundChannel = await Bootstrap.BindAsync(9449);
