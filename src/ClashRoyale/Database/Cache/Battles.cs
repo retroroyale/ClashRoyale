@@ -69,9 +69,13 @@ namespace ClashRoyale.Database.Cache
             if (playerCount > 100) return;
 
             // Notify other players 
-            foreach (var p in Resources.Players.Values.ToList())
+            foreach (var p in players.Values.ToList())
+            {
                 if (p.Device.IsConnected && p.Home.Id != player.Home.Id)
+                {
                     await new PvpMatchmakeNotificationMessage(p.Device).SendAsync();
+                }
+            }
         }
 
         /// <summary>
