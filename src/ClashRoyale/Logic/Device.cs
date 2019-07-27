@@ -4,8 +4,8 @@ using ClashRoyale.Core.Network.Handlers;
 using ClashRoyale.Logic.Sessions;
 using ClashRoyale.Logic.Time;
 using ClashRoyale.Protocol;
-using ClashRoyale.Protocol.Crypto;
 using ClashRoyale.Protocol.Messages.Server;
+using ClashRoyale.Utilities.Crypto;
 using DotNetty.Buffers;
 using SharpRaven.Data;
 

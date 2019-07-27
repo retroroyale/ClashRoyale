@@ -2,7 +2,7 @@
 using System.Text;
 using DotNetty.Buffers;
 
-namespace ClashRoyale.Protocol.Crypto
+namespace ClashRoyale.Utilities.Crypto
 {
     public class Rc4
     {
