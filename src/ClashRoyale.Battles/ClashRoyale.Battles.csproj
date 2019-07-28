@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Logic\Battle\" />
     <Folder Include="Protocol\Server\" />
   </ItemGroup>
 

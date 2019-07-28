@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
-using ClashRoyale.Battles.Logic;
+using ClashRoyale.Battles.Logic.Session;
 using SharpRaven.Data;
 
 namespace ClashRoyale.Battles.Core

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using ClashRoyale.Battles.Logic;
+using ClashRoyale.Battles.Logic.Session;
+using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Battles.Protocol
@@ -8,28 +9,27 @@ namespace ClashRoyale.Battles.Protocol
     {
         private readonly List<UdpMessage> _udpMessages = new List<UdpMessage>();
         public SessionContext SessionContext { get; set; }
-        public IByteBuffer Reader { get; set; }
+        public IByteBuffer Writer { get; set; }
 
-        public UdpPacket(SessionContext ctx, IByteBuffer content)
+        public UdpPacket(SessionContext ctx)
         {
             SessionContext = ctx;
-            Reader = content;
         }
 
         public void Encode()
         {
-            // TODO
+            Writer.WriteLong(SessionContext.PlayerId);
+
+            var count = _udpMessages.Count;
+            Writer.WriteVInt(count);
+
+            for (var i = 0; i < count; i++)
+            {
+                Writer.WriteVInt(1);
+            }
         }
 
-        public void Decode()
-        {
-            // TODO
-        }
-
-        public List<UdpMessage> GetMessages()
-        {
-            return _udpMessages;
-        }
+        public List<UdpMessage> GetMessages() => _udpMessages;
 
         public void AddMessage(UdpMessage message)
         {

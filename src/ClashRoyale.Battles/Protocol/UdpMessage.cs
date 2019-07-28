@@ -1,4 +1,4 @@
-﻿using ClashRoyale.Battles.Logic;
+﻿using ClashRoyale.Battles.Logic.Session;
 
 namespace ClashRoyale.Battles.Protocol
 {

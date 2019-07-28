@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using ClashRoyale.Utilities.Netty;
+﻿using ClashRoyale.Battles.Logic.Session;
 using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
@@ -46,7 +44,7 @@ namespace ClashRoyale.Battles.Logic
                 if (sessionContext != null)
                 {
                     sessionContext.Active = true;
-                    sessionContext.Process(content);
+                    sessionContext.Process(content, ctx.Channel);
                 }
                 else
                 {

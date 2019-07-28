@@ -1,4 +1,4 @@
-﻿using ClashRoyale.Battles.Logic;
+﻿using ClashRoyale.Battles.Logic.Session;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Battles.Protocol
@@ -8,7 +8,7 @@ namespace ClashRoyale.Battles.Protocol
         public PiranhaMessage(SessionContext sessionContext)
         {
             SessionContext = sessionContext;
-            Writer = Unpooled.Buffer(7);
+            Writer = Unpooled.Buffer(5);
         }
 
         public PiranhaMessage(SessionContext sessionContext, IByteBuffer buffer)
@@ -20,9 +20,8 @@ namespace ClashRoyale.Battles.Protocol
         public IByteBuffer Writer { get; set; }
         public IByteBuffer Reader { get; set; }
         public SessionContext SessionContext { get; set; }
-        public ushort Id { get; set; }
+        public int Id { get; set; }
         public int Length { get; set; }
-        public ushort Version { get; set; }
 
         public virtual void Decrypt()
         {

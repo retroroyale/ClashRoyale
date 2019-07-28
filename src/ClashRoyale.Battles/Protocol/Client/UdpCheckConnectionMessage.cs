@@ -1,5 +1,6 @@
-﻿using ClashRoyale.Battles.Logic;
+﻿using ClashRoyale.Battles.Logic.Session;
 using DotNetty.Buffers;
+using DotNetty.Transport.Channels.Sockets;
 
 namespace ClashRoyale.Battles.Protocol.Client
 {
@@ -10,9 +11,15 @@ namespace ClashRoyale.Battles.Protocol.Client
             Id = 10108;
         }
 
-        public override void Process()
+        public override async void Process()
         {
-            // TODO: SEND REPLY
+            var testBuffer = Unpooled.Buffer();
+            testBuffer.WriteLong(SessionContext.PlayerId);
+            testBuffer.WriteBytes(new byte[2]);
+            testBuffer.WriteByte(1);
+            testBuffer.WriteByte(1);
+
+            await SessionContext.Channel.WriteAndFlushAsync(new DatagramPacket(testBuffer, SessionContext.EndPoint));
         }
     }
 }
