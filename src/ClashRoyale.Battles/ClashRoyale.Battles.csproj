@@ -22,4 +22,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Protocol\Client\" />
+    <Folder Include="Protocol\Server\" />
+  </ItemGroup>
+
 </Project>

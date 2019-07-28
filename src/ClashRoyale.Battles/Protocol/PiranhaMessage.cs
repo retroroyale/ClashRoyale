@@ -23,7 +23,6 @@ namespace ClashRoyale.Battles.Protocol
         public ushort Id { get; set; }
         public int Length { get; set; }
         public ushort Version { get; set; }
-        public bool Save { get; set; }
 
         public virtual void Decrypt()
         {
