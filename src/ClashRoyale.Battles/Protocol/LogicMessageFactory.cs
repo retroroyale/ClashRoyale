@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ClashRoyale.Battles.Protocol.Client;
+using ClashRoyale.Battles.Protocol.Messages.Client;
 
 namespace ClashRoyale.Battles.Protocol
 {
@@ -12,7 +12,8 @@ namespace ClashRoyale.Battles.Protocol
         {
             Messages = new Dictionary<int, Type>
             {
-                {10108, typeof(UdpCheckConnectionMessage)}
+                {10108, typeof(UdpCheckConnectionMessage)},
+                //{12904, typeof(SectorCommandMessage)}
             };
         }
     }

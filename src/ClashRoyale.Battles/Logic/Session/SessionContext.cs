@@ -6,6 +6,7 @@ using ClashRoyale.Utilities.Crypto;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
+using DotNetty.Transport.Channels.Sockets;
 using SharpRaven.Data;
 
 namespace ClashRoyale.Battles.Logic.Session
@@ -19,6 +20,7 @@ namespace ClashRoyale.Battles.Logic.Session
         public IChannel Channel { get; set; }
 
         private DateTime _lastMessage = DateTime.UtcNow;
+        private DateTime _lastCommands = DateTime.UtcNow;
 
         public bool Active
         {
@@ -32,7 +34,19 @@ namespace ClashRoyale.Battles.Logic.Session
             }
         }
 
-        public void Process(IByteBuffer reader, IChannel channel)
+        public bool BattleActive
+        {
+            get => DateTime.UtcNow.Subtract(_lastCommands).TotalSeconds < 10;
+            set
+            {
+                if (value)
+                {
+                    _lastCommands = DateTime.UtcNow;
+                }
+            }
+        }
+
+        public async void Process(IByteBuffer reader, IChannel channel)
         {
             Channel = channel;
 
@@ -64,6 +78,7 @@ namespace ClashRoyale.Battles.Logic.Session
                 {
                     message.Id = chunkId;
                     message.Length = chunkLength;
+                    message.Ack = chunkSeq;
 
                     message.Decrypt();
                     message.Decode();

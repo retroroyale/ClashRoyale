@@ -13,8 +13,6 @@ namespace ClashRoyale.Battles.Logic
             var content = packet.Content;
             var length = content.ReadableBytes;
 
-            Logger.Log($"Received {length} bytes", null, ErrorLevel.Debug);
-
             if (length == 1400)
             {
                 var sessionId = content.ReadLong();
@@ -31,11 +29,11 @@ namespace ClashRoyale.Battles.Logic
                 });
 
                 await ctx.WriteAsync(new DatagramPacket(sessionBuffer, packet.Sender));
-
-                Logger.Log("OK!", null, ErrorLevel.Debug);
             }
             else
             {
+                Logger.Log($"Received {length} bytes", null, ErrorLevel.Debug);
+
                 var sessionId = content.ReadLong();
                 content.ReadBytes(2);
 

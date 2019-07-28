@@ -2,7 +2,7 @@
 using DotNetty.Buffers;
 using DotNetty.Transport.Channels.Sockets;
 
-namespace ClashRoyale.Battles.Protocol.Client
+namespace ClashRoyale.Battles.Protocol.Messages.Client
 {
     public class UdpCheckConnectionMessage : PiranhaMessage
     {
@@ -16,8 +16,8 @@ namespace ClashRoyale.Battles.Protocol.Client
             var testBuffer = Unpooled.Buffer();
             testBuffer.WriteLong(SessionContext.PlayerId);
             testBuffer.WriteBytes(new byte[2]);
-            testBuffer.WriteByte(1);
-            testBuffer.WriteByte(1);
+            testBuffer.WriteByte(1); // ACK COUNT
+            testBuffer.WriteByte(Ack + 1); // ACK
 
             await SessionContext.Channel.WriteAndFlushAsync(new DatagramPacket(testBuffer, SessionContext.EndPoint));
         }

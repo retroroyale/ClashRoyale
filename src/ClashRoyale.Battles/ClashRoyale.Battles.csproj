@@ -24,7 +24,9 @@
 
   <ItemGroup>
     <Folder Include="Logic\Battle\" />
-    <Folder Include="Protocol\Server\" />
+    <Folder Include="Protocol\Commands\Client\" />
+    <Folder Include="Protocol\Commands\Server\" />
+    <Folder Include="Protocol\Messages\Server\" />
   </ItemGroup>
 
 </Project>
