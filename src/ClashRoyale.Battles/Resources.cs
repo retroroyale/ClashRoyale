@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ClashRoyale.Battles.Core;
 using ClashRoyale.Battles.Core.Network;
 using ClashRoyale.Utilities.Utils;
 
@@ -9,6 +10,7 @@ namespace ClashRoyale.Battles
     {
         public static Logger Logger { get; set; }
         public static NettyService Netty { get; set; }
+        public static Players Players { get; set; }
 
         public static async void Initialize()
         {
@@ -17,6 +19,7 @@ namespace ClashRoyale.Battles
                 $"Starting [{DateTime.Now.ToLongTimeString()} - {ServerUtils.GetOsName()}]...",
                 null);
 
+            Players = new Players();
             Netty = new NettyService();
 
             await Task.Run(Netty.RunServerAsync);

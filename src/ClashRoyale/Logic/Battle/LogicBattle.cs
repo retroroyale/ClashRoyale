@@ -49,13 +49,13 @@ namespace ClashRoyale.Logic.Battle
                 {
                     Commands.Add(player.Home.Id, new Queue<byte[]>());
 
-                    /*await new UdpConnectionInfoMessage(player.Device)
+                    await new UdpConnectionInfoMessage(player.Device)
                     {
-                        Nonce = "SCROLL",
                         ServerPort = 9449,
                         ServerHost = "192.168.2.143",
-                        SessionId = new byte[10]
-                    }.SendAsync();*/
+                        SessionId = player.Home.Id,
+                        Nonce = "scroll"
+                    }.SendAsync();
 
                     await new SectorStateMessage(player.Device)
                     {
@@ -64,7 +64,7 @@ namespace ClashRoyale.Logic.Battle
                 }
 
                 StartTime = DateTime.UtcNow;
-                BattleTimer.Start();
+                //BattleTimer.Start();
             }
             catch (Exception)
             {

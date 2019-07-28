@@ -8,4 +8,10 @@
     <PackageReference Include="DotNetty.Buffers" Version="0.6.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="DotNetty.Transport">
+      <HintPath>..\..\..\..\..\.nuget\packages\dotnetty.transport\0.6.0\lib\netstandard1.3\DotNetty.Transport.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

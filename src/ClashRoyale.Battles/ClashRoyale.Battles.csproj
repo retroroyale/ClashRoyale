@@ -6,11 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Logic\" />
-    <Folder Include="Protocol\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="DotNetty.Common" Version="0.6.0" />
     <PackageReference Include="DotNetty.Handlers" Version="0.6.0" />
     <PackageReference Include="NLog" Version="4.6.6" />

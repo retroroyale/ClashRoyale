@@ -1,4 +1,6 @@
-﻿using ClashRoyale.Logic;
+﻿using System;
+using System.Linq;
+using ClashRoyale.Logic;
 using ClashRoyale.Utilities.Netty;
 
 namespace ClashRoyale.Protocol.Messages.Server
@@ -12,14 +14,14 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public int ServerPort { get; set; }
         public string ServerHost { get; set; }
-        public byte[] SessionId { get; set; }
+        public long SessionId { get; set; }
         public string Nonce { get; set; }
 
         public override void Encode()
         {
             Writer.WriteVInt(ServerPort);
             Writer.WriteScString(ServerHost);
-            Writer.WriteBytes(SessionId);
+            Writer.WriteBytesWithLength(BitConverter.GetBytes(SessionId).Reverse().ToArray());
             Writer.WriteScString(Nonce);
         }
     }

@@ -74,6 +74,17 @@ namespace ClashRoyale.Utilities.Netty
         }
 
         /// <summary>
+        /// Encode a buffer with the length (int)
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="bytes"></param>
+        public static void WriteBytesWithLength(this IByteBuffer buffer, byte[] bytes)
+        {
+            buffer.WriteInt(bytes.Length);
+            buffer.WriteBytes(bytes);
+        }
+
+        /// <summary>
         ///     This method should be only used for testing.
         /// </summary>
         /// <param name="buffer"></param>
