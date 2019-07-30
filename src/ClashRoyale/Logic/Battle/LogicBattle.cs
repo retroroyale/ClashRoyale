@@ -53,8 +53,8 @@ namespace ClashRoyale.Logic.Battle
                     {
                         ServerPort = 9449,
                         ServerHost = "192.168.2.143",
-                        SessionId = player.Home.Id,
-                        Nonce = "scroll"
+                        SessionId = BattleId,
+                        Nonce = "nonce"
                     }.SendAsync();
 
                     await new SectorStateMessage(player.Device)

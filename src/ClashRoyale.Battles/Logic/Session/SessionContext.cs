@@ -13,9 +13,9 @@ namespace ClashRoyale.Battles.Logic.Session
 {
     public class SessionContext
     {
-        public Rc4Core Rc4 = new Rc4Core("fhsd6f86f67rt8fw78fw789we78r9789wer6re", "scroll");
+        public Rc4Core Rc4 = new Rc4Core("fhsd6f86f67rt8fw78fw789we78r9789wer6re", "nonce");
 
-        public long PlayerId { get; set; }
+        public Session Session { get; set; }
         public EndPoint EndPoint { get; set; }
         public IChannel Channel { get; set; }
 
@@ -62,15 +62,13 @@ namespace ClashRoyale.Battles.Logic.Session
                 var chunkId = reader.ReadVInt();
                 var chunkLength = reader.ReadVInt();
 
-                //Logger.Log($"Chunk Seq:    {chunkSeq}", null, ErrorLevel.Debug);
-
                 Logger.Log($"Message ID: {chunkId}, S: {chunkSeq}, L: {chunkLength}", GetType(),
                     ErrorLevel.Warning);
 
-                /* if (!LogicMessageFactory.Messages.ContainsKey(chunkId))
+                 if (!LogicMessageFactory.Messages.ContainsKey(chunkId))
                  {
                      Logger.Log($"Message ID: {chunkId}, S: {chunkSeq}, L: {chunkLength} is not known.", GetType(),
-                         ErrorLevel.Warning);
+                         ErrorLevel.Debug);
                      return;
                  }
 
@@ -86,21 +84,21 @@ namespace ClashRoyale.Battles.Logic.Session
                      message.Decode();
                      message.Process();
 
-                     Logger.Log($"[C] Message {chunkId} ({message.GetType().Name}) handled.", GetType(),
+                     Logger.Log($"Message {chunkId} ({message.GetType().Name}) handled.", GetType(),
                          ErrorLevel.Debug);
                  }
                  catch (Exception exception)
                  {
                      Logger.Log($"Failed to process {chunkId}: " + exception, GetType(), ErrorLevel.Error);
-                 }*/
+                 }
 
-                var testBuffer = Unpooled.Buffer();
-                testBuffer.WriteLong(PlayerId);
-                testBuffer.WriteByte(16);
-                testBuffer.WriteByte(0);
-                testBuffer.WriteByte(1); // ACK COUNT
-                testBuffer.WriteByte(chunkSeq); // ACK
-                await Channel.WriteAndFlushAsync(new DatagramPacket(testBuffer, EndPoint));
+                var buffer = Unpooled.Buffer();
+                buffer.WriteLong(Session.Id);
+                buffer.WriteByte(16);
+                buffer.WriteByte(0);
+                buffer.WriteByte(1); // ACK COUNT
+                buffer.WriteByte(chunkSeq); // ACK
+                await Channel.WriteAndFlushAsync(new DatagramPacket(buffer, EndPoint));
             }
             
             var readable = reader.ReadableBytes;

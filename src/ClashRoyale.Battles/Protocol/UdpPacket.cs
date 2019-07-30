@@ -18,7 +18,7 @@ namespace ClashRoyale.Battles.Protocol
 
         public void Encode()
         {
-            Writer.WriteLong(SessionContext.PlayerId);
+            Writer.WriteLong(SessionContext.Session.Id);
 
             var count = _udpMessages.Count;
             Writer.WriteVInt(count);

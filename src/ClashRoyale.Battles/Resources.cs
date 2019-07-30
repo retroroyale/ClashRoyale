@@ -10,7 +10,7 @@ namespace ClashRoyale.Battles
     {
         public static Logger Logger { get; set; }
         public static NettyService Netty { get; set; }
-        public static Players Players { get; set; }
+        public static Sessions Sessions { get; set; }
 
         public static async void Initialize()
         {
@@ -19,7 +19,7 @@ namespace ClashRoyale.Battles
                 $"Starting [{DateTime.Now.ToLongTimeString()} - {ServerUtils.GetOsName()}]...",
                 null);
 
-            Players = new Players();
+            Sessions = new Sessions();
             Netty = new NettyService();
 
             await Task.Run(Netty.RunServerAsync);

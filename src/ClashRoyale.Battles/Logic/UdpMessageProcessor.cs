@@ -24,22 +24,25 @@ namespace ClashRoyale.Battles.Logic
                 sessionBuffer.WriteLong(sessionId);
                 sessionBuffer.WriteBytes(uselessBytes);
 
-                Resources.Players.Add(new SessionContext
+                Resources.Sessions.Add(new SessionContext
                 {
-                    PlayerId = sessionId,
                     EndPoint = packet.Sender
-                });
+                }, sessionId);
 
                 await ctx.WriteAsync(new DatagramPacket(sessionBuffer, packet.Sender));
             }
             else
             {
-                Logger.Log($"Received {length} bytes: {BitConverter.ToString(content.Array.Take(length).ToArray()).Replace("-", "")}", null, ErrorLevel.Debug);
+                if (length != 10)
+                    Logger.Log($"Received {length} bytes: {BitConverter.ToString(content.Array.Take(length).ToArray()).Replace("-", "")}", null, ErrorLevel.Debug);
 
                 var sessionId = content.ReadLong();
                 content.ReadBytes(2);
 
-                var sessionContext = Resources.Players.Get(sessionId);
+                var session = Resources.Sessions.Get(sessionId);
+                if (session == null) return;
+
+                var sessionContext = session.Get(packet.Sender);
 
                 if (sessionContext != null)
                 {
@@ -52,15 +55,11 @@ namespace ClashRoyale.Battles.Logic
                     else
                     {
                         var sessionOkBuffer = Unpooled.Buffer();
-                        sessionOkBuffer.WriteLong(sessionContext.PlayerId);
+                        sessionOkBuffer.WriteLong(session.Id);
                         sessionOkBuffer.WriteByte(16);
                         sessionOkBuffer.WriteByte(0);
-                        await ctx.WriteAsync(new DatagramPacket(sessionOkBuffer, sessionContext.EndPoint));
+                        await ctx.WriteAsync(new DatagramPacket(sessionOkBuffer, packet.Sender));
                     }
-                }
-                else
-                {
-                    Logger.Log("Player not logged in.", null, ErrorLevel.Debug);
                 }
             }
         }
