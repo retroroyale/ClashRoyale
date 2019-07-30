@@ -1,4 +1,6 @@
-﻿using ClashRoyale.Battles.Logic.Session;
+﻿using System;
+using System.Linq;
+using ClashRoyale.Battles.Logic.Session;
 using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
@@ -32,7 +34,7 @@ namespace ClashRoyale.Battles.Logic
             }
             else
             {
-                Logger.Log($"Received {length} bytes", null, ErrorLevel.Debug);
+                Logger.Log($"Received {length} bytes: {BitConverter.ToString(content.Array.Take(length).ToArray()).Replace("-", "")}", null, ErrorLevel.Debug);
 
                 var sessionId = content.ReadLong();
                 content.ReadBytes(2);
@@ -42,7 +44,19 @@ namespace ClashRoyale.Battles.Logic
                 if (sessionContext != null)
                 {
                     sessionContext.Active = true;
-                    sessionContext.Process(content, ctx.Channel);
+
+                    if (length != 10)
+                    {
+                        sessionContext.Process(content, ctx.Channel);
+                    }
+                    else
+                    {
+                        var sessionOkBuffer = Unpooled.Buffer();
+                        sessionOkBuffer.WriteLong(sessionContext.PlayerId);
+                        sessionOkBuffer.WriteByte(16);
+                        sessionOkBuffer.WriteByte(0);
+                        await ctx.WriteAsync(new DatagramPacket(sessionOkBuffer, sessionContext.EndPoint));
+                    }
                 }
                 else
                 {

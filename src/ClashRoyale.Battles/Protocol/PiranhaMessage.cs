@@ -1,4 +1,6 @@
-﻿using ClashRoyale.Battles.Logic.Session;
+﻿using System;
+using System.Linq;
+using ClashRoyale.Battles.Logic.Session;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Battles.Protocol
@@ -22,7 +24,6 @@ namespace ClashRoyale.Battles.Protocol
         public SessionContext SessionContext { get; set; }
         public int Id { get; set; }
         public int Length { get; set; }
-        public int Ack { get; set; }
 
         public virtual void Decrypt()
         {

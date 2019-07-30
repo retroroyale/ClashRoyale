@@ -62,37 +62,47 @@ namespace ClashRoyale.Battles.Logic.Session
                 var chunkId = reader.ReadVInt();
                 var chunkLength = reader.ReadVInt();
 
-                Logger.Log($"Chunk Seq:    {chunkSeq}", null, ErrorLevel.Debug);
+                //Logger.Log($"Chunk Seq:    {chunkSeq}", null, ErrorLevel.Debug);
 
-                if (!LogicMessageFactory.Messages.ContainsKey(chunkId))
-                {
-                    Logger.Log($"Message ID: {chunkId}, S: {chunkSeq}, L: {chunkLength} is not known.", GetType(),
-                        ErrorLevel.Warning);
-                    return;
-                }
+                Logger.Log($"Message ID: {chunkId}, S: {chunkSeq}, L: {chunkLength}", GetType(),
+                    ErrorLevel.Warning);
 
-                if (!(Activator.CreateInstance(LogicMessageFactory.Messages[chunkId], this, reader) is PiranhaMessage
-                    message)) continue;
+                /* if (!LogicMessageFactory.Messages.ContainsKey(chunkId))
+                 {
+                     Logger.Log($"Message ID: {chunkId}, S: {chunkSeq}, L: {chunkLength} is not known.", GetType(),
+                         ErrorLevel.Warning);
+                     return;
+                 }
 
-                try
-                {
-                    message.Id = chunkId;
-                    message.Length = chunkLength;
-                    message.Ack = chunkSeq;
+                 if (!(Activator.CreateInstance(LogicMessageFactory.Messages[chunkId], this, reader) is PiranhaMessage
+                     message)) continue;
 
-                    message.Decrypt();
-                    message.Decode();
-                    message.Process();
+                 try
+                 {
+                     message.Id = chunkId;
+                     message.Length = chunkLength;
 
-                    Logger.Log($"[C] Message {chunkId} ({message.GetType().Name}) handled.", GetType(),
-                        ErrorLevel.Debug);
-                }
-                catch (Exception exception)
-                {
-                    Logger.Log($"Failed to process {chunkId}: " + exception, GetType(), ErrorLevel.Error);
-                }
+                     message.Decrypt();
+                     message.Decode();
+                     message.Process();
+
+                     Logger.Log($"[C] Message {chunkId} ({message.GetType().Name}) handled.", GetType(),
+                         ErrorLevel.Debug);
+                 }
+                 catch (Exception exception)
+                 {
+                     Logger.Log($"Failed to process {chunkId}: " + exception, GetType(), ErrorLevel.Error);
+                 }*/
+
+                var testBuffer = Unpooled.Buffer();
+                testBuffer.WriteLong(PlayerId);
+                testBuffer.WriteByte(16);
+                testBuffer.WriteByte(0);
+                testBuffer.WriteByte(1); // ACK COUNT
+                testBuffer.WriteByte(chunkSeq); // ACK
+                await Channel.WriteAndFlushAsync(new DatagramPacket(testBuffer, EndPoint));
             }
-
+            
             var readable = reader.ReadableBytes;
             if(readable > 0)
                 Logger.Log($"{BitConverter.ToString(reader.ReadBytes(readable).Array.Take(readable).ToArray()).Replace("-", "")}", null, ErrorLevel.Debug);

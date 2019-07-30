@@ -17,7 +17,7 @@ namespace ClashRoyale.Battles.Protocol.Messages.Client
             testBuffer.WriteLong(SessionContext.PlayerId);
             testBuffer.WriteBytes(new byte[2]);
             testBuffer.WriteByte(1); // ACK COUNT
-            testBuffer.WriteByte(Ack + 1); // ACK
+            testBuffer.WriteByte(2); // ACK
 
             await SessionContext.Channel.WriteAndFlushAsync(new DatagramPacket(testBuffer, SessionContext.EndPoint));
         }

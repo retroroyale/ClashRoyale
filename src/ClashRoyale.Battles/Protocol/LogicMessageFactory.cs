@@ -13,7 +13,7 @@ namespace ClashRoyale.Battles.Protocol
             Messages = new Dictionary<int, Type>
             {
                 {10108, typeof(UdpCheckConnectionMessage)},
-                //{12904, typeof(SectorCommandMessage)}
+                {12904, typeof(SectorCommandMessage)}
             };
         }
     }
