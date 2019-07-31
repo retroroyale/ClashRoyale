@@ -23,7 +23,7 @@ namespace ClashRoyale.Logic.Battle
             IsFriendly = isFriendly;
             Arena = arena;
 
-            BattleTimer = new Timer(750);
+            BattleTimer = new Timer(500);
             BattleTimer.Elapsed += Tick;
         }
 
@@ -49,13 +49,16 @@ namespace ClashRoyale.Logic.Battle
                 {
                     Commands.Add(player.Home.Id, new Queue<byte[]>());
 
-                    await new UdpConnectionInfoMessage(player.Device)
+                    if (Resources.Configuration.UseUdp)
                     {
-                        ServerPort = 9449,
-                        ServerHost = "192.168.2.143",
-                        SessionId = BattleId,
-                        Nonce = "nonce"
-                    }.SendAsync();
+                        await new UdpConnectionInfoMessage(player.Device)
+                        {
+                            ServerPort = 9449,
+                            ServerHost = "192.168.2.143",
+                            SessionId = BattleId,
+                            Nonce = "nonce"
+                        }.SendAsync();
+                    }
 
                     await new SectorStateMessage(player.Device)
                     {
@@ -64,7 +67,9 @@ namespace ClashRoyale.Logic.Battle
                 }
 
                 StartTime = DateTime.UtcNow;
-                //BattleTimer.Start();
+
+                if (!Resources.Configuration.UseUdp)
+                    BattleTimer.Start();
             }
             catch (Exception)
             {
@@ -74,6 +79,8 @@ namespace ClashRoyale.Logic.Battle
 
         public void Encode(IByteBuffer packet)
         {
+            #region SectorState
+
             const int towers = 6;
 
             packet.WriteVInt(Csv.Tables.Get(Csv.Files.Locations)
@@ -340,11 +347,14 @@ namespace ClashRoyale.Logic.Battle
 
             for (var index = 0; index < towers; index++)
                 packet.WriteHex("00000000000000A401A401");
+
+            #endregion SectorState
         }
 
         public void Stop()
         {
-            BattleTimer.Stop();
+            if (!Resources.Configuration.UseUdp)
+                BattleTimer.Stop();
 
             Resources.Battles.Remove(BattleId);
         }

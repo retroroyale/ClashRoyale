@@ -34,7 +34,7 @@ namespace ClashRoyale.Protocol
                 //{10513, typeof(AskForPlayingFacebookFriendsMessage)},
                 {10905, typeof(InboxOpenedMessage)},
                 {12903, typeof(RequestSectorStateMessage)},
-                //{12904, typeof(SectorCommandMessage)},
+                {12904, typeof(SectorCommandMessage)},
                 //{12905, typeof(GetCurrentBattleReplayDataMessage)},
                 {12951, typeof(SendBattleEventMessage)},
                 {14101, typeof(GoHomeMessage)},

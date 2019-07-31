@@ -96,7 +96,7 @@ namespace ClashRoyale.Battles.Logic.Session
                      message.Decode();
                      message.Process();
 
-                     Logger.Log($"Message {chunkId} ({message.GetType().Name}) handled.", GetType(),
+                     Logger.Log($"[C] Message {chunkId} ({message.GetType().Name}) handled.", GetType(),
                          ErrorLevel.Debug);
                  }
                  catch (Exception exception)

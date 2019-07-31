@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -28,6 +29,8 @@ namespace ClashRoyale.Core
         [JsonProperty("server_port")] public int ServerPort = 9339;
         [JsonProperty("update_url")] public string UpdateUrl = "https://github.com/retroroyale/ClashRoyale";
         [JsonProperty("use_content_patch")] public bool UseContentPatch;
+        [JsonProperty("use_udp")] public bool UseUdp;
+        [JsonProperty("battle_servers")] public List<string> BattleServers = new List<string>();
 
         public void Initialize()
         {
@@ -48,6 +51,8 @@ namespace ClashRoyale.Core
                     EncryptionKey = config.EncryptionKey;
                     ServerPort = config.ServerPort;
                     UseContentPatch = config.UseContentPatch;
+                    UseUdp = config.UseUdp;
+                    BattleServers = config.BattleServers;
                 }
                 catch (Exception)
                 {
