@@ -28,27 +28,16 @@ namespace ClashRoyale.Battles.Logic.Battle
         public int BattleTime => (int) DateTime.UtcNow.Subtract(StartTime).TotalSeconds * 2;
         public int BattleSeconds => BattleTime / 2;
 
-        public bool IsRunning => BattleTimer.Enabled;
         public bool IsReady => Session.Count >= 1;
 
         public void Start()
         {
             if (!IsReady) return;
 
-            try
-            {
-                foreach (var session in Session)
-                {
-                    Commands.Add(session.EndPoint, new Queue<byte[]>());
-                }
+            foreach (var session in Session) Commands.Add(session.EndPoint, new Queue<byte[]>());
 
-                StartTime = DateTime.UtcNow;
-                BattleTimer.Start();
-            }
-            catch (Exception)
-            {
-                Logger.Log("Couldn't start battle", GetType(), ErrorLevel.Error);
-            }
+            StartTime = DateTime.UtcNow;
+            BattleTimer.Start();
         }
 
         public void Stop()
@@ -68,8 +57,6 @@ namespace ClashRoyale.Battles.Logic.Battle
                         if (!session.BattleActive)
                         {
                             if (BattleSeconds <= 8) continue;
-
-                            //await new BattleResultMessage(player.Device).SendAsync();
 
                             Logger.Log("BATTLE OVER", null);
                         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
 using ClashRoyale.Extensions;
 using ClashRoyale.Files;
@@ -64,6 +65,18 @@ namespace ClashRoyale.Logic.Battle
                     {
                         Battle = this
                     }.SendAsync();
+
+                    /*for (var i = 0; i < 10000; i++)
+                    {
+                        await Task.Delay(200);
+
+                        await new TestSectorStateMessage(player.Device)
+                        {
+                            Battle = this,
+                            X = 3500 + (i % 2 == 0 ? 500 : -500),
+                            Y = 6500 + (i % 2 == 0 ? 500 : -500)
+                        }.SendAsync();
+                    }*/
                 }
 
                 StartTime = DateTime.UtcNow;

@@ -16,10 +16,10 @@ namespace ClashRoyale.Battles.Core
             Formatting = Formatting.None
         };
 
-        [JsonProperty("encryption_key")] public string EncryptionKey = "fhsd6f86f67rt8fw78fw789we78r9789wer6re";
+        [JsonProperty("nonce")] public string Nonce = "nonce";
         [JsonProperty("sentry_api")] public string SentryApiUrl = "";
         [JsonProperty("server_port")] public int ServerPort = 9449;
-        [JsonProperty("max_battles")] public int MaxBattles = 10;
+        [JsonProperty("max_battles")] public int MaxBattles = 100;
 
         public void Initialize()
         {
@@ -29,7 +29,7 @@ namespace ClashRoyale.Battles.Core
                     var config = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText("config.json"));
 
                     SentryApiUrl = config.SentryApiUrl;
-                    EncryptionKey = config.EncryptionKey;
+                    Nonce = config.Nonce;
                     ServerPort = config.ServerPort;
                     MaxBattles = config.MaxBattles;
                 }

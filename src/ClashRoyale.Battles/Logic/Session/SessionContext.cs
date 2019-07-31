@@ -13,38 +13,21 @@ namespace ClashRoyale.Battles.Logic.Session
 {
     public class SessionContext
     {
-        public Rc4Core Rc4 = new Rc4Core("fhsd6f86f67rt8fw78fw789we78r9789wer6re", "nonce");
-
-        public Session Session { get; set; }
-        public EndPoint EndPoint { get; set; }
-        public IChannel Channel { get; set; }
-
-        private DateTime _lastMessage = DateTime.UtcNow;
-        private DateTime _lastCommands = DateTime.UtcNow;
-
-        public byte Seq = 1;
-
         public bool Active
         {
             get => DateTime.UtcNow.Subtract(_lastMessage).TotalSeconds < 10;
             set
             {
-                if (value)
-                {
-                    _lastMessage = DateTime.UtcNow;
-                }
+                if (value) _lastMessage = DateTime.UtcNow;
             }
         }
 
         public bool BattleActive
         {
-            get => DateTime.UtcNow.Subtract(_lastCommands).TotalSeconds < 10;
+            get => DateTime.UtcNow.Subtract(_lastCommands).TotalSeconds < 5;
             set
             {
-                if (value)
-                {
-                    _lastCommands = DateTime.UtcNow;
-                }
+                if (value) _lastCommands = DateTime.UtcNow;
             }
         }
 
@@ -54,15 +37,18 @@ namespace ClashRoyale.Battles.Logic.Session
 
             var ackCount = reader.ReadByte();
 
-            for (var i = 0; i < ackCount; i++)
+            if(ackCount > 0)
             {
-                var ack = reader.ReadByte();
-
                 var buffer = Unpooled.Buffer();
                 buffer.WriteLong(Session.Id);
                 buffer.WriteBytes(new byte[2]);
-                buffer.WriteByte(1); 
-                buffer.WriteByte(ack); 
+                buffer.WriteByte(ackCount);
+
+                for (var i = 0; i < ackCount; i++)
+                {
+                    buffer.WriteByte(reader.ReadByte());
+                }
+
                 await Channel.WriteAndFlushAsync(new DatagramPacket(buffer, EndPoint));
             }
 
@@ -116,5 +102,20 @@ namespace ClashRoyale.Battles.Logic.Session
             if(readable > 0)
                 Logger.Log($"{BitConverter.ToString(reader.ReadBytes(readable).Array.Take(readable).ToArray()).Replace("-", "")}", null, ErrorLevel.Debug);
         }
+
+        #region Objects
+
+        public Rc4Core Rc4 = new Rc4Core("fhsd6f86f67rt8fw78fw789we78r9789wer6re", "nonce");
+
+        public Session Session { get; set; }
+        public EndPoint EndPoint { get; set; }
+        public IChannel Channel { get; set; }
+
+        private DateTime _lastMessage = DateTime.UtcNow;
+        private DateTime _lastCommands = DateTime.UtcNow;
+
+        public byte Seq = 1;
+
+        #endregion Objects
     }
 }
