@@ -22,6 +22,8 @@ namespace ClashRoyale.Battles.Logic.Session
         private DateTime _lastMessage = DateTime.UtcNow;
         private DateTime _lastCommands = DateTime.UtcNow;
 
+        public byte Seq = 1;
+
         public bool Active
         {
             get => DateTime.UtcNow.Subtract(_lastMessage).TotalSeconds < 10;
@@ -50,29 +52,39 @@ namespace ClashRoyale.Battles.Logic.Session
         {
             Channel = channel;
 
-            var ackCount = reader.ReadVInt();
-            var chunkCount = reader.ReadVInt();
+            var ackCount = reader.ReadByte();
 
-            Logger.Log($"Ack Count: {ackCount}", null, ErrorLevel.Debug);
-            Logger.Log($"Chunk Count: {chunkCount}", null, ErrorLevel.Debug);
+            for (var i = 0; i < ackCount; i++)
+            {
+                var ack = reader.ReadByte();
+
+                var buffer = Unpooled.Buffer();
+                buffer.WriteLong(Session.Id);
+                buffer.WriteBytes(new byte[2]);
+                buffer.WriteByte(1); 
+                buffer.WriteByte(ack); 
+                await Channel.WriteAndFlushAsync(new DatagramPacket(buffer, EndPoint));
+            }
+
+            if (ackCount > 0)
+                return;
+
+            var chunkCount = reader.ReadVInt();
 
             for (var i = 0; i < chunkCount; i++)
             {
-                var chunkSeq = reader.ReadVInt();
+                var chunkSeq = reader.ReadByte();
                 var chunkId = reader.ReadVInt();
                 var chunkLength = reader.ReadVInt();
 
-                Logger.Log($"Message ID: {chunkId}, S: {chunkSeq}, L: {chunkLength}", GetType(),
-                    ErrorLevel.Warning);
-
-                 if (!LogicMessageFactory.Messages.ContainsKey(chunkId))
-                 {
+                if (!LogicMessageFactory.Messages.ContainsKey(chunkId))
+                {
                      Logger.Log($"Message ID: {chunkId}, S: {chunkSeq}, L: {chunkLength} is not known.", GetType(),
                          ErrorLevel.Debug);
                      return;
-                 }
+                }
 
-                 if (!(Activator.CreateInstance(LogicMessageFactory.Messages[chunkId], this, reader) is PiranhaMessage
+                if (!(Activator.CreateInstance(LogicMessageFactory.Messages[chunkId], this, reader) is PiranhaMessage
                      message)) continue;
 
                  try
@@ -94,10 +106,9 @@ namespace ClashRoyale.Battles.Logic.Session
 
                 var buffer = Unpooled.Buffer();
                 buffer.WriteLong(Session.Id);
-                buffer.WriteByte(16);
-                buffer.WriteByte(0);
-                buffer.WriteByte(1); // ACK COUNT
-                buffer.WriteByte(chunkSeq); // ACK
+                buffer.WriteBytes(new byte[2]);
+                buffer.WriteByte(1); 
+                buffer.WriteByte(chunkSeq); 
                 await Channel.WriteAndFlushAsync(new DatagramPacket(buffer, EndPoint));
             }
             

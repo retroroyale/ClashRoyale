@@ -33,11 +33,11 @@ namespace ClashRoyale.Battles.Logic
             }
             else
             {
-                if (length != 10)
-                    Logger.Log($"Received {length} bytes: {BitConverter.ToString(content.Array.Take(length).ToArray()).Replace("-", "")}", null, ErrorLevel.Debug);
+                //if (length != 10)
+                    //Logger.Log($"Received {length} bytes from {packet.Sender}: {BitConverter.ToString(content.Array.Take(length).ToArray()).Replace("-", "")}", null, ErrorLevel.Debug);
 
                 var sessionId = content.ReadLong();
-                content.ReadBytes(2);
+                var uselessBytes = content.ReadBytes(2);
 
                 var session = Resources.Sessions.Get(sessionId);
                 if (session == null) return;
@@ -54,10 +54,9 @@ namespace ClashRoyale.Battles.Logic
                     }
                     else
                     {
-                        var sessionOkBuffer = Unpooled.Buffer();
+                        var sessionOkBuffer = Unpooled.Buffer(10);
                         sessionOkBuffer.WriteLong(session.Id);
-                        sessionOkBuffer.WriteByte(16);
-                        sessionOkBuffer.WriteByte(0);
+                        sessionOkBuffer.WriteBytes(uselessBytes);
                         await ctx.WriteAsync(new DatagramPacket(sessionOkBuffer, packet.Sender));
                     }
                 }

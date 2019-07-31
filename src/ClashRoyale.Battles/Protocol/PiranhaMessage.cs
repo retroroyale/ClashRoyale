@@ -1,7 +1,10 @@
 ﻿using System;
-using System.Linq;
+using System.Threading.Tasks;
 using ClashRoyale.Battles.Logic.Session;
+using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
+using DotNetty.Transport.Channels.Sockets;
+using SharpRaven.Data;
 
 namespace ClashRoyale.Battles.Protocol
 {
@@ -58,6 +61,42 @@ namespace ClashRoyale.Battles.Protocol
 
         public virtual void Process()
         {
+        }
+
+        /// <summary>
+        ///     Writes this message to the clients channel
+        /// </summary>
+        /// <returns></returns>
+        public async Task SendAsync()
+        {
+            try
+            {
+                Encode();
+                Encrypt();
+
+                var buffer = Unpooled.Buffer(15 + Length);
+                buffer.WriteLong(SessionContext.Session.Id);
+                buffer.WriteBytes(new byte[2]);
+
+                buffer.WriteByte(0);
+                buffer.WriteByte(1);
+
+                buffer.WriteByte(SessionContext.Seq++);
+                buffer.WriteVInt(Id);
+                buffer.WriteVInt(Length);
+
+                buffer.WriteBytes(Writer);
+
+                await SessionContext.Channel.WriteAndFlushAsync(new DatagramPacket(buffer, SessionContext.EndPoint));
+
+                Logger.Log($"[S] Message {Id} ({GetType().Name}) sent.", GetType(), ErrorLevel.Debug);
+
+                SessionContext.Seq = (byte)(SessionContext.Seq == byte.MaxValue ? 0 : SessionContext.Seq);
+            }
+            catch (Exception)
+            {
+                Logger.Log($"[S] Failed to send {Id}.", GetType(), ErrorLevel.Debug);
+            }
         }
     }
 }

@@ -29,8 +29,6 @@ namespace ClashRoyale.Battles.Protocol.Messages.Client
 
             if (Count < 0 || Count > 128) return;
 
-            Logger.Log($"Tick: {Tick}", GetType(), ErrorLevel.Warning);
-
             /*var battle = Device.Player.Battle;
             if (battle != null)
                 if (!battle.IsRunning)

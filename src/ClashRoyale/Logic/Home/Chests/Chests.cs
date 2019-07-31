@@ -151,7 +151,29 @@ namespace ClashRoyale.Logic.Home.Chests
             Home.Gold += chest.Gold;
             Home.Diamonds += chest.Gems;
 
+            /*var price =
+                ((baseChest.ShopPriceWithoutSpeedUp * Home.Arena.GetCurrentArenaData().ChestShopPriceMultiplier) / 100);
+
+            Console.WriteLine(RoundPrice(price));*/
+
             return chest;
+        }
+
+        /// <summary>
+        /// by nameless
+        /// </summary>
+        /// <param name="price"></param>
+        /// <returns></returns>
+        private int RoundPrice(int price)
+        {
+            if (price > 500)
+                return 100 * ((price + 50) / 100);
+            if (price > 100)
+                return 10 * ((price + 5) / 10);
+            if (price > 20)
+                return 5 * ((price + 3) / 5);
+
+            return price;
         }
     }
 }

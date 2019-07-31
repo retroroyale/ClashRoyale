@@ -38,5 +38,10 @@ namespace ClashRoyale.Logic.Home
         {
             return Csv.Tables.Get(Csv.Files.Arenas).GetDataWithInstanceId<Arenas>(arena);
         }
+
+        public Arenas GetCurrentArenaData()
+        {
+            return ArenaData(CurrentArena);
+        }
     }
 }

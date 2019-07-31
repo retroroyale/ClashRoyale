@@ -21,7 +21,7 @@ namespace ClashRoyale.Protocol.Messages.Server
         {
             Writer.WriteVInt(ServerPort);
             Writer.WriteScString(ServerHost);
-            Writer.WriteBytesWithLength(BitConverter.GetBytes(SessionId).Reverse().ToArray());
+            Writer.WriteBytesWithLength(BitConverter.GetBytes(SessionId).Reverse().Concat(new byte[2]).ToArray());
             Writer.WriteScString(Nonce);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ClashRoyale.Battles.Protocol.Commands.Server;
 
 namespace ClashRoyale.Battles.Protocol
 {
@@ -11,7 +12,7 @@ namespace ClashRoyale.Battles.Protocol
         {
             Commands = new Dictionary<int, Type>
             {
-                //{1, typeof(DoSpellCommand)}
+                {1, typeof(DoSpellCommand)}
             };
         }
     }

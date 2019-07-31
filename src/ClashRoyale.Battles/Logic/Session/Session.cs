@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using ClashRoyale.Battles.Logic.Battle;
 
 namespace ClashRoyale.Battles.Logic.Session
 {
@@ -8,6 +9,12 @@ namespace ClashRoyale.Battles.Logic.Session
         private readonly object _syncObject = new object();
 
         public long Id { get; set; }
+        public LogicBattle Battle { get; set; }
+
+        public Session()
+        {
+            Battle = new LogicBattle(this);
+        }
 
         public new void Add(SessionContext ctx)
         {
@@ -16,6 +23,11 @@ namespace ClashRoyale.Battles.Logic.Session
                 if (!Contains(ctx))
                 {
                     base.Add(ctx);
+
+                    if (Count >= 2)
+                    {
+                        Battle.Start();
+                    }
                 }
             }
         }

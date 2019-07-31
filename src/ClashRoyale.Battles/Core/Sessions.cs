@@ -37,8 +37,18 @@ namespace ClashRoyale.Battles.Core
                 else
                 {
                     var session = Get(sessionId);
-                    session.Add(ctx);
-                    ctx.Session = session;
+
+                    if (session.Count < 2)
+                    {
+                        session.Add(ctx);
+                        ctx.Session = session;
+                    }
+                    else
+                    {
+                        // since the tcp server can be restarted and the id resets
+                        Remove(sessionId);
+                        Add(ctx, sessionId);
+                    }
                 }
             }
         }

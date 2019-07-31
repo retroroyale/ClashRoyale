@@ -11,6 +11,7 @@ namespace ClashRoyale.Battles
         public static Logger Logger { get; set; }
         public static NettyService Netty { get; set; }
         public static Sessions Sessions { get; set; }
+        public static Configuration Configuration { get; set; }
 
         public static async void Initialize()
         {
@@ -18,6 +19,9 @@ namespace ClashRoyale.Battles
             Logger.Log(
                 $"Starting [{DateTime.Now.ToLongTimeString()} - {ServerUtils.GetOsName()}]...",
                 null);
+
+            Configuration = new Configuration();
+            Configuration.Initialize();
 
             Sessions = new Sessions();
             Netty = new NettyService();
