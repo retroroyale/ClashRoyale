@@ -79,9 +79,9 @@ namespace ClashRoyale.Battles.Logic.Session
 
                 if (!LogicMessageFactory.Messages.ContainsKey(chunkId))
                 {
-                     Logger.Log($"Message ID: {chunkId}, S: {chunkSeq}, L: {chunkLength} is not known.", GetType(),
-                         ErrorLevel.Debug);
-                     return;
+                    Logger.Log($"Message ID: {chunkId}, S: {chunkSeq}, L: {chunkLength} is not known.", GetType(),
+                        ErrorLevel.Debug);
+                    return;
                 }
 
                 if (!(Activator.CreateInstance(LogicMessageFactory.Messages[chunkId], this, reader) is PiranhaMessage

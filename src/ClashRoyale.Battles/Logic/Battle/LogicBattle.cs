@@ -55,8 +55,7 @@ namespace ClashRoyale.Battles.Logic.Battle
         {
             BattleTimer.Stop();
 
-            // TODO SESSION:
-            //Resources.Battles.Remove(BattleId);
+            Resources.Sessions.Remove(Session.Id);
         }
 
         public async void Tick(object sender, ElapsedEventArgs args)

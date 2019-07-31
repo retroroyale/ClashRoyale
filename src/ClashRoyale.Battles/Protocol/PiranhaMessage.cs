@@ -81,7 +81,11 @@ namespace ClashRoyale.Battles.Protocol
                 buffer.WriteByte(0);
                 buffer.WriteByte(1);
 
-                buffer.WriteByte(SessionContext.Seq++);
+                var seq = SessionContext.Seq;
+                if (SessionContext.Seq == byte.MaxValue) SessionContext.Seq = 0;
+                else SessionContext.Seq++;
+
+                buffer.WriteByte(seq);
                 buffer.WriteVInt(Id);
                 buffer.WriteVInt(Length);
 
@@ -90,8 +94,6 @@ namespace ClashRoyale.Battles.Protocol
                 await SessionContext.Channel.WriteAndFlushAsync(new DatagramPacket(buffer, SessionContext.EndPoint));
 
                 Logger.Log($"[S] Message {Id} ({GetType().Name}) sent.", GetType(), ErrorLevel.Debug);
-
-                SessionContext.Seq = (byte)(SessionContext.Seq == byte.MaxValue ? 0 : SessionContext.Seq);
             }
             catch (Exception)
             {
