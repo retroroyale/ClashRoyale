@@ -18,19 +18,24 @@ namespace ClashRoyale.Core
         };
 
         [JsonProperty("encryption_key")] public string EncryptionKey = "fhsd6f86f67rt8fw78fw789we78r9789wer6re";
+        [JsonProperty("sentry_api")] public string SentryApiUrl = "";
+
         [JsonProperty("mysql_database")] public string MySqlDatabase = "rrdb";
         [JsonProperty("mysql_password")] public string MySqlPassword = "";
         [JsonProperty("mysql_server")] public string MySqlServer = "127.0.0.1";
         [JsonProperty("mysql_user")] public string MySqlUserId = "root";
-        [JsonProperty("patch_url")] public string PatchUrl = "";
         [JsonProperty("redis_password")] public string RedisPassword = "";
         [JsonProperty("redis_server")] public string RedisServer = "127.0.0.1";
-        [JsonProperty("sentry_api")] public string SentryApiUrl = "";
+
+        [JsonProperty("patch_url")] public string PatchUrl = "";
+        [JsonProperty("use_content_patch")] public bool UseContentPatch;
+
         [JsonProperty("server_port")] public int ServerPort = 9339;
         [JsonProperty("update_url")] public string UpdateUrl = "https://github.com/retroroyale/ClashRoyale";
-        [JsonProperty("use_content_patch")] public bool UseContentPatch;
+
         [JsonProperty("use_udp")] public bool UseUdp;
         [JsonProperty("battle_servers")] public List<string> BattleServers = new List<string>();
+        [JsonProperty("cluster_server_port")] public int ClusterServerPort = 9876;
 
         public void Initialize()
         {
@@ -39,20 +44,25 @@ namespace ClashRoyale.Core
                 {
                     var config = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText("config.json"));
 
-                    UpdateUrl = config.UpdateUrl;
-                    PatchUrl = config.PatchUrl;
+                    EncryptionKey = config.EncryptionKey;
+                    SentryApiUrl = config.SentryApiUrl;
+
                     MySqlUserId = config.MySqlUserId;
                     MySqlServer = config.MySqlServer;
                     MySqlPassword = config.MySqlPassword;
                     MySqlDatabase = config.MySqlDatabase;
                     RedisPassword = config.RedisPassword;
                     RedisServer = config.RedisServer;
-                    SentryApiUrl = config.SentryApiUrl;
-                    EncryptionKey = config.EncryptionKey;
-                    ServerPort = config.ServerPort;
+
+                    PatchUrl = config.PatchUrl;
                     UseContentPatch = config.UseContentPatch;
+
+                    ServerPort = config.ServerPort;
+                    UpdateUrl = config.UpdateUrl;
+
                     UseUdp = config.UseUdp;
                     BattleServers = config.BattleServers;
+                    ClusterServerPort = config.ClusterServerPort;
                 }
                 catch (Exception)
                 {
