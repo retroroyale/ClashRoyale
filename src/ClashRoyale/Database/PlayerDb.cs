@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ClashRoyale.Core;
 using ClashRoyale.Logic;
+using ClashRoyale.Logic.Sessions;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using SharpRaven.Data;
@@ -136,7 +137,7 @@ namespace ClashRoyale.Database
 
                 using (var cmd =
                     new MySqlCommand(
-                        $"INSERT INTO player (`Id`, `Trophies`, `Language`, `FacebookId`, `Home`) VALUES ({id + 1}, {player.Home.Arena.Trophies}, @language, @fb, @home)")
+                        $"INSERT INTO player (`Id`, `Trophies`, `Language`, `FacebookId`, `Home`) VALUES ({id + 1}, {player.Home.Arena.Trophies}, @language, @fb, @home, @sessions)")
                 )
                 {
 #pragma warning disable 618
@@ -144,6 +145,8 @@ namespace ClashRoyale.Database
                     cmd.Parameters?.AddWithValue("@fb", player.Home.FacebookId);
                     cmd.Parameters?.AddWithValue("@home",
                         JsonConvert.SerializeObject(player, Configuration.JsonSettings));
+                    cmd.Parameters?.AddWithValue("@sessions",
+                        JsonConvert.SerializeObject(player.Home.Sessions, Configuration.JsonSettings));
 #pragma warning restore 618
 
                     await ExecuteAsync(cmd);
@@ -181,6 +184,9 @@ namespace ClashRoyale.Database
                         {
                             player = JsonConvert.DeserializeObject<Player>((string) reader["Home"],
                                 Configuration.JsonSettings);
+
+                            player.Home.Sessions = JsonConvert.DeserializeObject<List<Session>>((string)reader["Sessions"],
+                                                  Configuration.JsonSettings) ?? new List<Session>(50);
                             break;
                         }
                     }
@@ -245,13 +251,15 @@ namespace ClashRoyale.Database
             {
                 using (var cmd =
                     new MySqlCommand(
-                        $"UPDATE player SET `Trophies`='{player.Home.Arena.Trophies}', `Language`='{player.Home.PreferredDeviceLanguage}', `FacebookId`=@fb, `Home`=@home WHERE Id = '{player.Home.Id}'")
+                        $"UPDATE player SET `Trophies`='{player.Home.Arena.Trophies}', `Language`='{player.Home.PreferredDeviceLanguage}', `FacebookId`=@fb, `Home`=@home, `Sessions`=@sessions WHERE Id = '{player.Home.Id}'")
                 )
                 {
 #pragma warning disable 618
                     cmd.Parameters?.AddWithValue("@fb", player.Home.FacebookId);
                     cmd.Parameters?.AddWithValue("@home",
                         JsonConvert.SerializeObject(player, Configuration.JsonSettings));
+                    cmd.Parameters?.AddWithValue("@sessions",
+                        JsonConvert.SerializeObject(player.Home.Sessions, Configuration.JsonSettings));
 #pragma warning restore 618
 
                     await ExecuteAsync(cmd);

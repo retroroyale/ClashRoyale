@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ClashRoyale.Core;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan;
+using ClashRoyale.Logic.Sessions;
 using Newtonsoft.Json;
 using SharpRaven.Data;
 using StackExchange.Redis;
@@ -13,6 +15,7 @@ namespace ClashRoyale.Database
     public class Redis
     {
         private static IDatabase _players;
+        private static IDatabase _sessions;
         private static IDatabase _alliances;
         private static IServer _server;
 
@@ -37,6 +40,7 @@ namespace ClashRoyale.Database
 
                 _players = _connection.GetDatabase(0);
                 _alliances = _connection.GetDatabase(1);
+                _sessions = _connection.GetDatabase(2);
                 _server = _connection.GetServer(Resources.Configuration.RedisServer, 6379);
 
                 Logger.Log(
@@ -68,6 +72,9 @@ namespace ClashRoyale.Database
             {
                 await _players.StringSetAsync(player.Home.Id.ToString(),
                     JsonConvert.SerializeObject(player, Configuration.JsonSettings), TimeSpan.FromHours(4));
+
+                await _sessions.StringSetAsync(player.Home.Id.ToString(),
+                    JsonConvert.SerializeObject(player.Home.Sessions, Configuration.JsonSettings), TimeSpan.FromHours(4));
             }
             catch (Exception exception)
             {
@@ -105,6 +112,7 @@ namespace ClashRoyale.Database
             try
             {
                 await _players.KeyDeleteAsync(id.ToString());
+                await _sessions.KeyDeleteAsync(id.ToString());
             }
             catch (Exception exception)
             {
@@ -139,13 +147,14 @@ namespace ClashRoyale.Database
             try
             {
                 var data = await _players.StringGetAsync(id.ToString());
+                var sessions = await _sessions.StringGetAsync(id.ToString());
 
-                if (!string.IsNullOrEmpty(data))
-                    return JsonConvert.DeserializeObject<Player>(data, Configuration.JsonSettings);
-
-                var player = await PlayerDb.GetAsync(id);
-                await CacheAsync(player);
-                return player;
+                if (!string.IsNullOrEmpty(data) && !string.IsNullOrEmpty(sessions))
+                {
+                    var player = JsonConvert.DeserializeObject<Player>(data, Configuration.JsonSettings);
+                    player.Home.Sessions = JsonConvert.DeserializeObject<List<Session>>(sessions, Configuration.JsonSettings) ?? new List<Session>(50);
+                    return player;
+                }
             }
             catch (Exception exception)
             {

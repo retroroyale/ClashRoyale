@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `player` (
   `Language` text CHARACTER SET utf8mb4 NOT NULL,
   `FacebookId` text CHARACTER SET utf8mb4,
   `Home` text CHARACTER SET utf8mb4 NOT NULL,
+  `Sessions` text CHARACTER SET utf8mb4 NOT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
