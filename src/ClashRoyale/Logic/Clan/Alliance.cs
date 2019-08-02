@@ -156,7 +156,9 @@ namespace ClashRoyale.Logic.Clan
                     Stream.RemoveAt(0);
 
                 var max = Stream.Count == 0 ? 1 : Stream.Max(x => x.Id);
-                entry.Id = max == int.MaxValue ? 1 : max + 1; // If we ever reach that value... but who knows...
+                entry.Id = Stream.Count > 0
+                    ? max == int.MaxValue ? 1 : max + 1
+                    : 1; // If we ever reach that value... but who knows...
 
                 Stream.Add(entry);
             }
