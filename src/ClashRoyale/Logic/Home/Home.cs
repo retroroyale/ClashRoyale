@@ -12,11 +12,9 @@ namespace ClashRoyale.Logic.Home
     public class Home
     {
         [JsonProperty("clan_info")] public AllianceInfo AllianceInfo = new AllianceInfo();
-
         [JsonProperty("arena")] public Arena Arena = new Arena();
         [JsonProperty("chests")] public Chests.Chests Chests = new Chests.Chests();
         [JsonProperty("deck")] public Deck Deck = new Deck();
-        [JsonProperty("sessions")] public List<Session> Sessions = new List<Session>(50);
         [JsonProperty("shop")] public Shop.Shop Shop = new Shop.Shop();
 
         public Home()
@@ -73,6 +71,8 @@ namespace ClashRoyale.Logic.Home
         // Player Stats
         [JsonProperty("exp_level")] public int ExpLevel { get; set; }
         [JsonProperty("exp_points")] public int ExpPoints { get; set; }
+
+        [JsonIgnore] public List<Session> Sessions = new List<Session>(50);
 
         [JsonIgnore]
         public long Id

@@ -23,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Core\Network\Cluster\Messages\Client\" />
+    <Folder Include="Core\Network\Cluster\Messages\Server\" />
     <Folder Include="Protocol\Commands\Client\" />
   </ItemGroup>
 
