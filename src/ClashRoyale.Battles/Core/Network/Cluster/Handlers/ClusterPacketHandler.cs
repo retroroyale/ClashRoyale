@@ -16,7 +16,7 @@ namespace ClashRoyale.Battles.Core.Network.Cluster.Handlers
             var buffer = (IByteBuffer) message;
             if (buffer == null) return;
 
-            // TODO
+            ClusterClient.Process(buffer);
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext context)
@@ -32,6 +32,8 @@ namespace ClashRoyale.Battles.Core.Network.Cluster.Handlers
                 return;
 
             Logger.Log($"Connected to {Channel.RemoteAddress}", GetType(), ErrorLevel.Debug);
+
+            // TODO SEND CONNECTION CHECK MESSAGE
 
             base.ChannelRegistered(context);
         }

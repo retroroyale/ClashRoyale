@@ -31,6 +31,7 @@ namespace ClashRoyale.Battles.Core.Network.Cluster
                 {
                     var pipeline = channel.Pipeline;
                     pipeline.AddLast("ClusterPacketHandler", new ClusterPacketHandler());
+                    pipeline.AddLast("ClusterPacketEncoder", new ClusterPacketEncoder());
                 }));
         }
 
