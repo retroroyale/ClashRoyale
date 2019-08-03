@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ClashRoyale.Core.Cluster
 {
@@ -6,22 +7,35 @@ namespace ClashRoyale.Core.Cluster
     {
         private readonly object _syncLock = new object();
 
-        public void Add(string host)
+        public new void Add(string host, ServerInfo info)
         {
             lock (_syncLock)
             {
                 if (host.Contains(':'))
                 {
-
+                    base.Add(host, info);
                 }
             }
         }
 
-        public void Remove(string host)
+        public new void Remove(string host)
         {
             lock (_syncLock)
             {
-                // TODO
+                if (!host.Contains(':')) return;
+                if (ContainsKey(host))
+                {
+                    base.Remove(host);
+                }
+            }
+        }
+
+        public ServerInfo GetServer()
+        {
+            lock (_syncLock)
+            {
+                var server = Values.FirstOrDefault(x => x.BattlesRunning < x.MaxBattles);
+                return server;
             }
         }
     }

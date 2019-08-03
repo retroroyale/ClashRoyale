@@ -29,6 +29,7 @@ namespace ClashRoyale.Battles
             ClusterClient = new ClusterClient();
 
             Sessions = new Sessions();
+
             Netty = new NettyService();
             NettyClient = new NettyClient();
 

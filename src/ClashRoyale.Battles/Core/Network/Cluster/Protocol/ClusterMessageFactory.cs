@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ClashRoyale.Battles.Core.Network.Cluster.Protocol.Messages.Server;
 
 namespace ClashRoyale.Battles.Core.Network.Cluster.Protocol
 {
@@ -11,8 +12,8 @@ namespace ClashRoyale.Battles.Core.Network.Cluster.Protocol
         {
             Messages = new Dictionary<int, Type>
             {
-                //{20103, typeof(ConnectionFailedMessage)},
-                //{20104, typeof(ConnectionOkMessage)}
+                {20103, typeof(ConnectionFailedMessage)},
+                {20104, typeof(ConnectionOkMessage)}
             };
         }
     }

@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Utilities.Netty;
+﻿using ClashRoyale.Core.Cluster.Protocol.Messages.Server;
+using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 using SharpRaven.Data;
 
@@ -6,7 +7,7 @@ namespace ClashRoyale.Core.Cluster.Protocol.Messages.Client
 {
     public class ConnectionCheckMessage : ClusterMessage
     {
-        public ConnectionCheckMessage(Server server, IByteBuffer buffer) : base(server, buffer)
+        public ConnectionCheckMessage(Cluster.Server server, IByteBuffer buffer) : base(server, buffer)
         {
             Id = 10101;
         }
@@ -27,7 +28,7 @@ namespace ClashRoyale.Core.Cluster.Protocol.Messages.Client
             MaxBattles = Reader.ReadVInt();
         }
 
-        public override void Process()
+        public override async void Process()
         {
             if (CryptoFailed)
             {
@@ -37,7 +38,19 @@ namespace ClashRoyale.Core.Cluster.Protocol.Messages.Client
 
             Logger.Log($"Battle server with nonce \"{Nonce}\" connected.", GetType());
 
-            // TODO SEND OK
+            var ip = Server.GetIp();
+            var info = new ServerInfo
+            {
+                Ip = ip,
+                Port = Port,
+                Nonce = Nonce,
+                MaxBattles = MaxBattles
+            };
+
+            Resources.ServerManager.Add(ip + ":" + Port, info);
+            Server.ServerInfo = info;
+
+            await new ConnectionOkMessage(Server).SendAsync();
         }
     }
 }

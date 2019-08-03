@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Timers;
+using ClashRoyale.Core.Cluster;
 using ClashRoyale.Extensions;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
@@ -46,42 +46,37 @@ namespace ClashRoyale.Logic.Battle
 
             try
             {
+                ServerInfo server = null;
+                if (Resources.Configuration.UseUdp)
+                {
+                    server = Resources.ServerManager.GetServer();
+                }
+
                 foreach (var player in this)
                 {
                     Commands.Add(player.Home.Id, new Queue<byte[]>());
 
                     if (Resources.Configuration.UseUdp)
                     {
-                        await new UdpConnectionInfoMessage(player.Device)
-                        {
-                            ServerPort = 9449,
-                            ServerHost = "192.168.2.143",
-                            SessionId = BattleId,
-                            Nonce = "nonce"
-                        }.SendAsync();
+                        if (server != null)
+                            await new UdpConnectionInfoMessage(player.Device)
+                            {
+                                ServerPort = server.Port,
+                                ServerHost = server.Ip == "127.0.0.1" ? "192.168.2.143" : server.Ip, // just as test
+                                SessionId = BattleId,
+                                Nonce = server.Nonce
+                            }.SendAsync();
                     }
 
                     await new SectorStateMessage(player.Device)
                     {
                         Battle = this
                     }.SendAsync();
-
-                    /*for (var i = 0; i < 10000; i++)
-                    {
-                        await Task.Delay(200);
-
-                        await new TestSectorStateMessage(player.Device)
-                        {
-                            Battle = this,
-                            X = 3500 + (i % 2 == 0 ? 500 : -500),
-                            Y = 6500 + (i % 2 == 0 ? 500 : -500)
-                        }.SendAsync();
-                    }*/
                 }
 
                 StartTime = DateTime.UtcNow;
 
-                if (!Resources.Configuration.UseUdp)
+                if (!Resources.Configuration.UseUdp || server == null)
                     BattleTimer.Start();
             }
             catch (Exception)

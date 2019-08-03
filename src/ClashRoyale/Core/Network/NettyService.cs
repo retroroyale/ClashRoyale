@@ -67,22 +67,25 @@ namespace ClashRoyale.Core.Network
                     {
                         var pipeline = channel.Pipeline;
                         pipeline.AddFirst("FrameDecoder", new LengthFieldBasedFrameDecoder(512, 2, 3, 0, 0));
-                        pipeline.AddLast("ReadTimeoutHandler", new ReadTimeoutHandler(60));
-                        pipeline.AddLast("WriteTimeoutHandler", new WriteTimeoutHandler(60));
+                        //pipeline.AddLast("ReadTimeoutHandler", new ReadTimeoutHandler(60));
+                        //pipeline.AddLast("WriteTimeoutHandler", new WriteTimeoutHandler(60));
                         pipeline.AddLast("ClusterPacketHandler", new ClusterPacketHandler());
                         pipeline.AddLast("ClusterPacketEncoder", new ClusterPacketEncoder());
                     }));
             }
 
-            var boundClusterChannel = await ClusterBootstrap.BindAsync(Resources.Configuration.ClusterServerPort);
-            var clusterEndpoint = (IPEndPoint)boundClusterChannel.LocalAddress;
+            if (Resources.Configuration.UseUdp)
+            {
+                var boundClusterChannel = await ClusterBootstrap.BindAsync(Resources.Configuration.ClusterServerPort);
+                var clusterEndpoint = (IPEndPoint)boundClusterChannel.LocalAddress;
+
+                Logger.Log(
+                    $"Cluster started on {clusterEndpoint.Address.MapToIPv4()}:{clusterEndpoint.Port}.",
+                    GetType());
+            }
 
             var boundChannel = await ServerBootstrap.BindAsync(Resources.Configuration.ServerPort);
             var endpoint = (IPEndPoint)boundChannel.LocalAddress;
-
-            Logger.Log(
-                $"Cluster started on {clusterEndpoint.Address.MapToIPv4()}:{clusterEndpoint.Port}.",
-                GetType());
 
             Logger.Log(
                 $"Listening on {endpoint.Address.MapToIPv4()}:{endpoint.Port}. Let's play ClashRoyale!",

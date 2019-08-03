@@ -60,6 +60,7 @@ namespace ClashRoyale.Core.Cluster
 
         public ClusterPacketHandler Handler { get; set; }
         public Rc4Core Rc4 = new Rc4Core(Resources.Configuration.ClusterKey, Resources.Configuration.ClusterNonce);
+        public ServerInfo ServerInfo { get; set; }
 
         #endregion Objects
     }

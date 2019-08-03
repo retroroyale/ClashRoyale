@@ -26,12 +26,6 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
 
         public override void Process()
         {
-            if (Resources.Configuration.UseUdp)
-            {
-                Device.Disconnect();
-                return;
-            }
-
             Device.LastSectorCommand = DateTime.UtcNow;
 
             if (Count < 0 || Count > 128) return;

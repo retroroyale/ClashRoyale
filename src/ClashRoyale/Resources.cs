@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ClashRoyale.Core;
+using ClashRoyale.Core.Cluster;
 using ClashRoyale.Core.Leaderboards;
 using ClashRoyale.Core.Network;
 using ClashRoyale.Database;
@@ -21,6 +22,7 @@ namespace ClashRoyale
         public static Leaderboard Leaderboard { get; set; }
 
         public static NettyService Netty { get; set; }
+        public static ServerManager ServerManager { get; set; }
 
         public static Fingerprint Fingerprint { get; set; }
         public static Csv Csv { get; set; }
@@ -38,6 +40,8 @@ namespace ClashRoyale
 
             Configuration = new Configuration();
             Configuration.Initialize();
+
+            ServerManager = new ServerManager();
 
             Fingerprint = new Fingerprint();
             Sentry = new SentryReport();

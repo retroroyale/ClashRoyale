@@ -45,6 +45,8 @@ namespace ClashRoyale.Core.Network.Handlers.Cluster
 
         public override void ChannelUnregistered(IChannelHandlerContext context)
         {
+            Resources.ServerManager.Remove($"{Server.ServerInfo.Ip}:{Server.ServerInfo.Port}");
+
             var remoteAddress = (IPEndPoint)Channel.RemoteAddress;
 
             Logger.Log($"Server {remoteAddress.Address.MapToIPv4()}:{remoteAddress.Port} disconnected.", GetType(), ErrorLevel.Debug);

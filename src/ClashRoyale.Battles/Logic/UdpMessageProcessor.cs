@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Battles.Logic.Session;
+﻿using System;
+using ClashRoyale.Battles.Logic.Session;
 using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;

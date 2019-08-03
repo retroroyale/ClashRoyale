@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Timers;
+using ClashRoyale.Battles.Core.Network.Cluster.Protocol.Messages.Client;
 using ClashRoyale.Battles.Protocol.Messages.Server;
 using SharpRaven.Data;
 
@@ -57,6 +58,11 @@ namespace ClashRoyale.Battles.Logic.Battle
                         if (!session.BattleActive)
                         {
                             if (BattleSeconds <= 8) continue;
+
+                            await new BattleFinishedMessage
+                            {
+                                SessionId = Session.Id
+                            }.SendAsync();
 
                             Logger.Log("BATTLE OVER", null);
                         }
