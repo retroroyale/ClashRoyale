@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 using DotNetty.Buffers;
 using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Channels;
@@ -11,12 +12,17 @@ namespace ClashRoyale.Battles.Core.Network.Cluster.Handlers
     {
         public IChannel Channel { get; set; }
 
+        public ClusterPacketHandler()
+        {
+            Resources.ClusterClient.Handler = this;
+        }
+
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var buffer = (IByteBuffer) message;
             if (buffer == null) return;
 
-            ClusterClient.Process(buffer);
+            Resources.ClusterClient.Process(buffer);
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext context)
@@ -28,19 +34,16 @@ namespace ClashRoyale.Battles.Core.Network.Cluster.Handlers
         {
             Channel = context.Channel;
 
-            if (!Channel.Active)
-                return;
-
-            Logger.Log($"Connected to {Channel.RemoteAddress}", GetType(), ErrorLevel.Debug);
-
-            // TODO SEND CONNECTION CHECK MESSAGE
-
             base.ChannelRegistered(context);
         }
 
-        public override void ChannelUnregistered(IChannelHandlerContext context)
+        public override async void ChannelUnregistered(IChannelHandlerContext context)
         {
-            Logger.Log($"Disconnected from {Channel.RemoteAddress}", GetType(), ErrorLevel.Debug);
+            Logger.Log($"Disconnected from {Channel.RemoteAddress}. Retrying in 5sec.", GetType(), ErrorLevel.Debug);
+
+            await Task.Delay(5000);
+
+            await Task.Run(Resources.NettyClient.RunClientAsync);
 
             base.ChannelUnregistered(context);
         }

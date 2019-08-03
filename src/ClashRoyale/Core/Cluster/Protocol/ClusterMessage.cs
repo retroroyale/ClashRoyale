@@ -3,22 +3,25 @@ using System.Threading.Tasks;
 using DotNetty.Buffers;
 using SharpRaven.Data;
 
-namespace ClashRoyale.Battles.Core.Network.Cluster.Protocol
+namespace ClashRoyale.Core.Cluster.Protocol
 {
     public class ClusterMessage
     {
-        public ClusterMessage()
+        public ClusterMessage(Server server)
         {
+            Server = server;
             Writer = Unpooled.Buffer(5);
         }
 
-        public ClusterMessage(IByteBuffer buffer)
+        public ClusterMessage(Server server, IByteBuffer buffer)
         {
+            Server = server;
             Reader = buffer;
         }
 
         public IByteBuffer Writer { get; set; }
         public IByteBuffer Reader { get; set; }
+        public Server Server { get; set; }
         public ushort Id { get; set; }
         public int Length { get; set; }
 
@@ -28,7 +31,7 @@ namespace ClashRoyale.Battles.Core.Network.Cluster.Protocol
 
             var buffer = Reader.ReadBytes(Length);
 
-            Resources.ClusterClient.Rc4.Decrypt(ref buffer);
+            Server.Rc4.Decrypt(ref buffer);
 
             Reader = buffer;
             Length = buffer.ReadableBytes;
@@ -40,7 +43,7 @@ namespace ClashRoyale.Battles.Core.Network.Cluster.Protocol
 
             var buffer = Writer;
 
-            Resources.ClusterClient.Rc4.Encrypt(ref buffer);
+            Server.Rc4.Encrypt(ref buffer);
 
             Length = buffer.ReadableBytes;
         }
@@ -65,7 +68,7 @@ namespace ClashRoyale.Battles.Core.Network.Cluster.Protocol
         {
             try
             {
-                await Resources.ClusterClient.Handler.Channel.WriteAndFlushAsync(this);
+                await Server.Handler.Channel.WriteAndFlushAsync(this);
 
                 Logger.Log($"[S] Message {Id} ({GetType().Name}) sent.", GetType(), ErrorLevel.Debug);
             }

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using ClashRoyale.Battles.Core.Network.Cluster.Handlers;
+using DotNetty.Codecs;
 using DotNetty.Handlers.Logging;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
@@ -30,6 +31,7 @@ namespace ClashRoyale.Battles.Core.Network.Cluster
                 .Handler(new ActionChannelInitializer<IChannel>(channel =>
                 {
                     var pipeline = channel.Pipeline;
+                    pipeline.AddFirst("FrameDecoder", new LengthFieldBasedFrameDecoder(512, 2, 3));
                     pipeline.AddLast("ClusterPacketHandler", new ClusterPacketHandler());
                     pipeline.AddLast("ClusterPacketEncoder", new ClusterPacketEncoder());
                 }));
@@ -45,6 +47,8 @@ namespace ClashRoyale.Battles.Core.Network.Cluster
                 Logger.Log(
                     $"Connected to the cluster on {endpoint.Address.MapToIPv4()}:{endpoint.Port}.",
                     GetType());
+
+                Resources.ClusterClient.Login();
             }
             catch (Exception)
             {

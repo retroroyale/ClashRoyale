@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ClashRoyale.Utilities.Netty;
 
 namespace ClashRoyale.Battles.Core.Network.Cluster.Protocol.Messages.Client
 {
@@ -13,7 +11,11 @@ namespace ClashRoyale.Battles.Core.Network.Cluster.Protocol.Messages.Client
 
         public override void Encode()
         {
-            // TODO
+            Writer.WriteBoolean(false);
+
+            Writer.WriteScString(Resources.Configuration.BattleNonce);
+            Writer.WriteVInt(Resources.Configuration.ServerPort);
+            Writer.WriteVInt(Resources.Configuration.MaxBattles);
         }
     }
 }

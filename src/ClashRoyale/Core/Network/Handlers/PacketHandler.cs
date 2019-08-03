@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using ClashRoyale.Logic;
 using DotNetty.Buffers;
 using DotNetty.Handlers.Timeout;
@@ -34,7 +35,9 @@ namespace ClashRoyale.Core.Network.Handlers
         {
             Channel = context.Channel;
 
-            Logger.Log($"Client {Channel.RemoteAddress} connected.", GetType(), ErrorLevel.Debug);
+            var remoteAddress = (IPEndPoint)Channel.RemoteAddress;
+
+            Logger.Log($"Client {remoteAddress.Address.MapToIPv4()}:{remoteAddress.Port} connected.", GetType(), ErrorLevel.Debug);
 
             base.ChannelRegistered(context);
         }
@@ -68,7 +71,9 @@ namespace ClashRoyale.Core.Network.Handlers
                     }
             }
 
-            Logger.Log($"Client {Channel.RemoteAddress} disconnected.", GetType(), ErrorLevel.Debug);
+            var remoteAddress = (IPEndPoint)Channel.RemoteAddress;
+
+            Logger.Log($"Client {remoteAddress.Address.MapToIPv4()}:{remoteAddress.Port} disconnected.", GetType(), ErrorLevel.Debug);
 
             base.ChannelUnregistered(context);
         }

@@ -66,7 +66,7 @@ namespace ClashRoyale.Core.Network
                     .ChildHandler(new ActionChannelInitializer<IChannel>(channel =>
                     {
                         var pipeline = channel.Pipeline;
-                        pipeline.AddFirst("FrameDecoder", new LengthFieldBasedFrameDecoder(512, 2, 3, 2, 0));
+                        pipeline.AddFirst("FrameDecoder", new LengthFieldBasedFrameDecoder(512, 2, 3, 0, 0));
                         pipeline.AddLast("ReadTimeoutHandler", new ReadTimeoutHandler(60));
                         pipeline.AddLast("WriteTimeoutHandler", new WriteTimeoutHandler(60));
                         pipeline.AddLast("ClusterPacketHandler", new ClusterPacketHandler());

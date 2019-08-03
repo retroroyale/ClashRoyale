@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using ClashRoyale.Protocol;
+using ClashRoyale.Core.Cluster.Protocol;
 using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
 
@@ -9,7 +9,7 @@ namespace ClashRoyale.Core.Network.Handlers.Cluster
     {
         public override Task WriteAsync(IChannelHandlerContext context, object msg)
         {
-            if (!(msg is PiranhaMessage message)) return base.WriteAsync(context, null);
+            if (!(msg is ClusterMessage message)) return base.WriteAsync(context, null);
 
             message.Encode();
             message.Encrypt();

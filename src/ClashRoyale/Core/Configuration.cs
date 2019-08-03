@@ -37,6 +37,10 @@ namespace ClashRoyale.Core
         [JsonProperty("battle_servers")] public List<string> BattleServers = new List<string>();
         [JsonProperty("cluster_server_port")] public int ClusterServerPort = 9876;
 
+        // Make sure to edit these on prod
+        [JsonProperty("cluster_encryption_key")] public string ClusterKey = "15uvmi8qnyuj9tm53ipaavvytltm582yatecyjzb";
+        [JsonProperty("cluster_encryption_nonce")] public string ClusterNonce = "nonce";
+
         public void Initialize()
         {
             if (File.Exists("config.json"))
@@ -63,6 +67,9 @@ namespace ClashRoyale.Core
                     UseUdp = config.UseUdp;
                     BattleServers = config.BattleServers;
                     ClusterServerPort = config.ClusterServerPort;
+
+                    ClusterKey = config.ClusterKey;
+                    ClusterNonce = config.ClusterNonce;
                 }
                 catch (Exception)
                 {

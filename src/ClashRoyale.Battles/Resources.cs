@@ -14,6 +14,7 @@ namespace ClashRoyale.Battles
         public static NettyClient NettyClient { get; set; }
         public static Sessions Sessions { get; set; }
         public static Configuration Configuration { get; set; }
+        public static ClusterClient ClusterClient { get; set; }
 
         public static async void Initialize()
         {
@@ -24,6 +25,8 @@ namespace ClashRoyale.Battles
 
             Configuration = new Configuration();
             Configuration.Initialize();
+
+            ClusterClient = new ClusterClient();
 
             Sessions = new Sessions();
             Netty = new NettyService();
