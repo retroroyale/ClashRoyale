@@ -71,7 +71,6 @@ namespace ClashRoyale.Logic.Home.Decks
 
                 if (pos == -1)
                 {
-                    Console.WriteLine($"Card {i} of the old deck is not in the current deck!");
                     pos = FindIndex(c => c.GlobalId == card.GlobalId); 
 
                     // Card in deck
