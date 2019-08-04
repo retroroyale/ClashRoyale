@@ -11,6 +11,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Home
         public EndClientTurnMessage(Device device, IByteBuffer buffer) : base(device, buffer)
         {
             Id = 14102;
+            RequiredState = Device.State.NotDefinied;
         }
 
         public int Tick { get; set; }

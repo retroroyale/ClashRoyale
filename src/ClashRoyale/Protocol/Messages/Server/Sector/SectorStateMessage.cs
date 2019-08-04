@@ -42,7 +42,7 @@ namespace ClashRoyale.Protocol.Messages.Server
                     Writer.WriteVInt(player.Home.LowId);
                 }
 
-                Writer.WriteScString(player.Home.Name); // Player 2 Name
+                Writer.WriteScString(player.Home.Name); // Player Name
                 Writer.WriteVInt(player.Home.ExpLevel); // Level
                 Writer.WriteVInt(player.Home.Arena.Trophies);
 

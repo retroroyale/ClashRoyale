@@ -120,9 +120,9 @@ namespace ClashRoyale.Logic.Battle
 
             packet.WriteBoolean(false); // IsReplay / Type?
             packet.WriteBoolean(false); // IsEndConditionMatched
+            packet.WriteBoolean(false);
 
-            packet.WriteBoolean(false);
-            packet.WriteBoolean(false);
+            packet.WriteBoolean(false); // IsNpc
 
             packet.WriteBoolean(false); // isBattleEndedWithTimeOut
             packet.WriteBoolean(false);
