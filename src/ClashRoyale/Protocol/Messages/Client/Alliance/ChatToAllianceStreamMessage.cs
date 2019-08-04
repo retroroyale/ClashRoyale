@@ -27,14 +27,39 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
             var alliance = await Resources.Alliances.GetAllianceAsync(info.Id);
             if (alliance == null) return;
 
-            var entry = new ChatStreamEntry
+            if (Message.StartsWith('/'))
             {
-                Message = Message
-            };
+                var cmdType = Message.Split(' ')[0];
+                int.TryParse(Message.Split(' ')[1], out var cmdValue);
 
-            entry.SetSender(Device.Player);
+                switch (cmdType)
+                {
+                    case "/exp":
+                    {
+                        Device.Player.Home.AddExpPoints(cmdValue);
+                        Device.Disconnect();
+                        break;
+                    }
 
-            alliance.AddEntry(entry);
+                    case "/gold":
+                    {
+                        Device.Player.Home.Gold += cmdValue;
+                        Device.Disconnect();
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                var entry = new ChatStreamEntry
+                {
+                    Message = Message
+                };
+
+                entry.SetSender(Device.Player);
+
+                alliance.AddEntry(entry);
+            }
         }
     }
 }

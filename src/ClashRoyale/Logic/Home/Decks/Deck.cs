@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ClashRoyale.Logic.Home.Decks.Items;
 using ClashRoyale.Utilities.Netty;
@@ -14,7 +15,12 @@ namespace ClashRoyale.Logic.Home.Decks
         public void Initialize()
         {
             for (var i = 0; i < 8; i++)
-                Add(new Card(26, i, false));
+            {
+                var card = new Card(26, i, false);
+                Add(card);
+
+                foreach (var deck in Home.Decks) deck[i] = card.GlobalId;
+            }
         }
 
         public new void Add(Card card)
@@ -29,12 +35,15 @@ namespace ClashRoyale.Logic.Home.Decks
 
         public void Encode(IByteBuffer packet)
         {
-            packet.WriteVInt(1); // DeckCount
+            packet.WriteVInt(Home.Decks.Length); // DeckCount
 
-            packet.WriteVInt(8);
+            foreach (var deck in Home.Decks)
+            {
+                packet.WriteVInt(deck.Length);
 
-            foreach (var card in GetRange(0, 8))
-                packet.WriteVInt(card.GlobalId);
+                foreach (var globalId in deck)
+                    packet.WriteVInt(globalId);
+            }
 
             packet.WriteByte(255);
 
@@ -46,7 +55,43 @@ namespace ClashRoyale.Logic.Home.Decks
             foreach (var card in this.Skip(8))
                 card.Encode(packet);
 
-            packet.WriteVInt(0); // CurrentSlot
+            packet.WriteVInt(Home.SelectedDeck); // CurrentSlot
+        }
+
+        public void SwitchDeck(int deckIndex)
+        {
+            if (deckIndex > 4) return;
+
+            var currentDeck = Home.Decks[Home.SelectedDeck];
+
+            for (var i = 0; i < 8; i++)
+            {
+                var card = this[i];
+                var pos = Array.FindIndex(currentDeck, c => c == card.GlobalId);
+
+                if (pos == -1)
+                {
+                    Console.WriteLine($"Card {i} of the old deck is not in the current deck!");
+                    pos = FindIndex(c => c.GlobalId == card.GlobalId); 
+
+                    // Card in deck
+                    var old = currentDeck[i];
+                    currentDeck[i] = card.GlobalId;
+
+                    // Cards in deck from collection
+                    var oldCard = FindIndex(c => c.GlobalId == old);
+                    this[pos] = this[oldCard];
+                    this[oldCard] = card;
+                }
+                else
+                {
+                    var c = currentDeck[i];
+                    currentDeck[i] = currentDeck[pos];
+                    currentDeck[pos] = c;
+                }
+            }
+
+            Home.SelectedDeck = deckIndex;
         }
 
         public void EncodeAttack(IByteBuffer packet)
@@ -61,8 +106,11 @@ namespace ClashRoyale.Logic.Home.Decks
             return index > -1 ? this[index] : null;
         }
 
-        public void SwapCard(int cardOffset, int deckOffset)
+        public void SwapCard(int cardOffset, int deckOffset, int deck = -1)
         {
+            var currentDeck = Home.Decks[deck == -1 ? Home.SelectedDeck : deck];
+            currentDeck[deckOffset] = this[cardOffset + 8].GlobalId;
+
             var old = this[deckOffset];
             this[deckOffset] = this[cardOffset + 8];
             this[cardOffset + 8] = old;

@@ -38,6 +38,9 @@ namespace ClashRoyale.Logic.Home
             Name = "NoName";
             ExpLevel = 1;
 
+            Decks = new int[5][];
+            for (var i = 0; i < 5; i++) Decks[i] = new int[8];
+
             Deck.Home = this;
             Deck.Initialize();
 
@@ -71,6 +74,10 @@ namespace ClashRoyale.Logic.Home
         // Player Stats
         [JsonProperty("exp_level")] public int ExpLevel { get; set; }
         [JsonProperty("exp_points")] public int ExpPoints { get; set; }
+
+        // Deck
+        [JsonProperty("selected_deck")] public int SelectedDeck { get; set; }
+        [JsonProperty("decks")] public int[][] Decks { get; set; }
 
         [JsonIgnore] public List<Session> Sessions = new List<Session>(50);
 

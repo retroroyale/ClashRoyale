@@ -1,5 +1,4 @@
 ﻿using ClashRoyale.Logic;
-using ClashRoyale.Protocol.Messages.Server;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 
@@ -23,9 +22,10 @@ namespace ClashRoyale.Protocol.Commands.Client
             DeckIndex = Buffer.ReadVInt();
         }
 
-        public override async void Process()
+        public override void Process()
         {
-            await new OutOfSyncMessage(Device).SendAsync();
+            var home = Device.Player.Home;
+            home.Deck.SwitchDeck(DeckIndex);
         }
     }
 }
