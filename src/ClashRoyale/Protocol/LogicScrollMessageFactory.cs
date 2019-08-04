@@ -39,7 +39,7 @@ namespace ClashRoyale.Protocol
                 {12951, typeof(SendBattleEventMessage)},
                 {14101, typeof(GoHomeMessage)},
                 {14102, typeof(EndClientTurnMessage)},
-                //{14104, typeof(StartMissionMessage)},
+                {14104, typeof(StartMissionMessage)},
                 //{14105, typeof(HomeLogicStoppedMessage)},
                 {14107, typeof(CancelMatchmakeMessage)},
                 {14113, typeof(VisitHomeMessage)},
