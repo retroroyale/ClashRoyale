@@ -62,32 +62,16 @@ namespace ClashRoyale.Logic.Home.Decks
         {
             if (deckIndex > 4) return;
 
-            var currentDeck = Home.Decks[Home.SelectedDeck];
-
-            for (var i = 0; i < 8; i++)
+            for (var i = 0; i < Home.Decks[deckIndex].Length; i++)
             {
-                var card = this[i];
-                var pos = Array.FindIndex(currentDeck, c => c == card.GlobalId);
+                var card = Home.Decks[deckIndex][i];
+                var newDeckCard = GetCard(card);
+                var oldDeckCard = this[i];
 
-                if (pos == -1)
-                {
-                    pos = FindIndex(c => c.GlobalId == card.GlobalId); 
+                var newOldCardIndex = IndexOf(newDeckCard);
 
-                    // Card in deck
-                    var old = currentDeck[i];
-                    currentDeck[i] = card.GlobalId;
-
-                    // Cards in deck from collection
-                    var oldCard = FindIndex(c => c.GlobalId == old);
-                    this[pos] = this[oldCard];
-                    this[oldCard] = card;
-                }
-                else
-                {
-                    var c = currentDeck[i];
-                    currentDeck[i] = currentDeck[pos];
-                    currentDeck[pos] = c;
-                }
+                this[newOldCardIndex] = oldDeckCard;
+                this[i] = newDeckCard;
             }
 
             Home.SelectedDeck = deckIndex;
@@ -102,6 +86,12 @@ namespace ClashRoyale.Logic.Home.Decks
         public Card GetCard(int classId, int instanceId)
         {
             var index = FindIndex(c => c.ClassId == classId && c.InstanceId == instanceId);
+            return index > -1 ? this[index] : null;
+        }
+
+        public Card GetCard(int globalId)
+        {
+            var index = FindIndex(c => c.GlobalId == globalId);
             return index > -1 ? this[index] : null;
         }
 
