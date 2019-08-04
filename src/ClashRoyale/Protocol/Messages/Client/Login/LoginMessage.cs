@@ -118,7 +118,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Login
                 // If the account was not found we send LoginFailed
                 await new LoginFailedMessage(Device)
                 {
-                    ErrorCode = 10
+                    Reason = "Account not found. Please clear app data."
                 }.SendAsync();
             }
         }
