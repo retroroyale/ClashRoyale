@@ -42,9 +42,9 @@ namespace ClashRoyale
                         Console.WriteLine($"[{logType.ToString()}] {message}");
                         Console.ResetColor();
                     }
+#endif
 
                     Resources.Sentry.Report(message.ToString(), type, logType);
-#endif
                     break;
                 }
 
@@ -59,9 +59,9 @@ namespace ClashRoyale
                         Console.WriteLine($"[{logType.ToString()}] {message}");
                         Console.ResetColor();
                     }
+#endif
 
                     Resources.Sentry.Report(message.ToString(), type, logType);
-#endif
                     break;
                 }
 
