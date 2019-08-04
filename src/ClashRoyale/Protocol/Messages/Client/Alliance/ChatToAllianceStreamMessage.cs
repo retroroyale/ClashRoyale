@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Logic;
+﻿using System.Linq;
+using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
@@ -29,8 +30,13 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
 
             if (Message.StartsWith('/'))
             {
-                var cmdType = Message.Split(' ')[0];
-                int.TryParse(Message.Split(' ')[1], out var cmdValue);
+                var cmd = Message.Split(' ');
+                var cmdType = cmd[0];
+                var cmdValue = 0;
+
+                if(cmd.Length > 1)
+                    if (Message.Split(' ')[1].Any(char.IsDigit))
+                        int.TryParse(Message.Split(' ')[1], out cmdValue);
 
                 switch (cmdType)
                 {
@@ -45,6 +51,21 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                     {
                         Device.Player.Home.Gold += cmdValue;
                         Device.Disconnect();
+                        break;
+                    }
+
+                    case "/test":
+                    {
+                        var entry = new DonateStreamEntry
+                        {
+                            Message = Message,
+                            TotalCapacity = 10
+                        };
+
+                        entry.SetSender(Device.Player);
+
+                        alliance.AddEntry(entry);
+
                         break;
                     }
                 }
