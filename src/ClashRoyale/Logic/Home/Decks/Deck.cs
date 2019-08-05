@@ -18,7 +18,6 @@ namespace ClashRoyale.Logic.Home.Decks
             {
                 var card = new Card(26, i, false);
                 Add(card);
-
                 foreach (var deck in Home.Decks) deck[i] = card.GlobalId;
             }
         }
@@ -105,9 +104,19 @@ namespace ClashRoyale.Logic.Home.Decks
             this[cardOffset + 8] = old;
         }
 
+        public void UpgradeAll()
+        {
+            foreach (var card in this) UpgradeCard(card);
+        }
+
         public void UpgradeCard(int classId, int instanceId)
         {
             var card = GetCard(classId, instanceId);
+            UpgradeCard(card);
+        }
+
+        public void UpgradeCard(Card card)
+        {
             var data = card.GetRarityData;
             var materialCount = data.UpgradeMaterialCount[card.Level];
 
