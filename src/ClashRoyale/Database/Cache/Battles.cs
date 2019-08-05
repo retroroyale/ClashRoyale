@@ -10,6 +10,11 @@ namespace ClashRoyale.Database.Cache
     public class Battles : Dictionary<long, LogicBattle>
     {
         private readonly List<Player> _playerQueue = new List<Player>();
+        private readonly List<Player> _duoPlayerQueue = new List<Player>();
+
+        private readonly object _playerQueueSync = new object();
+        private readonly object _duoPlayerQueueSync = new object();
+
         private readonly Random _random = new Random();
         private long _seed = 1;
 
@@ -22,7 +27,7 @@ namespace ClashRoyale.Database.Cache
             {
                 Player player;
 
-                lock (_playerQueue)
+                lock (_playerQueueSync)
                 {
                     if (_playerQueue.Count <= 0) return null;
 
@@ -38,32 +43,71 @@ namespace ClashRoyale.Database.Cache
         }
 
         /// <summary>
+        ///     Get all 4 players from the duo queue and remove them
+        /// </summary>
+        public List<Player> DequeueDuo
+        {
+            get
+            {
+                /*Player player;
+
+                lock (_duoPlayerQueueSync)
+                {
+                    if (_duoPlayerQueue.Count <= 0) return null;
+
+                    player = _duoPlayerQueue[0];
+                    _duoPlayerQueue.RemoveAt(0);
+
+                    if (!player.Device.IsConnected)
+                        return null;
+                }
+
+                return player;*/
+
+                return null;
+            }
+        }
+
+        /// <summary>
         ///     Adds a player to the queue and sends the estimated time
         /// </summary>
         /// <param name="player"></param>
-        public async void Enqueue(Player player)
+        /// <param name="duo"></param>
+        public async void Enqueue(Player player, bool duo)
         {
             var players = Resources.Players;
             var playerCount = players.Count;
 
-            lock (_playerQueue)
+            if (!duo)
             {
-                if (_playerQueue.Contains(player)) return;
+                lock (_playerQueueSync)
+                {
+                    if (_playerQueue.Contains(player)) return;
+                    _playerQueue.Add(player);
 
-                _playerQueue.Add(player);
+                    var estimatedTime = _random.Next(601, 901);
 
-                var estimatedTime = _random.Next(601, 901);
-
-                if (playerCount > 0)
-                    if (playerCount > 5)
-                        if (playerCount > 25)
-                            estimatedTime = playerCount > _random.Next(61, 101) ? 5 : _random.Next(6, 16);
+                    if (playerCount > 0)
+                        if (playerCount > 5)
+                            if (playerCount > 25)
+                                estimatedTime = playerCount > _random.Next(61, 101) ? 5 : _random.Next(6, 16);
+                            else
+                                estimatedTime = _random.Next(30, 61);
                         else
-                            estimatedTime = _random.Next(30, 61);
-                    else
-                        estimatedTime = _random.Next(101, 601);
+                            estimatedTime = _random.Next(101, 601);
 
-                SendInfo(player.Device, estimatedTime);
+                    SendInfo(player.Device, estimatedTime);
+                }
+            }
+            else
+            {
+                lock (_duoPlayerQueueSync)
+                {
+                    if (_duoPlayerQueue.Contains(player)) return;
+                    _duoPlayerQueue.Add(player);
+                }
+
+                // TODO SEND INFO
             }
 
             if (playerCount > 100) return;
@@ -98,11 +142,21 @@ namespace ClashRoyale.Database.Cache
         /// <returns></returns>
         public bool Cancel(Player player)
         {
-            lock (_playerQueue)
+            lock (_playerQueueSync)
             {
-                if (!_playerQueue.Contains(player)) return false;
+                if (_playerQueue.Contains(player))
+                {
+                    _playerQueue.Remove(player);
 
-                _playerQueue.Remove(player);
+                    return true;
+                }
+            }
+
+            lock (_duoPlayerQueueSync)
+            {
+                if (!_duoPlayerQueue.Contains(player)) return false;
+
+                _duoPlayerQueue.Remove(player);
 
                 return true;
             }

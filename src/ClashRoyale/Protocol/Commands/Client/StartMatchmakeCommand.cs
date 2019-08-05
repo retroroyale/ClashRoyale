@@ -30,6 +30,26 @@ namespace ClashRoyale.Protocol.Commands.Client
             {
                 await new MatchmakeFailedMessage(Device).SendAsync();
                 await new CancelMatchmakeDoneMessage(Device).SendAsync();
+
+                /*var players = Resources.Battles.DequeueDuo;
+                if (players != null)
+                {
+                    var battle = new LogicBattle(false, Device.Player.Home.Arena.CurrentArena + 1)
+                    {
+                        Device.Player, players
+                    };
+
+                    Resources.Battles.Add(battle);
+
+                    Device.Player.Battle = battle;
+                    players.Battle = battle;
+
+                    battle.Start();
+                }
+                else
+                {
+                    Resources.Battles.Enqueue(Device.Player, Is2V2);
+                }*/
             }
             else
             {
@@ -50,7 +70,7 @@ namespace ClashRoyale.Protocol.Commands.Client
                 }
                 else
                 {
-                    Resources.Battles.Enqueue(Device.Player);
+                    Resources.Battles.Enqueue(Device.Player, Is2V2);
                 }
             }
         }
