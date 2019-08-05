@@ -40,6 +40,13 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
 
                 switch (cmdType)
                 {
+                    case "/upgrade":
+                    {
+                        Device.Player.Home.Deck.UpgradeAll();
+                        Device.Disconnect();
+                        break;
+                    }
+
                     case "/exp":
                     {
                         Device.Player.Home.AddExpPoints(cmdValue);
@@ -54,7 +61,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                         break;
                     }
 
-                    case "/test":
+                    /*case "/test":
                     {
                         var entry = new DonateStreamEntry
                         {
@@ -67,7 +74,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                         alliance.AddEntry(entry);
 
                         break;
-                    }
+                    }*/
                 }
             }
             else
