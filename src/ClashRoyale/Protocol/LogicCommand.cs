@@ -15,7 +15,7 @@ namespace ClashRoyale.Protocol
         public LogicCommand(Device device, IByteBuffer buffer)
         {
             Device = device;
-            Buffer = buffer;
+            Reader = buffer;
             Data = Unpooled.Buffer();
         }
 
@@ -24,12 +24,12 @@ namespace ClashRoyale.Protocol
 
         public int Type { get; set; }
         public int Tick { get; set; }
-        public IByteBuffer Buffer { get; set; }
+        public IByteBuffer Reader { get; set; }
 
         public virtual void Decode()
         {
-            Tick = Buffer.ReadVInt();
-            Buffer.ReadVInt();
+            Tick = Reader.ReadVInt();
+            Reader.ReadVInt();
         }
 
         public virtual void Encode()

@@ -18,10 +18,10 @@ namespace ClashRoyale.Protocol.Commands.Client
         {
             base.Decode();
 
-            Buffer.ReadVInt();
-            Buffer.ReadVInt();
+            Reader.ReadVInt();
+            Reader.ReadVInt();
 
-            Is2V2 = Buffer.ReadBoolean();
+            Is2V2 = Reader.ReadBoolean();
         }
 
         public override async void Process()

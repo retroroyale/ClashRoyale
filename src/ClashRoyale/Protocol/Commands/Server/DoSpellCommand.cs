@@ -28,24 +28,24 @@ namespace ClashRoyale.Protocol.Commands.Server
         {
             // Header
             {
-                ClientTick = Buffer.ReadVInt();
-                Checksum = Buffer.ReadVInt();
+                ClientTick = Reader.ReadVInt();
+                Checksum = Reader.ReadVInt();
 
-                SenderHighId = Buffer.ReadVInt();
-                SenderLowId = Buffer.ReadVInt();
+                SenderHighId = Reader.ReadVInt();
+                SenderLowId = Reader.ReadVInt();
             }
 
-            SpellDeckIndex = Buffer.ReadVInt();
+            SpellDeckIndex = Reader.ReadVInt();
 
-            ClassId = Buffer.ReadVInt();
-            InstanceId = Buffer.ReadVInt();
+            ClassId = Reader.ReadVInt();
+            InstanceId = Reader.ReadVInt();
 
-            SpellIndex = Buffer.ReadVInt();
+            SpellIndex = Reader.ReadVInt();
 
-            TroopLevel = Buffer.ReadVInt();
+            TroopLevel = Reader.ReadVInt();
 
-            X = Buffer.ReadVInt();
-            Y = Buffer.ReadVInt();
+            X = Reader.ReadVInt();
+            Y = Reader.ReadVInt();
         }
 
         public override void Encode()

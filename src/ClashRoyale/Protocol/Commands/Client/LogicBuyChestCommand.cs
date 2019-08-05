@@ -19,11 +19,11 @@ namespace ClashRoyale.Protocol.Commands.Client
         {
             base.Decode();
 
-            Buffer.ReadVInt();
-            Buffer.ReadVInt();
+            Reader.ReadVInt();
+            Reader.ReadVInt();
 
-            Buffer.ReadVInt(); // ClassId
-            InstanceId = Buffer.ReadVInt();
+            Reader.ReadVInt(); // ClassId
+            InstanceId = Reader.ReadVInt();
         }
 
         public override async void Process()

@@ -16,21 +16,21 @@ namespace ClashRoyale.Protocol.Commands.Client
 
         public override void Decode()
         {
-            Message = Buffer.ReadScString();
-            Buffer.ReadBoolean();
+            Message = Reader.ReadScString();
+            Reader.ReadBoolean();
 
-            Buffer.ReadVInt();
-            Buffer.ReadVInt();
+            Reader.ReadVInt();
+            Reader.ReadVInt();
 
-            Buffer.ReadVInt();
-            Buffer.ReadVInt();
+            Reader.ReadVInt();
+            Reader.ReadVInt();
 
-            Buffer.ReadVInt();
-            Buffer.ReadVInt();
+            Reader.ReadVInt();
+            Reader.ReadVInt();
 
-            Buffer.ReadVInt();
+            Reader.ReadVInt();
 
-            Arena = Buffer.ReadVInt();
+            Arena = Reader.ReadVInt();
         }
 
         public override async void Process()

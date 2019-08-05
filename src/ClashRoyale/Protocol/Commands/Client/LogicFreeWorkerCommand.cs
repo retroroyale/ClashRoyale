@@ -17,13 +17,13 @@ namespace ClashRoyale.Protocol.Commands.Client
         {
             base.Decode();
 
-            Buffer.ReadVInt();
-            Buffer.ReadVInt();
+            Reader.ReadVInt();
+            Reader.ReadVInt();
 
-            Buffer.ReadVInt();
+            Reader.ReadVInt();
 
-            ClassId = Buffer.ReadVInt();
-            InstanceId = Buffer.ReadVInt();
+            ClassId = Reader.ReadVInt();
+            InstanceId = Reader.ReadVInt();
         }
 
         public override void Process()

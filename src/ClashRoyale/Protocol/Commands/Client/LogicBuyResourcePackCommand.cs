@@ -13,9 +13,9 @@ namespace ClashRoyale.Protocol.Commands.Client
 
         public override void Decode()
         {
-            Console.WriteLine(Buffer.ReadVInt());
-            Console.WriteLine(Buffer.ReadVInt());
-            Console.WriteLine(Buffer.ReadVInt());
+            Console.WriteLine(Reader.ReadVInt());
+            Console.WriteLine(Reader.ReadVInt());
+            Console.WriteLine(Reader.ReadVInt());
         }
 
         public override void Process()

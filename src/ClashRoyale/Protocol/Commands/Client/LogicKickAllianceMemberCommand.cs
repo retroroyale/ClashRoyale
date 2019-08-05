@@ -20,12 +20,12 @@ namespace ClashRoyale.Protocol.Commands.Client
         {
             base.Decode();
 
-            Buffer.ReadVInt();
-            Buffer.ReadVInt();
+            Reader.ReadVInt();
+            Reader.ReadVInt();
 
-            Message = Buffer.ReadScString();
+            Message = Reader.ReadScString();
 
-            MemberId = Buffer.ReadLong();
+            MemberId = Reader.ReadLong();
         }
 
         public override async void Process()

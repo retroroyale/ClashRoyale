@@ -17,11 +17,11 @@ namespace ClashRoyale.Protocol.Commands.Client
         {
             base.Decode();
 
-            Buffer.ReadVInt();
-            Buffer.ReadVInt();
+            Reader.ReadVInt();
+            Reader.ReadVInt();
 
-            CardOffset = Buffer.ReadVInt();
-            DeckOffset = Buffer.ReadVInt();
+            CardOffset = Reader.ReadVInt();
+            DeckOffset = Reader.ReadVInt();
         }
 
         public override void Process()
