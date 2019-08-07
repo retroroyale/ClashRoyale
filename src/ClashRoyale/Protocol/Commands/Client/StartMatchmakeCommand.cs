@@ -1,6 +1,5 @@
 ﻿using ClashRoyale.Logic;
 using ClashRoyale.Logic.Battle;
-using ClashRoyale.Protocol.Messages.Server;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 
@@ -24,32 +23,31 @@ namespace ClashRoyale.Protocol.Commands.Client
             Is2V2 = Reader.ReadBoolean();
         }
 
-        public override async void Process()
+        public override void Process()
         {
             if (Is2V2)
             {
-                await new MatchmakeFailedMessage(Device).SendAsync();
-                await new CancelMatchmakeDoneMessage(Device).SendAsync();
+                //await new MatchmakeFailedMessage(Device).SendAsync();
+                //await new CancelMatchmakeDoneMessage(Device).SendAsync();
 
-                /*var players = Resources.Battles.DequeueDuo;
+                var players = Resources.DuoBattles.Dequeue;
                 if (players != null)
                 {
-                    var battle = new LogicBattle(false, Device.Player.Home.Arena.CurrentArena + 1)
+                    var battle = new LogicDuoBattle(Device.Player.Home.Arena.CurrentArena + 1, players);
+
+                    Resources.DuoBattles.Add(battle);
+
+                    foreach (var player in players)
                     {
-                        Device.Player, players
-                    };
-
-                    Resources.Battles.Add(battle);
-
-                    Device.Player.Battle = battle;
-                    players.Battle = battle;
+                        player.DuoBattle = battle;
+                    }
 
                     battle.Start();
                 }
                 else
                 {
-                    Resources.Battles.Enqueue(Device.Player, Is2V2);
-                }*/
+                    Resources.DuoBattles.Enqueue(Device.Player);
+                }
             }
             else
             {
@@ -70,7 +68,7 @@ namespace ClashRoyale.Protocol.Commands.Client
                 }
                 else
                 {
-                    Resources.Battles.Enqueue(Device.Player, Is2V2);
+                    Resources.Battles.Enqueue(Device.Player);
                 }
             }
         }

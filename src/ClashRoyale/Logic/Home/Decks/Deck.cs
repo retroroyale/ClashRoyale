@@ -94,9 +94,15 @@ namespace ClashRoyale.Logic.Home.Decks
             return index > -1 ? this[index] : null;
         }
 
-        public void SwapCard(int cardOffset, int deckOffset, int deck = -1)
+        public int GetCardOffset(int globalId)
         {
-            var currentDeck = Home.Decks[deck == -1 ? Home.SelectedDeck : deck];
+            var index = FindIndex(c => c.GlobalId == globalId);
+            return index;
+        }
+
+        public void SwapCard(int cardOffset, int deckOffset)
+        {
+            var currentDeck = Home.Decks[Home.SelectedDeck];
             currentDeck[deckOffset] = this[cardOffset + 8].GlobalId;
 
             var old = this[deckOffset];

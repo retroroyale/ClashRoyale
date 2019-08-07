@@ -27,6 +27,7 @@ namespace ClashRoyale.Logic
         public Home.Home Home { get; set; }
 
         [JsonIgnore] public LogicBattle Battle { get; set; }
+        [JsonIgnore] public LogicDuoBattle DuoBattle { get; set; }
         [JsonIgnore] public Device Device { get; set; }
 
         public void RankingEntry(IByteBuffer packet)
