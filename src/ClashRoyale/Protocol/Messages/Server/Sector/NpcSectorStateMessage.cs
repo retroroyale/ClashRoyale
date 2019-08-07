@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Extensions;
+﻿using System;
+using ClashRoyale.Extensions;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using ClashRoyale.Logic;
@@ -13,6 +14,7 @@ namespace ClashRoyale.Protocol.Messages.Server
         {
             Id = 21903;
             device.CurrentState = Device.State.Battle;
+            device.LastVisitHome = DateTime.UtcNow;
         }
 
         public override void Encode()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ClashRoyale.Protocol.Messages.Client;
 using ClashRoyale.Protocol.Messages.Client.Alliance;
 using ClashRoyale.Protocol.Messages.Client.Home;
 using ClashRoyale.Protocol.Messages.Client.Login;
