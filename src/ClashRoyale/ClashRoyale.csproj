@@ -234,10 +234,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Logic\Home\StreamEntry\Entries\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ClashRoyale.Utilities\ClashRoyale.Utilities.csproj" />
   </ItemGroup>
 

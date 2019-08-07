@@ -128,22 +128,21 @@ namespace ClashRoyale.Logic.Home
 
         public void AddExpPoints(int expPoints)
         {
-            if (ExpLevel <= 13)
-            {
-                ExpPoints += expPoints;
+            if (ExpLevel >= 13) return;
 
-                for (var i = ExpLevel; i < 13; i++)
+            ExpPoints += expPoints;
+
+            for (var i = ExpLevel; i < 13; i++)
+            {
+                var data = Csv.Tables.Get(Csv.Files.ExpLevels).GetDataWithInstanceId<ExpLevels>(ExpLevel - 1);
+                if (data.ExpToNextLevel <= ExpPoints)
                 {
-                    var data = Csv.Tables.Get(Csv.Files.ExpLevels).GetDataWithInstanceId<ExpLevels>(ExpLevel - 1);
-                    if (data.ExpToNextLevel <= ExpPoints)
-                    {
-                        ExpLevel++;
-                        ExpPoints -= data.ExpToNextLevel;
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    ExpLevel++;
+                    ExpPoints -= data.ExpToNextLevel;
+                }
+                else
+                {
+                    break;
                 }
             }
         }
@@ -155,13 +154,11 @@ namespace ClashRoyale.Logic.Home
 
         public bool UseGold(int amount)
         {
-            if (Gold - amount >= 0)
-            {
-                Gold -= amount;
-                return true;
-            }
+            if (Gold - amount < 0) return false;
 
-            return false;
+            Gold -= amount;
+            return true;
+
         }
 
         /// <summary>

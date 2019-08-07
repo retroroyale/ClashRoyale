@@ -5,15 +5,15 @@ using ClashRoyale.Utilities.Utils;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {
-    public class SectorStateMessage : PiranhaMessage
+    public class DuoSectorStateMessage : PiranhaMessage
     {
-        public SectorStateMessage(Device device) : base(device)
+        public DuoSectorStateMessage(Device device) : base(device)
         {
             Id = 21903;
             device.CurrentState = Device.State.Battle;
         }
 
-        public LogicBattle Battle { get; set; }
+        public LogicDuoBattle Battle { get; set; }
 
         public override void Encode()
         {
@@ -32,7 +32,7 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(7419667);
             Writer.WriteVInt(1);
 
-            for (var p = 0; p < Battle.Count; p++)
+            /*for (var p = 0; p < Battle.Count; p++)
             {
                 var player = Battle[p];
 
@@ -105,7 +105,7 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Writer.WriteVInt(1);
 
                 Writer.WriteVInt(p == 0 ? 2 : 0); // ??
-            }
+            }*/
 
             Battle.Encode(Writer);
         }

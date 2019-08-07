@@ -10,6 +10,7 @@ namespace ClashRoyale.Database.Cache
     public class Battles : Dictionary<long, LogicBattle>
     {
         private readonly List<Player> _playerQueue = new List<Player>();
+
         private readonly Random _random = new Random();
         private long _seed = 1;
 
@@ -41,6 +42,7 @@ namespace ClashRoyale.Database.Cache
         ///     Adds a player to the queue and sends the estimated time
         /// </summary>
         /// <param name="player"></param>
+        /// <param name="duo"></param>
         public async void Enqueue(Player player)
         {
             var players = Resources.Players;
@@ -49,7 +51,6 @@ namespace ClashRoyale.Database.Cache
             lock (_playerQueue)
             {
                 if (_playerQueue.Contains(player)) return;
-
                 _playerQueue.Add(player);
 
                 var estimatedTime = _random.Next(601, 901);

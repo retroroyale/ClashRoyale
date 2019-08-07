@@ -65,6 +65,7 @@ namespace ClashRoyale.Database.Cache
                 p.ValidateSession();
 
                 Resources.Battles.Cancel(player);
+                Resources.DuoBattles.Cancel(player);
 
                 p.Save();
 
@@ -92,6 +93,7 @@ namespace ClashRoyale.Database.Cache
                 player.ValidateSession();
 
                 Resources.Battles.Cancel(player);
+                Resources.DuoBattles.Cancel(player);
 
                 player.Save();
 

@@ -1,6 +1,5 @@
-﻿using System;
-using ClashRoyale.Logic;
-using ClashRoyale.Utilities.Netty;
+﻿using ClashRoyale.Logic;
+using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Protocol.Commands.Client
@@ -13,13 +12,17 @@ namespace ClashRoyale.Protocol.Commands.Client
 
         public override void Decode()
         {
-            Console.WriteLine(Buffer.ReadVInt());
-            Console.WriteLine(Buffer.ReadVInt());
-            Console.WriteLine(Buffer.ReadVInt());
+            /*Console.WriteLine(Reader.ReadVInt());
+            Console.WriteLine(Reader.ReadVInt());
+            Console.WriteLine(Reader.ReadVInt());*/
         }
 
-        public override void Process()
+        public override async void Process()
         {
+            await new ServerErrorMessage(Device)
+            {
+                Message = "Not implemented yet."
+            }.SendAsync();
         }
     }
 }

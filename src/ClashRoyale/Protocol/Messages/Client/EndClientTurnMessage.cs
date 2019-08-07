@@ -4,13 +4,14 @@ using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 using SharpRaven.Data;
 
-namespace ClashRoyale.Protocol.Messages.Client.Home
+namespace ClashRoyale.Protocol.Messages.Client
 {
     public class EndClientTurnMessage : PiranhaMessage
     {
         public EndClientTurnMessage(Device device, IByteBuffer buffer) : base(device, buffer)
         {
             Id = 14102;
+            RequiredState = Device.State.NotDefinied;
         }
 
         public int Tick { get; set; }
@@ -35,7 +36,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Home
             if (Math.Abs(Tick - Device.ServerTick) > 500)
             {
                 Logger.Log($"OutOfSync! Client Tick: {Tick}, Server Tick: {Device.ServerTick}", GetType(),
-                    ErrorLevel.Debug);
+                    ErrorLevel.Warning);
                 Device.Disconnect();
                 return;
             }

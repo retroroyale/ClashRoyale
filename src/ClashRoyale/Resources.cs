@@ -28,6 +28,7 @@ namespace ClashRoyale
         public static Csv Csv { get; set; }
         public static UpdateManager UpdateManager { get; set; }
         public static Battles Battles { get; set; }
+        public static DuoBattles DuoBattles { get; set; }
         public static Players Players { get; set; }
         public static Alliances Alliances { get; set; }
 
@@ -59,6 +60,7 @@ namespace ClashRoyale
             Redis = new Redis();
 
             Battles = new Battles();
+            DuoBattles = new DuoBattles();
             Players = new Players();
             Alliances = new Alliances();
 

@@ -1,47 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Timers;
 using ClashRoyale.Core.Cluster;
-using ClashRoyale.Extensions;
-using ClashRoyale.Files;
-using ClashRoyale.Files.CsvLogic;
 using ClashRoyale.Protocol.Messages.Server;
-using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 using SharpRaven.Data;
 
 namespace ClashRoyale.Logic.Battle
 {
-    public class LogicBattle : List<Player>
+    public class LogicDuoBattle 
     {
         public Timer BattleTimer;
 
         public Dictionary<long, Queue<byte[]>> Commands = new Dictionary<long, Queue<byte[]>>();
 
-        /// <summary>
-        /// 1v1 Battle
-        /// </summary>
-        /// <param name="isFriendly"></param>
-        /// <param name="arena"></param>
-        public LogicBattle(bool isFriendly, int arena)
-        {
-            IsFriendly = isFriendly;
-            Arena = arena;
-
-            BattleTimer = new Timer(500);
-            BattleTimer.Elapsed += Tick;
-        }
+        public List<List<Player>> Teams = new List<List<Player>>();
 
         /// <summary>
         /// 2v2 Battle
         /// </summary>
         /// <param name="arena"></param>
         /// <param name="players"></param>
-        public LogicBattle(int arena, IEnumerable<Player> players)
+        public LogicDuoBattle(int arena, IReadOnlyList<Player> players)
         {
+            if (players.Count < 4)
+                return;
+
             Arena = arena;
-            AddRange(players);
+
+            for (var i = 0; i < 2; i++)
+            {
+                Teams.Add(new List<Player>());
+            }
+
+            for (var i = 0; i < 4; i++)
+            {
+                Teams[i % 2 == 0 ? 0 : 1].Add(players[i]);
+            }
 
             BattleTimer = new Timer(500);
             BattleTimer.Elapsed += Tick;
@@ -54,8 +49,7 @@ namespace ClashRoyale.Logic.Battle
         public int BattleTime => (int) DateTime.UtcNow.Subtract(StartTime).TotalSeconds * 2;
         public int BattleSeconds => BattleTime / 2;
 
-        public bool IsRunning => BattleTimer.Enabled;
-        public bool IsReady => Count >= 1;
+        public bool IsReady => Teams.Count >= 2;
         public bool IsFriendly { get; set; }
         public int Arena { get; set; }
 
@@ -71,26 +65,29 @@ namespace ClashRoyale.Logic.Battle
                     server = Resources.ServerManager.GetServer();
                 }
 
-                foreach (var player in this)
+                foreach (var team in Teams)
                 {
-                    Commands.Add(player.Home.Id, new Queue<byte[]>());
-
-                    if (Resources.Configuration.UseUdp)
+                    foreach (var player in team)
                     {
-                        if (server != null)
-                            await new UdpConnectionInfoMessage(player.Device)
-                            {
-                                ServerPort = server.Port,
-                                ServerHost = server.Ip == "127.0.0.1" ? "192.168.2.143" : server.Ip, // just as test
-                                SessionId = BattleId,
-                                Nonce = server.Nonce
-                            }.SendAsync();
+                        Commands.Add(player.Home.Id, new Queue<byte[]>());
+
+                        if (Resources.Configuration.UseUdp)
+                        {
+                            if (server != null)
+                                await new UdpConnectionInfoMessage(player.Device)
+                                {
+                                    ServerPort = server.Port,
+                                    ServerHost = server.Ip == "127.0.0.1" ? "192.168.2.143" : server.Ip, // just as test
+                                    SessionId = BattleId,
+                                    Nonce = server.Nonce
+                                }.SendAsync();
+                        }
+
+                        await new DuoSectorStateMessage(player.Device)
+                        {
+                            Battle = this
+                        }.SendAsync();
                     }
-
-                    await new SectorStateMessage(player.Device)
-                    {
-                        Battle = this
-                    }.SendAsync();
                 }
 
                 StartTime = DateTime.UtcNow;
@@ -107,7 +104,7 @@ namespace ClashRoyale.Logic.Battle
         public void Encode(IByteBuffer packet)
         {
             #region SectorState
-
+            /*
             const int towers = 6;
 
             packet.WriteVInt(Csv.Tables.Get(Csv.Files.Locations)
@@ -373,7 +370,7 @@ namespace ClashRoyale.Logic.Battle
             packet.WriteVInt(2400);
 
             for (var index = 0; index < towers; index++)
-                packet.WriteHex("00000000000000A401A401");
+                packet.WriteHex("00000000000000A401A401");*/
 
             #endregion SectorState
         }
@@ -398,40 +395,43 @@ namespace ClashRoyale.Logic.Battle
         {
             try
             {
-                foreach (var player in ToArray())
-                    if (player.Device.IsConnected)
-                    {
-                        if (player.Device.SecondsSinceLastCommand > 2)
+                foreach (var team in Teams.ToArray())
+                {
+                    foreach (var player in team)
+                        if (player.Device.IsConnected)
                         {
-                            if (BattleSeconds <= 8) continue;
-
-                            if (!IsFriendly)
+                            if (player.Device.SecondsSinceLastCommand > 2)
                             {
-                                player.Home.AddCrowns(3);
-                                player.Home.Arena.AddTrophies(31);
+                                if (BattleSeconds <= 8) continue;
+
+                                if (!IsFriendly)
+                                {
+                                    player.Home.AddCrowns(3);
+                                    player.Home.Arena.AddTrophies(31);
+                                }
+
+                                await new BattleResultMessage(player.Device).SendAsync();
+
+                                player.Battle = null;
+
+                                Remove(player);
                             }
-
-                            await new BattleResultMessage(player.Device).SendAsync();
-
-                            player.Battle = null;
-
-                            Remove(player);
+                            else
+                            {
+                                /*await new SectorHearbeatMessage(player.Device)
+                                {
+                                    Turn = BattleTime,
+                                    Commands = GetOwnQueue(player.Home.Id)
+                                }.SendAsync();*/
+                            }
                         }
                         else
                         {
-                            await new SectorHearbeatMessage(player.Device)
-                            {
-                                Turn = BattleTime,
-                                Commands = GetOwnQueue(player.Home.Id)
-                            }.SendAsync();
+                            Remove(player);
                         }
-                    }
-                    else
-                    {
-                        Remove(player);
-                    }
+                }
 
-                if (FindIndex(p => p.Device.SecondsSinceLastCommand < 10) <= -1)
+                if (Teams.FindIndex(t => t.FindIndex(p => p.Device.SecondsSinceLastCommand < 10) > -1) <= -1)
                     Stop();
             }
             catch (Exception)
@@ -444,15 +444,20 @@ namespace ClashRoyale.Logic.Battle
         /// Remove a player from the battle and stop it when it's empty
         /// </summary>
         /// <param name="player"></param>
-        public new void Remove(Player player)
+        public void Remove(Player player)
         {
-            if (Count <= 1)
+            if (Teams.Count <= 0)
                 Stop();
 
-            base.Remove(player);
+            foreach (var team in Teams.ToArray())
+            {
+                if (team.Contains(player)) team.Remove(player);
+
+                if (team.Count <= 0) Teams.Remove(team);
+            }
         }
 
-        public Device GetEnemy(long userId)
+        /*public Device GetEnemy(long userId)
         {
             return this.FirstOrDefault(p => p.Home.Id != userId)?.Device;
         }
@@ -465,6 +470,6 @@ namespace ClashRoyale.Logic.Battle
         public Queue<byte[]> GetOwnQueue(long userId)
         {
             return Commands.FirstOrDefault(cmd => cmd.Key == userId).Value;
-        }
+        }*/
     }
 }

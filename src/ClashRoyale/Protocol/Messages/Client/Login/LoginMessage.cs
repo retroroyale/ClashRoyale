@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Sessions;
 using ClashRoyale.Protocol.Messages.Server;
@@ -93,6 +94,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Login
                 player.Home.TotalSessions++;
 
                 await new LoginOkMessage(Device).SendAsync();
+                await new OwnHomeDataMessage(Device).SendAsync();
 
                 if (player.Home.AllianceInfo.HasAlliance)
                 {
@@ -110,15 +112,13 @@ namespace ClashRoyale.Protocol.Messages.Client.Login
                         alliance.UpdateOnlineCount();
                     }
                 }
-
-                await new OwnHomeDataMessage(Device).SendAsync();
             }
             else
             {
                 // If the account was not found we send LoginFailed
                 await new LoginFailedMessage(Device)
                 {
-                    ErrorCode = 10
+                    Reason = "Account not found. Please clear app data."
                 }.SendAsync();
             }
         }

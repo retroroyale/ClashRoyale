@@ -18,7 +18,6 @@ namespace ClashRoyale.Logic.Home.Decks
             {
                 var card = new Card(26, i, false);
                 Add(card);
-
                 foreach (var deck in Home.Decks) deck[i] = card.GlobalId;
             }
         }
@@ -62,32 +61,16 @@ namespace ClashRoyale.Logic.Home.Decks
         {
             if (deckIndex > 4) return;
 
-            var currentDeck = Home.Decks[Home.SelectedDeck];
-
-            for (var i = 0; i < 8; i++)
+            for (var i = 0; i < Home.Decks[deckIndex].Length; i++)
             {
-                var card = this[i];
-                var pos = Array.FindIndex(currentDeck, c => c == card.GlobalId);
+                var card = Home.Decks[deckIndex][i];
+                var newDeckCard = GetCard(card);
+                var oldDeckCard = this[i];
 
-                if (pos == -1)
-                {
-                    pos = FindIndex(c => c.GlobalId == card.GlobalId); 
+                var newOldCardIndex = IndexOf(newDeckCard);
 
-                    // Card in deck
-                    var old = currentDeck[i];
-                    currentDeck[i] = card.GlobalId;
-
-                    // Cards in deck from collection
-                    var oldCard = FindIndex(c => c.GlobalId == old);
-                    this[pos] = this[oldCard];
-                    this[oldCard] = card;
-                }
-                else
-                {
-                    var c = currentDeck[i];
-                    currentDeck[i] = currentDeck[pos];
-                    currentDeck[pos] = c;
-                }
+                this[newOldCardIndex] = oldDeckCard;
+                this[i] = newDeckCard;
             }
 
             Home.SelectedDeck = deckIndex;
@@ -105,9 +88,21 @@ namespace ClashRoyale.Logic.Home.Decks
             return index > -1 ? this[index] : null;
         }
 
-        public void SwapCard(int cardOffset, int deckOffset, int deck = -1)
+        public Card GetCard(int globalId)
         {
-            var currentDeck = Home.Decks[deck == -1 ? Home.SelectedDeck : deck];
+            var index = FindIndex(c => c.GlobalId == globalId);
+            return index > -1 ? this[index] : null;
+        }
+
+        public int GetCardOffset(int globalId)
+        {
+            var index = FindIndex(c => c.GlobalId == globalId);
+            return index;
+        }
+
+        public void SwapCard(int cardOffset, int deckOffset)
+        {
+            var currentDeck = Home.Decks[Home.SelectedDeck];
             currentDeck[deckOffset] = this[cardOffset + 8].GlobalId;
 
             var old = this[deckOffset];
@@ -115,9 +110,19 @@ namespace ClashRoyale.Logic.Home.Decks
             this[cardOffset + 8] = old;
         }
 
+        public void UpgradeAll()
+        {
+            foreach (var card in this) UpgradeCard(card);
+        }
+
         public void UpgradeCard(int classId, int instanceId)
         {
             var card = GetCard(classId, instanceId);
+            UpgradeCard(card);
+        }
+
+        public void UpgradeCard(Card card)
+        {
             var data = card.GetRarityData;
             var materialCount = data.UpgradeMaterialCount[card.Level];
 

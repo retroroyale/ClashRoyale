@@ -18,10 +18,10 @@ namespace ClashRoyale.Protocol.Commands.Client
         {
             base.Decode();
 
-            Buffer.ReadVInt();
-            Buffer.ReadVInt();
+            Reader.ReadVInt();
+            Reader.ReadVInt();
 
-            Is2V2 = Buffer.ReadBoolean();
+            Is2V2 = Reader.ReadBoolean();
         }
 
         public override async void Process()
@@ -30,6 +30,25 @@ namespace ClashRoyale.Protocol.Commands.Client
             {
                 await new MatchmakeFailedMessage(Device).SendAsync();
                 await new CancelMatchmakeDoneMessage(Device).SendAsync();
+
+                /*var players = Resources.DuoBattles.Dequeue;
+                if (players != null)
+                {
+                    var battle = new LogicDuoBattle(Device.Player.Home.Arena.CurrentArena + 1, players);
+
+                    Resources.DuoBattles.Add(battle);
+
+                    foreach (var player in players)
+                    {
+                        player.DuoBattle = battle;
+                    }
+
+                    battle.Start();
+                }
+                else
+                {
+                    Resources.DuoBattles.Enqueue(Device.Player);
+                }*/
             }
             else
             {

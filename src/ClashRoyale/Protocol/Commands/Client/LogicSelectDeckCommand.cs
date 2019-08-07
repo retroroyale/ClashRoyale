@@ -16,10 +16,10 @@ namespace ClashRoyale.Protocol.Commands.Client
         {
             base.Decode();
 
-            Buffer.ReadVInt();
-            Buffer.ReadVInt();
+            Reader.ReadVInt();
+            Reader.ReadVInt();
 
-            DeckIndex = Buffer.ReadVInt();
+            DeckIndex = Reader.ReadVInt();
         }
 
         public override void Process()

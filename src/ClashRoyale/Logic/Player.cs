@@ -27,6 +27,7 @@ namespace ClashRoyale.Logic
         public Home.Home Home { get; set; }
 
         [JsonIgnore] public LogicBattle Battle { get; set; }
+        [JsonIgnore] public LogicDuoBattle DuoBattle { get; set; }
         [JsonIgnore] public Device Device { get; set; }
 
         public void RankingEntry(IByteBuffer packet)
@@ -426,33 +427,34 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(0);
                 packet.WriteVInt(100); // Legendary Trophies
 
-                packet.WriteVInt(0); // Current Session Trophies
+                packet.WriteVInt(0); // Current Season Trophies
                 packet.WriteVInt(0);
-                packet.WriteVInt(0);
+                packet.WriteVInt(0); // Displays near League // maybe never used
 
-                packet.WriteVInt(0);
+                packet.WriteVInt(0); // Best Season Trophies
                 packet.WriteVInt(0); // Rank
-                packet.WriteVInt(0); // Trophies
+                packet.WriteVInt(100); // Trophies
             }
 
+            // League
+            packet.WriteVInt(100); // Current Trophies
+            packet.WriteVInt(50); // Past Trophies
+            packet.WriteVInt(1);
             packet.WriteVInt(0);
+            packet.WriteVInt(0); // set this 1 and it appears on the profile 
 
-            packet.WriteVInt(0);
-            packet.WriteVInt(0);
-            packet.WriteVInt(0);
-            packet.WriteVInt(0);
             packet.WriteVInt(8);
 
             // Game Variables
             packet.WriteVInt(10);
             {
                 packet.WriteVInt(5);
-                packet.WriteVInt(1);
-                packet.WriteVInt(Home.Gold); // Gold
+                packet.WriteVInt(0);
+                packet.WriteVInt(0);
 
                 packet.WriteVInt(5);
-                packet.WriteVInt(0);
-                packet.WriteVInt(0);
+                packet.WriteVInt(1);
+                packet.WriteVInt(Home.Gold); // Gold
 
                 packet.WriteVInt(5);
                 packet.WriteVInt(3);
@@ -468,7 +470,7 @@ namespace ClashRoyale.Logic
 
                 packet.WriteVInt(5);
                 packet.WriteVInt(13);
-                packet.WriteVInt(0);
+                packet.WriteVInt(0); // New Gold
 
                 packet.WriteVInt(5);
                 packet.WriteVInt(14);
