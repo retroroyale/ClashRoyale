@@ -18,7 +18,7 @@ The server supports battles, for those a patched client is neccessary.
   - Redis server
   - MySql Database (on Ubuntu i suggest WAMP with PhpMyAdmin)
 
-    for Ubuntu use these commands to set it up:
+for Ubuntu use these commands to set it up:
 ```
 git clone https://github.com/retroroyale/ClashRoyale.git && cd ClashRoyale/src/ClashRoyale
 
