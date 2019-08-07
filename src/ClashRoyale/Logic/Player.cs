@@ -427,21 +427,22 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(0);
                 packet.WriteVInt(100); // Legendary Trophies
 
-                packet.WriteVInt(0); // Current Session Trophies
+                packet.WriteVInt(0); // Current Season Trophies
                 packet.WriteVInt(0);
-                packet.WriteVInt(0);
+                packet.WriteVInt(0); // Displays near League // maybe never used
 
-                packet.WriteVInt(0);
+                packet.WriteVInt(0); // Best Season Trophies
                 packet.WriteVInt(0); // Rank
-                packet.WriteVInt(0); // Trophies
+                packet.WriteVInt(100); // Trophies
             }
 
+            // League
+            packet.WriteVInt(100); // Current Trophies
+            packet.WriteVInt(50); // Past Trophies
+            packet.WriteVInt(1);
             packet.WriteVInt(0);
+            packet.WriteVInt(0); // set this 1 and it appears on the profile 
 
-            packet.WriteVInt(0);
-            packet.WriteVInt(0);
-            packet.WriteVInt(0);
-            packet.WriteVInt(0);
             packet.WriteVInt(8);
 
             // Game Variables
