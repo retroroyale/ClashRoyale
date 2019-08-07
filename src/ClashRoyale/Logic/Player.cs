@@ -449,12 +449,12 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(10);
             {
                 packet.WriteVInt(5);
-                packet.WriteVInt(1);
-                packet.WriteVInt(Home.Gold); // Gold
+                packet.WriteVInt(0);
+                packet.WriteVInt(0);
 
                 packet.WriteVInt(5);
-                packet.WriteVInt(0);
-                packet.WriteVInt(0);
+                packet.WriteVInt(1);
+                packet.WriteVInt(Home.Gold); // Gold
 
                 packet.WriteVInt(5);
                 packet.WriteVInt(3);
@@ -470,7 +470,7 @@ namespace ClashRoyale.Logic
 
                 packet.WriteVInt(5);
                 packet.WriteVInt(13);
-                packet.WriteVInt(0);
+                packet.WriteVInt(0); // New Gold
 
                 packet.WriteVInt(5);
                 packet.WriteVInt(14);

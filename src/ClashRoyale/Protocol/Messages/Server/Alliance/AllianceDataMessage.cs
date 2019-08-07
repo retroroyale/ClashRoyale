@@ -1,6 +1,7 @@
 ﻿using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan;
 using ClashRoyale.Utilities.Netty;
+using ClashRoyale.Utilities.Utils;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {
@@ -22,11 +23,9 @@ namespace ClashRoyale.Protocol.Messages.Server
             foreach (var member in Alliance.Members) member.AllianceMemberEntry(Writer);
 
             // Clan Chest
-            Writer.WriteBoolean(false);
-
-            /*Writer.WriteBoolean(true);
-            Writer.WriteVInt(2); // State 0 = Preparation, 1 = Live, 2 = Over, 3 = Not active
-            Writer.WriteVInt(0); // Seconds
+            Writer.WriteBoolean(true);
+            Writer.WriteVInt(3); // State 0 = Preparation, 1 = Live, 2 = Over, 3 = Not active
+            Writer.WriteVInt(3600); // Seconds
             Writer.WriteVInt(300 * 2); // Crowns/Wins
 
             Writer.WriteInt(TimeUtils.CurrentUnixTimestamp); // Begin (+Preparation)
@@ -35,7 +34,7 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(3446115); // Low Id (?)
             Writer.WriteVInt(1); // High Id (?)
 
-            Writer.WriteVInt(0);*/
+            Writer.WriteVInt(0);
         }
     }
 }

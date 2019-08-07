@@ -1,5 +1,6 @@
 ﻿using ClashRoyale.Logic;
 using ClashRoyale.Logic.Battle;
+using ClashRoyale.Protocol.Messages.Server;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 
@@ -23,14 +24,14 @@ namespace ClashRoyale.Protocol.Commands.Client
             Is2V2 = Reader.ReadBoolean();
         }
 
-        public override void Process()
+        public override async void Process()
         {
             if (Is2V2)
             {
-                //await new MatchmakeFailedMessage(Device).SendAsync();
-                //await new CancelMatchmakeDoneMessage(Device).SendAsync();
+                await new MatchmakeFailedMessage(Device).SendAsync();
+                await new CancelMatchmakeDoneMessage(Device).SendAsync();
 
-                var players = Resources.DuoBattles.Dequeue;
+                /*var players = Resources.DuoBattles.Dequeue;
                 if (players != null)
                 {
                     var battle = new LogicDuoBattle(Device.Player.Home.Arena.CurrentArena + 1, players);
@@ -47,7 +48,7 @@ namespace ClashRoyale.Protocol.Commands.Client
                 else
                 {
                     Resources.DuoBattles.Enqueue(Device.Player);
-                }
+                }*/
             }
             else
             {
