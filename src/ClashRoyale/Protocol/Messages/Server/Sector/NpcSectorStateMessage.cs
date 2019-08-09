@@ -37,7 +37,7 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(7419667);
             Writer.WriteVInt(1);
 
-            Writer.WriteHex("7F7F7F7F");
+            Writer.WriteNullVInt(4);
 
             Writer.WriteVInt(0);
             Writer.WriteVInt(0);

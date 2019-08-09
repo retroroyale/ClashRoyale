@@ -55,8 +55,12 @@ namespace ClashRoyale.Logic.Home.Shop
 
             packet.WriteVInt(Count);
 
-            foreach (var item in this)
+            for (var i = 0; i < Count; i++)
+            {
+                var item = this[i];
+                item.ShopIndex = i;
                 item.Encode(packet);
+            }
 
             packet.WriteVInt(0); // Special Offers
         }

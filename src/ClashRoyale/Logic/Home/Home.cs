@@ -21,8 +21,8 @@ namespace ClashRoyale.Logic.Home
         {
             Deck.Home = this;
             Shop.Home = this;
-            Chests.Home = this;
             Arena.Home = this;
+            Chests.Home = this;
         }
 
         public Home(long id, string token)

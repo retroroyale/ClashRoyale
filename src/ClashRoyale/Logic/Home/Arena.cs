@@ -18,20 +18,28 @@ namespace ClashRoyale.Logic.Home
 
         public async void AddTrophies(int trophies)
         {
-            while (ArenaData(CurrentArena + 1).TrophyLimit <= Trophies + trophies) CurrentArena++;
+            while (true)
+            {
+                var data = GetCurrentArenaData();
+                if (data == null) break;
+
+                if (data.TrophyLimit <= Trophies + trophies)
+                    CurrentArena++;
+                else
+                    break;
+            }
 
             Trophies += trophies;
 
-            if (Home.AllianceInfo.HasAlliance)
-            {
-                var alliance = await Resources.Alliances.GetAllianceAsync(Home.AllianceInfo.Id);
+            if (!Home.AllianceInfo.HasAlliance) return;
 
-                var member = alliance?.GetMember(Home.Id);
-                if (member == null) return;
+            var alliance = await Resources.Alliances.GetAllianceAsync(Home.AllianceInfo.Id);
 
-                member.Score = Trophies;
-                alliance.Save();
-            }
+            var member = alliance?.GetMember(Home.Id);
+            if (member == null) return;
+
+            member.Score = Trophies;
+            alliance.Save();
         }
 
         public Arenas ArenaData(int arena)
@@ -41,7 +49,7 @@ namespace ClashRoyale.Logic.Home
 
         public Arenas GetCurrentArenaData()
         {
-            return ArenaData(CurrentArena);
+            return ArenaData(CurrentArena + 1);
         }
     }
 }

@@ -128,10 +128,12 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
                 packet.WriteVInt(1601510400);
                 packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
+
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);
+
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);
@@ -161,11 +163,20 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(1109);
             }
 
-            // Events?
+            // Events
             packet.WriteVInt(2);
             {
+                /*packet.WriteVInt(0);
+                packet.WriteScString("{\"GameMode\":\"TeamVsTeamLadder\",\"Target_MinXPLevel\":3,\"HideTimer\":false,\"HidePopupTimer\":true}");*/
+
+                /*packet.WriteVInt(1);
+                packet.WriteScString("{\"ID\":\"SHOP_CYCLE_MANAGEMENT\",\"Params\":{\"EpicChestCycleDuration\":5,\"LegendaryChestCycleDuration\":7,\"ArenaPackCycleDuration\":7}}");*/
+
                 packet.WriteVInt(2);
-                packet.WriteScString("{\"ID\":\"CARD_RELEASE\",\"Params\":{}});");
+                packet.WriteScString("{\"ID\":\"CARD_RELEASE\",\"Params\":{}})");
+
+                /*packet.WriteVInt(3);
+                packet.WriteScString("{\"ID\":\"KILL_SWITCH\",\"Params\":{\"HideShopOffersUI\":false}}");*/
 
                 packet.WriteVInt(4);
                 packet.WriteScString("{\"ID\":\"CLAN_CHEST\",\"Params\":{}}");
