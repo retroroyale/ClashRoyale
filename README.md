@@ -3,7 +3,8 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Build status](https://ci.appveyor.com/api/projects/status/dmt9bk3bf1kaxnoa?svg=true)](https://ci.appveyor.com/project/Incr3dible/clashroyale)
 
-A .NET Core Clash Royale Server (v1.9) using DotNetty
+#### A .NET Core Clash Royale Server (v1.9)
+##### If you want to test the current build you can download [this](https://retroroyale.xyz) client.
 
 ## Battles
 The server supports battles, for those a patched client is neccessary.
@@ -13,11 +14,11 @@ The server supports battles, for those a patched client is neccessary.
 ## How to start
 
 #### Requirements:
-  - [.NET Core SDK 2.x](https://dotnet.microsoft.com/download/dotnet-core/2.2)
+  - [.NET Core SDK 2.2.x](https://dotnet.microsoft.com/download/dotnet-core/2.2)
   - Redis server
-  - MySql Database
+  - MySql Database (on Ubuntu i suggest WAMP with PhpMyAdmin)
 
-for Ubuntu use these commands:
+for Ubuntu use these commands to set it up:
 ```
 git clone https://github.com/retroroyale/ClashRoyale.git && cd ClashRoyale/src/ClashRoyale
 
