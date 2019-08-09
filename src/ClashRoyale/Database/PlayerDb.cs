@@ -12,6 +12,7 @@ namespace ClashRoyale.Database
 {
     public class PlayerDb
     {
+        private const string Name = "player";
         private static string _connectionString;
         private static long _playerSeed;
 
@@ -30,11 +31,9 @@ namespace ClashRoyale.Database
 
             _playerSeed = MaxPlayerId();
 
-            if (_playerSeed <= -1)
-            {
-                Logger.Log($"MysqlConnection for players failed [{Resources.Configuration.MySqlServer}]!", GetType());
-                Program.Exit();
-            }
+            if (_playerSeed > -1) return;
+            Logger.Log($"MysqlConnection for players failed [{Resources.Configuration.MySqlServer}]!", GetType());
+            Program.Exit();
         }
 
         public static async Task ExecuteAsync(MySqlCommand cmd)
@@ -71,7 +70,7 @@ namespace ClashRoyale.Database
                 {
                     connection.Open();
 
-                    using (var cmd = new MySqlCommand("SELECT coalesce(MAX(Id), 0) FROM player", connection))
+                    using (var cmd = new MySqlCommand($"SELECT coalesce(MAX(Id), 0) FROM {Name}", connection))
                     {
                         seed = Convert.ToInt64(cmd.ExecuteScalar());
                     }
@@ -103,7 +102,7 @@ namespace ClashRoyale.Database
                 {
                     await connection.OpenAsync();
 
-                    using (var cmd = new MySqlCommand("SELECT COUNT(*) FROM player", connection))
+                    using (var cmd = new MySqlCommand($"SELECT COUNT(*) FROM {Name}", connection))
                     {
                         seed = Convert.ToInt64(await cmd.ExecuteScalarAsync());
                     }
@@ -137,7 +136,7 @@ namespace ClashRoyale.Database
 
                 using (var cmd =
                     new MySqlCommand(
-                        $"INSERT INTO player (`Id`, `Trophies`, `Language`, `FacebookId`, `Home`, `Sessions`) VALUES ({id + 1}, {player.Home.Arena.Trophies}, @language, @fb, @home, @sessions)")
+                        $"INSERT INTO {Name} (`Id`, `Trophies`, `Language`, `FacebookId`, `Home`, `Sessions`) VALUES ({id + 1}, {player.Home.Arena.Trophies}, @language, @fb, @home, @sessions)")
                 )
                 {
 #pragma warning disable 618
@@ -176,7 +175,7 @@ namespace ClashRoyale.Database
 
                     Player player = null;
 
-                    using (var cmd = new MySqlCommand($"SELECT * FROM player WHERE Id = '{id}'", connection))
+                    using (var cmd = new MySqlCommand($"SELECT * FROM {Name} WHERE Id = '{id}'", connection))
                     {
                         var reader = await cmd.ExecuteReaderAsync();
 
@@ -218,7 +217,7 @@ namespace ClashRoyale.Database
 
                     Player player = null;
 
-                    using (var cmd = new MySqlCommand($"SELECT * FROM player WHERE FacebookId = '{facebookId}'",
+                    using (var cmd = new MySqlCommand($"SELECT * FROM {Name} WHERE FacebookId = '{facebookId}'",
                         connection))
                     {
                         var reader = await cmd.ExecuteReaderAsync();
@@ -251,7 +250,7 @@ namespace ClashRoyale.Database
             {
                 using (var cmd =
                     new MySqlCommand(
-                        $"UPDATE player SET `Trophies`='{player.Home.Arena.Trophies}', `Language`='{player.Home.PreferredDeviceLanguage}', `FacebookId`=@fb, `Home`=@home, `Sessions`=@sessions WHERE Id = '{player.Home.Id}'")
+                        $"UPDATE {Name} SET `Trophies`='{player.Home.Arena.Trophies}', `Language`='{player.Home.PreferredDeviceLanguage}', `FacebookId`=@fb, `Home`=@home, `Sessions`=@sessions WHERE Id = '{player.Home.Id}'")
                 )
                 {
 #pragma warning disable 618
@@ -280,7 +279,7 @@ namespace ClashRoyale.Database
             try
             {
                 using (var cmd = new MySqlCommand(
-                    $"DELETE FROM player WHERE Id = '{id}'")
+                    $"DELETE FROM {Name} WHERE Id = '{id}'")
                 )
                 {
                     await ExecuteAsync(cmd);
@@ -309,7 +308,7 @@ namespace ClashRoyale.Database
                 {
                     await connection.OpenAsync();
 
-                    using (var cmd = new MySqlCommand("SELECT * FROM player ORDER BY `Trophies` DESC LIMIT 200",
+                    using (var cmd = new MySqlCommand($"SELECT * FROM {Name} ORDER BY `Trophies` DESC LIMIT 200",
                         connection))
                     {
                         var reader = await cmd.ExecuteReaderAsync();
@@ -348,7 +347,7 @@ namespace ClashRoyale.Database
 
                     using (var cmd =
                         new MySqlCommand(
-                            $"SELECT * FROM player WHERE Language = '{language}' ORDER BY `Trophies` DESC LIMIT 200",
+                            $"SELECT * FROM {Name} WHERE Language = '{language}' ORDER BY `Trophies` DESC LIMIT 200",
                             connection))
                     {
                         var reader = await cmd.ExecuteReaderAsync();

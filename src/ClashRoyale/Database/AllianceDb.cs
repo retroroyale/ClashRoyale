@@ -11,6 +11,7 @@ namespace ClashRoyale.Database
 {
     public class AllianceDb
     {
+        private const string Name = "clan";
         private static string _connectionString;
         private static long _allianceSeed;
 
@@ -29,11 +30,9 @@ namespace ClashRoyale.Database
 
             _allianceSeed = MaxAllianceId();
 
-            if (_allianceSeed <= -1)
-            {
-                Logger.Log($"MysqlConnection for clans failed [{Resources.Configuration.MySqlServer}]!", GetType());
-                Program.Exit();
-            }
+            if (_allianceSeed > -1) return;
+            Logger.Log($"MysqlConnection for clans failed [{Resources.Configuration.MySqlServer}]!", GetType());
+            Program.Exit();
         }
 
         public static async Task ExecuteAsync(MySqlCommand cmd)
@@ -70,7 +69,7 @@ namespace ClashRoyale.Database
                 {
                     connection.Open();
 
-                    using (var cmd = new MySqlCommand("SELECT coalesce(MAX(Id), 0) FROM clan", connection))
+                    using (var cmd = new MySqlCommand($"SELECT coalesce(MAX(Id), 0) FROM {Name}", connection))
                     {
                         seed = Convert.ToInt64(cmd.ExecuteScalar());
                     }
@@ -102,7 +101,7 @@ namespace ClashRoyale.Database
                 {
                     await connection.OpenAsync();
 
-                    using (var cmd = new MySqlCommand("SELECT COUNT(*) FROM clan", connection))
+                    using (var cmd = new MySqlCommand($"SELECT COUNT(*) FROM {Name}", connection))
                     {
                         seed = Convert.ToInt64(await cmd.ExecuteScalarAsync());
                     }
@@ -136,7 +135,7 @@ namespace ClashRoyale.Database
 
                 using (var cmd =
                     new MySqlCommand(
-                        $"INSERT INTO clan (`Id`, `Trophies`, `RequiredTrophies`, `Type`, `Region`, `Data`) VALUES ({id + 1}, {alliance.Score}, {alliance.RequiredScore}, {alliance.Type}, {alliance.Region}, @data)")
+                        $"INSERT INTO {Name} (`Id`, `Trophies`, `RequiredTrophies`, `Type`, `Region`, `Data`) VALUES ({id + 1}, {alliance.Score}, {alliance.RequiredScore}, {alliance.Type}, {alliance.Region}, @data)")
                 )
                 {
 #pragma warning disable 618
@@ -171,7 +170,7 @@ namespace ClashRoyale.Database
 
                     Alliance alliance = null;
 
-                    using (var cmd = new MySqlCommand($"SELECT * FROM clan WHERE Id = '{id}'", connection))
+                    using (var cmd = new MySqlCommand($"SELECT * FROM {Name} WHERE Id = '{id}'", connection))
                     {
                         var reader = await cmd.ExecuteReaderAsync();
 
@@ -206,7 +205,7 @@ namespace ClashRoyale.Database
             {
                 using (var cmd =
                     new MySqlCommand(
-                        $"UPDATE clan SET `Trophies`='{alliance.Score}', `RequiredTrophies`='{alliance.RequiredScore}', `Type`='{alliance.Type}', `Region`='{alliance.Region}', `Data`=@data WHERE Id = '{alliance.Id}'")
+                        $"UPDATE {Name} SET `Trophies`='{alliance.Score}', `RequiredTrophies`='{alliance.RequiredScore}', `Type`='{alliance.Type}', `Region`='{alliance.Region}', `Data`=@data WHERE Id = '{alliance.Id}'")
                 )
                 {
 #pragma warning disable 618
@@ -232,7 +231,7 @@ namespace ClashRoyale.Database
             try
             {
                 using (var cmd = new MySqlCommand(
-                    $"DELETE FROM clan WHERE Id = '{id}'")
+                    $"DELETE FROM {Name} WHERE Id = '{id}'")
                 )
                 {
                     await ExecuteAsync(cmd);
@@ -261,13 +260,13 @@ namespace ClashRoyale.Database
                 {
                     await connection.OpenAsync();
 
-                    using (var cmd = new MySqlCommand("SELECT * FROM clan ORDER BY `Trophies` DESC LIMIT 200",
+                    using (var cmd = new MySqlCommand($"SELECT * FROM {Name} ORDER BY `Trophies` DESC LIMIT 200",
                         connection))
                     {
                         var reader = await cmd.ExecuteReaderAsync();
 
                         while (await reader.ReadAsync())
-                            list.Add(JsonConvert.DeserializeObject<Alliance>((string) reader["Home"],
+                            list.Add(JsonConvert.DeserializeObject<Alliance>((string) reader["Data"],
                                 Configuration.JsonSettings));
                     }
 

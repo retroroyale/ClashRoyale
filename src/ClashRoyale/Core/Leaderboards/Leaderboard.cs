@@ -6,6 +6,7 @@ using ClashRoyale.Database;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using ClashRoyale.Logic;
+using ClashRoyale.Logic.Clan;
 using ClashRoyale.Utilities;
 using SharpRaven.Data;
 
@@ -15,6 +16,7 @@ namespace ClashRoyale.Core.Leaderboards
     {
         private readonly Timer _timer = new Timer(20000);
 
+        public List<Alliance> GlobalAllianceRanking = new List<Alliance>(200);
         public List<Player> GlobalPlayerRanking = new List<Player>(200);
         public Dictionary<string, List<Player>> LocalPlayerRanking = new Dictionary<string, List<Player>>(18);
 
@@ -45,6 +47,10 @@ namespace ClashRoyale.Core.Leaderboards
                         for (var i = 0; i < currentLocalPlayerRanking.Count; i++)
                             value.UpdateOrInsert(i, currentLocalPlayerRanking[i]);
                     }
+
+                    var currentGlobalAllianceRanking = await AllianceDb.GetGlobalAlliancesAsync();
+                    for (var i = 0; i < currentGlobalAllianceRanking.Count; i++)
+                        GlobalAllianceRanking.UpdateOrInsert(i, currentGlobalAllianceRanking[i]);
                 }
                 catch (Exception exception)
                 {
