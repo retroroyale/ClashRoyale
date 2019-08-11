@@ -2,6 +2,7 @@
 using ClashRoyale.Logic.Clan;
 using ClashRoyale.Utilities.Netty;
 using ClashRoyale.Utilities.Utils;
+using System.Linq;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {
@@ -20,7 +21,7 @@ namespace ClashRoyale.Protocol.Messages.Server
 
             Writer.WriteVInt(Alliance.Members.Count);
 
-            foreach (var member in Alliance.Members) member.AllianceMemberEntry(Writer);
+            foreach (var member in Alliance.Members.OrderByDescending(p => p.Score)) member.AllianceMemberEntry(Writer);
 
             // Clan Chest
             Writer.WriteBoolean(true);
