@@ -34,7 +34,7 @@ namespace ClashRoyale.Logic.Home.Chests
                         if (random.Next(1, 2) == 1)
                         {
                             var card = Cards.Random(Card.Rarity.Common);
-                            card.Count = random.Next(40, 60);
+                            card.Count = random.Next(50, 100);
                             card.IsNew = true;
                             chest.Add(card);
                             Home.Deck.Add(card);
@@ -46,7 +46,7 @@ namespace ClashRoyale.Logic.Home.Chests
                         if (random.Next(1, 2) == 1)
                         {
                             var card = Cards.Random(Card.Rarity.Common);
-                            card.Count = random.Next(10, 20);
+                            card.Count = random.Next(15, 25);
                             card.IsNew = true;
                             chest.Add(card);
                             Home.Deck.Add(card);
@@ -62,7 +62,7 @@ namespace ClashRoyale.Logic.Home.Chests
                         if (random.Next(1, 2) == 1)
                         {
                             var card = Cards.Random(Card.Rarity.Rare);
-                            card.Count = random.Next(10, 30);
+                            card.Count = random.Next(15, 35);
                             card.IsNew = true;
                             chest.Add(card);
                             Home.Deck.Add(card);
@@ -74,7 +74,7 @@ namespace ClashRoyale.Logic.Home.Chests
                         if (random.Next(1, 4) == 1)
                         {
                             var card = Cards.Random(Card.Rarity.Rare);
-                            card.Count = random.Next(5, 15);
+                            card.Count = random.Next(8, 18);
                             card.IsNew = true;
                             chest.Add(card);
                             Home.Deck.Add(card);
@@ -90,7 +90,7 @@ namespace ClashRoyale.Logic.Home.Chests
                         if (random.Next(1, 3) == 1)
                         {
                             var card = Cards.Random(Card.Rarity.Epic);
-                            card.Count = random.Next(1, 8);
+                            card.Count = random.Next(2, 10);
                             card.IsNew = true;
                             chest.Add(card);
                             Home.Deck.Add(card);
