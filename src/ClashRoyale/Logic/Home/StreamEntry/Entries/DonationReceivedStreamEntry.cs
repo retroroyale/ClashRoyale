@@ -1,6 +1,5 @@
 ﻿using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
-using Newtonsoft.Json;
 
 namespace ClashRoyale.Logic.Home.StreamEntry.Entries
 {
@@ -10,8 +9,6 @@ namespace ClashRoyale.Logic.Home.StreamEntry.Entries
         {
             StreamEntryType = 7;
         }
-
-        [JsonProperty("msg")] public string Message { get; set; }
 
         public override void Encode(IByteBuffer packet)
         {

@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Files;
+﻿using System;
+using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using Newtonsoft.Json;
 
@@ -44,7 +45,14 @@ namespace ClashRoyale.Logic.Home
 
         public Arenas ArenaData(int arena)
         {
-            return Csv.Tables.Get(Csv.Files.Arenas).GetDataWithInstanceId<Arenas>(arena);
+            try
+            {
+                return Csv.Tables.Get(Csv.Files.Arenas).GetDataWithInstanceId<Arenas>(arena);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public Arenas GetCurrentArenaData()

@@ -8,12 +8,11 @@ namespace ClashRoyale.Logic.Home.StreamEntry
     public class AvatarStreamEntry
     {
         [JsonProperty("creation")] public DateTime CreationDateTime = DateTime.UtcNow;
-        [JsonProperty("id")] public int Id = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+        [JsonProperty("id")] public int Id { get; set; }
         [JsonProperty("type")] public int StreamEntryType { get; set; }
         [JsonProperty("highId")] public int SenderHighId { get; set; }
         [JsonProperty("lowId")] public int SenderLowId { get; set; }
         [JsonProperty("sender_name")] public string SenderName { get; set; }
-        [JsonProperty("sender_role")] public int SenderRole { get; set; }
         [JsonProperty("removed")] public bool IsRemoved { get; set; }
         [JsonProperty("new")] public bool IsNew { get; set; }
 
@@ -34,15 +33,13 @@ namespace ClashRoyale.Logic.Home.StreamEntry
         {
             packet.WriteVInt(StreamEntryType);
 
-            packet.WriteVInt(0);
-            packet.WriteVInt(Id);
+            packet.WriteLong(Id);
+            packet.WriteBoolean(IsRemoved);
 
-            packet.WriteVInt(SenderHighId);
-            packet.WriteVInt(SenderLowId);
-            packet.WriteVInt(SenderHighId);
-            packet.WriteVInt(SenderLowId);
+            packet.WriteLong(SenderId);
             packet.WriteScString(SenderName);
 
+            packet.WriteVInt(0);
             packet.WriteVInt(AgeSeconds);
 
             packet.WriteBoolean(IsRemoved);
@@ -53,7 +50,6 @@ namespace ClashRoyale.Logic.Home.StreamEntry
         {
             SenderName = player.Home.Name;
             SenderId = player.Home.Id;
-            SenderRole = player.Home.AllianceInfo.Role;
         }
     }
 }

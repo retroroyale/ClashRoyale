@@ -44,6 +44,8 @@ namespace ClashRoyale.Files.CsvHelpers
 
         public T GetDataWithInstanceId<T>(int id) where T : Data
         {
+            if (Data.Count < id) return null;
+
             return Data[id] as T;
         }
 

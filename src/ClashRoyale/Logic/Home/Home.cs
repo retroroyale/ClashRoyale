@@ -4,7 +4,9 @@ using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using ClashRoyale.Logic.Clan;
 using ClashRoyale.Logic.Home.Decks;
+using ClashRoyale.Logic.Home.StreamEntry;
 using ClashRoyale.Logic.Sessions;
+using ClashRoyale.Protocol.Messages.Server;
 using Newtonsoft.Json;
 
 namespace ClashRoyale.Logic.Home
@@ -16,6 +18,7 @@ namespace ClashRoyale.Logic.Home
         [JsonProperty("chests")] public Chests.Chests Chests = new Chests.Chests();
         [JsonProperty("deck")] public Deck Deck = new Deck();
         [JsonProperty("shop")] public Shop.Shop Shop = new Shop.Shop();
+        [JsonProperty("stream")] public List<AvatarStreamEntry> Stream = new List<AvatarStreamEntry>(40);
 
         public Home()
         {

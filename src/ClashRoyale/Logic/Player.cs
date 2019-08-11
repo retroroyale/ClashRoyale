@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using ClashRoyale.Database;
 using ClashRoyale.Extensions;
 using ClashRoyale.Logic.Battle;
+using ClashRoyale.Logic.Home.StreamEntry;
+using ClashRoyale.Protocol.Messages.Server;
 using ClashRoyale.Utilities.Netty;
 using ClashRoyale.Utilities.Utils;
 using DotNetty.Buffers;
@@ -596,6 +599,25 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
             packet.WriteVInt(0); // AccountCreated
             packet.WriteVInt(0); // PlayTime
+        }
+
+        public async void AddEntry(AvatarStreamEntry entry)
+        {
+            lock (Home.Stream)
+            {
+                while (Home.Stream.Count >= 40)
+                    Home.Stream.RemoveAt(0);
+
+                var max = Home.Stream.Count == 0 ? 1 : Home.Stream.Max(x => x.Id);
+                entry.Id = max == int.MaxValue ? 1 : max + 1; // If we ever reach that value... but who knows...
+
+                Home.Stream.Add(entry);
+            }
+
+            await new AvatarStreamEntryMessage(Device)
+            {
+                Entry = entry
+            }.SendAsync();
         }
 
         /// <summary>

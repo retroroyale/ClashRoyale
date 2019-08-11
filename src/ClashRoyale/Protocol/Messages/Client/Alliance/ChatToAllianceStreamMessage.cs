@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;
+using ClashRoyale.Logic.Home.StreamEntry.Entries;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 
@@ -72,6 +73,25 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                         entry.SetSender(Device.Player);
 
                         alliance.AddEntry(entry);
+
+                        break;
+                    }*/
+
+                    /*case "/test":
+                    {
+                        var entry = new AllianceMailAvatarStreamEntry
+                        {
+                            Message = "Works",
+                            Title = "Hehe",
+                            AllianceId = 1,
+                            AllianceName = "LOL",
+                            AllianceBadge = 5,
+                            IsNew = true
+                        };
+
+                        entry.SetSender(Device.Player);
+
+                        Device.Player.AddEntry(entry);
 
                         break;
                     }*/

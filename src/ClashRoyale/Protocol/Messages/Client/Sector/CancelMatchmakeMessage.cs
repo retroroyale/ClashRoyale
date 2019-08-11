@@ -15,6 +15,9 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
         {
             if (Resources.Battles.Cancel(Device.Player))
                 await new CancelMatchmakeDoneMessage(Device).SendAsync();
+
+            if (Resources.DuoBattles.Cancel(Device.Player))
+                await new CancelMatchmakeDoneMessage(Device).SendAsync();
         }
     }
 }

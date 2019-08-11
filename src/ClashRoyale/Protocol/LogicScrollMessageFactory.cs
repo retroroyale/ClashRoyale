@@ -59,7 +59,6 @@ namespace ClashRoyale.Protocol
                 {14304, typeof(AskForAllianceStreamMessage)},
                 {14305, typeof(JoinAllianceMessage)},
                 {14306, typeof(ChangeAllianceMemberRoleMessage)},
-                //{14307, typeof(KickAllianceMemberMessage)},
                 {14308, typeof(LeaveAllianceMessage)},
                 //{14310, typeof(DonateAllianceUnitMessage)},
                 {14315, typeof(ChatToAllianceStreamMessage)},
@@ -71,7 +70,6 @@ namespace ClashRoyale.Protocol
                 {14322, typeof(SendAllianceInvitationMessage)},
                 //{14323, typeof(JoinAllianceUsingInvitationMessage)},
                 {14324, typeof(SearchAlliancesMessage)},
-                //{14330, typeof(SendAllianceMailMessage)},
 
                 {14401, typeof(AskForAllianceRankingListMessage)},
                 {14402, typeof(AskForTvContentMessage)},

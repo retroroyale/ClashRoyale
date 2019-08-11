@@ -95,27 +95,26 @@ namespace ClashRoyale.Protocol.Messages.Client.Login
 
                 await new LoginOkMessage(Device).SendAsync();
                 await new OwnHomeDataMessage(Device).SendAsync();
-
-                if (player.Home.AllianceInfo.HasAlliance)
+                await new AvatarStreamMessage(Device)
                 {
-                    var alliance = await Resources.Alliances.GetAllianceAsync(player.Home.AllianceInfo.Id);
+                    Entries = player.Home.Stream
+                }.SendAsync();
 
-                    if (alliance != null)
-                    {
-                        Resources.Alliances.Add(alliance);
+                if (!player.Home.AllianceInfo.HasAlliance) return;
+                var alliance = await Resources.Alliances.GetAllianceAsync(player.Home.AllianceInfo.Id);
+                if (alliance == null) return;
 
-                        await new AllianceStreamMessage(Device)
-                        {
-                            Entries = alliance.Stream
-                        }.SendAsync();
+                Resources.Alliances.Add(alliance);
 
-                        alliance.UpdateOnlineCount();
-                    }
-                }
+                await new AllianceStreamMessage(Device)
+                {
+                    Entries = alliance.Stream
+                }.SendAsync();
+
+                alliance.UpdateOnlineCount();
             }
             else
             {
-                // If the account was not found we send LoginFailed
                 await new LoginFailedMessage(Device)
                 {
                     Reason = "Account not found. Please clear app data."

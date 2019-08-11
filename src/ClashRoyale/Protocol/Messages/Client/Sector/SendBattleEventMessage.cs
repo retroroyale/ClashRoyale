@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Logic;
+﻿using System;
+using ClashRoyale.Logic;
 using ClashRoyale.Protocol.Messages.Server;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
@@ -49,6 +50,12 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
                             LowId = Device.Player.Home.LowId
                         }.SendAsync();
 
+                    break;
+                }
+
+                case 1:
+                {
+                    // CARD SELECTED // FOR REPLAY OR SPECTATORS
                     break;
                 }
             }
