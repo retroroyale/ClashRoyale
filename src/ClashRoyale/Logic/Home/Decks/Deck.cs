@@ -127,7 +127,7 @@ namespace ClashRoyale.Logic.Home.Decks
         {
             var data = card.GetRarityData;
             if (data == null) return;
-            if (card.Level > data.UpgradeMaterialCount.Count) return;
+            if (card.Level >= data.UpgradeMaterialCount.Count) return;
 
             var materialCount = data.UpgradeMaterialCount[card.Level];
 
