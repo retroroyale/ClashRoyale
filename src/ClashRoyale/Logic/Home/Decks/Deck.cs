@@ -118,12 +118,17 @@ namespace ClashRoyale.Logic.Home.Decks
         public void UpgradeCard(int classId, int instanceId)
         {
             var card = GetCard(classId, instanceId);
-            UpgradeCard(card);
+
+            if(card != null)
+                UpgradeCard(card);
         }
 
         public void UpgradeCard(Card card)
         {
             var data = card.GetRarityData;
+            if (data == null) return;
+            if (card.Level < 12) return;
+
             var materialCount = data.UpgradeMaterialCount[card.Level];
 
             if (materialCount > card.Count) return;
