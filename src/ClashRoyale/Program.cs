@@ -26,6 +26,8 @@ namespace ClashRoyale
 
             try
             {
+                Console.WriteLine("Saving players...");
+
                 lock (Resources.Players.SyncObject)
                 {
                     foreach (var player in Resources.Players.Values)
