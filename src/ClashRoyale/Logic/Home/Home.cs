@@ -51,6 +51,7 @@ namespace ClashRoyale.Logic.Home
             Shop.Refresh();
 
             Chests.Home = this;
+            Arena.Home = this;
         }
 
         [JsonProperty("name")] public string Name { get; set; }
