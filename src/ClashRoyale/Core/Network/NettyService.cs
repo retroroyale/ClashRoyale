@@ -22,6 +22,9 @@ namespace ClashRoyale.Core.Network
         public ServerBootstrap ServerBootstrap { get; set; }
         public ServerBootstrap ClusterBootstrap { get; set; }
 
+        public IChannel ServerChannel { get; set; }
+        public IChannel ClusterServerChannel { get; set; }
+
         public async Task RunServerAsync()
         {
             BossGroup = new MultithreadEventLoopGroup();
@@ -76,20 +79,31 @@ namespace ClashRoyale.Core.Network
 
             if (Resources.Configuration.UseUdp)
             {
-                var boundClusterChannel = await ClusterBootstrap.BindAsync(Resources.Configuration.ClusterServerPort);
-                var clusterEndpoint = (IPEndPoint)boundClusterChannel.LocalAddress;
+                ClusterServerChannel = await ClusterBootstrap.BindAsync(Resources.Configuration.ClusterServerPort);
+                var clusterEndpoint = (IPEndPoint)ClusterServerChannel.LocalAddress;
 
                 Logger.Log(
                     $"Cluster started on {clusterEndpoint.Address.MapToIPv4()}:{clusterEndpoint.Port}.",
                     GetType());
             }
 
-            var boundChannel = await ServerBootstrap.BindAsync(Resources.Configuration.ServerPort);
-            var endpoint = (IPEndPoint)boundChannel.LocalAddress;
+            ServerChannel = await ServerBootstrap.BindAsync(Resources.Configuration.ServerPort);
+            var endpoint = (IPEndPoint)ServerChannel.LocalAddress;
 
             Logger.Log(
                 $"Listening on {endpoint.Address.MapToIPv4()}:{endpoint.Port}. Let's play ClashRoyale!",
                 GetType());
+        }
+
+        public async Task Shutdown()
+        {
+            await ServerChannel.CloseAsync();
+            await WorkerGroup.ShutdownGracefullyAsync();
+            await BossGroup.ShutdownGracefullyAsync();
+
+            await ClusterServerChannel.CloseAsync();
+            await ClusterWorkerGroup.ShutdownGracefullyAsync();
+            await ClusterBossGroup.ShutdownGracefullyAsync();
         }
     }
 }

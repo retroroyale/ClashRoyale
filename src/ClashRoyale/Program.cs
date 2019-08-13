@@ -14,6 +14,32 @@ namespace ClashRoyale
             Resources.Initialize();
 
             Console.Read();
+
+            Shutdown();
+        }
+
+        public static async void Shutdown()
+        {
+            Console.WriteLine("Shutting down...");
+
+            await Resources.Netty.Shutdown();
+
+            try
+            {
+                lock (Resources.Players.SyncObject)
+                {
+                    foreach (var player in Resources.Players.Values)
+                    {
+                        player.Save();
+                    }
+                }
+
+                Console.WriteLine("All players saved.");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Couldn't save all players.");
+            }
         }
 
         public static void Exit()
