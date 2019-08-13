@@ -629,6 +629,8 @@ namespace ClashRoyale.Logic
             session.Duration = (long) DateTime.UtcNow.Subtract(session.SessionStart).TotalSeconds;
             session.StartDate = session.SessionStart.ToString(CultureInfo.InvariantCulture);
 
+            Home.TotalPlayTimeSeconds += session.Duration;
+
             while (Home.Sessions.Count >= 50) Home.Sessions.RemoveAt(0);
 
             Home.Sessions.Add(session);

@@ -13,6 +13,7 @@ namespace ClashRoyale
 
             Resources.Initialize();
 
+            Logger.Log("Press any key to shutdown the server.", null);
             Console.Read();
 
             Shutdown();
@@ -42,6 +43,8 @@ namespace ClashRoyale
             {
                 Console.WriteLine("Couldn't save all players.");
             }
+
+            await Resources.Netty.ShutdownWorkers();
         }
 
         public static void Exit()

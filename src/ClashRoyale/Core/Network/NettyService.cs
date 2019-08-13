@@ -98,10 +98,16 @@ namespace ClashRoyale.Core.Network
         public async Task Shutdown()
         {
             await ServerChannel.CloseAsync();
+
+            if(Resources.Configuration.UseUdp)
+                await ClusterServerChannel.CloseAsync();
+        }
+
+        public async Task ShutdownWorkers()
+        {
             await WorkerGroup.ShutdownGracefullyAsync();
             await BossGroup.ShutdownGracefullyAsync();
 
-            await ClusterServerChannel.CloseAsync();
             await ClusterWorkerGroup.ShutdownGracefullyAsync();
             await ClusterBossGroup.ShutdownGracefullyAsync();
         }
