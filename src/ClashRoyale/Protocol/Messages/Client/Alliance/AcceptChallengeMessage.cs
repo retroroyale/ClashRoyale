@@ -24,8 +24,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
             var home = Device.Player.Home;
             var alliance = await Resources.Alliances.GetAllianceAsync(home.AllianceInfo.Id);
 
-            var entry = alliance?.Stream.Find(e => e.Id == EntryId);
-            if (entry == null) return;
+            if (!(alliance?.Stream.Find(e => e.Id == EntryId && e.StreamEntryType == 10) is ChallengeStreamEntry entry)) return;
 
             alliance.RemoveEntry(entry);
 
@@ -33,7 +32,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
 
             if (enemy.Device != null)
             {
-                var battle = new LogicBattle(true, ((ChallengeStreamEntry) entry).Arena)
+                var battle = new LogicBattle(true, entry.Arena)
                 {
                     Device.Player, enemy
                 };
