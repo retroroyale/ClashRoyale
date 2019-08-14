@@ -20,7 +20,7 @@ namespace ClashRoyale.Logic.Battle
         public Dictionary<long, Queue<byte[]>> Commands = new Dictionary<long, Queue<byte[]>>();
 
         /// <summary>
-        /// 1v1 Battle
+        ///     1v1 Battle
         /// </summary>
         /// <param name="isFriendly"></param>
         /// <param name="arena"></param>
@@ -34,7 +34,7 @@ namespace ClashRoyale.Logic.Battle
         }
 
         /// <summary>
-        /// 2v2 Battle
+        ///     2v2 Battle
         /// </summary>
         /// <param name="arena"></param>
         /// <param name="players"></param>
@@ -74,7 +74,6 @@ namespace ClashRoyale.Logic.Battle
                     Commands.Add(player.Home.Id, new Queue<byte[]>());
 
                     if (Resources.Configuration.UseUdp)
-                    {
                         if (server != null)
                             await new UdpConnectionInfoMessage(player.Device)
                             {
@@ -82,9 +81,8 @@ namespace ClashRoyale.Logic.Battle
                                 ServerHost = server.Ip == "127.0.0.1" ? "192.168.2.143" : server.Ip, // just as test
                                 SessionId = BattleId,
                                 Nonce = server.Nonce,
-                                Index = (byte)IndexOf(player)
+                                Index = (byte) IndexOf(player)
                             }.SendAsync();
-                    }
 
                     await new SectorStateMessage(player.Device)
                     {
@@ -378,7 +376,7 @@ namespace ClashRoyale.Logic.Battle
         }
 
         /// <summary>
-        /// Stops the battle
+        ///     Stops the battle
         /// </summary>
         public void Stop()
         {
@@ -389,7 +387,7 @@ namespace ClashRoyale.Logic.Battle
         }
 
         /// <summary>
-        /// Checks wether the battle is over or we have to send sector heartbeat (TCP only)
+        ///     Checks wether the battle is over or we have to send sector heartbeat (TCP only)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
@@ -402,7 +400,7 @@ namespace ClashRoyale.Logic.Battle
                     {
                         if (player.Device.SecondsSinceLastCommand > 2)
                         {
-                            if (BattleSeconds <= 8) continue;
+                            if (BattleSeconds <= 10) continue;
 
                             if (!IsFriendly)
                             {
@@ -440,7 +438,7 @@ namespace ClashRoyale.Logic.Battle
         }
 
         /// <summary>
-        /// Remove a player from the battle and stop it when it's empty
+        ///     Remove a player from the battle and stop it when it's empty
         /// </summary>
         /// <param name="player"></param>
         public new void Remove(Player player)
@@ -452,7 +450,7 @@ namespace ClashRoyale.Logic.Battle
         }
 
         /// <summary>
-        /// Stops the battle for a specific player (only UDP)
+        ///     Stops the battle for a specific player (only UDP)
         /// </summary>
         public async void Stop(byte index)
         {
@@ -473,10 +471,7 @@ namespace ClashRoyale.Logic.Battle
             player.Battle = null;
             this[index] = null;
 
-            if (this.All(x => x == null))
-            {
-                Stop();
-            }
+            if (this.All(x => x == null)) Stop();
         }
 
         public Device GetEnemy(long userId)

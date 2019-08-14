@@ -21,6 +21,12 @@ namespace ClashRoyale.Core
 
         private RavenClient Client { get; }
 
+        /// <summary>
+        ///     Capture an event triggered by an error
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="type"></param>
+        /// <param name="level"></param>
         public async void Report(string message, Type type, ErrorLevel level)
         {
             if (Client == null)

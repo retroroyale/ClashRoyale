@@ -37,7 +37,7 @@ namespace ClashRoyale.Battles.Logic.Session
 
             var ackCount = reader.ReadByte();
 
-            if(ackCount > 0)
+            if (ackCount > 0)
             {
                 var buffer = Unpooled.Buffer();
                 buffer.WriteLong(Session.Id);
@@ -46,10 +46,7 @@ namespace ClashRoyale.Battles.Logic.Session
 
                 buffer.WriteByte(ackCount);
 
-                for (var i = 0; i < ackCount; i++)
-                {
-                    buffer.WriteByte(reader.ReadByte());
-                }
+                for (var i = 0; i < ackCount; i++) buffer.WriteByte(reader.ReadByte());
 
                 await Channel.WriteAndFlushAsync(new DatagramPacket(buffer, EndPoint));
             }
@@ -73,38 +70,40 @@ namespace ClashRoyale.Battles.Logic.Session
                 }
 
                 if (!(Activator.CreateInstance(LogicMessageFactory.Messages[chunkId], this, reader) is PiranhaMessage
-                     message)) continue;
+                    message)) continue;
 
-                 try
-                 {
-                     message.Id = chunkId;
-                     message.Length = chunkLength;
+                try
+                {
+                    message.Id = chunkId;
+                    message.Length = chunkLength;
 
-                     message.Decrypt();
-                     message.Decode();
-                     message.Process();
+                    message.Decrypt();
+                    message.Decode();
+                    message.Process();
 
-                     Logger.Log($"[C] Message {chunkId} ({message.GetType().Name}) handled.", GetType(),
-                         ErrorLevel.Debug);
-                 }
-                 catch (Exception exception)
-                 {
-                     Logger.Log($"Failed to process {chunkId}: " + exception, GetType(), ErrorLevel.Error);
-                 }
+                    Logger.Log($"[C] Message {chunkId} ({message.GetType().Name}) handled.", GetType(),
+                        ErrorLevel.Debug);
+                }
+                catch (Exception exception)
+                {
+                    Logger.Log($"Failed to process {chunkId}: " + exception, GetType(), ErrorLevel.Error);
+                }
 
                 var buffer = Unpooled.Buffer();
                 buffer.WriteLong(Session.Id);
                 buffer.WriteByte(GameMode);
                 buffer.WriteByte(Index);
 
-                buffer.WriteByte(1); 
-                buffer.WriteByte(chunkSeq); 
+                buffer.WriteByte(1);
+                buffer.WriteByte(chunkSeq);
                 await Channel.WriteAndFlushAsync(new DatagramPacket(buffer, EndPoint));
             }
-            
+
             var readable = reader.ReadableBytes;
-            if(readable > 0)
-                Logger.Log($"{BitConverter.ToString(reader.ReadBytes(readable).Array.Take(readable).ToArray()).Replace("-", "")}", null, ErrorLevel.Debug);
+            if (readable > 0)
+                Logger.Log(
+                    $"{BitConverter.ToString(reader.ReadBytes(readable).Array.Take(readable).ToArray()).Replace("-", "")}",
+                    null, ErrorLevel.Debug);
         }
 
         #region Objects

@@ -160,7 +160,7 @@ namespace ClashRoyale.Logic.Home.Chests
         }
 
         /// <summary>
-        /// by nameless
+        ///     by nameless
         /// </summary>
         /// <param name="price"></param>
         /// <returns></returns>

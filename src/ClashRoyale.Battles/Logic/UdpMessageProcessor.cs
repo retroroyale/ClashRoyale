@@ -1,5 +1,4 @@
-﻿using System;
-using ClashRoyale.Battles.Logic.Session;
+﻿using ClashRoyale.Battles.Logic.Session;
 using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
@@ -36,7 +35,7 @@ namespace ClashRoyale.Battles.Logic
             else
             {
                 //if (length != 10)
-                    //Logger.Log($"Received {length} bytes from {packet.Sender}: {BitConverter.ToString(content.Array.Take(length).ToArray()).Replace("-", "")}", null, ErrorLevel.Debug);
+                //Logger.Log($"Received {length} bytes from {packet.Sender}: {BitConverter.ToString(content.Array.Take(length).ToArray()).Replace("-", "")}", null, ErrorLevel.Debug);
 
                 var sessionId = content.ReadLong();
                 var gameMode = content.ReadByte();

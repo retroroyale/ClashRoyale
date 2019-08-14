@@ -12,7 +12,6 @@ namespace ClashRoyale.Battles.Logic.Battle
     public class LogicBattle
     {
         public Timer BattleTimer;
-        public Session.Session Session { get; set; }
 
         public Dictionary<EndPoint, Queue<byte[]>> Commands = new Dictionary<EndPoint, Queue<byte[]>>();
 
@@ -23,6 +22,8 @@ namespace ClashRoyale.Battles.Logic.Battle
             BattleTimer = new Timer(500);
             BattleTimer.Elapsed += Tick;
         }
+
+        public Session.Session Session { get; set; }
 
         private DateTime StartTime { get; set; }
 
@@ -57,7 +58,7 @@ namespace ClashRoyale.Battles.Logic.Battle
                     {
                         if (DateTime.UtcNow.Subtract(ctx.LastCommands).TotalSeconds > 3)
                         {
-                            if (BattleSeconds <= 8) continue;
+                            if (BattleSeconds <= 10) continue;
 
                             await new BattleFinishedMessage
                             {

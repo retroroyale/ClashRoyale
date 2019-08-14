@@ -1,8 +1,8 @@
-﻿using ClashRoyale.Logic;
+﻿using System.Linq;
+using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan;
 using ClashRoyale.Utilities.Netty;
 using ClashRoyale.Utilities.Utils;
-using System.Linq;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {

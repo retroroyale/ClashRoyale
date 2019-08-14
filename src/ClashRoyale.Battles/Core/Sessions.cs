@@ -57,10 +57,7 @@ namespace ClashRoyale.Battles.Core
         {
             lock (_syncObject)
             {
-                if (ContainsKey(sessionId))
-                {
-                    base.Remove(sessionId);
-                }
+                if (ContainsKey(sessionId)) base.Remove(sessionId);
             }
         }
 
@@ -83,13 +80,11 @@ namespace ClashRoyale.Battles.Core
                         foreach (var ctx in session.ToArray())
                         {
                             if (ctx.Active) continue;
+
                             session.Remove(ctx);
                         }
 
-                        if (session.Count == 0)
-                        {
-                            Remove(session.Id);
-                        }
+                        if (session.Count == 0) Remove(session.Id);
                     }
                 }
             }

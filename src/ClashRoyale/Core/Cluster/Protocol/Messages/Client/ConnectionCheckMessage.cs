@@ -32,7 +32,8 @@ namespace ClashRoyale.Core.Cluster.Protocol.Messages.Client
         {
             if (CryptoFailed)
             {
-                Logger.Log($"Failed to decrypt packet of battle server {Server.GetIp()}.", GetType(), ErrorLevel.Warning);
+                Logger.Log($"Failed to decrypt packet of battle server {Server.GetIp()}.", GetType(),
+                    ErrorLevel.Warning);
 
                 await new ConnectionFailedMessage(Server)
                 {

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;
-using ClashRoyale.Logic.Home.StreamEntry.Entries;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 
@@ -35,7 +34,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                 var cmdType = cmd[0];
                 var cmdValue = 0;
 
-                if(cmd.Length > 1)
+                if (cmd.Length > 1)
                     if (Message.Split(' ')[1].Any(char.IsDigit))
                         int.TryParse(Message.Split(' ')[1], out cmdValue);
 

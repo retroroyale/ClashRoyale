@@ -11,13 +11,13 @@ namespace ClashRoyale.Core.Network.Handlers.Cluster
 {
     public class ClusterPacketHandler : ChannelHandlerAdapter
     {
-        public IChannel Channel { get; set; }
-        public Server Server { get; set; }
-
         public ClusterPacketHandler()
         {
             Server = new Server(this);
         }
+
+        public IChannel Channel { get; set; }
+        public Server Server { get; set; }
 
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
@@ -36,9 +36,10 @@ namespace ClashRoyale.Core.Network.Handlers.Cluster
         {
             Channel = context.Channel;
 
-            var remoteAddress = (IPEndPoint)Channel.RemoteAddress;
+            var remoteAddress = (IPEndPoint) Channel.RemoteAddress;
 
-            Logger.Log($"Server {remoteAddress.Address.MapToIPv4()}:{remoteAddress.Port} connected.", GetType(), ErrorLevel.Debug);
+            Logger.Log($"Server {remoteAddress.Address.MapToIPv4()}:{remoteAddress.Port} connected.", GetType(),
+                ErrorLevel.Debug);
 
             base.ChannelRegistered(context);
         }
@@ -47,9 +48,10 @@ namespace ClashRoyale.Core.Network.Handlers.Cluster
         {
             Resources.ServerManager.Remove($"{Server.ServerInfo.Ip}:{Server.ServerInfo.Port}");
 
-            var remoteAddress = (IPEndPoint)Channel.RemoteAddress;
+            var remoteAddress = (IPEndPoint) Channel.RemoteAddress;
 
-            Logger.Log($"Server {remoteAddress.Address.MapToIPv4()}:{remoteAddress.Port} disconnected.", GetType(), ErrorLevel.Debug);
+            Logger.Log($"Server {remoteAddress.Address.MapToIPv4()}:{remoteAddress.Port} disconnected.", GetType(),
+                ErrorLevel.Debug);
 
             base.ChannelUnregistered(context);
         }

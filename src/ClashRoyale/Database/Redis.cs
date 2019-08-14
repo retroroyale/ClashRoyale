@@ -74,7 +74,8 @@ namespace ClashRoyale.Database
                     JsonConvert.SerializeObject(player, Configuration.JsonSettings), TimeSpan.FromHours(4));
 
                 await _sessions.StringSetAsync(player.Home.Id.ToString(),
-                    JsonConvert.SerializeObject(player.Home.Sessions, Configuration.JsonSettings), TimeSpan.FromHours(4));
+                    JsonConvert.SerializeObject(player.Home.Sessions, Configuration.JsonSettings),
+                    TimeSpan.FromHours(4));
             }
             catch (Exception exception)
             {
@@ -152,7 +153,9 @@ namespace ClashRoyale.Database
                 if (!string.IsNullOrEmpty(data) && !string.IsNullOrEmpty(sessions))
                 {
                     var player = JsonConvert.DeserializeObject<Player>(data, Configuration.JsonSettings);
-                    player.Home.Sessions = JsonConvert.DeserializeObject<List<Session>>(sessions, Configuration.JsonSettings) ?? new List<Session>(50);
+                    player.Home.Sessions =
+                        JsonConvert.DeserializeObject<List<Session>>(sessions, Configuration.JsonSettings) ??
+                        new List<Session>(50);
                     return player;
                 }
             }

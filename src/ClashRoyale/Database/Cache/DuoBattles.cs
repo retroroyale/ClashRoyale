@@ -53,6 +53,7 @@ namespace ClashRoyale.Database.Cache
             lock (_duoPlayerQueue)
             {
                 if (_duoPlayerQueue.Contains(player)) return;
+
                 _duoPlayerQueue.Add(player);
             }
 
@@ -62,12 +63,8 @@ namespace ClashRoyale.Database.Cache
 
             // Notify other players 
             foreach (var p in players.Values.ToList())
-            {
                 if (p.Device.IsConnected && p.Home.Id != player.Home.Id)
-                {
                     await new PvpMatchmakeNotificationMessage(p.Device).SendAsync();
-                }
-            }
         }
 
         /// <summary>

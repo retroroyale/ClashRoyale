@@ -10,12 +10,12 @@ namespace ClashRoyale.Battles.Core.Network.Cluster.Handlers
 {
     public class ClusterPacketHandler : ChannelHandlerAdapter
     {
-        public IChannel Channel { get; set; }
-
         public ClusterPacketHandler()
         {
             Resources.ClusterClient.Handler = this;
         }
+
+        public IChannel Channel { get; set; }
 
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {

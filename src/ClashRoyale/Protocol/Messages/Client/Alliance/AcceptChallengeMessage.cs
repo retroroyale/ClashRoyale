@@ -24,7 +24,8 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
             var home = Device.Player.Home;
             var alliance = await Resources.Alliances.GetAllianceAsync(home.AllianceInfo.Id);
 
-            if (!(alliance?.Stream.Find(e => e.Id == EntryId && e.StreamEntryType == 10) is ChallengeStreamEntry entry)) return;
+            if (!(alliance?.Stream.Find(e => e.Id == EntryId && e.StreamEntryType == 10) is ChallengeStreamEntry entry)
+            ) return;
 
             alliance.RemoveEntry(entry);
 

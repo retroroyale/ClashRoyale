@@ -1,5 +1,4 @@
-﻿using System;
-using ClashRoyale.Logic;
+﻿using ClashRoyale.Logic;
 using ClashRoyale.Protocol.Messages.Server;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
@@ -55,7 +54,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
 
                 case 1:
                 {
-                    // CARD SELECTED // FOR REPLAY OR SPECTATORS
+                    // CARD SELECTED // FOR REPLAY/SPECTATORS/DUO
                     break;
                 }
             }

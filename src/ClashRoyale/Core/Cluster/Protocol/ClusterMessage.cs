@@ -7,12 +7,21 @@ namespace ClashRoyale.Core.Cluster.Protocol
 {
     public class ClusterMessage
     {
+        /// <summary>
+        ///     Client Message
+        /// </summary>
+        /// <param name="server"></param>
         public ClusterMessage(Server server)
         {
             Server = server;
             Writer = Unpooled.Buffer(5);
         }
 
+        /// <summary>
+        ///     Server Message
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="buffer"></param>
         public ClusterMessage(Server server, IByteBuffer buffer)
         {
             Server = server;
@@ -25,6 +34,9 @@ namespace ClashRoyale.Core.Cluster.Protocol
         public ushort Id { get; set; }
         public int Length { get; set; }
 
+        /// <summary>
+        ///     Decrypts the current message
+        /// </summary>
         public virtual void Decrypt()
         {
             if (Length <= 0) return;
@@ -37,6 +49,9 @@ namespace ClashRoyale.Core.Cluster.Protocol
             Length = buffer.ReadableBytes;
         }
 
+        /// <summary>
+        ///     Encrypts the current message
+        /// </summary>
         public virtual void Encrypt()
         {
             if (Writer.ReadableBytes <= 0) return;
@@ -48,14 +63,23 @@ namespace ClashRoyale.Core.Cluster.Protocol
             Length = buffer.ReadableBytes;
         }
 
+        /// <summary>
+        ///     Decodes the current message
+        /// </summary>
         public virtual void Decode()
         {
         }
 
+        /// <summary>
+        ///     Encodes the current message
+        /// </summary>
         public virtual void Encode()
         {
         }
 
+        /// <summary>
+        ///     Processes the current message
+        /// </summary>
         public virtual void Process()
         {
         }

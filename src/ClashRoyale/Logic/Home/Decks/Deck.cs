@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ClashRoyale.Logic.Home.Decks.Items;
 using ClashRoyale.Utilities.Netty;
@@ -119,7 +118,7 @@ namespace ClashRoyale.Logic.Home.Decks
         {
             var card = GetCard(classId, instanceId);
 
-            if(card != null)
+            if (card != null)
                 UpgradeCard(card);
         }
 

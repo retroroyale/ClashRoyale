@@ -25,6 +25,10 @@ namespace ClashRoyale.Core.Network
         public IChannel ServerChannel { get; set; }
         public IChannel ClusterServerChannel { get; set; }
 
+        /// <summary>
+        ///     Run the server and optionally the cluster server
+        /// </summary>
+        /// <returns></returns>
         public async Task RunServerAsync()
         {
             BossGroup = new MultithreadEventLoopGroup();
@@ -80,7 +84,7 @@ namespace ClashRoyale.Core.Network
             if (Resources.Configuration.UseUdp)
             {
                 ClusterServerChannel = await ClusterBootstrap.BindAsync(Resources.Configuration.ClusterServerPort);
-                var clusterEndpoint = (IPEndPoint)ClusterServerChannel.LocalAddress;
+                var clusterEndpoint = (IPEndPoint) ClusterServerChannel.LocalAddress;
 
                 Logger.Log(
                     $"Cluster started on {clusterEndpoint.Address.MapToIPv4()}:{clusterEndpoint.Port}.",
@@ -88,21 +92,29 @@ namespace ClashRoyale.Core.Network
             }
 
             ServerChannel = await ServerBootstrap.BindAsync(Resources.Configuration.ServerPort);
-            var endpoint = (IPEndPoint)ServerChannel.LocalAddress;
+            var endpoint = (IPEndPoint) ServerChannel.LocalAddress;
 
             Logger.Log(
                 $"Listening on {endpoint.Address.MapToIPv4()}:{endpoint.Port}. Let's play ClashRoyale!",
                 GetType());
         }
 
+        /// <summary>
+        ///     Close all channels and disconnects clients
+        /// </summary>
+        /// <returns></returns>
         public async Task Shutdown()
         {
             await ServerChannel.CloseAsync();
 
-            if(Resources.Configuration.UseUdp)
+            if (Resources.Configuration.UseUdp)
                 await ClusterServerChannel.CloseAsync();
         }
 
+        /// <summary>
+        ///     Shutdown all workers of netty
+        /// </summary>
+        /// <returns></returns>
         public async Task ShutdownWorkers()
         {
             await WorkerGroup.ShutdownGracefullyAsync();

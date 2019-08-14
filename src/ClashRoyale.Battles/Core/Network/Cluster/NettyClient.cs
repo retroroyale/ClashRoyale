@@ -3,7 +3,6 @@ using System.Net;
 using System.Threading.Tasks;
 using ClashRoyale.Battles.Core.Network.Cluster.Handlers;
 using DotNetty.Codecs;
-using DotNetty.Handlers.Logging;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
@@ -39,7 +38,7 @@ namespace ClashRoyale.Battles.Core.Network.Cluster
 
                 var connectedChannel =
                     await Bootstrap.ConnectAsync(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9876));
-                var endpoint = (IPEndPoint)connectedChannel.LocalAddress;
+                var endpoint = (IPEndPoint) connectedChannel.LocalAddress;
 
                 Logger.Log(
                     $"Connected to the cluster on {endpoint.Address.MapToIPv4()}:{endpoint.Port}.",

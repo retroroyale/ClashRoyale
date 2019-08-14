@@ -74,7 +74,7 @@ namespace ClashRoyale.Utilities.Netty
         }
 
         /// <summary>
-        /// Encode a buffer with the length (int)
+        ///     Encode a buffer with the length (int)
         /// </summary>
         /// <param name="buffer"></param>
         /// <param name="bytes"></param>

@@ -16,14 +16,18 @@ namespace ClashRoyale.Battles.Core
             Formatting = Formatting.None
         };
 
-        // Make sure to edit these on prod
-        [JsonProperty("cluster_encryption_key")] public string ClusterKey = "15uvmi8qnyuj9tm53ipaavvytltm582yatecyjzb"; 
-        [JsonProperty("cluster_encryption_nonce")] public string ClusterNonce = "nonce";
-
         [JsonProperty("battle_nonce")] public string BattleNonce = "nonce";
+
+        // Make sure to edit these on prod
+        [JsonProperty("cluster_encryption_key")]
+        public string ClusterKey = "15uvmi8qnyuj9tm53ipaavvytltm582yatecyjzb";
+
+        [JsonProperty("cluster_encryption_nonce")]
+        public string ClusterNonce = "nonce";
+
+        [JsonProperty("max_sessions")] public int MaxSessions = 100;
         [JsonProperty("sentry_api")] public string SentryApiUrl = "";
         [JsonProperty("server_port")] public int ServerPort = 9449;
-        [JsonProperty("max_sessions")] public int MaxSessions = 100;
 
         public void Initialize()
         {

@@ -32,6 +32,7 @@ namespace ClashRoyale.Database
             _allianceSeed = MaxAllianceId();
 
             if (_allianceSeed > -1) return;
+
             Logger.Log($"MysqlConnection for clans failed [{Resources.Configuration.MySqlServer}]!", GetType());
             Program.Exit();
         }

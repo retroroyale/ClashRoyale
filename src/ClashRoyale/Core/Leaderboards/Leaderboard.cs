@@ -22,16 +22,21 @@ namespace ClashRoyale.Core.Leaderboards
 
         public Leaderboard()
         {
-            _timer.Elapsed += Tick;
+            _timer.Elapsed += Update;
             _timer.Start();
 
             foreach (var locales in Csv.Tables.Get(Csv.Files.Locales).GetDatas())
                 LocalPlayerRanking.Add(((Locales) locales).Name, new List<Player>(200));
 
-            Tick(null, null);
+            Update(null, null);
         }
 
-        public async void Tick(object state, ElapsedEventArgs args)
+        /// <summary>
+        ///     Update all Leaderboards
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="args"></param>
+        public async void Update(object state, ElapsedEventArgs args)
         {
             await Task.Run(async () =>
             {

@@ -32,7 +32,7 @@ namespace ClashRoyale.Battles.Core.Network.Cluster
                     message.Id = id;
                     message.Length = length;
 
-                    if(id != 20103)
+                    if (id != 20103)
                         message.Decrypt();
 
                     message.Decode();

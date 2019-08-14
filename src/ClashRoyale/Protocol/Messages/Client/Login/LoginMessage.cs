@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Sessions;
 using ClashRoyale.Protocol.Messages.Server;
@@ -101,6 +100,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Login
                 }.SendAsync();
 
                 if (!player.Home.AllianceInfo.HasAlliance) return;
+
                 var alliance = await Resources.Alliances.GetAllianceAsync(player.Home.AllianceInfo.Id);
                 if (alliance == null) return;
 

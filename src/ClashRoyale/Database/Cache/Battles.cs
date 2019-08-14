@@ -50,6 +50,7 @@ namespace ClashRoyale.Database.Cache
             lock (_playerQueue)
             {
                 if (_playerQueue.Contains(player)) return;
+
                 _playerQueue.Add(player);
 
                 var estimatedTime = _random.Next(601, 901);
@@ -70,12 +71,8 @@ namespace ClashRoyale.Database.Cache
 
             // Notify other players 
             foreach (var p in players.Values.ToList())
-            {
                 if (p.Device.IsConnected && p.Home.Id != player.Home.Id)
-                {
                     await new PvpMatchmakeNotificationMessage(p.Device).SendAsync();
-                }
-            }
         }
 
         /// <summary>
@@ -131,7 +128,7 @@ namespace ClashRoyale.Database.Cache
         }
 
         /// <summary>
-        /// Get a battle by it's id
+        ///     Get a battle by it's id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

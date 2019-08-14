@@ -15,6 +15,10 @@ namespace ClashRoyale.Core.Cluster
             Handler = handler;
         }
 
+        /// <summary>
+        ///     Process the buffer sent by the client
+        /// </summary>
+        /// <param name="buffer"></param>
         public void Process(IByteBuffer buffer)
         {
             var id = buffer.ReadUnsignedShort();
@@ -50,9 +54,13 @@ namespace ClashRoyale.Core.Cluster
                 }
         }
 
+        /// <summary>
+        ///     Returns the Ipv4 Address of the client
+        /// </summary>
+        /// <returns></returns>
         public string GetIp()
         {
-            return ((IPEndPoint)Handler.Channel.RemoteAddress).Address.MapToIPv4().ToString();
+            return ((IPEndPoint) Handler.Channel.RemoteAddress).Address.MapToIPv4().ToString();
         }
 
         #region Objects

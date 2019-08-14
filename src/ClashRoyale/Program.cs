@@ -31,10 +31,7 @@ namespace ClashRoyale
 
                 lock (Resources.Players.SyncObject)
                 {
-                    foreach (var player in Resources.Players.Values)
-                    {
-                        player.Save();
-                    }
+                    foreach (var player in Resources.Players.Values) player.Save();
                 }
 
                 Console.WriteLine("All players saved.");

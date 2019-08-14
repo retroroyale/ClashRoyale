@@ -8,7 +8,7 @@ using SharpRaven.Data;
 
 namespace ClashRoyale.Logic.Battle
 {
-    public class LogicDuoBattle 
+    public class LogicDuoBattle
     {
         public Timer BattleTimer;
 
@@ -17,7 +17,7 @@ namespace ClashRoyale.Logic.Battle
         public List<List<Player>> Teams = new List<List<Player>>();
 
         /// <summary>
-        /// 2v2 Battle
+        ///     2v2 Battle
         /// </summary>
         /// <param name="arena"></param>
         /// <param name="players"></param>
@@ -28,15 +28,9 @@ namespace ClashRoyale.Logic.Battle
 
             Arena = arena;
 
-            for (var i = 0; i < 2; i++)
-            {
-                Teams.Add(new List<Player>());
-            }
+            for (var i = 0; i < 2; i++) Teams.Add(new List<Player>());
 
-            for (var i = 0; i < 4; i++)
-            {
-                Teams[i % 2 == 0 ? 0 : 1].Add(players[i]);
-            }
+            for (var i = 0; i < 4; i++) Teams[i % 2 == 0 ? 0 : 1].Add(players[i]);
 
             BattleTimer = new Timer(500);
             BattleTimer.Elapsed += Tick;
@@ -60,34 +54,27 @@ namespace ClashRoyale.Logic.Battle
             try
             {
                 ServerInfo server = null;
-                if (Resources.Configuration.UseUdp)
-                {
-                    server = Resources.ServerManager.GetServer();
-                }
+                if (Resources.Configuration.UseUdp) server = Resources.ServerManager.GetServer();
 
                 foreach (var team in Teams)
+                foreach (var player in team)
                 {
-                    foreach (var player in team)
+                    Commands.Add(player.Home.Id, new Queue<byte[]>());
+
+                    if (Resources.Configuration.UseUdp)
+                        if (server != null)
+                            await new UdpConnectionInfoMessage(player.Device)
+                            {
+                                ServerPort = server.Port,
+                                ServerHost = server.Ip == "127.0.0.1" ? "192.168.2.143" : server.Ip, // just as test
+                                SessionId = BattleId,
+                                Nonce = server.Nonce
+                            }.SendAsync();
+
+                    await new DuoSectorStateMessage(player.Device)
                     {
-                        Commands.Add(player.Home.Id, new Queue<byte[]>());
-
-                        if (Resources.Configuration.UseUdp)
-                        {
-                            if (server != null)
-                                await new UdpConnectionInfoMessage(player.Device)
-                                {
-                                    ServerPort = server.Port,
-                                    ServerHost = server.Ip == "127.0.0.1" ? "192.168.2.143" : server.Ip, // just as test
-                                    SessionId = BattleId,
-                                    Nonce = server.Nonce
-                                }.SendAsync();
-                        }
-
-                        await new DuoSectorStateMessage(player.Device)
-                        {
-                            Battle = this
-                        }.SendAsync();
-                    }
+                        Battle = this
+                    }.SendAsync();
                 }
 
                 StartTime = DateTime.UtcNow;
@@ -104,6 +91,7 @@ namespace ClashRoyale.Logic.Battle
         public void Encode(IByteBuffer packet)
         {
             #region SectorState
+
             /*
             const int towers = 6;
 
@@ -376,7 +364,7 @@ namespace ClashRoyale.Logic.Battle
         }
 
         /// <summary>
-        /// Stops the battle
+        ///     Stops the battle
         /// </summary>
         public void Stop()
         {
@@ -387,7 +375,7 @@ namespace ClashRoyale.Logic.Battle
         }
 
         /// <summary>
-        /// Checks wether the battle is over or we have to send sector heartbeat (TCP only)
+        ///     Checks wether the battle is over or we have to send sector heartbeat (TCP only)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
@@ -396,40 +384,30 @@ namespace ClashRoyale.Logic.Battle
             try
             {
                 foreach (var team in Teams.ToArray())
-                {
-                    foreach (var player in team)
-                        if (player.Device.IsConnected)
+                foreach (var player in team)
+                    if (player.Device.IsConnected)
+                    {
+                        if (player.Device.SecondsSinceLastCommand > 2)
                         {
-                            if (player.Device.SecondsSinceLastCommand > 2)
+                            if (BattleSeconds <= 8) continue;
+
+                            if (!IsFriendly)
                             {
-                                if (BattleSeconds <= 8) continue;
-
-                                if (!IsFriendly)
-                                {
-                                    player.Home.AddCrowns(3);
-                                    player.Home.Arena.AddTrophies(31);
-                                }
-
-                                await new BattleResultMessage(player.Device).SendAsync();
-
-                                player.Battle = null;
-
-                                Remove(player);
+                                player.Home.AddCrowns(3);
+                                player.Home.Arena.AddTrophies(31);
                             }
-                            else
-                            {
-                                /*await new SectorHearbeatMessage(player.Device)
-                                {
-                                    Turn = BattleTime,
-                                    Commands = GetOwnQueue(player.Home.Id)
-                                }.SendAsync();*/
-                            }
-                        }
-                        else
-                        {
+
+                            await new BattleResultMessage(player.Device).SendAsync();
+
+                            player.Battle = null;
+
                             Remove(player);
                         }
-                }
+                    }
+                    else
+                    {
+                        Remove(player);
+                    }
 
                 if (Teams.FindIndex(t => t.FindIndex(p => p.Device.SecondsSinceLastCommand < 10) > -1) <= -1)
                     Stop();
@@ -441,7 +419,7 @@ namespace ClashRoyale.Logic.Battle
         }
 
         /// <summary>
-        /// Remove a player from the battle and stop it when it's empty
+        ///     Remove a player from the battle and stop it when it's empty
         /// </summary>
         /// <param name="player"></param>
         public void Remove(Player player)

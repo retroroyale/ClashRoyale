@@ -35,9 +35,10 @@ namespace ClashRoyale.Core.Network.Handlers
         {
             Channel = context.Channel;
 
-            var remoteAddress = (IPEndPoint)Channel.RemoteAddress;
+            var remoteAddress = (IPEndPoint) Channel.RemoteAddress;
 
-            Logger.Log($"Client {remoteAddress.Address.MapToIPv4()}:{remoteAddress.Port} connected.", GetType(), ErrorLevel.Debug);
+            Logger.Log($"Client {remoteAddress.Address.MapToIPv4()}:{remoteAddress.Port} connected.", GetType(),
+                ErrorLevel.Debug);
 
             base.ChannelRegistered(context);
         }
@@ -71,9 +72,10 @@ namespace ClashRoyale.Core.Network.Handlers
                     }
             }
 
-            var remoteAddress = (IPEndPoint)Channel.RemoteAddress;
+            var remoteAddress = (IPEndPoint) Channel.RemoteAddress;
 
-            Logger.Log($"Client {remoteAddress.Address.MapToIPv4()}:{remoteAddress.Port} disconnected.", GetType(), ErrorLevel.Debug);
+            Logger.Log($"Client {remoteAddress.Address.MapToIPv4()}:{remoteAddress.Port} disconnected.", GetType(),
+                ErrorLevel.Debug);
 
             base.ChannelUnregistered(context);
         }

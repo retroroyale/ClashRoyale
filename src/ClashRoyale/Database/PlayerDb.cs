@@ -33,6 +33,7 @@ namespace ClashRoyale.Database
             _playerSeed = MaxPlayerId();
 
             if (_playerSeed > -1) return;
+
             Logger.Log($"MysqlConnection for players failed [{Resources.Configuration.MySqlServer}]!", GetType());
             Program.Exit();
         }
@@ -185,8 +186,9 @@ namespace ClashRoyale.Database
                             player = JsonConvert.DeserializeObject<Player>((string) reader["Home"],
                                 Configuration.JsonSettings);
 
-                            player.Home.Sessions = JsonConvert.DeserializeObject<List<Session>>((string)reader["Sessions"],
-                                                  Configuration.JsonSettings) ?? new List<Session>(50);
+                            player.Home.Sessions = JsonConvert.DeserializeObject<List<Session>>(
+                                                       (string) reader["Sessions"],
+                                                       Configuration.JsonSettings) ?? new List<Session>(50);
                             break;
                         }
                     }
