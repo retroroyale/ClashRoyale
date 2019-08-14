@@ -29,7 +29,7 @@ dotnet publish "ClashRoyale.csproj" -c Release -o app
 Battle Server:
 ```
 mkdir ClashRoyaleBattles
-git clone https://github.com/retroroyale/ClashRoyale.git && cd ClashRoyaleBattles/src/ClashRoyale.Battles
+git clone https://github.com/retroroyale/ClashRoyale.git ClashRoyaleBattles && cd ClashRoyaleBattles/src/ClashRoyale.Battles
 
 dotnet publish "ClashRoyale.Battles.csproj" -c Release -o app
 ```
