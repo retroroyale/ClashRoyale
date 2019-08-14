@@ -19,10 +19,19 @@ The server supports battles, for those a patched client is neccessary.
   - MySql Database (on Ubuntu i suggest WAMP with PhpMyAdmin)
 
 for Ubuntu use these commands to set it up:
+Main Server:
 ```
+mkdir ClashRoyale
 git clone https://github.com/retroroyale/ClashRoyale.git && cd ClashRoyale/src/ClashRoyale
 
 dotnet publish "ClashRoyale.csproj" -c Release -o app
+```
+Battle Server:
+```
+mkdir ClashRoyaleBattles
+git clone https://github.com/retroroyale/ClashRoyale.git && cd ClashRoyaleBattles/src/ClashRoyale.Battles
+
+dotnet publish "ClashRoyale.Battles.csproj" -c Release -o app
 ```
 To configurate your server, such as the database you have to edit the ```config.json``` file.
 
