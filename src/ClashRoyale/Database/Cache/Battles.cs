@@ -42,7 +42,6 @@ namespace ClashRoyale.Database.Cache
         ///     Adds a player to the queue and sends the estimated time
         /// </summary>
         /// <param name="player"></param>
-        /// <param name="duo"></param>
         public async void Enqueue(Player player)
         {
             var players = Resources.Players;
@@ -129,6 +128,16 @@ namespace ClashRoyale.Database.Cache
         {
             if (ContainsKey(id))
                 base.Remove(id);
+        }
+
+        /// <summary>
+        /// Get a battle by it's id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public LogicBattle Get(long id)
+        {
+            return ContainsKey(id) ? this[id] : null;
         }
     }
 }

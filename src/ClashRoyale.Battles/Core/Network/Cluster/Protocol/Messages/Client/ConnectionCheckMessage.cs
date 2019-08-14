@@ -15,7 +15,7 @@ namespace ClashRoyale.Battles.Core.Network.Cluster.Protocol.Messages.Client
 
             Writer.WriteScString(Resources.Configuration.BattleNonce);
             Writer.WriteVInt(Resources.Configuration.ServerPort);
-            Writer.WriteVInt(Resources.Configuration.MaxBattles);
+            Writer.WriteVInt(Resources.Configuration.MaxSessions);
         }
     }
 }

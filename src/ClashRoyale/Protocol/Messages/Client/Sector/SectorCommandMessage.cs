@@ -32,7 +32,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
 
             var battle = Device.Player.Battle;
             if (battle != null)
-                if (!battle.IsRunning)
+                if (!battle.IsRunning && !Resources.Configuration.UseUdp)
                     battle.BattleTimer.Start();
 
             for (var i = 0; i < Count; i++)

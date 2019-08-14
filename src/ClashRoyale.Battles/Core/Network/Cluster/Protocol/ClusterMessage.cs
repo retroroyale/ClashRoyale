@@ -67,11 +67,11 @@ namespace ClashRoyale.Battles.Core.Network.Cluster.Protocol
             {
                 await Resources.ClusterClient.Handler.Channel.WriteAndFlushAsync(this);
 
-                Logger.Log($"[S] Message {Id} ({GetType().Name}) sent.", GetType(), ErrorLevel.Debug);
+                Logger.Log($"[C] Message {Id} ({GetType().Name}) sent.", GetType(), ErrorLevel.Debug);
             }
             catch (Exception)
             {
-                Logger.Log($"[S] Failed to send {Id}.", GetType(), ErrorLevel.Debug);
+                Logger.Log($"[C] Failed to send {Id}.", GetType(), ErrorLevel.Debug);
             }
         }
     }

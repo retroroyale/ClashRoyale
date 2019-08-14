@@ -33,10 +33,13 @@ namespace ClashRoyale.Core.Cluster.Protocol.Messages.Client
             if (CryptoFailed)
             {
                 Logger.Log($"Failed to decrypt packet of battle server {Server.GetIp()}.", GetType(), ErrorLevel.Warning);
+
+                await new ConnectionFailedMessage(Server)
+                {
+                    Error = 1
+                }.SendAsync();
                 return;
             }
-
-            Logger.Log($"Battle server with nonce \"{Nonce}\" connected.", GetType());
 
             var ip = Server.GetIp();
             var info = new ServerInfo

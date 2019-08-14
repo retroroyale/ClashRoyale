@@ -32,6 +32,18 @@ namespace ClashRoyale.Battles.Logic.Session
             }
         }
 
+        public new void Remove(SessionContext ctx)
+        {
+            lock (_syncObject)
+            {
+                if (!Contains(ctx)) return;
+
+                base.Remove(ctx);
+
+                if (Count < 1) Battle.Stop();
+            }
+        }
+
         public SessionContext Get(EndPoint endPoint)
         {
             lock (_syncObject)

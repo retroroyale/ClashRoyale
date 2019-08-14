@@ -23,7 +23,7 @@ namespace ClashRoyale.Battles.Core
         [JsonProperty("battle_nonce")] public string BattleNonce = "nonce";
         [JsonProperty("sentry_api")] public string SentryApiUrl = "";
         [JsonProperty("server_port")] public int ServerPort = 9449;
-        [JsonProperty("max_battles")] public int MaxBattles = 100;
+        [JsonProperty("max_sessions")] public int MaxSessions = 100;
 
         public void Initialize()
         {
@@ -35,7 +35,7 @@ namespace ClashRoyale.Battles.Core
                     SentryApiUrl = config.SentryApiUrl;
                     BattleNonce = config.BattleNonce;
                     ServerPort = config.ServerPort;
-                    MaxBattles = config.MaxBattles;
+                    MaxSessions = config.MaxSessions;
                     ClusterKey = config.ClusterKey;
                     ClusterNonce = config.ClusterNonce;
                 }

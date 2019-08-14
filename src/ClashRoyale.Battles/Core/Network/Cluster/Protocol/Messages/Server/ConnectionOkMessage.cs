@@ -8,10 +8,5 @@ namespace ClashRoyale.Battles.Core.Network.Cluster.Protocol.Messages.Server
         {
             Id = 20104;
         }
-
-        public override void Process()
-        {
-            // TODO
-        }
     }
 }

@@ -12,7 +12,9 @@ namespace ClashRoyale.Core.Network.Handlers
             if (!(msg is PiranhaMessage message)) return base.WriteAsync(context, null);
 
             message.Encode();
-            message.Encrypt();
+
+            if(message.Id != 20103)
+                message.Encrypt();
 
             var header = Unpooled.Buffer(7);
             header.WriteUnsignedShort(message.Id);

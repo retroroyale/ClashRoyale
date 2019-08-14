@@ -24,10 +24,10 @@ namespace ClashRoyale.Battles.Logic.Session
 
         public bool BattleActive
         {
-            get => DateTime.UtcNow.Subtract(_lastCommands).TotalSeconds < 5;
+            get => DateTime.UtcNow.Subtract(LastCommands).TotalSeconds < 10;
             set
             {
-                if (value) _lastCommands = DateTime.UtcNow;
+                if (value) LastCommands = DateTime.UtcNow;
             }
         }
 
@@ -41,7 +41,9 @@ namespace ClashRoyale.Battles.Logic.Session
             {
                 var buffer = Unpooled.Buffer();
                 buffer.WriteLong(Session.Id);
-                buffer.WriteBytes(new byte[2]);
+                buffer.WriteByte(GameMode);
+                buffer.WriteByte(Index);
+
                 buffer.WriteByte(ackCount);
 
                 for (var i = 0; i < ackCount; i++)
@@ -92,7 +94,9 @@ namespace ClashRoyale.Battles.Logic.Session
 
                 var buffer = Unpooled.Buffer();
                 buffer.WriteLong(Session.Id);
-                buffer.WriteBytes(new byte[2]);
+                buffer.WriteByte(GameMode);
+                buffer.WriteByte(Index);
+
                 buffer.WriteByte(1); 
                 buffer.WriteByte(chunkSeq); 
                 await Channel.WriteAndFlushAsync(new DatagramPacket(buffer, EndPoint));
@@ -110,11 +114,18 @@ namespace ClashRoyale.Battles.Logic.Session
         public Session Session { get; set; }
         public EndPoint EndPoint { get; set; }
         public IChannel Channel { get; set; }
+        public byte GameMode { get; set; }
+        public byte Index { get; set; }
 
         private DateTime _lastMessage = DateTime.UtcNow;
-        private DateTime _lastCommands = DateTime.UtcNow;
-
+        public DateTime LastCommands = DateTime.UtcNow;
         public byte Seq = 1;
+
+        public enum GameModes
+        {
+            Pvp = 0,
+            Duo = 1
+        }
 
         #endregion Objects
     }

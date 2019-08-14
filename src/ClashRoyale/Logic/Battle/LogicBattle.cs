@@ -67,9 +67,7 @@ namespace ClashRoyale.Logic.Battle
             {
                 ServerInfo server = null;
                 if (Resources.Configuration.UseUdp)
-                {
                     server = Resources.ServerManager.GetServer();
-                }
 
                 foreach (var player in this)
                 {
@@ -83,7 +81,8 @@ namespace ClashRoyale.Logic.Battle
                                 ServerPort = server.Port,
                                 ServerHost = server.Ip == "127.0.0.1" ? "192.168.2.143" : server.Ip, // just as test
                                 SessionId = BattleId,
-                                Nonce = server.Nonce
+                                Nonce = server.Nonce,
+                                Index = (byte)IndexOf(player)
                             }.SendAsync();
                     }
 
@@ -450,6 +449,34 @@ namespace ClashRoyale.Logic.Battle
                 Stop();
 
             base.Remove(player);
+        }
+
+        /// <summary>
+        /// Stops the battle for a specific player (only UDP)
+        /// </summary>
+        public async void Stop(byte index)
+        {
+            if (Count <= index) return;
+
+            var player = this[index];
+
+            if (player == null) return;
+
+            if (!IsFriendly)
+            {
+                player.Home.AddCrowns(3);
+                player.Home.Arena.AddTrophies(31);
+            }
+
+            await new BattleResultMessage(player.Device).SendAsync();
+
+            player.Battle = null;
+            this[index] = null;
+
+            if (this.All(x => x == null))
+            {
+                Stop();
+            }
         }
 
         public Device GetEnemy(long userId)

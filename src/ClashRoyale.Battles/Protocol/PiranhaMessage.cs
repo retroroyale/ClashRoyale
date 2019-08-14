@@ -76,7 +76,8 @@ namespace ClashRoyale.Battles.Protocol
 
                 var buffer = Unpooled.Buffer(15 + Length);
                 buffer.WriteLong(SessionContext.Session.Id);
-                buffer.WriteBytes(new byte[2]);
+                buffer.WriteByte(SessionContext.GameMode);
+                buffer.WriteByte(SessionContext.Index);
 
                 buffer.WriteByte(0);
                 buffer.WriteByte(1);

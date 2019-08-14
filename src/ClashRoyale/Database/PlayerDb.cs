@@ -26,7 +26,8 @@ namespace ClashRoyale.Database
                 Password = Resources.Configuration.MySqlPassword,
                 SslMode = MySqlSslMode.None,
                 MinimumPoolSize = 4,
-                MaximumPoolSize = 20
+                MaximumPoolSize = 20,
+                CharacterSet = "utf8mb4"
             }.ToString();
 
             _playerSeed = MaxPlayerId();

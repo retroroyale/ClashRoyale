@@ -20,35 +20,34 @@ namespace ClashRoyale.Core.Cluster
             var id = buffer.ReadUnsignedShort();
             var length = buffer.ReadMedium();
 
-            if (id >= 10000 && id < 20000)
+            if (id < 10000 || id >= 20000) return;
+
+            if (!ClusterMessageFactory.Messages.ContainsKey(id))
             {
-                if (!ClusterMessageFactory.Messages.ContainsKey(id))
-                {
-                    Logger.Log($"Message ID: {id}, L: {length} is not known.", GetType(),
-                        ErrorLevel.Warning);
-                    return;
-                }
-
-                if (Activator.CreateInstance(ClusterMessageFactory.Messages[id], this, buffer) is ClusterMessage
-                    message
-                )
-                    try
-                    {
-                        message.Id = id;
-                        message.Length = length;
-
-                        message.Decrypt();
-                        message.Decode();
-                        message.Process();
-
-                        Logger.Log($"[C] Message {id} ({message.GetType().Name}) handled.", GetType(),
-                            ErrorLevel.Debug);
-                    }
-                    catch (Exception exception)
-                    {
-                        Logger.Log($"Failed to process {id}: " + exception, GetType(), ErrorLevel.Error);
-                    }
+                Logger.Log($"Message ID: {id}, L: {length} is not known.", GetType(),
+                    ErrorLevel.Warning);
+                return;
             }
+
+            if (Activator.CreateInstance(ClusterMessageFactory.Messages[id], this, buffer) is ClusterMessage
+                message
+            )
+                try
+                {
+                    message.Id = id;
+                    message.Length = length;
+
+                    message.Decrypt();
+                    message.Decode();
+                    message.Process();
+
+                    Logger.Log($"[C] Message {id} ({message.GetType().Name}) handled.", GetType(),
+                        ErrorLevel.Debug);
+                }
+                catch (Exception exception)
+                {
+                    Logger.Log($"Failed to process {id}: " + exception, GetType(), ErrorLevel.Error);
+                }
         }
 
         public string GetIp()

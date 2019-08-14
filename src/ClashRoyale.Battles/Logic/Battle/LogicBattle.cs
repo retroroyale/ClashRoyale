@@ -52,26 +52,27 @@ namespace ClashRoyale.Battles.Logic.Battle
         {
             try
             {
-                foreach (var session in Session.ToArray())
-                    if (session.Active)
+                foreach (var ctx in Session.ToArray())
+                    if (ctx.Active)
                     {
-                        if (!session.BattleActive)
+                        if (DateTime.UtcNow.Subtract(ctx.LastCommands).TotalSeconds > 3)
                         {
                             if (BattleSeconds <= 8) continue;
 
                             await new BattleFinishedMessage
                             {
-                                SessionId = Session.Id
+                                SessionId = Session.Id,
+                                Index = ctx.Index
                             }.SendAsync();
 
-                            Logger.Log("BATTLE OVER", null);
+                            ctx.Session.Remove(ctx);
                         }
                         else
                         {
-                            await new SectorHearbeatMessage(session)
+                            await new SectorHearbeatMessage(ctx)
                             {
                                 Turn = BattleTime,
-                                Commands = GetOwnQueue(session.EndPoint)
+                                Commands = GetOwnQueue(ctx.EndPoint)
                             }.SendAsync();
                         }
                     }

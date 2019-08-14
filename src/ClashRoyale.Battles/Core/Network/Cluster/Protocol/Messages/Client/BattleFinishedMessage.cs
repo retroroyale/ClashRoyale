@@ -8,10 +8,14 @@
         }
 
         public long SessionId { get; set; }
+        public byte Gamemode { get; set; }
+        public byte Index { get; set; }
 
         public override void Encode()
         {
             Writer.WriteLong(SessionId);
+            Writer.WriteByte(Gamemode);
+            Writer.WriteByte(Index);
         }
     }
 }
