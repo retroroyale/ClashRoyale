@@ -17,21 +17,50 @@ namespace ClashRoyale.Logic.Home
         [JsonProperty("arena")] public int CurrentArena { get; set; }
         [JsonProperty("trophies")] public int Trophies { get; set; }
 
-        public async void AddTrophies(int trophies)
+        public void AddTrophies(int trophies)
         {
             while (true)
             {
-                var data = GetCurrentArenaData();
+                var data = GetNextArenaData();
                 if (data == null) break;
 
                 if (data.TrophyLimit <= Trophies + trophies)
-                    CurrentArena++;
+                    CurrentArena = data.Arena;
                 else
                     break;
             }
 
             Trophies += trophies;
 
+            UpdateClanTrophies();
+        }
+
+        public void RemoveTrophies(int trophies)
+        {
+            while (true)
+            {
+                var data = GetCurrentArenaData();
+                if (data == null) break;
+
+                if (data.TrophyLimit < Trophies - trophies)
+                {
+                    var oldArena = GetOldArenaData();
+                    if (oldArena != null)
+                        CurrentArena = oldArena.Arena;
+                    else
+                        break;
+                }
+                else
+                    break;
+            }
+
+            Trophies += trophies;
+
+            UpdateClanTrophies();
+        }
+
+        public async void UpdateClanTrophies()
+        {
             if (!Home.AllianceInfo.HasAlliance) return;
 
             var alliance = await Resources.Alliances.GetAllianceAsync(Home.AllianceInfo.Id);
@@ -47,7 +76,10 @@ namespace ClashRoyale.Logic.Home
         {
             try
             {
-                return Csv.Tables.Get(Csv.Files.Arenas).GetDataWithInstanceId<Arenas>(arena);
+                var table = Csv.Tables.Get(Csv.Files.Arenas);
+                var index = table.Data.FindIndex(x => ((Arenas)x).Arena == arena);
+
+                return index == -1 ? null : table.Data[index] as Arenas;
             }
             catch (Exception)
             {
@@ -55,9 +87,19 @@ namespace ClashRoyale.Logic.Home
             }
         }
 
-        public Arenas GetCurrentArenaData()
+        public Arenas GetNextArenaData()
         {
             return ArenaData(CurrentArena + 1);
+        }
+
+        public Arenas GetCurrentArenaData()
+        {
+            return ArenaData(CurrentArena);
+        }
+
+        public Arenas GetOldArenaData()
+        {
+            return ArenaData(CurrentArena - 1);
         }
     }
 }

@@ -61,6 +61,17 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                         break;
                     }
 
+                    /*case "/trophies":
+                    {
+                        if (cmdValue >= 0)
+                            Device.Player.Home.Arena.AddTrophies(cmdValue);
+                        else if (cmdValue < 0)
+                            Device.Player.Home.Arena.RemoveTrophies(cmdValue);
+
+                        Device.Disconnect();
+                        break;
+                    }*/
+
                     /*case "/test":
                     {
                         var entry = new DonateStreamEntry

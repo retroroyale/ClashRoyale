@@ -26,6 +26,7 @@ namespace ClashRoyale.Protocol
                 {516, typeof(LogicBuyChestCommand)},
                 {517, typeof(LogicBuyResourcesCommand)},
                 {518, typeof(LogicBuySpellCommand)},
+                //{520, typeof(LogicShopSeenCommand)},
                 //{521, typeof(LogicSendAllianceMailCommand)},
                 {522, typeof(LogicChallengeCommand)},
                 {525, typeof(StartMatchmakeCommand)},

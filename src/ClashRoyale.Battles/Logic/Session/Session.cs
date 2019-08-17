@@ -20,12 +20,11 @@ namespace ClashRoyale.Battles.Logic.Session
         {
             lock (_syncObject)
             {
-                if (!Contains(ctx))
-                {
-                    base.Add(ctx);
+                if (Contains(ctx)) return;
 
-                    if (Count >= 2) Battle.Start();
-                }
+                base.Add(ctx);
+
+                if (Count >= 2) Battle.Start();
             }
         }
 

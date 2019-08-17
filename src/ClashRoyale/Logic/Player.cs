@@ -315,6 +315,7 @@ namespace ClashRoyale.Logic
 
             packet.WriteVInt(11);
             packet.WriteVInt(0);
+
             packet.WriteVInt(2);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
@@ -322,23 +323,23 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(3);
             packet.WriteVInt(17);
             packet.WriteVInt(1);
+
             packet.WriteVInt(14);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(5);
             packet.WriteVInt(4);
             packet.WriteVInt(14);
-
-            // Array
             packet.WriteVInt(1);
+
             packet.WriteVInt(74);
-
             packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(5);
             packet.WriteVInt(4);
             packet.WriteVInt(1);
             packet.WriteVInt(1);
+
             packet.WriteVInt(73);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
@@ -346,6 +347,7 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
             packet.WriteVInt(5);
             packet.WriteVInt(0);
+
             packet.WriteVInt(4);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
@@ -353,26 +355,23 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
             packet.WriteVInt(9);
             packet.WriteVInt(0);
+
             packet.WriteVInt(15);
             packet.WriteVInt(0);
-
             packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
-
             packet.WriteVInt(1);
             packet.WriteVInt(1);
             packet.WriteVInt(6);
             packet.WriteVInt(2);
+
             packet.WriteVInt(16);
             packet.WriteVInt(0);
-
-
             packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
-
             packet.WriteVInt(1);
             packet.WriteVInt(1);
             packet.WriteVInt(6);
-
             packet.WriteVInt(2);
+
             packet.WriteVInt(0);
 
             // Missions
@@ -400,8 +399,19 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
             packet.WriteVInt(0);
 
-            packet.WriteVInt(1); // New Arenas Seen Count
-            packet.WriteVInt(54000010); // Id
+            packet.WriteVInt(12); // New Arenas Seen Count
+            packet.WriteVInt(54000012);
+            packet.WriteVInt(54000011);
+            packet.WriteVInt(54000010);
+            packet.WriteVInt(54000009);
+            packet.WriteVInt(54000008); 
+            packet.WriteVInt(54000007); 
+            packet.WriteVInt(54000006);
+            packet.WriteVInt(54000005); 
+            packet.WriteVInt(54000004);
+            packet.WriteVInt(54000003); 
+            packet.WriteVInt(54000002); 
+            packet.WriteVInt(54000001); 
 
             packet.WriteVInt(0); // Session Reward = 2
             packet.WriteVInt(0);
