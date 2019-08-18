@@ -64,7 +64,7 @@ namespace ClashRoyale.Logic.Home
         [JsonProperty("language")] public string PreferredDeviceLanguage { get; set; }
         [JsonProperty("fcb_id")] public string FacebookId { get; set; }
         [JsonProperty("totalSessions")] public int TotalSessions { get; set; }
-        [JsonProperty("totalPlayTimeSeconds")] public long TotalPlayTimeSeconds { get; set; }
+        [JsonProperty("totalPlayTimeSeconds")] public int TotalPlayTimeSeconds { get; set; }
 
         // Shop
         [JsonProperty("shop_day")] public int ShopDay { get; set; }

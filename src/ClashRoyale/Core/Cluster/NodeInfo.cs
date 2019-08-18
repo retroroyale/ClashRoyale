@@ -2,7 +2,7 @@
 
 namespace ClashRoyale.Core.Cluster
 {
-    public class ServerInfo
+    public class NodeInfo
     {
         public string Ip { get; set; }
         public int Port { get; set; }

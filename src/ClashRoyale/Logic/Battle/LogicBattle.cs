@@ -65,9 +65,9 @@ namespace ClashRoyale.Logic.Battle
 
             try
             {
-                ServerInfo server = null;
+                NodeInfo server = null;
                 if (Resources.Configuration.UseUdp)
-                    server = Resources.ServerManager.GetServer();
+                    server = Resources.NodeManager.GetServer();
 
                 foreach (var player in this)
                 {

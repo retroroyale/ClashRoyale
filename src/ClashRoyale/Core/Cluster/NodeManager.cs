@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ClashRoyale.Core.Cluster
 {
-    public class ServerManager : Dictionary<string, ServerInfo>
+    public class NodeManager : Dictionary<string, NodeInfo>
     {
         private readonly object _syncLock = new object();
 
@@ -12,7 +12,7 @@ namespace ClashRoyale.Core.Cluster
         /// </summary>
         /// <param name="host"></param>
         /// <param name="info"></param>
-        public new void Add(string host, ServerInfo info)
+        public new void Add(string host, NodeInfo info)
         {
             lock (_syncLock)
             {
@@ -38,7 +38,7 @@ namespace ClashRoyale.Core.Cluster
         ///     Returns a server if available with the lowest battles running
         /// </summary>
         /// <returns></returns>
-        public ServerInfo GetServer()
+        public NodeInfo GetServer()
         {
             lock (_syncLock)
             {

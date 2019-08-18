@@ -12,7 +12,9 @@ namespace ClashRoyale.Core.Network.Handlers.Cluster
             if (!(msg is ClusterMessage message)) return base.WriteAsync(context, null);
 
             message.Encode();
-            message.Encrypt();
+
+            if(message.Id != 20103)
+                message.Encrypt();
 
             var header = Unpooled.Buffer(5);
             header.WriteUnsignedShort(message.Id);

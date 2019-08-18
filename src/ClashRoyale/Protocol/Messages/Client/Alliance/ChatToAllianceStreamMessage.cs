@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using ClashRoyale.Database;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;
+using ClashRoyale.Protocol.Messages.Server;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 
@@ -61,50 +63,60 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                         break;
                     }
 
-                    /*case "/trophies":
+                    case "/status":
                     {
-                        if (cmdValue >= 0)
-                            Device.Player.Home.Arena.AddTrophies(cmdValue);
-                        else if (cmdValue < 0)
-                            Device.Player.Home.Arena.RemoveTrophies(cmdValue);
-
-                        Device.Disconnect();
-                        break;
-                    }*/
-
-                    /*case "/test":
-                    {
-                        var entry = new DonateStreamEntry
+                        await new ServerErrorMessage(Device)
                         {
-                            Message = Message,
-                            TotalCapacity = 10
-                        };
-
-                        entry.SetSender(Device.Player);
-
-                        alliance.AddEntry(entry);
+                            Message = $"Online Players: {Resources.Players.Count}\nTotal Players: {await PlayerDb.CountAsync()}"
+                        }.SendAsync();
 
                         break;
-                    }*/
+                    }
 
-                    /*case "/test":
-                    {
-                        var entry = new AllianceMailAvatarStreamEntry
+                        /*case "/trophies":
                         {
-                            Message = "Works",
-                            Title = "Hehe",
-                            AllianceId = 1,
-                            AllianceName = "LOL",
-                            AllianceBadge = 5,
-                            IsNew = true
-                        };
+                            if (cmdValue >= 0)
+                                Device.Player.Home.Arena.AddTrophies(cmdValue);
+                            else if (cmdValue < 0)
+                                Device.Player.Home.Arena.RemoveTrophies(cmdValue);
 
-                        entry.SetSender(Device.Player);
+                            Device.Disconnect();
+                            break;
+                        }*/
 
-                        Device.Player.AddEntry(entry);
+                        /*case "/test":
+                        {
+                            var entry = new DonateStreamEntry
+                            {
+                                Message = Message,
+                                TotalCapacity = 10
+                            };
 
-                        break;
-                    }*/
+                            entry.SetSender(Device.Player);
+
+                            alliance.AddEntry(entry);
+
+                            break;
+                        }*/
+
+                        /*case "/test":
+                        {
+                            var entry = new AllianceMailAvatarStreamEntry
+                            {
+                                Message = "Works",
+                                Title = "Hehe",
+                                AllianceId = 1,
+                                AllianceName = "LOL",
+                                AllianceBadge = 5,
+                                IsNew = true
+                            };
+
+                            entry.SetSender(Device.Player);
+
+                            Device.Player.AddEntry(entry);
+
+                            break;
+                        }*/
                 }
             }
             else

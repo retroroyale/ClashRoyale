@@ -13,7 +13,8 @@ namespace ClashRoyale.Core.Cluster.Protocol
             Messages = new Dictionary<int, Type>
             {
                 {10101, typeof(ConnectionCheckMessage)},
-                {11000, typeof(BattleFinishedMessage)}
+                {11000, typeof(BattleFinishedMessage)},
+                {12000, typeof(ServerInfoMessage)}
             };
         }
     }

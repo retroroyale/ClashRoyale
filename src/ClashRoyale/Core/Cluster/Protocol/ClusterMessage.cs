@@ -11,7 +11,7 @@ namespace ClashRoyale.Core.Cluster.Protocol
         ///     Client Message
         /// </summary>
         /// <param name="server"></param>
-        public ClusterMessage(Server server)
+        public ClusterMessage(Node server)
         {
             Server = server;
             Writer = Unpooled.Buffer(5);
@@ -22,7 +22,7 @@ namespace ClashRoyale.Core.Cluster.Protocol
         /// </summary>
         /// <param name="server"></param>
         /// <param name="buffer"></param>
-        public ClusterMessage(Server server, IByteBuffer buffer)
+        public ClusterMessage(Node server, IByteBuffer buffer)
         {
             Server = server;
             Reader = buffer;
@@ -30,7 +30,7 @@ namespace ClashRoyale.Core.Cluster.Protocol
 
         public IByteBuffer Writer { get; set; }
         public IByteBuffer Reader { get; set; }
-        public Server Server { get; set; }
+        public Node Server { get; set; }
         public ushort Id { get; set; }
         public int Length { get; set; }
 

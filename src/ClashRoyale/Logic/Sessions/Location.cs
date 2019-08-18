@@ -17,7 +17,7 @@ namespace ClashRoyale.Logic.Sessions
             try
             {
                 //TODO: should check any local ip
-                if (ip == "127.0.0.1") return null;
+                if (ip == "127.0.0.1" || ip.StartsWith("192")) return null;
 
                 using (var client = new HttpClient())
                 {

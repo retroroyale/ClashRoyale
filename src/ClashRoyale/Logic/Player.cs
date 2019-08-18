@@ -399,19 +399,8 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
             packet.WriteVInt(0);
 
-            packet.WriteVInt(12); // New Arenas Seen Count
-            packet.WriteVInt(54000012);
-            packet.WriteVInt(54000011);
+            packet.WriteVInt(1); // New Arenas Seen Count
             packet.WriteVInt(54000010);
-            packet.WriteVInt(54000009);
-            packet.WriteVInt(54000008); 
-            packet.WriteVInt(54000007); 
-            packet.WriteVInt(54000006);
-            packet.WriteVInt(54000005); 
-            packet.WriteVInt(54000004);
-            packet.WriteVInt(54000003); 
-            packet.WriteVInt(54000002); 
-            packet.WriteVInt(54000001); 
 
             packet.WriteVInt(0); // Session Reward = 2
             packet.WriteVInt(0);
@@ -550,7 +539,7 @@ namespace ClashRoyale.Logic
             }
 
             packet.WriteVInt(0);
-            packet.WriteVInt(0);
+            packet.WriteVInt(0); // NPC? / Count?
             packet.WriteVInt(0);
 
             packet.WriteVInt(Home.Diamonds); // Diamonds
@@ -608,7 +597,7 @@ namespace ClashRoyale.Logic
 
             packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
             packet.WriteVInt(0); // AccountCreated
-            packet.WriteVInt(0); // PlayTime
+            packet.WriteVInt(Home.TotalPlayTimeSeconds); // PlayTime
         }
 
         public async void AddEntry(AvatarStreamEntry entry)
@@ -636,7 +625,7 @@ namespace ClashRoyale.Logic
         public void ValidateSession()
         {
             var session = Device.Session;
-            session.Duration = (long) DateTime.UtcNow.Subtract(session.SessionStart).TotalSeconds;
+            session.Duration = (int) DateTime.UtcNow.Subtract(session.SessionStart).TotalSeconds;
             session.StartDate = session.SessionStart.ToString(CultureInfo.InvariantCulture);
 
             Home.TotalPlayTimeSeconds += session.Duration;

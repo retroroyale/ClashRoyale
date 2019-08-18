@@ -24,27 +24,27 @@ namespace ClashRoyale.Battles.Core.Network.Cluster
                 return;
             }
 
-            if (Activator.CreateInstance(ClusterMessageFactory.Messages[id], buffer) is ClusterMessage
-                message
-            )
-                try
-                {
-                    message.Id = id;
-                    message.Length = length;
+            if (!(Activator.CreateInstance(ClusterMessageFactory.Messages[id], buffer) is ClusterMessage
+                message)) return;
 
-                    if (id != 20103)
-                        message.Decrypt();
+            try
+            {
+                message.Id = id;
+                message.Length = length;
 
-                    message.Decode();
-                    message.Process();
+                if (id != 20103)
+                    message.Decrypt();
 
-                    Logger.Log($"[S] Message {id} ({message.GetType().Name}) handled.", GetType(),
-                        ErrorLevel.Debug);
-                }
-                catch (Exception exception)
-                {
-                    Logger.Log($"Failed to process {id}: " + exception, GetType(), ErrorLevel.Error);
-                }
+                message.Decode();
+                message.Process();
+
+                Logger.Log($"[S] Message {id} ({message.GetType().Name}) handled.", GetType(),
+                    ErrorLevel.Debug);
+            }
+            catch (Exception exception)
+            {
+                Logger.Log($"Failed to process {id}: " + exception, GetType(), ErrorLevel.Error);
+            }
         }
 
         public async void Login()

@@ -17,8 +17,6 @@ namespace ClashRoyale.Core
             Formatting = Formatting.None
         };
 
-        [JsonProperty("battle_servers")] public List<string> BattleServers = new List<string>();
-
         // Make sure to edit these on prod
         [JsonProperty("cluster_encryption_key")]
         public string ClusterKey = "15uvmi8qnyuj9tm53ipaavvytltm582yatecyjzb";
@@ -73,7 +71,6 @@ namespace ClashRoyale.Core
                     UpdateUrl = config.UpdateUrl;
 
                     UseUdp = config.UseUdp;
-                    BattleServers = config.BattleServers;
                     ClusterServerPort = config.ClusterServerPort;
 
                     ClusterKey = config.ClusterKey;

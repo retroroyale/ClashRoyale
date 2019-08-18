@@ -4,7 +4,7 @@ namespace ClashRoyale.Core.Cluster.Protocol.Messages.Server
 {
     public class ConnectionFailedMessage : ClusterMessage
     {
-        public ConnectionFailedMessage(Cluster.Server server) : base(server)
+        public ConnectionFailedMessage(Node server) : base(server)
         {
             Id = 20103;
         }

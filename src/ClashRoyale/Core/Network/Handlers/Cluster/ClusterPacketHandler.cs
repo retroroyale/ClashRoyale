@@ -13,18 +13,18 @@ namespace ClashRoyale.Core.Network.Handlers.Cluster
     {
         public ClusterPacketHandler()
         {
-            Server = new Server(this);
+            Node = new Node(this);
         }
 
         public IChannel Channel { get; set; }
-        public Server Server { get; set; }
+        public Node Node { get; set; }
 
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var buffer = (IByteBuffer) message;
             if (buffer == null) return;
 
-            Server.Process(buffer);
+            Node.Process(buffer);
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext context)
@@ -46,7 +46,8 @@ namespace ClashRoyale.Core.Network.Handlers.Cluster
 
         public override void ChannelUnregistered(IChannelHandlerContext context)
         {
-            Resources.ServerManager.Remove($"{Server.ServerInfo.Ip}:{Server.ServerInfo.Port}");
+            if(Node.NodeInfo != null)
+                Resources.NodeManager.Remove($"{Node.NodeInfo.Ip}:{Node.NodeInfo.Port}");
 
             var remoteAddress = (IPEndPoint) Channel.RemoteAddress;
 

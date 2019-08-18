@@ -4,7 +4,7 @@ namespace ClashRoyale.Core.Cluster.Protocol.Messages.Client
 {
     public class BattleFinishedMessage : ClusterMessage
     {
-        public BattleFinishedMessage(Cluster.Server server, IByteBuffer buffer) : base(server, buffer)
+        public BattleFinishedMessage(Node server, IByteBuffer buffer) : base(server, buffer)
         {
             Id = 11000;
         }

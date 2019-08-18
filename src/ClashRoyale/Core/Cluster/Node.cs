@@ -8,9 +8,9 @@ using SharpRaven.Data;
 
 namespace ClashRoyale.Core.Cluster
 {
-    public class Server
+    public class Node
     {
-        public Server(ClusterPacketHandler handler)
+        public Node(ClusterPacketHandler handler)
         {
             Handler = handler;
         }
@@ -33,25 +33,25 @@ namespace ClashRoyale.Core.Cluster
                 return;
             }
 
-            if (Activator.CreateInstance(ClusterMessageFactory.Messages[id], this, buffer) is ClusterMessage
-                message
-            )
-                try
-                {
-                    message.Id = id;
-                    message.Length = length;
+            if (!(Activator.CreateInstance(ClusterMessageFactory.Messages[id], this, buffer) is ClusterMessage
+                message)) return;
 
-                    message.Decrypt();
-                    message.Decode();
-                    message.Process();
+            try
+            {
+                message.Id = id;
+                message.Length = length;
 
-                    Logger.Log($"[C] Message {id} ({message.GetType().Name}) handled.", GetType(),
-                        ErrorLevel.Debug);
-                }
-                catch (Exception exception)
-                {
-                    Logger.Log($"Failed to process {id}: " + exception, GetType(), ErrorLevel.Error);
-                }
+                message.Decrypt();
+                message.Decode();
+                message.Process();
+
+                Logger.Log($"[C] Message {id} ({message.GetType().Name}) handled.", GetType(),
+                    ErrorLevel.Debug);
+            }
+            catch (Exception exception)
+            {
+                Logger.Log($"Failed to process {id}: " + exception, GetType(), ErrorLevel.Error);
+            }
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace ClashRoyale.Core.Cluster
 
         public ClusterPacketHandler Handler { get; set; }
         public Rc4Core Rc4 = new Rc4Core(Resources.Configuration.ClusterKey, Resources.Configuration.ClusterNonce);
-        public ServerInfo ServerInfo { get; set; }
+        public NodeInfo NodeInfo { get; set; }
 
         #endregion Objects
     }

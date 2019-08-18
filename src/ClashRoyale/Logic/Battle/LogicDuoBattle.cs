@@ -53,8 +53,8 @@ namespace ClashRoyale.Logic.Battle
 
             try
             {
-                ServerInfo server = null;
-                if (Resources.Configuration.UseUdp) server = Resources.ServerManager.GetServer();
+                NodeInfo server = null;
+                if (Resources.Configuration.UseUdp) server = Resources.NodeManager.GetServer();
 
                 foreach (var team in Teams)
                 foreach (var player in team)

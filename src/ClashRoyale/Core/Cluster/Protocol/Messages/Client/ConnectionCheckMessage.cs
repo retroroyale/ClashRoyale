@@ -7,7 +7,7 @@ namespace ClashRoyale.Core.Cluster.Protocol.Messages.Client
 {
     public class ConnectionCheckMessage : ClusterMessage
     {
-        public ConnectionCheckMessage(Cluster.Server server, IByteBuffer buffer) : base(server, buffer)
+        public ConnectionCheckMessage(Node server, IByteBuffer buffer) : base(server, buffer)
         {
             Id = 10101;
         }
@@ -43,7 +43,7 @@ namespace ClashRoyale.Core.Cluster.Protocol.Messages.Client
             }
 
             var ip = Server.GetIp();
-            var info = new ServerInfo
+            var info = new NodeInfo
             {
                 Ip = ip,
                 Port = Port,
@@ -51,8 +51,8 @@ namespace ClashRoyale.Core.Cluster.Protocol.Messages.Client
                 MaxBattles = MaxBattles
             };
 
-            Resources.ServerManager.Add(ip + ":" + Port, info);
-            Server.ServerInfo = info;
+            Resources.NodeManager.Add(ip + ":" + Port, info);
+            Server.NodeInfo = info;
 
             await new ConnectionOkMessage(Server).SendAsync();
         }
