@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ClashRoyale.Database;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;

@@ -77,6 +77,9 @@ namespace ClashRoyale.Logic.Home
         [JsonProperty("crowns")] public int Crowns { get; set; }
         [JsonProperty("new_crowns")] public int NewCrowns { get; set; }
 
+        // Freechest
+        [JsonProperty("freeChestTime")] public DateTime FreeChestTime = DateTime.UtcNow;
+
         // Player Stats
         [JsonProperty("exp_level")] public int ExpLevel { get; set; }
         [JsonProperty("exp_points")] public int ExpPoints { get; set; }
@@ -162,6 +165,28 @@ namespace ClashRoyale.Logic.Home
 
             Gold -= amount;
             return true;
+        }
+
+        public bool IsFirstFreeChestAvailable()
+        {
+            return DateTime.UtcNow.Subtract(FreeChestTime).TotalHours >= 4;
+        }
+
+        public bool IsSecondFreeChestAvailable()
+        {
+            return DateTime.UtcNow.Subtract(FreeChestTime).TotalHours >= 8;
+        }
+
+        public int GetFreeChestId()
+        {
+            var id = 1;
+
+            if (IsFirstFreeChestAvailable() && !IsSecondFreeChestAvailable())
+                id = 0;
+            else if (IsSecondFreeChestAvailable())
+                id = 2;
+
+            return id;
         }
 
         /// <summary>

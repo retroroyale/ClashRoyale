@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using ClashRoyale.Database;
+﻿using ClashRoyale.Database;
 using ClashRoyale.Extensions;
 using ClashRoyale.Logic.Battle;
 using ClashRoyale.Logic.Home.StreamEntry;
@@ -12,6 +8,10 @@ using ClashRoyale.Utilities.Utils;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
 using SharpRaven.Data;
+using System;
+using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 
 namespace ClashRoyale.Logic
 {
@@ -98,11 +98,11 @@ namespace ClashRoyale.Logic
             // Unknown
             {
                 packet.WriteVInt(0);
-                packet.WriteVInt(1); // Current Freechest Id
+                packet.WriteVInt(Home.GetFreeChestId()); // Current Freechest Id
 
                 // Free Chest Timer
-                packet.WriteVInt(1584540);
-                packet.WriteVInt(1645300);
+                packet.WriteVInt(0);
+                packet.WriteVInt(0);
 
                 packet.WriteVInt(1500268361); // Last Login
 
@@ -201,26 +201,37 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(0);*/
             }
 
-            // Timers
-            for (var i = 0; i < 2; i++)
+            // Free Chest Timer
+
+            if(!Home.IsFirstFreeChestAvailable())
+                packet.WriteVInt((int)Home.FreeChestTime.AddHours(4).Subtract(DateTime.UtcNow).TotalSeconds * 20);
+            else
+                packet.WriteVInt((int)Home.FreeChestTime.AddHours(4).Subtract(DateTime.UtcNow.AddHours(4)).TotalSeconds * 20); 
+
+            packet.WriteVInt(0);
+            packet.WriteVInt(0);
+
+            // Timer // Not required?
+            packet.WriteVInt(0);
+            packet.WriteVInt(0);
+            packet.WriteVInt(0);
+
+            if (Home.IsFirstFreeChestAvailable())
             {
-                packet.WriteVInt(0);
+                packet.WriteBoolean(true);
+                packet.WriteVInt(19);
+                packet.WriteVInt(12);
+                packet.WriteVInt(1);
+                packet.WriteVInt(18);
                 packet.WriteVInt(0);
                 packet.WriteNullVInt();
+                packet.WriteVInt(0);
+                packet.WriteVInt(0);
+                packet.WriteVInt(0);
             }
+            else
+                packet.WriteBoolean(false);
 
-            packet.WriteVInt(1);
-            packet.WriteVInt(19);
-            packet.WriteVInt(12);
-
-            packet.WriteVInt(1);
-            packet.WriteVInt(18);
-            packet.WriteVInt(0);
-
-            packet.WriteNullVInt();
-            packet.WriteVInt(0);
-            packet.WriteVInt(0);
-            packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
@@ -274,7 +285,7 @@ namespace ClashRoyale.Logic
             {
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);
-                packet.WriteNullVInt();
+                packet.WriteVInt(0);
             }
 
             packet.WriteVInt(1);

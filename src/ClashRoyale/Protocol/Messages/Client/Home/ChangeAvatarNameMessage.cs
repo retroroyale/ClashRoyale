@@ -23,7 +23,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Home
         public override async void Process()
         {
             if (string.IsNullOrEmpty(Name)) return;
-            if (Name.Length <= 2 || Name.Length > 15) return;
+            if (Name.Length < 2 || Name.Length > 15) return;
 
             var home = Device.Player.Home;
             if (home.NameSet >= 2) return;

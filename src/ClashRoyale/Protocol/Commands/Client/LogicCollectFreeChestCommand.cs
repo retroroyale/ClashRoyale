@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Logic;
+﻿using System;
+using ClashRoyale.Logic;
 using ClashRoyale.Logic.Home.Chests.Items;
 using ClashRoyale.Protocol.Commands.Server;
 using ClashRoyale.Protocol.Messages.Server;
@@ -14,6 +15,18 @@ namespace ClashRoyale.Protocol.Commands.Client
 
         public override async void Process()
         {
+            var home = Device.Player.Home;
+
+            if (!home.IsSecondFreeChestAvailable())
+                home.FreeChestTime = home.FreeChestTime.AddHours(4);
+            else if (home.IsFirstFreeChestAvailable())
+                home.FreeChestTime = DateTime.UtcNow.Subtract(TimeSpan.FromHours(4));
+            else
+            {
+                Device.Disconnect();
+                return;
+            }
+
             await new AvailableServerCommand(Device)
             {
                 Command = new ChestDataCommand(Device)
