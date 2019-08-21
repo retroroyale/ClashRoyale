@@ -93,6 +93,17 @@ namespace ClashRoyale.Logic
             await new OutOfSyncMessage(this).SendAsync();
         }
 
+        /// <summary>
+        /// Adjusts the ServerTick
+        /// </summary>
+        /// <param name="tick"></param>
+        public void AdjustTick(int tick)
+        {
+            var secDiff = Math.Abs(tick - ServerTick) / 20;
+
+            LastVisitHome = secDiff > 0 ? LastVisitHome.Subtract(TimeSpan.FromSeconds(secDiff)) : LastVisitHome.AddSeconds(secDiff);
+        }
+
         #region Objects
 
         public Session Session = new Session();

@@ -64,6 +64,12 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                         break;
                     }
 
+                    case "/replay":
+                    {
+                        await new HomeBattleReplayDataMessage(Device).SendAsync();
+                        break;
+                    }
+
                     case "/status":
                     {
                         await new ServerErrorMessage(Device)

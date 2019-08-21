@@ -33,13 +33,18 @@ namespace ClashRoyale.Protocol.Messages.Client
                 return;
             }
 
-            if (Math.Abs(Tick - Device.ServerTick) > 500)
+            if (Device.CurrentState < Device.State.Battle)
             {
-                Logger.Log($"OutOfSync! Client Tick: {Tick}, Server Tick: {Device.ServerTick}", GetType(),
-                    ErrorLevel.Warning);
-                Device.Disconnect();
-                return;
+                if (Math.Abs(Tick - Device.ServerTick) > 500)
+                {
+                    Logger.Log($"OutOfSync! Client Tick: {Tick}, Server Tick: {Device.ServerTick}", GetType(),
+                        ErrorLevel.Warning);
+                    Device.Disconnect();
+                    return;
+                }
             }
+            else
+                Device.AdjustTick(Tick);
 
             if (Count < 0 && Count > 128) return;
 
