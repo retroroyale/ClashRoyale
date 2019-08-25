@@ -201,17 +201,21 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(0);*/
             }
 
-            // Free Chest Timer
-
-            if(!Home.IsFirstFreeChestAvailable())
+            // FreeChest Timer
+            if (!Home.IsFirstFreeChestAvailable())
                 packet.WriteVInt((int)Home.FreeChestTime.AddHours(4).Subtract(DateTime.UtcNow).TotalSeconds * 20);
             else
-                packet.WriteVInt((int)Home.FreeChestTime.AddHours(4).Subtract(DateTime.UtcNow.AddHours(4)).TotalSeconds * 20); 
+                packet.WriteVInt((int)Home.FreeChestTime.AddHours(4).Subtract(DateTime.UtcNow.AddHours(4)).TotalSeconds * 20);
 
             packet.WriteVInt(0);
             packet.WriteVInt(0);
 
-            // Timer // Not required?
+            // FreeChest Timer
+            /*if (Home.IsFirstFreeChestAvailable())
+                packet.WriteVInt((int)Home.FreeChestTime.AddHours(4).Subtract(DateTime.UtcNow).TotalSeconds * 20);
+            else
+                packet.WriteVInt((int)Home.FreeChestTime.AddHours(4).Subtract(DateTime.UtcNow.AddHours(4)).TotalSeconds * 20);*/
+
             packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(0);

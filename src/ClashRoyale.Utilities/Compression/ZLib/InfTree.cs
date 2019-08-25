@@ -204,7 +204,7 @@ namespace ClashRoyale.Utilities.Compression.ZLib
             return result;
         }
 
-        private int Huft_build(IReadOnlyList<int> b, int bindex, int n, int s, int[] d, int[] e, int[] t, int[] m, int[] hp,
+        private int Huft_build(IReadOnlyList<int> b, int bindex, int n, int s, IReadOnlyList<int> d, IReadOnlyList<int> e, IList<int> t, IList<int> m, int[] hp,
             IList<int> hn,
             IList<int> v)
         {

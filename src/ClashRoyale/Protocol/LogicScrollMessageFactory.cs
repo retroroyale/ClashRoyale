@@ -31,6 +31,7 @@ namespace ClashRoyale.Protocol
                 //{10151, typeof(GoogleBillingRequestMessage)},
                 //{10159, typeof(KunlunBillingRequestMessage)},
                 {10212, typeof(ChangeAvatarNameMessage)},
+                {10504, typeof(AskForPlayingInvitedFriendsListMessage)},
                 //{10512, typeof(AskForPlayingGamecenterFriendsMessage)},
                 //{10513, typeof(AskForPlayingFacebookFriendsMessage)},
                 {10905, typeof(InboxOpenedMessage)},

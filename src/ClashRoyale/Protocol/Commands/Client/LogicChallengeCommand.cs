@@ -1,5 +1,7 @@
-﻿using ClashRoyale.Logic;
+﻿using System;
+using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;
+using ClashRoyale.Protocol.Messages.Server;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 
@@ -13,14 +15,15 @@ namespace ClashRoyale.Protocol.Commands.Client
 
         public string Message { get; set; }
         public int Arena { get; set; }
+        public int GameMode { get; set; }
 
         public override void Decode()
         {
             Message = Reader.ReadScString();
             Reader.ReadBoolean();
 
-            Reader.ReadVInt();
-            Reader.ReadVInt();
+            Reader.ReadVInt(); // ClassId
+            GameMode = Reader.ReadVInt(); // InstanceId
 
             Reader.ReadVInt();
             Reader.ReadVInt();
@@ -35,11 +38,13 @@ namespace ClashRoyale.Protocol.Commands.Client
 
         public override async void Process()
         {
-            var home = Device.Player.Home;
-            var alliance = await Resources.Alliances.GetAllianceAsync(home.AllianceInfo.Id);
-
-            if (alliance != null)
+            if (GameMode == 0)
             {
+                var home = Device.Player.Home;
+                var alliance = await Resources.Alliances.GetAllianceAsync(home.AllianceInfo.Id);
+
+                if (alliance == null) return;
+
                 var entry = new ChallengeStreamEntry
                 {
                     Message = Message,
@@ -48,6 +53,11 @@ namespace ClashRoyale.Protocol.Commands.Client
 
                 entry.SetSender(Device.Player);
                 alliance.AddEntry(entry);
+            }
+            else
+            {
+                await new MatchmakeFailedMessage(Device).SendAsync();
+                await new CancelMatchmakeDoneMessage(Device).SendAsync();
             }
         }
     }

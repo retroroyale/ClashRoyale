@@ -64,12 +64,6 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                         break;
                     }
 
-                    case "/replay":
-                    {
-                        await new HomeBattleReplayDataMessage(Device).SendAsync();
-                        break;
-                    }
-
                     case "/status":
                     {
                         await new ServerErrorMessage(Device)
@@ -79,6 +73,19 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
 
                         break;
                     }
+
+                        /*case "/replay":
+                        {
+                            await new HomeBattleReplayDataMessage(Device).SendAsync();
+                            break;
+                        }
+
+                        case "/free":
+                        {
+                            Device.Player.Home.FreeChestTime = Device.Player.Home.FreeChestTime.Subtract(TimeSpan.FromMinutes(245));
+                            Device.Disconnect();
+                            break;
+                        }*/
 
                         /*case "/trophies":
                         {
