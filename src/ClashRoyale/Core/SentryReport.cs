@@ -13,7 +13,11 @@ namespace ClashRoyale.Core
             Client = new RavenClient(Resources.Configuration.SentryApiUrl)
             {
                 Logger = "ClashRoyale",
-                IgnoreBreadcrumbs = true
+                IgnoreBreadcrumbs = true,
+                ErrorOnCapture = e =>
+                {
+                    // ignore
+                }
             };
 
             Client.Tags.Add("contentVersion", Resources.Fingerprint.GetVersion);
