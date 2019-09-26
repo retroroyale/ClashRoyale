@@ -12,7 +12,7 @@ namespace ClashRoyale.Core.Network.Handlers
     {
         public PacketHandler()
         {
-            Throttler = new Throttler(8, 500);
+            Throttler = new Throttler(10, 500);
             Device = new Device(this);
         }
 
