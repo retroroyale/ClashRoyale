@@ -12,18 +12,26 @@ namespace ClashRoyale.Core.Network.Handlers
     {
         public PacketHandler()
         {
+            Throttler = new Throttler(8, 500);
             Device = new Device(this);
         }
 
         public Device Device { get; set; }
         public IChannel Channel { get; set; }
+        public Throttler Throttler { get; set; }
 
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var buffer = (IByteBuffer) message;
             if (buffer == null) return;
 
-            Device.Process(buffer);
+            if (Throttler.CanProcess())
+                Device.Process(buffer);
+            else
+            {
+                Logger.Log("Client reached ratelimit. Disconnecting...", GetType(), ErrorLevel.Warning);
+                Device.Disconnect();
+            }
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext context)

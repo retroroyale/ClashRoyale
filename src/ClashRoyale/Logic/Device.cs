@@ -91,6 +91,15 @@ namespace ClashRoyale.Logic
         public async void Disconnect()
         {
             await new OutOfSyncMessage(this).SendAsync();
+
+            try
+            {
+                await Handler.Channel.CloseAsync();
+            }
+            catch (Exception)
+            {
+                Logger.Log("Failed to close channel", GetType(), ErrorLevel.Error);
+            }
         }
 
         /// <summary>

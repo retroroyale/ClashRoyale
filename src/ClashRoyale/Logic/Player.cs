@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 using SharpRaven.Data;
 using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 
 namespace ClashRoyale.Logic
@@ -641,7 +640,6 @@ namespace ClashRoyale.Logic
         {
             var session = Device.Session;
             session.Duration = (int) DateTime.UtcNow.Subtract(session.SessionStart).TotalSeconds;
-            session.StartDate = session.SessionStart.ToString(CultureInfo.InvariantCulture);
 
             Home.TotalPlayTimeSeconds += session.Duration;
 

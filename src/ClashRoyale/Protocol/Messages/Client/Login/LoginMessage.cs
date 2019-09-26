@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Sessions;
 using ClashRoyale.Protocol.Messages.Server;
@@ -85,11 +86,15 @@ namespace ClashRoyale.Protocol.Messages.Client.Login
                 if (UserId <= 0) player.Home.CreatedIpAddress = ip;
 
                 Device.Player.Home.PreferredDeviceLanguage = PreferredDeviceLanguage;
-                Device.Session.Ip = ip;
-                Device.Session.GameVersion = $"{ClientMajorVersion}.{ClientMinorVersion}";
-                Device.Session.Location = await Location.GetByIpAsync(ip);
-                Device.Session.DeviceCode = DeviceModel;
-                Device.Session.SessionId = Guid.NewGuid().ToString();
+
+                var session = Device.Session;
+                session.Ip = ip;
+                session.GameVersion = $"{ClientMajorVersion}.{ClientMinorVersion}";
+                session.Location = await Location.GetByIpAsync(ip);
+                session.DeviceCode = DeviceModel;
+                session.SessionId = Guid.NewGuid().ToString();
+                session.StartDate = session.SessionStart.ToString(CultureInfo.InvariantCulture);
+
                 player.Home.TotalSessions++;
 
                 await new LoginOkMessage(Device).SendAsync();

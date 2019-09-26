@@ -8,9 +8,9 @@ namespace ClashRoyale.Logic.Time
 {
     public class LogicTimer
     {
-        [JsonProperty("remaining_ticks")] public int RemainingTicks { get; set; }
-        [JsonProperty("total_ticks")] public int TotalTicks { get; set; }
-        [JsonProperty("end_timestamp")] public int EndTimestamp { get; set; }
+        [JsonProperty("remainingTicks")] public int RemainingTicks { get; set; }
+        [JsonProperty("totalTicks")] public int TotalTicks { get; set; }
+        [JsonProperty("endTimestamp")] public int EndTimestamp { get; set; }
 
         [JsonIgnore] public bool IsFinished => RemainingTicks <= 0;
 
