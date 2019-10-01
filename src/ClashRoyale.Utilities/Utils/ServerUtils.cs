@@ -20,6 +20,11 @@ namespace ClashRoyale.Utilities.Utils
             return "Unknown-" + Environment.OSVersion;
         }
 
+        public static bool IsLinux()
+        {
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+        }
+
         public static string GetChecksum(string text)
         {
             using (var hasher = new SHA1CryptoServiceProvider())

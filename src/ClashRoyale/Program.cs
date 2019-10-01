@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using ClashRoyale.Utilities.Utils;
 
 namespace ClashRoyale
 {
@@ -13,8 +15,13 @@ namespace ClashRoyale
 
             Resources.Initialize();
 
-            Logger.Log("Press any key to shutdown the server.", null);
-            Console.Read();
+            if (ServerUtils.IsLinux())
+                Thread.Sleep(Timeout.Infinite);
+            else
+            {
+                Logger.Log("Press any key to shutdown the server.", null);
+                Console.Read();
+            }
 
             Shutdown();
         }
