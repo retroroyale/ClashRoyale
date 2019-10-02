@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetty.Buffers" Version="0.6.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 
   <ItemGroup>

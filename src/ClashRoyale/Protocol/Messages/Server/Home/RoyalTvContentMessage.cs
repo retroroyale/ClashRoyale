@@ -25,7 +25,7 @@ namespace ClashRoyale.Protocol.Messages.Server
 
             // Replay Version
             Writer.WriteVInt(3);
-            Writer.WriteVInt(376); // 377
+            Writer.WriteVInt(377); 
             Writer.WriteVInt(8); 
 
             Writer.WriteVInt(99999); // Views

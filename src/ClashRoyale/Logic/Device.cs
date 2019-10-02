@@ -32,46 +32,45 @@ namespace ClashRoyale.Logic
             var length = buffer.ReadMedium();
             var version = buffer.ReadUnsignedShort();
 
-            if (id >= 10000 && id < 20000)
+            if (id < 10000 || id >= 20000) return;
+
+            if (!LogicScrollMessageFactory.Messages.ContainsKey(id))
             {
-                if (!LogicScrollMessageFactory.Messages.ContainsKey(id))
+                Logger.Log($"Message ID: {id}, V: {version}, L: {length} is not known.", GetType(),
+                    ErrorLevel.Warning);
+                Disconnect();
+                return;
+            }
+
+            if (!(Activator.CreateInstance(LogicScrollMessageFactory.Messages[id], this, buffer) is PiranhaMessage
+                message)) return;
+
+            try
+            {
+                if (message.RequiredState != CurrentState && message.RequiredState != State.NotDefinied)
                 {
-                    Logger.Log($"Message ID: {id}, V: {version}, L: {length} is not known.", GetType(),
+                    Logger.Log($"[C] Message {id} is not allowed in this state!", GetType(),
                         ErrorLevel.Warning);
                     Disconnect();
                     return;
                 }
 
-                if (Activator.CreateInstance(LogicScrollMessageFactory.Messages[id], this, buffer) is PiranhaMessage
-                    message
-                )
-                    try
-                    {
-                        if (message.RequiredState != CurrentState && message.RequiredState != State.NotDefinied)
-                        {
-                            Logger.Log($"[C] Message {id} is not allowed in this state!", GetType(),
-                                ErrorLevel.Warning);
-                            Disconnect();
-                            return;
-                        }
+                message.Id = id;
+                message.Length = length;
+                message.Version = version;
 
-                        message.Id = id;
-                        message.Length = length;
-                        message.Version = version;
+                message.Decrypt();
+                message.Decode();
+                message.Process();
 
-                        message.Decrypt();
-                        message.Decode();
-                        message.Process();
+                Logger.Log($"[C] Message {id} ({message.GetType().Name}) handled.", GetType(),
+                    ErrorLevel.Debug);
 
-                        Logger.Log($"[C] Message {id} ({message.GetType().Name}) handled.", GetType(),
-                            ErrorLevel.Debug);
-
-                        if (message.Save && CurrentState == State.Home) Player.Save();
-                    }
-                    catch (Exception exception)
-                    {
-                        Logger.Log($"Failed to process {id}: " + exception, GetType(), ErrorLevel.Error);
-                    }
+                if (message.Save && CurrentState == State.Home) Player.Save();
+            }
+            catch (Exception exception)
+            {
+                Logger.Log($"Failed to process {id}: " + exception, GetType(), ErrorLevel.Error);
             }
         }
 
