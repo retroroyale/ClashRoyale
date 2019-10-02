@@ -242,7 +242,7 @@ namespace ClashRoyale.Database
                 var keyspace = _connection.GetServer(Resources.Configuration.RedisServer, 6379).Info("keyspace")[0];
 
                 return Convert.ToInt32(
-                    keyspace.FirstOrDefault(x => x.Key.Replace("db", string.Empty) == _players.Database.ToString())
+                    keyspace.FirstOrDefault(x => x.Key.Replace("db", string.Empty) == _alliances.Database.ToString())
                         .Value
                         .Split(new[] { "keys=" }, StringSplitOptions.None)[1]
                         .Split(new[] { ",expires=" }, StringSplitOptions.None)[0]);
