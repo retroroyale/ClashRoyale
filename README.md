@@ -14,7 +14,7 @@ The server supports battles, for those a patched client is neccessary.
 ## How to start
 
 #### Requirements:
-  - [.NET Core SDK 2.2.x](https://dotnet.microsoft.com/download/dotnet-core/2.2)
+  - [.NET Core SDK 3.x](https://dotnet.microsoft.com/download/dotnet-core/3.0)
   - Redis server
   - MySql Database (on Ubuntu i suggest WAMP with PhpMyAdmin)
 
