@@ -45,7 +45,7 @@ namespace ClashRoyale.Database
 
                 Logger.Log(
                     _server.IsConnected
-                        ? $"Successfully loaded Redis with {CachedPlayers()} player(s)"
+                        ? $"Successfully loaded Redis with {CachedPlayers()} player(s) & {CachedAlliances()} clan(s)"
                         : $"RedisConnection {Resources.Configuration.RedisServer} failed!", GetType());
             }
             catch (Exception exception)
@@ -217,9 +217,10 @@ namespace ClashRoyale.Database
         {
             try
             {
+                var keyspace = _connection.GetServer(Resources.Configuration.RedisServer, 6379).Info("keyspace")[0];
+
                 return Convert.ToInt32(
-                    _connection.GetServer(Resources.Configuration.RedisServer, 6379).Info("keyspace")[0]
-                        .ElementAt(_players.Database)
+                    keyspace.FirstOrDefault(x => x.Key.Replace("db", string.Empty) == _players.Database.ToString())
                         .Value
                         .Split(new[] {"keys="}, StringSplitOptions.None)[1]
                         .Split(new[] {",expires="}, StringSplitOptions.None)[0]);
@@ -238,12 +239,13 @@ namespace ClashRoyale.Database
         {
             try
             {
+                var keyspace = _connection.GetServer(Resources.Configuration.RedisServer, 6379).Info("keyspace")[0];
+
                 return Convert.ToInt32(
-                    _connection.GetServer(Resources.Configuration.RedisServer, 6379).Info("keyspace")[0]
-                        .ElementAt(_alliances.Database)
+                    keyspace.FirstOrDefault(x => x.Key.Replace("db", string.Empty) == _players.Database.ToString())
                         .Value
-                        .Split(new[] {"keys="}, StringSplitOptions.None)[1]
-                        .Split(new[] {",expires="}, StringSplitOptions.None)[0]);
+                        .Split(new[] { "keys=" }, StringSplitOptions.None)[1]
+                        .Split(new[] { ",expires=" }, StringSplitOptions.None)[0]);
             }
             catch (Exception)
             {
