@@ -3,7 +3,7 @@ using ClashRoyale.Utilities.Netty;
 using ClashRoyale.Utilities.Utils;
 using DotNetty.Buffers;
 
-namespace ClashRoyale.Battles.Protocol.Commands.Server
+namespace ClashRoyale.Battles.Protocol.Commands
 {
     public class DoSpellCommand : LogicCommand
     {

@@ -49,12 +49,13 @@ namespace ClashRoyale.Battles.Core.Network.Cluster
 
         public async void Login()
         {
+            Rc4 = new Rc4Core(Resources.Configuration.ClusterKey, Resources.Configuration.ClusterNonce);
             await new ConnectionCheckMessage().SendAsync();
         }
 
         #region Objects
 
-        public Rc4Core Rc4 = new Rc4Core(Resources.Configuration.ClusterKey, Resources.Configuration.ClusterNonce);
+        public Rc4Core Rc4 { get; set; }
         public ClusterPacketHandler Handler { get; set; }
 
         #endregion Objects

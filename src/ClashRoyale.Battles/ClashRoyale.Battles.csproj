@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Protocol\Commands\Client\**" />
+    <EmbeddedResource Remove="Protocol\Commands\Client\**" />
+    <None Remove="Protocol\Commands\Client\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DotNetty.Common" Version="0.6.0" />
     <PackageReference Include="DotNetty.Handlers" Version="0.6.0" />
     <PackageReference Include="NLog" Version="4.6.7" />
@@ -20,10 +26,6 @@
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Protocol\Commands\Client\" />
   </ItemGroup>
 
 </Project>

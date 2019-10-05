@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ClashRoyale.Battles.Protocol.Commands.Server;
+using ClashRoyale.Battles.Protocol.Commands;
 
 namespace ClashRoyale.Battles.Protocol
 {
