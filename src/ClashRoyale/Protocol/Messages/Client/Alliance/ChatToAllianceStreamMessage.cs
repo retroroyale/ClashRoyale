@@ -74,13 +74,13 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                         break;
                     }
 
-                        /*case "/replay":
+                        case "/replay":
                         {
                             await new HomeBattleReplayDataMessage(Device).SendAsync();
                             break;
                         }
 
-                        case "/free":
+                        /*case "/free":
                         {
                             Device.Player.Home.FreeChestTime = Device.Player.Home.FreeChestTime.Subtract(TimeSpan.FromMinutes(245));
                             Device.Disconnect();

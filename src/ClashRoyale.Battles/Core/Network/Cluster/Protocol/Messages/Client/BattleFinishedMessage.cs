@@ -1,4 +1,6 @@
-﻿namespace ClashRoyale.Battles.Core.Network.Cluster.Protocol.Messages.Client
+﻿using ClashRoyale.Utilities.Netty;
+
+namespace ClashRoyale.Battles.Core.Network.Cluster.Protocol.Messages.Client
 {
     public class BattleFinishedMessage : ClusterMessage
     {
@@ -10,12 +12,14 @@
         public long SessionId { get; set; }
         public byte Gamemode { get; set; }
         public byte Index { get; set; }
+        public string ReplayJson { get; set; }
 
         public override void Encode()
         {
             Writer.WriteLong(SessionId);
             Writer.WriteByte(Gamemode);
             Writer.WriteByte(Index);
+            Writer.WriteScString(ReplayJson);
         }
     }
 }

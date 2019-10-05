@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace ClashRoyale.Utilities.Models.Replay
+namespace ClashRoyale.Utilities.Models.Battle
 {
     public class LogicBattleEvent
     {

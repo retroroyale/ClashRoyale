@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using ClashRoyale.Utilities.Compression.ZLib;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Utilities.Netty
@@ -74,14 +75,19 @@ namespace ClashRoyale.Utilities.Netty
         }
 
         /// <summary>
-        ///     Encode a buffer with the length (int)
+        ///     Encode a compressed string
         /// </summary>
         /// <param name="buffer"></param>
-        /// <param name="bytes"></param>
-        public static void WriteBytesWithLength(this IByteBuffer buffer, byte[] bytes)
+        /// <param name="value"></param>
+        public static void WriteCompressedString(this IByteBuffer buffer, string value)
         {
-            buffer.WriteInt(bytes.Length);
-            buffer.WriteBytes(bytes);
+            var data = Encoding.UTF8.GetBytes(value);
+            var compressed = ZlibStream.CompressBuffer(data, CompressionLevel.Default);
+
+            buffer.WriteInt(compressed.Length + 4);
+            buffer.WriteIntLE(data.Length);
+
+            buffer.WriteBytes(compressed);
         }
 
         /// <summary>

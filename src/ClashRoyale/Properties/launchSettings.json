@@ -1,7 +1,8 @@
 {
   "profiles": {
     "ClashRoyale": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "nativeDebugging": false
     },
     "Docker": {
       "commandName": "Docker"

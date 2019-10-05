@@ -13,13 +13,13 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
             RequiredState = Device.State.Battle;
         }
 
-        public int EventId { get; set; }
+        public int Type { get; set; }
         public int Tick { get; set; }
         public int Value { get; set; }
 
         public override void Decode()
         {
-            EventId = Reader.ReadVInt();
+            Type = Reader.ReadVInt();
             Reader.ReadVInt();
             Reader.ReadVInt();
             Reader.ReadVInt();
@@ -31,18 +31,23 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
 
         public override async void Process()
         {
-            switch (EventId)
+            var battle = Device.Player.Battle;
+
+            if (battle == null)
+                return;
+
+            var home = Device.Player.Home;
+
+            switch (Type)
             {
                 case 3:
                 {
-                    var battle = Device.Player.Battle;
-
-                    var enemy = battle?.GetEnemy(Device.Player.Home.Id);
+                    var enemy = battle.GetEnemy(home.Id);
 
                     if (enemy != null)
                         await new BattleEventMessage(enemy)
                         {
-                            EventId = EventId,
+                            EventId = Type,
                             Tick = Tick,
                             Value = Value,
                             HighId = Device.Player.Home.HighId,
@@ -58,6 +63,8 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
                     break;
                 }
             }
+
+            battle.Replay.AddEvent(Type, home.HighId, home.LowId, Tick, Value);
         }
     }
 }

@@ -7,18 +7,16 @@ using ClashRoyale.Extensions;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using ClashRoyale.Protocol.Messages.Server;
+using ClashRoyale.Utilities.Models.Battle.Replay;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
+using Newtonsoft.Json;
 using SharpRaven.Data;
 
 namespace ClashRoyale.Logic.Battle
 {
     public class LogicBattle : List<Player>
     {
-        public Timer BattleTimer;
-
-        public Dictionary<long, Queue<byte[]>> Commands = new Dictionary<long, Queue<byte[]>>();
-
         /// <summary>
         ///     1v1 Battle
         /// </summary>
@@ -47,17 +45,11 @@ namespace ClashRoyale.Logic.Battle
             BattleTimer.Elapsed += Tick;
         }
 
-        public long BattleId { get; set; }
-
-        private DateTime StartTime { get; set; }
-
         public int BattleTime => (int) DateTime.UtcNow.Subtract(StartTime).TotalSeconds * 2;
         public int BattleSeconds => BattleTime / 2;
 
         public bool IsRunning => BattleTimer.Enabled;
         public bool IsReady => Count >= 1;
-        public bool IsFriendly { get; set; }
-        public int Arena { get; set; }
 
         public async void Start()
         {
@@ -78,7 +70,7 @@ namespace ClashRoyale.Logic.Battle
                             await new UdpConnectionInfoMessage(player.Device)
                             {
                                 ServerPort = server.Port,
-                                ServerHost = server.Ip == "127.0.0.1" ? "192.168.2.143" : server.Ip, // just as test
+                                ServerHost = server.Ip == "127.0.0.1" ? "192.168.2.112" : server.Ip, // just as test
                                 SessionId = BattleId,
                                 Nonce = server.Nonce,
                                 Index = (byte) IndexOf(player)
@@ -384,6 +376,8 @@ namespace ClashRoyale.Logic.Battle
                 BattleTimer.Stop();
 
             Resources.Battles.Remove(BattleId);
+
+            Console.WriteLine(JsonConvert.SerializeObject(Replay));
         }
 
         /// <summary>
@@ -488,5 +482,17 @@ namespace ClashRoyale.Logic.Battle
         {
             return Commands.FirstOrDefault(cmd => cmd.Key == userId).Value;
         }
+
+        #region Objects 
+
+        public Timer BattleTimer;
+        public LogicReplay Replay = new LogicReplay();
+        public Dictionary<long, Queue<byte[]>> Commands = new Dictionary<long, Queue<byte[]>>();
+        public long BattleId { get; set; }
+        private DateTime StartTime { get; set; }
+        public bool IsFriendly { get; set; }
+        public int Arena { get; set; }
+
+        #endregion
     }
 }

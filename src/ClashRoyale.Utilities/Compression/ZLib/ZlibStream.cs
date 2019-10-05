@@ -121,24 +121,24 @@ namespace ClashRoyale.Utilities.Compression.ZLib
             }
         }
 
-        public static byte[] CompressBuffer(byte[] b)
+        public static byte[] CompressBuffer(byte[] b, CompressionLevel compressionLevel)
         {
             using (var ms = new MemoryStream())
             {
                 Stream compressor =
-                    new ZlibStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression);
+                    new ZlibStream(ms, CompressionMode.Compress, compressionLevel);
 
                 ZlibBaseStream.CompressBuffer(b, compressor);
                 return ms.ToArray();
             }
         }
 
-        public static byte[] CompressString(string s)
+        public static byte[] CompressString(string s, CompressionLevel compressionLevel)
         {
             using (var ms = new MemoryStream())
             {
                 Stream compressor =
-                    new ZlibStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression);
+                    new ZlibStream(ms, CompressionMode.Compress, compressionLevel);
                 ZlibBaseStream.CompressString(s, compressor);
                 return ms.ToArray();
             }
