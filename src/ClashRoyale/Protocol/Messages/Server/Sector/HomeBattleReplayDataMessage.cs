@@ -14,7 +14,7 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            Writer.WriteVInt(159541); // Compressed Length
+            Writer.WriteVInt(0); 
 
             /*
             // Decompressed:

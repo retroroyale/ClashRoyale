@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Battles.Logic.Session;
+﻿using System;
+using ClashRoyale.Battles.Logic.Session;
 using ClashRoyale.Utilities.Netty;
 using ClashRoyale.Utilities.Utils;
 using DotNetty.Buffers;
@@ -92,7 +93,7 @@ namespace ClashRoyale.Battles.Protocol.Commands
             {
                 enemyBuffer.WriteBytes(data);
 
-                enemyBuffer.WriteVInt(1); // IsAttack
+                enemyBuffer.WriteBoolean(true); // IsAttack
                 {
                     enemyBuffer.WriteVInt(GameUtils.Id(ClassId, InstanceId));
                 }
@@ -105,7 +106,7 @@ namespace ClashRoyale.Battles.Protocol.Commands
                 battle.GetEnemyQueue(SessionContext.EndPoint).Enqueue(enemyBuffer.Array);
             }
 
-            battle.Replay.AddCommand(ClientTick, ClientTick, SenderHighId, SenderLowId, ClassId * 1000000 + InstanceId, X, Y);
+            //battle.Replay.AddCommand(Type, ClientTick - 20, ClientTick, SenderHighId, SenderLowId, ClassId * 1000000 + InstanceId, X, Y, SpellDeckIndex);
         }
     }
 }

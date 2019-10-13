@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Timers;
 using ClashRoyale.Core.Cluster;
@@ -26,6 +27,11 @@ namespace ClashRoyale.Logic.Battle
         {
             IsFriendly = isFriendly;
             Arena = arena;
+            Location = Csv.Tables.Get(Csv.Files.Locations)
+                           .GetData<Locations>(Csv.Tables.Get(Csv.Files.Arenas)
+                               .GetDataWithInstanceId<Arenas>(Arena - 1).PvpLocation).GetInstanceId() +
+                       1;
+            Replay.Battle.Location = 15000000 + Location;
 
             BattleTimer = new Timer(500);
             BattleTimer.Elapsed += Tick;
@@ -39,6 +45,12 @@ namespace ClashRoyale.Logic.Battle
         public LogicBattle(int arena, IEnumerable<Player> players)
         {
             Arena = arena;
+            Location = Csv.Tables.Get(Csv.Files.Locations)
+                           .GetData<Locations>(Csv.Tables.Get(Csv.Files.Arenas)
+                               .GetDataWithInstanceId<Arenas>(Arena - 1).PvpLocation).GetInstanceId() +
+                       1;
+            Replay.Battle.Location = 15000000 + Location;
+
             AddRange(players);
 
             BattleTimer = new Timer(500);
@@ -61,9 +73,23 @@ namespace ClashRoyale.Logic.Battle
                 if (Resources.Configuration.UseUdp)
                     server = Resources.NodeManager.GetServer();
 
+                var second = false;
                 foreach (var player in this)
                 {
                     Commands.Add(player.Home.Id, new Queue<byte[]>());
+
+                    // Add decks to replay
+                    if (!second)
+                    {
+                        Replay.Battle.Avatar0 = player.Home.BattleAvatar;
+                        Replay.Battle.Deck1 = player.Home.BattleDeck;
+                        second = true;
+                    }
+                    else
+                    {
+                        Replay.Battle.Avatar1 = player.Home.BattleAvatar;
+                        Replay.Battle.Deck0 = player.Home.BattleDeck;
+                    }
 
                     if (Resources.Configuration.UseUdp)
                         if (server != null)
@@ -99,10 +125,7 @@ namespace ClashRoyale.Logic.Battle
 
             const int towers = 6;
 
-            packet.WriteVInt(Csv.Tables.Get(Csv.Files.Locations)
-                                 .GetData<Locations>(Csv.Tables.Get(Csv.Files.Arenas)
-                                     .GetDataWithInstanceId<Arenas>(Arena - 1).PvpLocation).GetInstanceId() +
-                             1); // LocationData
+            packet.WriteVInt(Location); // LocationData
 
             packet.WriteVInt(Count); // PlayerCount
             packet.WriteVInt(0); // NpcData
@@ -377,7 +400,7 @@ namespace ClashRoyale.Logic.Battle
 
             Resources.Battles.Remove(BattleId);
 
-            Console.WriteLine(JsonConvert.SerializeObject(Replay));
+            //File.WriteAllText("replay.json", JsonConvert.SerializeObject(Replay));
         }
 
         /// <summary>
@@ -492,6 +515,7 @@ namespace ClashRoyale.Logic.Battle
         private DateTime StartTime { get; set; }
         public bool IsFriendly { get; set; }
         public int Arena { get; set; }
+        public int Location { get; set; }
 
         #endregion
     }

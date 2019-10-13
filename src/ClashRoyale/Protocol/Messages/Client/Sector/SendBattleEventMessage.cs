@@ -64,7 +64,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
                 }
             }
 
-            battle.Replay.AddEvent(Type, home.HighId, home.LowId, Tick, Value);
+            //battle.Replay.AddEvent(Type, home.HighId, home.LowId, Tick, Value);
         }
     }
 }

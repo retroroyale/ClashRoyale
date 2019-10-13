@@ -32,11 +32,12 @@ namespace ClashRoyale.Core.Cluster.Protocol.Messages.Client
                 var battle = Resources.Battles.Get(SessionId);
                 if (battle == null) return;
 
-                var replay = JsonConvert.DeserializeObject<LogicReplay>(ReplayJson);
+                /*var replay = JsonConvert.DeserializeObject<LogicReplay>(ReplayJson);
 
                 battle.Replay.Commands = replay.Commands;
                 battle.Replay.RandomSeed = replay.RandomSeed;
                 battle.Replay.Time = replay.Time;
+                battle.Replay.EndTick = replay.EndTick;*/
 
                 battle.Stop(Index);
             }

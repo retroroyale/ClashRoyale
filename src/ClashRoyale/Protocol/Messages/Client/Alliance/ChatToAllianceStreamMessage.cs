@@ -3,6 +3,7 @@ using System.Linq;
 using ClashRoyale.Database;
 using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;
+using ClashRoyale.Logic.Home.Decks;
 using ClashRoyale.Protocol.Messages.Server;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
@@ -74,11 +75,33 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                         break;
                     }
 
-                        case "/replay":
+                    case "/replay":
+                    {
+                        await new HomeBattleReplayDataMessage(Device).SendAsync();
+                        break;
+                    }
+
+                    case "/max":
+                    { 
+                        var deck = Device.Player.Home.Deck;
+
+                        foreach (var card in Cards.GetAllCards())
                         {
-                            await new HomeBattleReplayDataMessage(Device).SendAsync();
-                            break;
+                            deck.Add(card);
+
+                            for (var i = 0; i < 12; i++)
+                            {
+                                deck.UpgradeCard(card.ClassId, card.InstanceId, true);
+                            }
                         }
+
+                        await new ServerErrorMessage(Device)
+                        {
+                            Message = "Added all cards."
+                        }.SendAsync();
+                        
+                        break;
+                    }
 
                         /*case "/free":
                         {

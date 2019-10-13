@@ -27,9 +27,10 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(38); // Random
 
             Writer.WriteVInt(9);
-            Writer.WriteVInt(4);
 
+            Writer.WriteVInt(4);
             Writer.WriteVInt(7419667);
+
             Writer.WriteVInt(1);
 
             for (var p = 0; p < Battle.Count; p++)

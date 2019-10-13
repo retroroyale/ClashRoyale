@@ -39,7 +39,6 @@ namespace ClashRoyale.Battles.Logic.Battle
         public void Stop()
         {
             BattleTimer.Stop();
-
             Resources.Sessions.Remove(Session.Id);
         }
 
@@ -53,6 +52,8 @@ namespace ClashRoyale.Battles.Logic.Battle
                         if (DateTime.UtcNow.Subtract(ctx.LastCommands).TotalSeconds > 3)
                         {
                             if (BattleSeconds <= 10) continue;
+
+                            Replay.EndTick = BattleTime;
 
                             await new BattleFinishedMessage
                             {

@@ -114,28 +114,32 @@ namespace ClashRoyale.Logic.Home.Decks
             foreach (var card in this) UpgradeCard(card);
         }
 
-        public void UpgradeCard(int classId, int instanceId)
+        public void UpgradeCard(int classId, int instanceId, bool force = false)
         {
             var card = GetCard(classId, instanceId);
 
             if (card != null)
-                UpgradeCard(card);
+                UpgradeCard(card, force);
         }
 
-        public void UpgradeCard(Card card)
+        public void UpgradeCard(Card card, bool force = false)
         {
             var data = card.GetRarityData;
             if (data == null) return;
+
             if (card.Level >= data.UpgradeMaterialCount.Count) return;
 
-            var materialCount = data.UpgradeMaterialCount[card.Level];
+            if (!force)
+            {
+                var materialCount = data.UpgradeMaterialCount[card.Level];
 
-            if (materialCount > card.Count) return;
-            if (!Home.UseGold(data.UpgradeCost[card.Level])) return;
+                if (materialCount > card.Count) return;
+                if (!Home.UseGold(data.UpgradeCost[card.Level])) return;
 
-            card.Count -= materialCount;
+                card.Count -= materialCount;
 
-            Home.AddExpPoints(data.UpgradeExp[card.Level]);
+                Home.AddExpPoints(data.UpgradeExp[card.Level]);
+            }
 
             card.Level++;
         }

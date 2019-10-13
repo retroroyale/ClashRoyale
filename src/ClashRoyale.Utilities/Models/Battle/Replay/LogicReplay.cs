@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
+using ClashRoyale.Utilities.Utils;
 using Newtonsoft.Json;
 
 namespace ClashRoyale.Utilities.Models.Battle.Replay
 {
     public class LogicReplay
     {
+        [JsonProperty("battle")] public LogicBattleInfo Battle = new LogicBattleInfo();
         [JsonProperty("cmd")] public List<LogicBattleCommandStorage> Commands = new List<LogicBattleCommandStorage>();
         [JsonProperty("evt")] public List<LogicBattleEvent> Events = new List<LogicBattleEvent>();
+        [JsonProperty("endTick")] public int EndTick { get; set; }
         [JsonProperty("rndSeed")] public int RandomSeed { get; set; }
-        [JsonProperty("time")] public int Time { get; set; }
+        [JsonProperty("time")] public int Time = TimeUtils.CurrentUnixTimestamp;
 
         /// <summary>
         /// Add an event to the replay
@@ -31,6 +34,7 @@ namespace ClashRoyale.Utilities.Models.Battle.Replay
         /// <summary>
         /// Add a command to the replay
         /// </summary>
+        /// <param name="type"></param>
         /// <param name="tick"></param>
         /// <param name="tick2"></param>
         /// <param name="highId"></param>
@@ -38,11 +42,14 @@ namespace ClashRoyale.Utilities.Models.Battle.Replay
         /// <param name="globalId"></param>
         /// <param name="positionX"></param>
         /// <param name="positionY"></param>
-        public void AddCommand(int tick, int tick2, int highId, int lowId, int globalId, int positionX, int positionY)
+        public void AddCommand(int type, int tick, int tick2, int highId, int lowId, int globalId, int positionX, int positionY, int idx)
         {
-            var cmdStorage = new LogicBattleCommandStorage();
-            var cmd = cmdStorage.Command;
+            var cmdStorage = new LogicBattleCommandStorage
+            {
+                CommandType = type
+            };
 
+            var cmd = cmdStorage.Command;
             cmd.Tick = tick;
             cmd.Tick2 = tick2;
             cmd.HighId = highId;
@@ -50,8 +57,7 @@ namespace ClashRoyale.Utilities.Models.Battle.Replay
             cmd.GlobalId = globalId;
             cmd.PositionX = positionX;
             cmd.PositionY = positionY;
-
-            cmdStorage.Count = 1;
+            cmd.Idx = idx;
 
             Commands.Add(cmdStorage);
         }

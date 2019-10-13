@@ -1,5 +1,6 @@
 ﻿using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
+using ClashRoyale.Utilities.Models.Battle;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
@@ -109,6 +110,15 @@ namespace ClashRoyale.Logic.Home.Decks.Items
         {
             packet.WriteVInt(CardId);
             packet.WriteVInt(Level);
+        }
+
+        public LogicBattleSpell BattleSpell
+        {
+            get
+            {
+                var spell = new LogicBattleSpell {Id = GlobalId, Level = Level - 1};
+                return spell;
+            }
         }
 
         public static int Id(int classId, int instanceId)

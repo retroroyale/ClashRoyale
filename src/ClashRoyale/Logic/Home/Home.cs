@@ -6,6 +6,7 @@ using ClashRoyale.Logic.Clan;
 using ClashRoyale.Logic.Home.Decks;
 using ClashRoyale.Logic.Home.StreamEntry;
 using ClashRoyale.Logic.Sessions;
+using ClashRoyale.Utilities.Models.Battle;
 using Newtonsoft.Json;
 
 namespace ClashRoyale.Logic.Home
@@ -96,6 +97,47 @@ namespace ClashRoyale.Logic.Home
             {
                 HighId = Convert.ToInt32(value >> 32);
                 LowId = (int) value;
+            }
+        }
+
+        public LogicBattleAvatar BattleAvatar
+        {
+            get
+            {
+                var avatar = new LogicBattleAvatar
+                {
+                    Name = Name,
+                    HighId = HighId,
+                    LowId = LowId,
+                    ExpLevel = 13,
+                    ExpPoints = ExpPoints,
+                    Arena = 54000000 + Arena.CurrentArena
+                };
+
+                if (!AllianceInfo.HasAlliance) return avatar;
+
+                avatar.ClanName = AllianceInfo.Name;
+                avatar.ClanHighId = AllianceInfo.HighId;
+                avatar.ClanLowId = AllianceInfo.LowId;
+                avatar.ClanBadge = AllianceInfo.Badge;
+
+                return avatar;
+            }
+        }
+
+        public List<LogicBattleSpell> BattleDeck
+        {
+            get
+            {
+                var spells = new List<LogicBattleSpell>(8);
+
+                for (var i = 0; i < 8; i++)
+                {
+                    var spell = Deck[i];
+                    spells.Add(spell.BattleSpell);
+                }
+
+                return spells;
             }
         }
 
