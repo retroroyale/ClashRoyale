@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Logic;
+﻿using System;
+using ClashRoyale.Logic;
 using ClashRoyale.Logic.Home.Decks.Items;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
@@ -46,6 +47,9 @@ namespace ClashRoyale.Protocol.Commands.Server
 
             X = Reader.ReadVInt();
             Y = Reader.ReadVInt();
+
+            //Console.WriteLine(X);
+            //Console.WriteLine(Y);
         }
 
         public override void Encode()
