@@ -488,7 +488,8 @@ namespace ClashRoyale.Logic.Battle
 
             await new BattleResultMessage(player.Device)
             {
-                TrophyReward = IsFriendly ? 0 : trophies
+                TrophyReward = IsFriendly ? 0 : trophies,
+                OpponentTrophyReward = IsFriendly ? 0 : trophies
             }.SendAsync();
 
             player.Battle = null;
