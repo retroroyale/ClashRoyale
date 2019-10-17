@@ -419,13 +419,19 @@ namespace ClashRoyale.Logic.Battle
                         {
                             if (BattleSeconds <= 10) continue;
 
+                            var rnd = new Random();
+                            var trophies = rnd.Next(15, 30);
+
                             if (!IsFriendly)
                             {
                                 player.Home.AddCrowns(3);
-                                player.Home.Arena.AddTrophies(31);
+                                player.Home.Arena.AddTrophies(trophies);
                             }
 
-                            await new BattleResultMessage(player.Device).SendAsync();
+                            await new BattleResultMessage(player.Device)
+                            {
+                                TrophyReward = IsFriendly ? 0 : trophies
+                            }.SendAsync();
 
                             player.Battle = null;
 
@@ -488,8 +494,7 @@ namespace ClashRoyale.Logic.Battle
 
             await new BattleResultMessage(player.Device)
             {
-                TrophyReward = IsFriendly ? 0 : trophies,
-                OpponentTrophyReward = IsFriendly ? 0 : trophies
+                TrophyReward = IsFriendly ? 0 : trophies
             }.SendAsync();
 
             player.Battle = null;

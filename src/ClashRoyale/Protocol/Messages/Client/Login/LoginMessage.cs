@@ -58,7 +58,6 @@ namespace ClashRoyale.Protocol.Messages.Client.Login
 
             AndroidId = Reader.ReadScString();
             PreferredDeviceLanguage = Reader.ReadScString().Substring(3, 2);
-            Console.WriteLine(PreferredDeviceLanguage);
         }
 
         public override async void Process()
