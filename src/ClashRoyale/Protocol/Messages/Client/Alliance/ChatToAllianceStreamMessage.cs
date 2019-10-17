@@ -69,17 +69,17 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                     {
                         await new ServerErrorMessage(Device)
                         {
-                            Message = $"Online Players: {Resources.Players.Count}\nTotal Players: {await PlayerDb.CountAsync()}"
+                            Message = $"Online Players: {Resources.Players.Count}\nTotal Players: {await PlayerDb.CountAsync()}\nBattles running: {Resources.Battles.Count}\nTotal Clans: {await AllianceDb.CountAsync()}"
                         }.SendAsync();
 
                         break;
                     }
 
-                    case "/replay":
+                    /*case "/replay":
                     {
                         await new HomeBattleReplayDataMessage(Device).SendAsync();
                         break;
-                    }
+                    }*/
 
                     case "/max":
                     { 
