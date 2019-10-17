@@ -47,9 +47,6 @@ namespace ClashRoyale.Protocol.Commands.Server
 
             X = Reader.ReadVInt();
             Y = Reader.ReadVInt();
-
-            Console.WriteLine(X);
-            Console.WriteLine(Y);
         }
 
         public override void Encode()
