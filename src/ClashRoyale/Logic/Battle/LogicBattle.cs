@@ -73,13 +73,13 @@ namespace ClashRoyale.Logic.Battle
                 if (Resources.Configuration.UseUdp)
                     server = Resources.NodeManager.GetServer();
 
-                var second = false;
+                //var second = false;
                 foreach (var player in this)
                 {
                     Commands.Add(player.Home.Id, new Queue<byte[]>());
 
                     // Add decks to replay
-                    if (!second)
+                    /*if (!second)
                     {
                         Replay.Battle.Avatar0 = player.Home.BattleAvatar;
                         Replay.Battle.Deck1 = player.Home.BattleDeck;
@@ -89,7 +89,7 @@ namespace ClashRoyale.Logic.Battle
                     {
                         Replay.Battle.Avatar1 = player.Home.BattleAvatar;
                         Replay.Battle.Deck0 = player.Home.BattleDeck;
-                    }
+                    }*/
 
                     if (Resources.Configuration.UseUdp)
                         if (server != null)
@@ -477,13 +477,19 @@ namespace ClashRoyale.Logic.Battle
 
             if (player == null) return;
 
+            var rnd = new Random();
+            var trophies = rnd.Next(15, 30);
+
             if (!IsFriendly)
             {
                 player.Home.AddCrowns(3);
-                player.Home.Arena.AddTrophies(31);
+                player.Home.Arena.AddTrophies(trophies);
             }
 
-            await new BattleResultMessage(player.Device).SendAsync();
+            await new BattleResultMessage(player.Device)
+            {
+                TrophyReward = IsFriendly ? 0 : trophies
+            }.SendAsync();
 
             player.Battle = null;
             this[index] = null;

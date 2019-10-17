@@ -44,17 +44,25 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
 
                 switch (cmdType)
                 {
-                    case "/upgrade":
+                    case "/max":
                     {
-                        Device.Player.Home.Deck.UpgradeAll();
-                        Device.Disconnect();
-                        break;
-                    }
+                        var deck = Device.Player.Home.Deck;
 
-                    case "/exp":
-                    {
-                        Device.Player.Home.AddExpPoints(cmdValue);
-                        Device.Disconnect();
+                        foreach (var card in Cards.GetAllCards())
+                        {
+                            deck.Add(card);
+
+                            for (var i = 0; i < 12; i++)
+                            {
+                                deck.UpgradeCard(card.ClassId, card.InstanceId, true);
+                            }
+                        }
+
+                        await new ServerErrorMessage(Device)
+                        {
+                            Message = "Added all cards."
+                        }.SendAsync();
+
                         break;
                     }
 
@@ -81,79 +89,16 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                         break;
                     }*/
 
-                    case "/max":
-                    { 
-                        var deck = Device.Player.Home.Deck;
+                    /*case "/trophies":
+                    {
+                        if (cmdValue >= 0)
+                            Device.Player.Home.Arena.AddTrophies(cmdValue);
+                        else if (cmdValue < 0)
+                            Device.Player.Home.Arena.RemoveTrophies(cmdValue);
 
-                        foreach (var card in Cards.GetAllCards())
-                        {
-                            deck.Add(card);
-
-                            for (var i = 0; i < 12; i++)
-                            {
-                                deck.UpgradeCard(card.ClassId, card.InstanceId, true);
-                            }
-                        }
-
-                        await new ServerErrorMessage(Device)
-                        {
-                            Message = "Added all cards."
-                        }.SendAsync();
-                        
+                        Device.Disconnect();
                         break;
-                    }
-
-                        /*case "/free":
-                        {
-                            Device.Player.Home.FreeChestTime = Device.Player.Home.FreeChestTime.Subtract(TimeSpan.FromMinutes(245));
-                            Device.Disconnect();
-                            break;
-                        }*/
-
-                        /*case "/trophies":
-                        {
-                            if (cmdValue >= 0)
-                                Device.Player.Home.Arena.AddTrophies(cmdValue);
-                            else if (cmdValue < 0)
-                                Device.Player.Home.Arena.RemoveTrophies(cmdValue);
-
-                            Device.Disconnect();
-                            break;
-                        }*/
-
-                        /*case "/test":
-                        {
-                            var entry = new DonateStreamEntry
-                            {
-                                Message = Message,
-                                TotalCapacity = 10
-                            };
-
-                            entry.SetSender(Device.Player);
-
-                            alliance.AddEntry(entry);
-
-                            break;
-                        }*/
-
-                        /*case "/test":
-                        {
-                            var entry = new AllianceMailAvatarStreamEntry
-                            {
-                                Message = "Works",
-                                Title = "Hehe",
-                                AllianceId = 1,
-                                AllianceName = "LOL",
-                                AllianceBadge = 5,
-                                IsNew = true
-                            };
-
-                            entry.SetSender(Device.Player);
-
-                            Device.Player.AddEntry(entry);
-
-                            break;
-                        }*/
+                    }*/
                 }
             }
             else
