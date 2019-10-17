@@ -253,10 +253,11 @@ namespace ClashRoyale.Database
             {
                 using (var cmd =
                     new MySqlCommand(
-                        $"UPDATE {Name} SET `Trophies`='{player.Home.Arena.Trophies}', `Language`='{player.Home.PreferredDeviceLanguage}', `FacebookId`=@fb, `Home`=@home, `Sessions`=@sessions WHERE Id = '{player.Home.Id}'")
+                        $"UPDATE {Name} SET `Trophies`='{player.Home.Arena.Trophies}', `Language`=@language, `FacebookId`=@fb, `Home`=@home, `Sessions`=@sessions WHERE Id = '{player.Home.Id}'")
                 )
                 {
 #pragma warning disable 618
+                    cmd.Parameters?.AddWithValue("@language", player.Home.PreferredDeviceLanguage);
                     cmd.Parameters?.AddWithValue("@fb", player.Home.FacebookId);
                     cmd.Parameters?.AddWithValue("@home",
                         JsonConvert.SerializeObject(player, Configuration.JsonSettings));
