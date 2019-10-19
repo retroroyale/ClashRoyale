@@ -16,7 +16,9 @@ namespace ClashRoyale
             Resources.Initialize();
 
             if (ServerUtils.IsLinux())
+            {
                 Thread.Sleep(Timeout.Infinite);
+            }
             else
             {
                 Logger.Log("Press any key to shutdown the server.", null);

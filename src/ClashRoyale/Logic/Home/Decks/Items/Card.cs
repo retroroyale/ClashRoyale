@@ -95,6 +95,15 @@ namespace ClashRoyale.Logic.Home.Decks.Items
             }
         }
 
+        public LogicBattleSpell BattleSpell
+        {
+            get
+            {
+                var spell = new LogicBattleSpell {Id = GlobalId, Level = Level - 1};
+                return spell;
+            }
+        }
+
         public void Encode(IByteBuffer packet)
         {
             packet.WriteVInt(CardId);
@@ -110,15 +119,6 @@ namespace ClashRoyale.Logic.Home.Decks.Items
         {
             packet.WriteVInt(CardId);
             packet.WriteVInt(Level);
-        }
-
-        public LogicBattleSpell BattleSpell
-        {
-            get
-            {
-                var spell = new LogicBattleSpell {Id = GlobalId, Level = Level - 1};
-                return spell;
-            }
         }
 
         public static int Id(int classId, int instanceId)

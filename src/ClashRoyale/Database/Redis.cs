@@ -244,8 +244,8 @@ namespace ClashRoyale.Database
                 return Convert.ToInt32(
                     keyspace.FirstOrDefault(x => x.Key.Replace("db", string.Empty) == _alliances.Database.ToString())
                         .Value
-                        .Split(new[] { "keys=" }, StringSplitOptions.None)[1]
-                        .Split(new[] { ",expires=" }, StringSplitOptions.None)[0]);
+                        .Split(new[] {"keys="}, StringSplitOptions.None)[1]
+                        .Split(new[] {",expires="}, StringSplitOptions.None)[0]);
             }
             catch (Exception)
             {

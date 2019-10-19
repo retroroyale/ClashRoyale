@@ -46,7 +46,7 @@ namespace ClashRoyale.Core.Network.Handlers.Cluster
 
         public override void ChannelUnregistered(IChannelHandlerContext context)
         {
-            if(Node.NodeInfo != null)
+            if (Node.NodeInfo != null)
                 Resources.NodeManager.Remove($"{Node.NodeInfo.Ip}:{Node.NodeInfo.Port}");
 
             var remoteAddress = (IPEndPoint) Channel.RemoteAddress;

@@ -26,7 +26,9 @@ namespace ClashRoyale.Core.Network.Handlers
             if (buffer == null) return;
 
             if (Throttler.CanProcess())
+            {
                 Device.Process(buffer);
+            }
             else
             {
                 Logger.Log("Client reached ratelimit. Disconnecting...", GetType(), ErrorLevel.Warning);

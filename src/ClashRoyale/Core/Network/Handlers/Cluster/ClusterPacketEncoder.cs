@@ -13,7 +13,7 @@ namespace ClashRoyale.Core.Network.Handlers.Cluster
 
             message.Encode();
 
-            if(message.Id != 20103)
+            if (message.Id != 20103)
                 message.Encrypt();
 
             var header = Unpooled.Buffer(5);

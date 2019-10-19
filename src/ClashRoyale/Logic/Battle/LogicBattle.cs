@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Timers;
 using ClashRoyale.Core.Cluster;
@@ -11,7 +10,6 @@ using ClashRoyale.Protocol.Messages.Server;
 using ClashRoyale.Utilities.Models.Battle.Replay;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
-using Newtonsoft.Json;
 using SharpRaven.Data;
 
 namespace ClashRoyale.Logic.Battle

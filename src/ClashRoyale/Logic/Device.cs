@@ -102,14 +102,16 @@ namespace ClashRoyale.Logic
         }
 
         /// <summary>
-        /// Adjusts the ServerTick
+        ///     Adjusts the ServerTick
         /// </summary>
         /// <param name="tick"></param>
         public void AdjustTick(int tick)
         {
             var secDiff = Math.Abs(tick - ServerTick) / 20;
 
-            LastVisitHome = secDiff > 0 ? LastVisitHome.Subtract(TimeSpan.FromSeconds(secDiff)) : LastVisitHome.AddSeconds(secDiff);
+            LastVisitHome = secDiff > 0
+                ? LastVisitHome.Subtract(TimeSpan.FromSeconds(secDiff))
+                : LastVisitHome.AddSeconds(secDiff);
         }
 
         #region Objects

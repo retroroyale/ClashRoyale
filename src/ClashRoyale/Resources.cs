@@ -32,6 +32,8 @@ namespace ClashRoyale
         public static Players Players { get; set; }
         public static Alliances Alliances { get; set; }
 
+        public static DateTime StartTime { get; set; }
+
         public static async void Initialize()
         {
             Logger = new Logger();
@@ -65,6 +67,8 @@ namespace ClashRoyale
             Alliances = new Alliances();
 
             Leaderboard = new Leaderboard();
+
+            StartTime = DateTime.UtcNow;
 
             Netty = new NettyService();
 

@@ -1,5 +1,4 @@
-﻿using System;
-using ClashRoyale.Logic;
+﻿using ClashRoyale.Logic;
 using ClashRoyale.Logic.Clan;
 using ClashRoyale.Logic.Clan.StreamEntry.Entries;
 using ClashRoyale.Protocol.Commands.Server;
@@ -35,7 +34,6 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
             alliance.RemoveEntry(entry);
 
             var newEntry = (JoinRequestAllianceStreamEntry) entry;
-            newEntry.Id = (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
             newEntry.State = Accepted ? 2 : 0;
 
             newEntry.SetTarget(Device.Player);

@@ -1,7 +1,5 @@
-﻿using ClashRoyale.Utilities.Models.Battle.Replay;
-using ClashRoyale.Utilities.Netty;
+﻿using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
-using Newtonsoft.Json;
 
 namespace ClashRoyale.Core.Cluster.Protocol.Messages.Client
 {

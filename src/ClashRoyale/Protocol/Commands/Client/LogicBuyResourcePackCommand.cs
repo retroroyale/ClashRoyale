@@ -1,5 +1,6 @@
 ﻿using ClashRoyale.Logic;
 using ClashRoyale.Protocol.Messages.Server;
+using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 
 namespace ClashRoyale.Protocol.Commands.Client
@@ -12,9 +13,12 @@ namespace ClashRoyale.Protocol.Commands.Client
 
         public override void Decode()
         {
-            /*Console.WriteLine(Reader.ReadVInt());
-            Console.WriteLine(Reader.ReadVInt());
-            Console.WriteLine(Reader.ReadVInt());*/
+            base.Decode();
+
+            Reader.ReadVInt(); // 0
+
+            Reader.ReadVInt(); // 19
+            Reader.ReadVInt(); // 1
         }
 
         public override async void Process()

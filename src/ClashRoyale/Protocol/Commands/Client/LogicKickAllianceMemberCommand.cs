@@ -33,43 +33,37 @@ namespace ClashRoyale.Protocol.Commands.Client
             var home = Device.Player.Home;
             var alliance = await Resources.Alliances.GetAllianceAsync(home.AllianceInfo.Id);
 
-            if (alliance != null)
+            var member = alliance?.GetMember(MemberId);
+            if (member == null) return;
+
+            var player = await member.GetPlayerAsync();
+            if (player == null) return;
+
+            var entry = new AllianceEventStreamEntry
             {
-                var member = alliance.GetMember(MemberId);
-                if (member != null)
+                EventType = AllianceEventStreamEntry.Type.Kick
+            };
+
+            entry.SetTarget(Device.Player);
+            entry.SetSender(player);
+
+            alliance.AddEntry(entry);
+            alliance.Remove(MemberId);
+
+            player.Home.AllianceInfo.Reset();
+
+            player.Save();
+            alliance.Save();
+
+            if (player.Device != null)
+                await new AvailableServerCommand(player.Device)
                 {
-                    var player = await member.GetPlayerAsync();
-
-                    if (player != null)
+                    Command = new LogicLeaveAllianceCommand(player.Device)
                     {
-                        var entry = new AllianceEventStreamEntry
-                        {
-                            EventType = AllianceEventStreamEntry.Type.Kick
-                        };
-
-                        entry.SetTarget(player);
-                        entry.SetSender(Device.Player);
-
-                        alliance.AddEntry(entry);
-                        alliance.Remove(MemberId);
-
-                        player.Home.AllianceInfo.Reset();
-
-                        player.Save();
-                        alliance.Save();
-
-                        if (player.Device != null)
-                            await new AvailableServerCommand(player.Device)
-                            {
-                                Command = new LogicLeaveAllianceCommand(player.Device)
-                                {
-                                    AllianceId = alliance.Id,
-                                    IsKick = true
-                                }
-                            }.SendAsync();
+                        AllianceId = alliance.Id,
+                        IsKick = true
                     }
-                }
-            }
+                }.SendAsync();
         }
     }
 }

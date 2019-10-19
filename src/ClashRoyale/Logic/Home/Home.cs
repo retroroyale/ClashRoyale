@@ -18,6 +18,9 @@ namespace ClashRoyale.Logic.Home
         [JsonProperty("chests")] public Chests.Chests Chests = new Chests.Chests();
         [JsonProperty("deck")] public Deck Deck = new Deck();
 
+        // Freechest
+        [JsonProperty("freeChestTime")] public DateTime FreeChestTime = DateTime.UtcNow;
+
         [JsonIgnore] public List<Session> Sessions = new List<Session>(50);
         [JsonProperty("shop")] public Shop.Shop Shop = new Shop.Shop();
         [JsonProperty("stream")] public List<AvatarStreamEntry> Stream = new List<AvatarStreamEntry>(40);
@@ -77,9 +80,6 @@ namespace ClashRoyale.Logic.Home
         // Crownchest
         [JsonProperty("crowns")] public int Crowns { get; set; }
         [JsonProperty("new_crowns")] public int NewCrowns { get; set; }
-
-        // Freechest
-        [JsonProperty("freeChestTime")] public DateTime FreeChestTime = DateTime.UtcNow;
 
         // Player Stats
         [JsonProperty("exp_level")] public int ExpLevel { get; set; }

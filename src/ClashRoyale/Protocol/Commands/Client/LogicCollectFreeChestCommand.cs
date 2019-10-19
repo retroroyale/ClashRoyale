@@ -18,9 +18,13 @@ namespace ClashRoyale.Protocol.Commands.Client
             var home = Device.Player.Home;
 
             if (!home.IsSecondFreeChestAvailable())
+            {
                 home.FreeChestTime = home.FreeChestTime.AddHours(4);
+            }
             else if (home.IsFirstFreeChestAvailable())
+            {
                 home.FreeChestTime = DateTime.UtcNow.Subtract(TimeSpan.FromHours(4));
+            }
             else
             {
                 Device.Disconnect();
