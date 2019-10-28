@@ -189,36 +189,39 @@ namespace ClashRoyale.Logic.Battle
                 packet.WriteVInt(i);
             }
 
+            var p = this[0].Home.ExpLevel - 1;
+            var e = this[1].Home.ExpLevel - 1;
+
             // Player Right Princess Tower
-            packet.WriteVInt(12);
+            packet.WriteVInt(e);
             packet.WriteVInt(13);
             packet.WriteVInt(14500); // X
             packet.WriteVInt(25500); // Y
             packet.WriteHex("00007F00C07C0002000000000000");
 
             // Enemy Left Princess Tower
-            packet.WriteVInt(12);
+            packet.WriteVInt(p);
             packet.WriteVInt(13);
             packet.WriteVInt(3500); // X
             packet.WriteVInt(6500); // Y
             packet.WriteHex("00007F0080040001000000000000");
 
             // Player Left Princess Tower
-            packet.WriteVInt(12);
+            packet.WriteVInt(e);
             packet.WriteVInt(13);
             packet.WriteVInt(3500); // X
             packet.WriteVInt(25500); // Y
             packet.WriteHex("00007F00C07C0001000000000000");
 
             // Enemy Right Princess Tower
-            packet.WriteVInt(12);
+            packet.WriteVInt(p);
             packet.WriteVInt(13);
             packet.WriteVInt(14500); // X
             packet.WriteVInt(6500); // Y
             packet.WriteHex("00007F0080040002000000000000");
 
             // Enemy Crown Tower
-            packet.WriteVInt(12);
+            packet.WriteVInt(p);
             packet.WriteVInt(13);
             packet.WriteVInt(9000); // X
             packet.WriteVInt(3000); // Y
@@ -234,7 +237,7 @@ namespace ClashRoyale.Logic.Battle
             packet.WriteHex("00007F7F7F7F7F7F7F7F00");
 
             // Player Crown Tower
-            packet.WriteVInt(12);
+            packet.WriteVInt(e);
             packet.WriteVInt(13);
             packet.WriteVInt(9000); // X
             packet.WriteVInt(29000); // Y
@@ -257,17 +260,17 @@ namespace ClashRoyale.Logic.Battle
                 packet.WriteVInt(0);
 
             // LogicHitpointComponent
-            packet.WriteVInt(3668); // Enemy 
+            packet.WriteVInt(PrincessTowerHp[e]); // Enemy 
             packet.WriteVInt(0);
-            packet.WriteVInt(3668); // Player
+            packet.WriteVInt(PrincessTowerHp[p]); // Player
             packet.WriteVInt(0);
-            packet.WriteVInt(3668); // Enemy
+            packet.WriteVInt(PrincessTowerHp[e]); // Enemy
             packet.WriteVInt(0);
-            packet.WriteVInt(3668); // Player
+            packet.WriteVInt(PrincessTowerHp[p]); // Player
             packet.WriteVInt(0);
-            packet.WriteVInt(5832); // Enemy
+            packet.WriteVInt(KingTowerHp[p]); // Player
             packet.WriteVInt(0);
-            packet.WriteVInt(5832); // Player
+            packet.WriteVInt(KingTowerHp[e]); // Enemy
             packet.WriteVInt(0);
 
             // LogicCharacterBuffComponent
@@ -526,6 +529,16 @@ namespace ClashRoyale.Logic.Battle
         public bool IsFriendly { get; set; }
         public int Arena { get; set; }
         public int Location { get; set; }
+
+        public static int[] KingTowerHp =
+        {
+            2400, 2568, 2736, 2904, 3096, 3312, 3528, 3768, 4008, 4392, 4824, 5304, 5832
+        };
+
+        public static int[] PrincessTowerHp =
+        {
+            1400, 1512, 1624, 1750, 1890, 2030, 2184, 2352, 2534, 2786, 3052, 3346, 3668
+        };
 
         #endregion
     }
