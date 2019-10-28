@@ -13,8 +13,7 @@ namespace ClashRoyale.Logic.Time
         [JsonProperty("endTimestamp")] public int EndTimestamp { get; set; }
 
         [JsonIgnore] public bool IsFinished => RemainingTicks <= 0;
-
-        public int RemainingSeconds => RemainingTicks <= 0 ? 0 : Math.Max((RemainingTicks + 19) / 20, 1);
+        [JsonIgnore] public int RemainingSeconds => RemainingTicks <= 0 ? 0 : Math.Max((RemainingTicks + 19) / 20, 1);
 
         public void StartTimer(int seconds)
         {

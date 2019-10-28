@@ -96,22 +96,29 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                         break;
                     }
 
-                    /*case "/replay":
+                    case "/free":
                     {
-                        await new HomeBattleReplayDataMessage(Device).SendAsync();
-                        break;
-                    }*/
-
-                    /*case "/trophies":
-                    {
-                        if (cmdValue >= 0)
-                            Device.Player.Home.Arena.AddTrophies(cmdValue);
-                        else if (cmdValue < 0)
-                            Device.Player.Home.Arena.RemoveTrophies(cmdValue);
-
+                        Device.Player.Home.FreeChestTime = Device.Player.Home.FreeChestTime.Subtract(TimeSpan.FromMinutes(245));
                         Device.Disconnect();
                         break;
-                    }*/
+                    }
+
+                        /*case "/replay":
+                        {
+                            await new HomeBattleReplayDataMessage(Device).SendAsync();
+                            break;
+                        }*/
+
+                        /*case "/trophies":
+                        {
+                            if (cmdValue >= 0)
+                                Device.Player.Home.Arena.AddTrophies(cmdValue);
+                            else if (cmdValue < 0)
+                                Device.Player.Home.Arena.RemoveTrophies(cmdValue);
+
+                            Device.Disconnect();
+                            break;
+                        }*/
                 }
             }
             else

@@ -1,4 +1,7 @@
-﻿using ClashRoyale.Logic;
+﻿using System;
+using ClashRoyale.Files;
+using ClashRoyale.Files.CsvLogic;
+using ClashRoyale.Logic;
 using ClashRoyale.Logic.Home.Chests.Items;
 using ClashRoyale.Protocol.Commands.Server;
 using ClashRoyale.Protocol.Messages.Server;
@@ -14,15 +17,18 @@ namespace ClashRoyale.Protocol.Commands.Client
 
         public override async void Process()
         {
+            var home = Device.Player.Home;
+
             await new AvailableServerCommand(Device)
             {
                 Command = new ChestDataCommand(Device)
                 {
-                    Chest = Device.Player.Home.Chests.BuyChest(1, Chest.ChestType.Crown)
+                    Chest = home.Chests.BuyChest(1, Chest.ChestType.Crown)
                 }
             }.SendAsync();
 
-            Device.Player.Home.Crowns -= 10;
+            home.Crowns -= Csv.Tables.Get(Csv.Files.Globals).GetData<Globals>("CROWN_CHEST_CROWN_COUNT").NumberValue;
+            home.CrownChestCooldown = DateTime.UtcNow.AddHours(Csv.Tables.Get(Csv.Files.Globals).GetData<Globals>("CROWN_CHEST_COOLDOWN_HOURS").NumberValue);
         }
     }
 }

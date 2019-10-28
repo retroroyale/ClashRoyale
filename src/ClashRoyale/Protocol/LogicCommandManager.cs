@@ -31,8 +31,8 @@ namespace ClashRoyale.Protocol
                 {522, typeof(LogicChallengeCommand)},
                 {525, typeof(StartMatchmakeCommand)},
                 {526, typeof(LogicChestNextCardCommand)},
-                {529, typeof(LogicCopyDeckCommand)}
-                // {557, typeof()} // NewLeaguesSeen?
+                {529, typeof(LogicCopyDeckCommand)},
+                //{557, typeof(UnknownCommand)} // NewLeaguePopupSeen?
             };
         }
     }

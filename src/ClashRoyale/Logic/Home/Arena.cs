@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using Newtonsoft.Json;
@@ -17,6 +18,10 @@ namespace ClashRoyale.Logic.Home
         [JsonProperty("arena")] public int CurrentArena { get; set; }
         [JsonProperty("trophies")] public int Trophies { get; set; }
 
+        /// <summary>
+        ///     Add trophies and update arena and clan
+        /// </summary>
+        /// <param name="trophies"></param>
         public void AddTrophies(int trophies)
         {
             while (true)
@@ -35,6 +40,10 @@ namespace ClashRoyale.Logic.Home
             UpdateClanTrophies();
         }
 
+        /// <summary>
+        ///     When a player losses trophies he might drop into a lower Arena and update it in the clan
+        /// </summary>
+        /// <param name="trophies"></param>
         public void RemoveTrophies(int trophies)
         {
             while (true)
@@ -61,6 +70,9 @@ namespace ClashRoyale.Logic.Home
             UpdateClanTrophies();
         }
 
+        /// <summary>
+        ///     If the players trophies change we also have to update the member entry of the clan
+        /// </summary>
         public async void UpdateClanTrophies()
         {
             if (!Home.AllianceInfo.HasAlliance) return;
@@ -89,19 +101,48 @@ namespace ClashRoyale.Logic.Home
             }
         }
 
+        /// <summary>
+        ///     Returns the next ArenaData if available
+        /// </summary>
+        /// <returns></returns>
         public Arenas GetNextArenaData()
         {
             return ArenaData(CurrentArena + 1);
         }
 
+        /// <summary>
+        ///     Returns the current ArenaData
+        /// </summary>
+        /// <returns></returns>
         public Arenas GetCurrentArenaData()
         {
             return ArenaData(CurrentArena);
         }
 
+        /// <summary>
+        ///     Returns the previous ArenaData
+        /// </summary>
+        /// <returns></returns>
         public Arenas GetOldArenaData()
         {
             return ArenaData(CurrentArena - 1);
+        }
+
+        /// <summary>
+        /// Returns a list of arenas the player was in up to the current one for chests
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetChestArenaNames()
+        {
+            var list = new List<string>();
+
+            for (var i = 0; i <= CurrentArena; i++)
+            {
+                var data = ArenaData(i);
+                if (data != null) list.Add(data.ChestArena);
+            }
+
+            return list;
         }
     }
 }

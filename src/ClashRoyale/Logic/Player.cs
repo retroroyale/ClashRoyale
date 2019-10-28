@@ -5,6 +5,7 @@ using ClashRoyale.Database;
 using ClashRoyale.Extensions;
 using ClashRoyale.Logic.Battle;
 using ClashRoyale.Logic.Home.StreamEntry;
+using ClashRoyale.Logic.Time;
 using ClashRoyale.Protocol.Messages.Server;
 using ClashRoyale.Utilities.Netty;
 using ClashRoyale.Utilities.Utils;
@@ -187,17 +188,27 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(4);
 
             // Chests
-            packet.WriteVInt(0);
             {
-                /*packet.WriteVInt(19); // Instance Id
-                packet.WriteVInt(263); // Class Id
-                packet.WriteVInt(0); // Unlocked
+                /*for (var i = 0; i < 0; i++)
+                {
+                    packet.WriteVInt(0);
+
+                    packet.WriteVInt(19); // Instance Id
+                    packet.WriteVInt(219); // Class Id 
+                    packet.WriteVInt(1); // Unlocked // 8 - unlocking -> timer
+
+                    //packet.WriteVInt(0);
+                    //packet.WriteVInt(0);
+                    //packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
+
+                    packet.WriteBoolean(false); // Claimed
+                    packet.WriteBoolean(false); // New
+                    packet.WriteVInt(0);
+                    packet.WriteVInt(0);
+                    packet.WriteVInt(0);
+                }*/
+
                 packet.WriteVInt(0);
-                packet.WriteVInt(0);
-                packet.WriteVInt(0);
-                packet.WriteVInt(0); // Slot Index
-                packet.WriteVInt(0);
-                packet.WriteVInt(0);*/
             }
 
             // FreeChest Timer
@@ -208,21 +219,17 @@ namespace ClashRoyale.Logic
                     (int) Home.FreeChestTime.AddHours(4).Subtract(DateTime.UtcNow.AddHours(4)).TotalSeconds * 20);
 
             packet.WriteVInt(0);
-            packet.WriteVInt(0);
 
-            // FreeChest Timer
-            /*if (Home.IsFirstFreeChestAvailable())
-                packet.WriteVInt((int)Home.FreeChestTime.AddHours(4).Subtract(DateTime.UtcNow).TotalSeconds * 20);
-            else
-                packet.WriteVInt((int)Home.FreeChestTime.AddHours(4).Subtract(DateTime.UtcNow.AddHours(4)).TotalSeconds * 20);*/
+            packet.WriteVInt(0);
 
             packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
 
             if (Home.IsFirstFreeChestAvailable())
-            {
+            { 
                 packet.WriteBoolean(true);
+
                 packet.WriteVInt(19);
                 packet.WriteVInt(12);
                 packet.WriteVInt(1);
@@ -239,6 +246,7 @@ namespace ClashRoyale.Logic
             }
 
             packet.WriteVInt(0);
+
             packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
@@ -251,11 +259,12 @@ namespace ClashRoyale.Logic
             // Crown Chest
             {
                 packet.WriteVInt(Home.Crowns); // Crowns
-                packet.WriteVInt(0); // Locked
-                packet.WriteVInt(0); // Time locked
+
+                packet.WriteVInt(0);
+                packet.WriteVInt(0);
+                packet.WriteVInt(0);
             }
 
-            packet.WriteVInt(0);
             packet.WriteVInt(-1);
 
             // Request Cooldown

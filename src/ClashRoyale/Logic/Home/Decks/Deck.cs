@@ -21,6 +21,10 @@ namespace ClashRoyale.Logic.Home.Decks
             }
         }
 
+        /// <summary>
+        /// Add a card if we have it already in collection just add the ammount of material
+        /// </summary>
+        /// <param name="card"></param>
         public new void Add(Card card)
         {
             var index = FindIndex(c => c.ClassId == card.ClassId && c.InstanceId == card.InstanceId);
@@ -31,6 +35,10 @@ namespace ClashRoyale.Logic.Home.Decks
                 this[index].Count += card.Count;
         }
 
+        /// <summary>
+        /// Encodes the whole collection
+        /// </summary>
+        /// <param name="packet"></param>
         public void Encode(IByteBuffer packet)
         {
             packet.WriteVInt(Home.Decks.Length); // DeckCount
@@ -56,6 +64,10 @@ namespace ClashRoyale.Logic.Home.Decks
             packet.WriteVInt(Home.SelectedDeck); // CurrentSlot
         }
 
+        /// <summary>
+        /// Switch between 5 decks
+        /// </summary>
+        /// <param name="deckIndex"></param>
         public void SwitchDeck(int deckIndex)
         {
             if (deckIndex > 4) return;
@@ -75,30 +87,55 @@ namespace ClashRoyale.Logic.Home.Decks
             Home.SelectedDeck = deckIndex;
         }
 
+        /// <summary>
+        /// Encodes this deck for a battle
+        /// </summary>
+        /// <param name="packet"></param>
         public void EncodeAttack(IByteBuffer packet)
         {
             foreach (var card in GetRange(0, 8))
                 card.EncodeAttack(packet);
         }
 
+        /// <summary>
+        /// Get a card by it's class and instance id
+        /// </summary>
+        /// <param name="classId"></param>
+        /// <param name="instanceId"></param>
+        /// <returns></returns>
         public Card GetCard(int classId, int instanceId)
         {
             var index = FindIndex(c => c.ClassId == classId && c.InstanceId == instanceId);
             return index > -1 ? this[index] : null;
         }
 
+        /// <summary>
+        /// Get a card by it's globalId
+        /// </summary>
+        /// <param name="globalId"></param>
+        /// <returns></returns>
         public Card GetCard(int globalId)
         {
             var index = FindIndex(c => c.GlobalId == globalId);
             return index > -1 ? this[index] : null;
         }
 
+        /// <summary>
+        /// Returns the card offset in the collection
+        /// </summary>
+        /// <param name="globalId"></param>
+        /// <returns></returns>
         public int GetCardOffset(int globalId)
         {
             var index = FindIndex(c => c.GlobalId == globalId);
             return index;
         }
 
+        /// <summary>
+        /// Swap cards in deck
+        /// </summary>
+        /// <param name="cardOffset"></param>
+        /// <param name="deckOffset"></param>
         public void SwapCard(int cardOffset, int deckOffset)
         {
             var currentDeck = Home.Decks[Home.SelectedDeck];
@@ -109,11 +146,20 @@ namespace ClashRoyale.Logic.Home.Decks
             this[cardOffset + 8] = old;
         }
 
+        /// <summary>
+        /// Upgrade all cards if an upgrade is available and enough gold
+        /// </summary>
         public void UpgradeAll()
         {
             foreach (var card in this) UpgradeCard(card);
         }
 
+        /// <summary>
+        /// Upgrade a card by it's class and instance id
+        /// </summary>
+        /// <param name="classId"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="force"></param>
         public void UpgradeCard(int classId, int instanceId, bool force = false)
         {
             var card = GetCard(classId, instanceId);
@@ -122,6 +168,11 @@ namespace ClashRoyale.Logic.Home.Decks
                 UpgradeCard(card, force);
         }
 
+        /// <summary>
+        /// Upgrade a card and check if enough cards and gold are available to use or force an upgrade
+        /// </summary>
+        /// <param name="card"></param>
+        /// <param name="force"></param>
         public void UpgradeCard(Card card, bool force = false)
         {
             var data = card.GetRarityData;
@@ -144,6 +195,11 @@ namespace ClashRoyale.Logic.Home.Decks
             card.Level++;
         }
 
+        /// <summary>
+        /// When a card is new and a player taps on it the first time in it's collection
+        /// </summary>
+        /// <param name="classId"></param>
+        /// <param name="instanceId"></param>
         public void SawCard(int classId, int instanceId)
         {
             var card = GetCard(classId, instanceId);

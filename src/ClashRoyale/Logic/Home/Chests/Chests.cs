@@ -17,6 +17,7 @@ namespace ClashRoyale.Logic.Home.Chests
             var chests = Csv.Tables.Get(Csv.Files.TreasureChests);
             var mainchest = chests.GetDataWithInstanceId<TreasureChests>(instanceId);
             var baseChest = chests.GetData<TreasureChests>(mainchest.BaseChest);
+            var chestArenas = Home.Arena.GetChestArenaNames();
             var random = new Random();
 
             var chest = new Chest
@@ -33,7 +34,9 @@ namespace ClashRoyale.Logic.Home.Chests
                     for (var i = 0; i < random.Next(2, 5); i++)
                         if (random.Next(1, 2) == 1)
                         {
-                            var card = Cards.Random(Card.Rarity.Common);
+                            var card = Cards.RandomByArena(Card.Rarity.Common, chestArenas);
+                            if (card == null) continue;
+
                             card.Count = random.Next(50, 100);
                             card.IsNew = true;
                             chest.Add(card);
@@ -45,7 +48,9 @@ namespace ClashRoyale.Logic.Home.Chests
                     for (var i = 0; i < random.Next(2, 4); i++)
                         if (random.Next(1, 2) == 1)
                         {
-                            var card = Cards.Random(Card.Rarity.Common);
+                            var card = Cards.RandomByArena(Card.Rarity.Common, chestArenas);
+                            if (card == null) continue;
+
                             card.Count = random.Next(15, 25);
                             card.IsNew = true;
                             chest.Add(card);
@@ -61,7 +66,9 @@ namespace ClashRoyale.Logic.Home.Chests
                     for (var i = 0; i < random.Next(1, 4); i++)
                         if (random.Next(1, 2) == 1)
                         {
-                            var card = Cards.Random(Card.Rarity.Rare);
+                            var card = Cards.RandomByArena(Card.Rarity.Rare, chestArenas);
+                            if (card == null) continue;
+
                             card.Count = random.Next(15, 35);
                             card.IsNew = true;
                             chest.Add(card);
@@ -73,7 +80,9 @@ namespace ClashRoyale.Logic.Home.Chests
                     for (var i = 0; i < random.Next(1, 2); i++)
                         if (random.Next(1, 4) == 1)
                         {
-                            var card = Cards.Random(Card.Rarity.Rare);
+                            var card = Cards.RandomByArena(Card.Rarity.Rare, chestArenas);
+                            if (card == null) continue;
+
                             card.Count = random.Next(8, 18);
                             card.IsNew = true;
                             chest.Add(card);
@@ -89,7 +98,9 @@ namespace ClashRoyale.Logic.Home.Chests
                     for (var i = 0; i < random.Next(1, 2); i++)
                         if (random.Next(1, 3) == 1)
                         {
-                            var card = Cards.Random(Card.Rarity.Epic);
+                            var card = Cards.RandomByArena(Card.Rarity.Epic, chestArenas);
+                            if (card == null) continue;
+
                             card.Count = random.Next(2, 10);
                             card.IsNew = true;
                             chest.Add(card);
@@ -100,11 +111,15 @@ namespace ClashRoyale.Logic.Home.Chests
                 {
                     if (random.Next(1, 20) == 1)
                     {
-                        var card = Cards.Random(Card.Rarity.Epic);
-                        card.Count = random.Next(1, 5);
-                        card.IsNew = true;
-                        chest.Add(card);
-                        Home.Deck.Add(card);
+                        var card = Cards.RandomByArena(Card.Rarity.Epic, chestArenas);
+
+                        if (card != null)
+                        {
+                            card.Count = random.Next(1, 5);
+                            card.IsNew = true;
+                            chest.Add(card);
+                            Home.Deck.Add(card);
+                        }
                     }
                 }
             }
@@ -113,24 +128,32 @@ namespace ClashRoyale.Logic.Home.Chests
             {
                 if (type == Chest.ChestType.Shop)
                 {
-                    if (random.Next(1, 10) == 1)
+                    if (random.Next(1, 8) == 1)
                     {
-                        var card = Cards.Random(Card.Rarity.Legendary);
-                        card.Count = 1;
-                        card.IsNew = true;
-                        chest.Add(card);
-                        Home.Deck.Add(card);
+                        var card = Cards.RandomByArena(Card.Rarity.Legendary, chestArenas);
+
+                        if (card != null)
+                        {
+                            card.Count = 1;
+                            card.IsNew = true;
+                            chest.Add(card);
+                            Home.Deck.Add(card);
+                        }
                     }
                 }
                 else
                 {
                     if (random.Next(1, 50) == 1)
                     {
-                        var card = Cards.Random(Card.Rarity.Legendary);
-                        card.Count = 1;
-                        card.IsNew = true;
-                        chest.Add(card);
-                        Home.Deck.Add(card);
+                        var card = Cards.RandomByArena(Card.Rarity.Legendary, chestArenas);
+
+                        if (card != null)
+                        {
+                            card.Count = 1;
+                            card.IsNew = true;
+                            chest.Add(card);
+                            Home.Deck.Add(card);
+                        }
                     }
                 }
             }

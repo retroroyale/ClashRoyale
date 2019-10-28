@@ -16,9 +16,10 @@ namespace ClashRoyale.Logic.Home
         [JsonProperty("clan_info")] public AllianceInfo AllianceInfo = new AllianceInfo();
         [JsonProperty("arena")] public Arena Arena = new Arena();
         [JsonProperty("chests")] public Chests.Chests Chests = new Chests.Chests();
+        [JsonProperty("crownChestCooldown")] public DateTime CrownChestCooldown = DateTime.UtcNow;
         [JsonProperty("deck")] public Deck Deck = new Deck();
 
-        // Freechest
+        // Chests
         [JsonProperty("freeChestTime")] public DateTime FreeChestTime = DateTime.UtcNow;
 
         [JsonIgnore] public List<Session> Sessions = new List<Session>(50);
@@ -100,6 +101,7 @@ namespace ClashRoyale.Logic.Home
             }
         }
 
+        [JsonIgnore]
         public LogicBattleAvatar BattleAvatar
         {
             get
@@ -125,6 +127,7 @@ namespace ClashRoyale.Logic.Home
             }
         }
 
+        [JsonIgnore]
         public List<LogicBattleSpell> BattleDeck
         {
             get
@@ -141,6 +144,10 @@ namespace ClashRoyale.Logic.Home
             }
         }
 
+        /// <summary>
+        ///     Buy a resource pack with gems by the given id
+        /// </summary>
+        /// <param name="id"></param>
         public void BuyResourcePack(int id)
         {
             var packs = Csv.Tables.Get(Csv.Files.ResourcePacks).GetDataWithInstanceId<ResourcePacks>(id);
@@ -175,6 +182,10 @@ namespace ClashRoyale.Logic.Home
             Diamonds -= diamondCost;
         }
 
+        /// <summary>
+        ///     Add's experience Points to the players account and increments the players level if available
+        /// </summary>
+        /// <param name="expPoints"></param>
         public void AddExpPoints(int expPoints)
         {
             if (ExpLevel >= 13) return;
@@ -196,11 +207,31 @@ namespace ClashRoyale.Logic.Home
             }
         }
 
+        /// <summary>
+        ///     Add up to 20 crowns - TODO: check cooldown
+        /// </summary>
+        /// <param name="crowns"></param>
         public void AddCrowns(int crowns)
         {
-            if (Crowns + crowns <= 20) NewCrowns += crowns;
+            var maxCrowns = Csv.Tables.Get(Csv.Files.Globals).GetData<Globals>("CROWN_CHEST_CROWN_COUNT").NumberValue *
+                            2;
+
+            if (Crowns + crowns <= maxCrowns)
+            {
+                NewCrowns += crowns;
+            }
+            else
+            {
+                NewCrowns = maxCrowns - Crowns;
+                Crowns = maxCrowns;
+            }
         }
 
+        /// <summary>
+        ///     Returns true if it was able to remove the amount of gold from the players account
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <returns></returns>
         public bool UseGold(int amount)
         {
             if (Gold - amount < 0) return false;
@@ -209,16 +240,28 @@ namespace ClashRoyale.Logic.Home
             return true;
         }
 
+        /// <summary>
+        ///     Returns true when the first free chest is available
+        /// </summary>
+        /// <returns></returns>
         public bool IsFirstFreeChestAvailable()
         {
             return DateTime.UtcNow.Subtract(FreeChestTime).TotalHours >= 4;
         }
 
+        /// <summary>
+        ///     Returns true when the first and second free chest is available
+        /// </summary>
+        /// <returns></returns>
         public bool IsSecondFreeChestAvailable()
         {
             return DateTime.UtcNow.Subtract(FreeChestTime).TotalHours >= 8;
         }
 
+        /// <summary>
+        ///     Get's the current free chest id
+        /// </summary>
+        /// <returns></returns>
         public int GetFreeChestId()
         {
             var id = 1;

@@ -7,6 +7,7 @@ using ClashRoyale.Core.Network;
 using ClashRoyale.Database;
 using ClashRoyale.Database.Cache;
 using ClashRoyale.Files;
+using ClashRoyale.Logic.Home.Decks;
 using ClashRoyale.Utilities.Utils;
 
 namespace ClashRoyale
@@ -49,6 +50,7 @@ namespace ClashRoyale
             Fingerprint = new Fingerprint();
             Sentry = new SentryReport();
             Csv = new Csv();
+            Cards.Initialize();
 
             UpdateManager = new UpdateManager();
 

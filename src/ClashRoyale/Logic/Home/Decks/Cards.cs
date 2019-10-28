@@ -9,28 +9,77 @@ namespace ClashRoyale.Logic.Home.Decks
 {
     public class Cards
     {
+        private static SpellsOther[] _spellsOther;
+        private static SpellsBuildings[] _spellsBuildings;
+        private static SpellsCharacters[] _spellsCharacters;
+
+        public static void Initialize()
+        {
+            _spellsOther = Csv.Tables.Get(Csv.Files.SpellsOther).GetDatas().Cast<SpellsOther>()
+                .Where(s => !s.NotInUse).ToArray();
+            
+            _spellsBuildings = Csv.Tables.Get(Csv.Files.SpellsBuildings).GetDatas().Cast<SpellsBuildings>()
+                .Where(s => !s.NotInUse).ToArray();
+
+            _spellsCharacters = Csv.Tables.Get(Csv.Files.SpellsCharacters).GetDatas().Cast<SpellsCharacters>()
+                .Where(s => !s.NotInUse).ToArray();
+        }
+
+        /// <summary>
+        /// Returns all cards
+        /// </summary>
+        /// <returns></returns>
         public static Card[] GetAllCards()
         {
-            var cards = new List<Card>();
+            var cards = _spellsCharacters.Select(data => new Card(26, data.GetInstanceId(), false)).ToList();
 
-            foreach (var data in Csv.Tables.Get(Csv.Files.SpellsCharacters).GetDatas())
-                if (data is SpellsCharacters character)
-                    if (!character.NotInUse)
-                        cards.Add(new Card(26, data.GetInstanceId(), false));
-
-            foreach (var data in Csv.Tables.Get(Csv.Files.SpellsBuildings).GetDatas())
-                if (data is SpellsBuildings building)
-                    if (!building.NotInUse)
-                        cards.Add(new Card(27, data.GetInstanceId(), false));
-
-            foreach (var data in Csv.Tables.Get(Csv.Files.SpellsOther).GetDatas())
-                if (data is SpellsOther spell)
-                    if (!spell.NotInUse)
-                        cards.Add(new Card(28, data.GetInstanceId(), false));
+            cards.AddRange(_spellsBuildings.Select(data => new Card(27, data.GetInstanceId(), false)));
+            cards.AddRange(_spellsOther.Select(data => new Card(28, data.GetInstanceId(), false)));
 
             return cards.ToArray();
         }
 
+        public static Card RandomByArena(Card.Rarity rarity, List<string> chestArenas)
+        {
+            var random = new Random();
+            var cards = new List<Card>();
+
+            foreach (var chestArena in chestArenas)
+            {
+                if (_spellsCharacters.Any(x => x.UnlockArena == chestArena))
+                    cards.AddRange(_spellsCharacters
+                        .Where(x => x.UnlockArena == chestArena && x.Rarity == rarity.ToString())
+                        .Select(data => new Card(26, data.GetInstanceId(), false)));
+            }
+
+            foreach (var chestArena in chestArenas)
+            {
+                if (_spellsOther.Any(x => x.UnlockArena == chestArena))
+                    cards.AddRange(_spellsOther.Where(x => x.UnlockArena == chestArena && x.Rarity == rarity.ToString())
+                        .Select(data => new Card(28, data.GetInstanceId(), false)));
+            }
+
+            if (rarity != Card.Rarity.Legendary)
+            {
+                foreach (var chestArena in chestArenas)
+                {
+                    if (_spellsBuildings.Any(x => x.UnlockArena == chestArena))
+                        cards.AddRange(_spellsBuildings
+                            .Where(x => x.UnlockArena == chestArena && x.Rarity == rarity.ToString())
+                            .Select(data => new Card(27, data.GetInstanceId(), false)));
+                }
+            }
+
+            //Console.WriteLine($"Found {cards.Count} cards for {chestArenas.Count} Arenas with rarity {rarity.ToString()}");
+
+            return cards.Count > 0 ? cards.ElementAt(random.Next(0, cards.Count)) : null;
+        }
+
+        /// <summary>
+        /// Random card by rarity
+        /// </summary>
+        /// <param name="rarity"></param>
+        /// <returns></returns>
         public static Card Random(Card.Rarity rarity)
         {
             Card card = null;
@@ -42,9 +91,7 @@ namespace ClashRoyale.Logic.Home.Decks
             {
                 case 1:
                 {
-                    var datas = Csv.Tables.Get(Csv.Files.SpellsCharacters).GetDatas()
-                        .Where(s => !((SpellsCharacters) s).NotInUse &&
-                                    ((SpellsCharacters) s).Rarity == rarity.ToString());
+                    var datas = _spellsCharacters.Where(s => s.Rarity == rarity.ToString());
 
                     var enumerable = datas.ToList();
                     if (enumerable.ElementAt(random.Next(0, enumerable.Count)) is SpellsCharacters c)
@@ -55,8 +102,7 @@ namespace ClashRoyale.Logic.Home.Decks
 
                 case 2:
                 {
-                    var datas = Csv.Tables.Get(Csv.Files.SpellsOther).GetDatas()
-                        .Where(s => !((SpellsOther) s).NotInUse && ((SpellsOther) s).Rarity == rarity.ToString());
+                    var datas = _spellsOther.Where(s => s.Rarity == rarity.ToString());
 
                     var enumerable = datas.ToList();
                     if (enumerable.ElementAt(random.Next(0, enumerable.Count)) is SpellsOther c)
@@ -67,9 +113,7 @@ namespace ClashRoyale.Logic.Home.Decks
 
                 case 3:
                 {
-                    var datas = Csv.Tables.Get(Csv.Files.SpellsBuildings).GetDatas()
-                        .Where(s => !((SpellsBuildings) s).NotInUse &&
-                                    ((SpellsBuildings) s).Rarity == rarity.ToString());
+                    var datas = _spellsBuildings.Where(s => s.Rarity == rarity.ToString());
 
                     var enumerable = datas.ToList();
                     if (enumerable.ElementAt(random.Next(0, enumerable.Count)) is SpellsBuildings c)
@@ -82,6 +126,10 @@ namespace ClashRoyale.Logic.Home.Decks
             return card;
         }
 
+        /// <summary>
+        /// Returns a random card
+        /// </summary>
+        /// <returns></returns>
         public static Card Random()
         {
             Card card = null;
@@ -92,10 +140,7 @@ namespace ClashRoyale.Logic.Home.Decks
             {
                 case 26:
                 {
-                    var datas = Csv.Tables.Get(Csv.Files.SpellsCharacters).GetDatas()
-                        .Where(s => !((SpellsCharacters) s).NotInUse);
-
-                    if (datas.ElementAt(random.Next(0, datas.Count())) is SpellsCharacters c)
+                    if (_spellsCharacters.ElementAt(random.Next(0, _spellsCharacters.Length)) is SpellsCharacters c)
                         card = new Card(26, c.GetInstanceId(), false);
 
                     break;
@@ -103,10 +148,7 @@ namespace ClashRoyale.Logic.Home.Decks
 
                 case 27:
                 {
-                    var datas = Csv.Tables.Get(Csv.Files.SpellsBuildings).GetDatas()
-                        .Where(s => !((SpellsBuildings) s).NotInUse);
-
-                    if (datas.ElementAt(random.Next(0, datas.Count())) is SpellsBuildings c)
+                    if (_spellsBuildings.ElementAt(random.Next(0, _spellsBuildings.Length)) is SpellsBuildings c)
                         card = new Card(27, c.GetInstanceId(), false);
 
                     break;
@@ -114,10 +156,7 @@ namespace ClashRoyale.Logic.Home.Decks
 
                 case 28:
                 {
-                    var datas = Csv.Tables.Get(Csv.Files.SpellsOther).GetDatas()
-                        .Where(s => !((SpellsOther) s).NotInUse);
-
-                    if (datas.ElementAt(random.Next(0, datas.Count())) is SpellsOther c)
+                    if (_spellsOther.ElementAt(random.Next(0, _spellsOther.Length)) is SpellsOther c)
                         card = new Card(28, c.GetInstanceId(), false);
 
                     break;
