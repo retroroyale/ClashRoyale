@@ -1,4 +1,5 @@
 ﻿using ClashRoyale.Logic;
+using ClashRoyale.Utilities.Netty;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {

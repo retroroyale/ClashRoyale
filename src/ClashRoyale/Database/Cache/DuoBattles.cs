@@ -13,7 +13,7 @@ namespace ClashRoyale.Database.Cache
         private long _seed = 1;
 
         /// <summary>
-        ///     Get all 4 players from the duo queue and remove them
+        ///     Get 3 players from the duo queue and remove them
         /// </summary>
         public List<Player> Dequeue
         {
@@ -21,17 +21,14 @@ namespace ClashRoyale.Database.Cache
             {
                 lock (_duoPlayerQueue)
                 {
-                    if (_duoPlayerQueue.Count <= 0) return null;
+                    if (_duoPlayerQueue.Count < 3) return null;
 
                     var players = new List<Player>();
 
-                    while (players.Count < 4)
+                    for (var i = 0; i < 3; i++)
                     {
                         var player = _duoPlayerQueue[0];
                         _duoPlayerQueue.RemoveAt(0);
-
-                        if (!player.Device.IsConnected)
-                            continue;
 
                         players.Add(player);
                     }

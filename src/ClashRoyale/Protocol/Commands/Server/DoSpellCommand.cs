@@ -104,6 +104,8 @@ namespace ClashRoyale.Protocol.Commands.Server
 
                 battle.GetEnemyQueue(Device.Player.Home.Id).Enqueue(enemyBuffer.Array);
             }
+
+            //battle.Replay.AddCommand(Type, ClientTick - 20, ClientTick, SenderHighId, SenderLowId, ClassId * 1000000 + InstanceId, X, Y, SpellDeckIndex);
         }
     }
 }

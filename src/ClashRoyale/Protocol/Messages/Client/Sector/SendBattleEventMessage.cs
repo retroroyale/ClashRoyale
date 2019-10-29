@@ -32,39 +32,61 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
         public override async void Process()
         {
             var battle = Device.Player.Battle;
+            var duoBattle = Device.Player.DuoBattle;
 
-            if (battle == null)
-                return;
-
-            var home = Device.Player.Home;
-
-            switch (Type)
+            if (battle != null)
             {
-                case 3:
+                var home = Device.Player.Home;
+
+                switch (Type)
                 {
-                    var enemy = battle.GetEnemy(home.Id);
+                    case 3:
+                    {
+                        var enemy = battle.GetEnemy(home.Id);
 
-                    if (enemy != null)
-                        await new BattleEventMessage(enemy)
-                        {
-                            EventId = Type,
-                            Tick = Tick,
-                            Value = Value,
-                            HighId = Device.Player.Home.HighId,
-                            LowId = Device.Player.Home.LowId
-                        }.SendAsync();
+                        if (enemy != null)
+                            await new BattleEventMessage(enemy)
+                            {
+                                EventId = Type,
+                                Tick = Tick,
+                                Value = Value,
+                                HighId = Device.Player.Home.HighId,
+                                LowId = Device.Player.Home.LowId
+                            }.SendAsync();
 
-                    break;
+                        break;
+                    }
                 }
 
-                case 1:
+                //battle.Replay.AddEvent(Type, home.HighId, home.LowId, Tick, Value);
+            }
+            else if (duoBattle != null)
+            {
+                var home = Device.Player.Home;
+
+                switch (Type)
                 {
-                    // CARD SELECTED // FOR REPLAY/SPECTATORS/DUO
-                    break;
+                    case 3:
+                    {
+                        var players = duoBattle.GetAllOthers(home.Id);
+
+                        foreach (var player in players)
+                        {
+                            if (player?.Device != null)
+                                await new BattleEventMessage(player.Device)
+                                {
+                                    EventId = Type,
+                                    Tick = Tick,
+                                    Value = Value,
+                                    HighId = Device.Player.Home.HighId,
+                                    LowId = Device.Player.Home.LowId
+                                }.SendAsync();
+                        }
+
+                        break;
+                    }
                 }
             }
-
-            //battle.Replay.AddEvent(Type, home.HighId, home.LowId, Tick, Value);
         }
     }
 }

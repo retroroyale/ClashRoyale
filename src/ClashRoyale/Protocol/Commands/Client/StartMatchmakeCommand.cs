@@ -24,16 +24,18 @@ namespace ClashRoyale.Protocol.Commands.Client
             Is2V2 = Reader.ReadBoolean();
         }
 
-        public override async void Process()
+        public override void Process()
         {
             if (Is2V2)
             {
-                await new MatchmakeFailedMessage(Device).SendAsync();
-                await new CancelMatchmakeDoneMessage(Device).SendAsync();
+                //await new MatchmakeFailedMessage(Device).SendAsync();
+                //await new CancelMatchmakeDoneMessage(Device).SendAsync();
 
-                /*var players = Resources.DuoBattles.Dequeue;
+                var players = Resources.DuoBattles.Dequeue;
                 if (players != null)
                 {
+                    players.Add(Device.Player);
+
                     var battle = new LogicDuoBattle(Device.Player.Home.Arena.CurrentArena + 1, players);
 
                     Resources.DuoBattles.Add(battle);
@@ -48,7 +50,7 @@ namespace ClashRoyale.Protocol.Commands.Client
                 else
                 {
                     Resources.DuoBattles.Enqueue(Device.Player);
-                }*/
+                }
             }
             else
             {

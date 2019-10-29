@@ -35,26 +35,6 @@ namespace ClashRoyale.Logic.Battle
             BattleTimer.Elapsed += Tick;
         }
 
-        /// <summary>
-        ///     2v2 Battle
-        /// </summary>
-        /// <param name="arena"></param>
-        /// <param name="players"></param>
-        public LogicBattle(int arena, IEnumerable<Player> players)
-        {
-            Arena = arena;
-            Location = Csv.Tables.Get(Csv.Files.Locations)
-                           .GetData<Locations>(Csv.Tables.Get(Csv.Files.Arenas)
-                               .GetDataWithInstanceId<Arenas>(Arena - 1).PvpLocation).GetInstanceId() +
-                       1;
-            Replay.Battle.Location = 15000000 + Location;
-
-            AddRange(players);
-
-            BattleTimer = new Timer(500);
-            BattleTimer.Elapsed += Tick;
-        }
-
         public int BattleTime => (int) DateTime.UtcNow.Subtract(StartTime).TotalSeconds * 2;
         public int BattleSeconds => BattleTime / 2;
 
@@ -434,8 +414,6 @@ namespace ClashRoyale.Logic.Battle
                                 TrophyReward = IsFriendly ? 0 : trophies
                             }.SendAsync();
 
-                            player.Battle = null;
-
                             Remove(player);
                         }
                         else
@@ -470,6 +448,7 @@ namespace ClashRoyale.Logic.Battle
             if (Count <= 1)
                 Stop();
 
+            player.Battle = null;
             base.Remove(player);
         }
 
