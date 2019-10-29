@@ -17,11 +17,6 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
-            var home1 = Battle[0];
-            var home2 = Battle[2];
-            var enemy1 = Battle[1];
-            var enemy2 = Battle[3];
-
             Writer.WriteBoolean(false); // IsCompressed
             Writer.WriteVInt(Battle.BattleTime); // Time
             Writer.WriteVInt(0); // Checksum
@@ -37,9 +32,7 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(7419667);
             Writer.WriteVInt(1);
 
-            //Battle.Encode(Writer);
-
-            for (var p = 0; p < 3; p++)
+            for (var p = 0; p < Battle.Count; p++)
             {
                 var player = Battle[p];
 
@@ -111,91 +104,10 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(1);
 
-                Writer.WriteVInt(2); // ??
+                Writer.WriteVInt(p == 3 ? 9 : 2); 
             }
 
-            //Enemy2 Data
-            for (var i = 0; i < 3; i++)
-            {
-                Writer.WriteVInt(enemy2.Home.HighId);
-                Writer.WriteVInt(enemy2.Home.LowId);
-            }
-
-            Writer.WriteScString(enemy2.Home.Name);
-            Writer.WriteVInt(10); //Unk
-            Writer.WriteVInt(enemy2.Home.Arena.Trophies);
-            Writer.WriteHex(
-                "B10198250000000000200000000000080B0501AABD010502B402050303050403050CB704050D0F050E0A050F890F0516910D051C03051D9788D544000000050506912505079803050B20051406051B0889011A00001A01001A02001A03031A04001A05001A06001A07001A08001A09001A0A001A0B001A0C021A0D001A0E001A0F001A10001A11021A12001A13001A14001A15001A16001A17A0011A18001A19001A1AAD021A1B001A1C001A1D121A1E001A1F031A20B8021A21251A22131A2385021A24001A25341A26001A27001A2891011A2989011A2AAA011A2B001A2DA7011A2E0A1A300C1B00001B01001B02001B03011B04001B05001B06001B07001B08001B09001B0A001C00001C01001C02001C03001C04001C05001C06001C07001C08001C09001C0A001C0B84041C0C031C0D101C1004000008021992A645000000084C65756B5A696A4E90019A1104009306A906021001000000000D040009");
-
-
-            foreach (var player in Battle)
-            {
-                Writer.WriteVInt(player.Home.HighId);
-                Writer.WriteVInt(player.Home.LowId);
-                Writer.WriteVInt(0);
-            }
-
-            Writer.WriteHex(
-                "000000000000000000000000009401EC7E00000A0A2301230123012301230023002300230023102310010203000001020301000500050105020503050405050506050705080509070DA4E2019C8E0300007F00C07C0002000000000000070DAC36A46500007F0080040001000000000000070DAC369C8E0300007F00C07C0001000000000000070DA4E201A46500007F0080040002000000000000070DB8AB01B82E00007F00800400000200000000000005");
-
-            var m_aDeck = new[] {0, 1, 2, 3, 4, 5, 6, 7};
-
-            //Own Deck Rotation
-            Writer.WriteByte(4);
-            var current = 0;
-            for (var i = 0; i < 4; i++)
-            {
-                current = m_aDeck[i] - current;
-                if (current >= 0)
-                    Writer.WriteByte(current);
-                else
-                    Writer.WriteByte(128 + current);
-                current = m_aDeck[i];
-            }
-
-            //next cards
-            Writer.WriteByte(4);
-            for (var i = 4; i < 8; i++)
-                Writer.WriteByte(m_aDeck[i]);
-
-            //FULL Writer.WriteHex("007F7F0000000500000000007F7F7F7F7F7F7F7F00070DB8AB0188C50300007F00C07C0000020000000000000400000500000000007F7F7F7F7F7F7F7F00070D986DB82E00007F0080040000010000000000000504010101040405040600007F7F0000000500000000007F7F7F7F7F7F7F7F00070D986D88C50300007F00C07C0000010000000000000400000500000000007F7F7F7F7F7F7F7F000009A88C0188C50300007F00C07C00000000000000000009A88C01B82E00007F00800400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B02400B02400B02400B02400AA4600AA4600AA4600AA460000000000000000A401A40100000000000000A401A40100000000000000A401A40100000000000000A401A40100000000000000A401A40100000000000000A401A40100000000000000A401A40100000000000000A401A40100000000000000A401A40100000000000000A401A401");
-
-            Writer.WriteHex(
-                "007F7F0000000500000000007F7F7F7F7F7F7F7F00070DB8AB0188C50300007F00C07C0000020000000000000400000500000000007F7F7F7F7F7F7F7F00070D986DB82E00007F00800400000100000000000005");
-
-            var mADeck2 = new[] {0, 1, 2, 3, 4, 5, 6, 7};
-
-            //Team Mate Deck Rotation
-            Writer.WriteByte(4);
-            var current2 = 0;
-            for (var i = 0; i < 4; i++)
-            {
-                current2 = mADeck2[i] - current2;
-                if (current2 >= 0)
-                    Writer.WriteByte(current2);
-                else
-                    Writer.WriteByte(128 + current2);
-                current2 = mADeck2[i];
-            }
-
-            //next cards
-            Writer.WriteByte(4);
-            for (var i = 4; i < 8; i++)
-                Writer.WriteByte(mADeck2[i]);
-
-
-            Writer.WriteHex(
-                "007F7F0000000500000000007F7F7F7F7F7F7F7F00070D986D88C50300007F00C07C0000010000000000000400000500000000007F7F7F7F7F7F7F7F000009A88C0188C50300007F00C07C00000000000000000009A88C01B82E00007F00800400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B02400B02400B02400B02400AA4600AA4600AA4600AA460000000000000000A401A40100000000000000A401A40100000000000000A401A40100000000000000A401A40100000000000000A401A40100000000000000A401A40100000000000000A401A40100000000000000A401A40100000000000000A401A40100000000000000A401A401");
-
-            Writer.WriteHex("FF01");
-            home1.Home.Deck.EncodeAttack(Writer);
-
-            Writer.WriteVInt(0);
-
-            Writer.WriteHex("FE01");
-            home2.Home.Deck.EncodeAttack(Writer);
-
-            Writer.WriteHex("00000506070802040202010300000000000000010200001800000C000000CCE9D7B507002A002B");
+            Battle.Encode(Writer);
         }
     }
 }

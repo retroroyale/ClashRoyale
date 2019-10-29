@@ -5,6 +5,7 @@ using System.Timers;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using ClashRoyale.Protocol.Messages.Server;
+using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 using SharpRaven.Data;
 
@@ -72,7 +73,84 @@ namespace ClashRoyale.Logic.Battle
         {
             #region SectorState
 
+            var home1 = this[0];
+            var home2 = this[2];
+            //var enemy1 = this[1];
+            //var enemy2 = this[3];
 
+            packet.WriteVInt(Location); // LocationData
+
+            packet.WriteVInt(Count); // PlayerCount
+            packet.WriteVInt(0); // NpcData
+            packet.WriteVInt(Arena); // ArenaData
+
+            foreach (var player in this)
+            {
+                packet.WriteVInt(player.Home.HighId);
+                packet.WriteVInt(player.Home.LowId);
+                packet.WriteVInt(0);
+            }
+
+            packet.WriteHex(
+                "000000000000000000000000009401EC7E00000A0A2301230123012301230023002300230023102310010203000001020301000500050105020503050405050506050705080509070DA4E2019C8E0300007F00C07C0002000000000000070DAC36A46500007F0080040001000000000000070DAC369C8E0300007F00C07C0001000000000000070DA4E201A46500007F0080040002000000000000070DB8AB01B82E00007F00800400000200000000000005");
+
+            var mADeck = new[] { 0, 1, 2, 3, 4, 5, 6, 7 };
+
+            //Own Deck Rotation
+            packet.WriteByte(4);
+            var current = 0;
+            for (var i = 0; i < 4; i++)
+            {
+                current = mADeck[i] - current;
+                if (current >= 0)
+                    packet.WriteByte(current);
+                else
+                    packet.WriteByte(128 + current);
+                current = mADeck[i];
+            }
+
+            //next cards
+            packet.WriteByte(4);
+            for (var i = 4; i < 8; i++)
+                packet.WriteByte(mADeck[i]);
+
+            packet.WriteHex("007F7F0000000500000000007F7F7F7F7F7F7F7F00070DB8AB0188C50300007F00C07C0000020000000000000400000500000000007F7F7F7F7F7F7F7F00070D986DB82E00007F00800400000100000000000005");
+
+            var mADeck2 = new[] { 0, 1, 2, 3, 4, 5, 6, 7 };
+
+            //Team Mate Deck Rotation
+            packet.WriteByte(4);
+            var current2 = 0;
+            for (var i = 0; i < 4; i++)
+            {
+                current2 = mADeck2[i] - current2;
+                if (current2 >= 0)
+                    packet.WriteByte(current2);
+                else
+                    packet.WriteByte(128 + current2);
+                current2 = mADeck2[i];
+            }
+
+            //next cards
+            packet.WriteByte(4);
+            for (var i = 4; i < 8; i++)
+                packet.WriteByte(mADeck2[i]);
+
+            packet.WriteHex(
+                "007F7F0000000500000000007F7F7F7F7F7F7F7F00070D986D88C50300007F00C07C0000010000000000000400000500000000007F7F7F7F7F7F7F7F000009A88C0188C50300007F00C07C00000000000000000009A88C01B82E00007F00800400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B02400B02400B02400B02400AA4600AA4600AA4600AA46");
+
+            for (var i = 0; i < 10; i++)
+                packet.WriteHex("00000000000000A401A401");
+
+            packet.WriteHex("FF01");
+            home1.Home.Deck.EncodeAttack(packet);
+
+            packet.WriteVInt(0);
+
+            packet.WriteHex("FE01");
+            home2.Home.Deck.EncodeAttack(packet);
+
+            packet.WriteHex("00000506070802040202010300000000000000010200001800000C000000CCE9D7B507002A002B");
 
             #endregion SectorState
         }

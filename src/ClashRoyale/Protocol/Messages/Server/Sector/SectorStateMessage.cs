@@ -105,7 +105,7 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(1);
 
-                Writer.WriteVInt(p == 0 ? 2 : 0); // ??
+                Writer.WriteVInt(p == 0 ? 2 : 0); 
             }
 
             Battle.Encode(Writer);
