@@ -37,7 +37,7 @@ namespace ClashRoyale.Logic.Home.Chests
                             var card = Cards.RandomByArena(Card.Rarity.Common, chestArenas);
                             if (card == null) continue;
 
-                            card.Count = random.Next(50, 100);
+                            card.Count = random.Next(40, 80);
                             card.IsNew = true;
                             chest.Add(card);
                             Home.Deck.Add(card);

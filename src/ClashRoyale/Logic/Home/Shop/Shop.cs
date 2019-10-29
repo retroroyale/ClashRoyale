@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
+using ClashRoyale.Logic.Home.Decks;
 using ClashRoyale.Logic.Home.Decks.Items;
 using ClashRoyale.Logic.Home.Shop.Items;
 using ClashRoyale.Utilities.Netty;
@@ -15,9 +16,7 @@ namespace ClashRoyale.Logic.Home.Shop
     public class Shop : List<ShopItem>
     {
         [JsonIgnore] public Home Home { get; set; }
-
         [JsonIgnore] public bool CanRefresh => Home.ShopDay != (int) DateTime.UtcNow.DayOfWeek;
-
         [JsonIgnore] public bool IsEpicSunday => DateTime.UtcNow.DayOfWeek == DayOfWeek.Sunday;
 
         public void Refresh()
@@ -94,80 +93,27 @@ namespace ClashRoyale.Logic.Home.Shop
                 }
 
                 var total = 0;
-                var count = amount > 1 ? limit - item.Bought : 1;
+                var count = amount != 1 ? limit - item.Bought : 1;
 
-                for (var i = 0; i < count; i++)
-                {
-                    total += price * (item.Bought + 1);
-                    item.Bought++;
-                }
+                for (var i = 0; i < count; i++) 
+                    total += price * (i + 1);
 
-                if (total <= Home.Gold)
-                {
-                    Home.Gold -= total;
-                    Home.Deck.Add(new Card(classId, instanceId, true, count));
-                }
+                if (!Home.UseGold(total)) return;
+                item.Bought += count;
+                Home.Deck.Add(new Card(classId, instanceId, true, count));
             }
         }
 
         public SpellShopItem RandomSpell(Card.Rarity rarity)
         {
-            SpellShopItem item = null;
+            var card = Cards.Random(rarity);
 
-            var random = new Random();
-            var result = rarity != Card.Rarity.Legendary ? random.Next(26, 29) : random.Next(0, 2) == 1 ? 26 : 28;
-
-            switch (result)
+            return new SpellShopItem
             {
-                case 26:
-                {
-                    var datas = Csv.Tables.Get(Csv.Files.SpellsCharacters).GetDatas()
-                        .Where(s => !((SpellsCharacters) s).NotInUse &&
-                                    ((SpellsCharacters) s).Rarity == rarity.ToString());
-
-                    if (datas.ElementAt(random.Next(0, datas.Count())) is SpellsCharacters c)
-                        item = new SpellShopItem
-                        {
-                            ClassId = 26,
-                            InstanceId = c.GetInstanceId(),
-                            Rarity = (int) Card.GetRarity(c.Rarity)
-                        };
-                    break;
-                }
-
-                case 27:
-                {
-                    var datas = Csv.Tables.Get(Csv.Files.SpellsBuildings).GetDatas()
-                        .Where(s => !((SpellsBuildings) s).NotInUse &&
-                                    ((SpellsBuildings) s).Rarity == rarity.ToString());
-
-                    if (datas.ElementAt(random.Next(0, datas.Count())) is SpellsBuildings c)
-                        item = new SpellShopItem
-                        {
-                            ClassId = 27,
-                            InstanceId = c.GetInstanceId(),
-                            Rarity = (int) Card.GetRarity(c.Rarity)
-                        };
-                    break;
-                }
-
-                case 28:
-                {
-                    var datas = Csv.Tables.Get(Csv.Files.SpellsOther).GetDatas()
-                        .Where(s => !((SpellsOther) s).NotInUse && ((SpellsOther) s).Rarity == rarity.ToString());
-
-                    if (datas.ElementAt(random.Next(0, datas.Count())) is SpellsOther c)
-                        item = new SpellShopItem
-                        {
-                            ClassId = 28,
-                            InstanceId = c.GetInstanceId(),
-                            Rarity = (int) Card.GetRarity(c.Rarity)
-                        };
-                    break;
-                }
-            }
-
-            return item;
+                ClassId = card.ClassId,
+                InstanceId = card.InstanceId,
+                Rarity = (int)card.CardRarity
+            };
         }
     }
 }

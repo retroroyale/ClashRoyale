@@ -58,9 +58,7 @@ namespace ClashRoyale.Logic.Home.Decks.Items
         public bool IsNew { get; set; }
 
         [JsonIgnore] public int GlobalId => ClassId * 1000000 + InstanceId;
-
         [JsonIgnore] public int CardId => Id(ClassId, InstanceId);
-
         [JsonIgnore] public Rarity CardRarity => GetRarity(GetRarityData.Name);
 
         [JsonIgnore]

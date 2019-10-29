@@ -68,7 +68,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                             command.Decode();
                             command.Process();
 
-                            Logger.Log($"Command {type} with Tick {command.Tick} has been processed.",
+                            Logger.Log($"Command {type} ({command.GetType().Name}) with Tick {command.Tick} has been processed.",
                                 GetType(), ErrorLevel.Debug);
 
                             Save = true;
