@@ -5,7 +5,6 @@ using ClashRoyale.Database;
 using ClashRoyale.Extensions;
 using ClashRoyale.Logic.Battle;
 using ClashRoyale.Logic.Home.StreamEntry;
-using ClashRoyale.Logic.Time;
 using ClashRoyale.Protocol.Messages.Server;
 using ClashRoyale.Utilities.Netty;
 using ClashRoyale.Utilities.Utils;

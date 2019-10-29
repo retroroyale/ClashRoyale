@@ -87,9 +87,7 @@ namespace ClashRoyale.Protocol.Messages.Server
                     Writer.WriteVInt(info.Badge); // Badge 
                 }
                 else
-                {
                     Writer.WriteVInt(0);
-                }
 
                 Writer.WriteVInt(29);
                 Writer.WriteVInt(0);

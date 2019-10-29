@@ -72,7 +72,7 @@ namespace ClashRoyale.Protocol.Commands.Server
         public override void Process()
         {
             var battle = Device.Player.Battle;
-            if (battle == null) return;
+            var duoBattle = Device.Player.DuoBattle;
 
             var data = Data.ReadBytes(Data.ReadableBytes).Array;
 
@@ -85,7 +85,9 @@ namespace ClashRoyale.Protocol.Commands.Server
                 buffer.WriteVInt(X);
                 buffer.WriteVInt(Y);
 
-                battle.GetOwnQueue(Device.Player.Home.Id).Enqueue(buffer.Array);
+                battle?.GetOwnQueue(Device.Player.Home.Id).Enqueue(buffer.Array);
+
+                duoBattle?.GetOwnQueue(Device.Player.Home.Id).Enqueue(buffer.Array);
             }
 
             var enemyBuffer = Unpooled.Buffer(9);
@@ -102,7 +104,17 @@ namespace ClashRoyale.Protocol.Commands.Server
                 enemyBuffer.WriteVInt(X);
                 enemyBuffer.WriteVInt(Y);
 
-                battle.GetEnemyQueue(Device.Player.Home.Id).Enqueue(enemyBuffer.Array);
+                battle?.GetEnemyQueue(Device.Player.Home.Id).Enqueue(enemyBuffer.Array);
+
+                if (duoBattle != null)
+                {
+                    var others = duoBattle.GetOtherQueues(Device.Player.Home.Id);
+
+                    foreach (var queue in others)
+                    {
+                        queue.Enqueue(enemyBuffer.Array);
+                    }
+                }
             }
 
             //battle.Replay.AddCommand(Type, ClientTick - 20, ClientTick, SenderHighId, SenderLowId, ClassId * 1000000 + InstanceId, X, Y, SpellDeckIndex);

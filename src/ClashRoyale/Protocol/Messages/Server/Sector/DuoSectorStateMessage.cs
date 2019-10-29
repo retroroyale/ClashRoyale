@@ -14,6 +14,7 @@ namespace ClashRoyale.Protocol.Messages.Server
         }
 
         public LogicDuoBattle Battle { get; set; }
+        public bool EnemyTeam { get; set; }
 
         public override void Encode()
         {
@@ -86,9 +87,7 @@ namespace ClashRoyale.Protocol.Messages.Server
                     Writer.WriteVInt(info.Badge); // Badge 
                 }
                 else
-                {
                     Writer.WriteVInt(0);
-                }
 
                 Writer.WriteVInt(29);
                 Writer.WriteVInt(0);
@@ -104,10 +103,10 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(1);
 
-                Writer.WriteVInt(p == 3 ? 9 : 2); 
+                Writer.WriteVInt(p == 3 ? 9 : 2);
             }
 
-            Battle.Encode(Writer);
+            Battle.Encode(Writer, EnemyTeam);
         }
     }
 }
