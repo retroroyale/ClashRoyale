@@ -511,7 +511,6 @@ namespace ClashRoyale.Logic.Battle
             catch (Exception exc)
             {
                 Logger.Log($"DuoBattleTick failed. {exc}", GetType(), ErrorLevel.Error);
-                Stop();
             }
         }
 
