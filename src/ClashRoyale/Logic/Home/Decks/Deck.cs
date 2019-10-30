@@ -188,10 +188,9 @@ namespace ClashRoyale.Logic.Home.Decks
                 if (!Home.UseGold(data.UpgradeCost[card.Level])) return;
 
                 card.Count -= materialCount;
-
-                Home.AddExpPoints(data.UpgradeExp[card.Level]);
             }
 
+            Home.AddExpPoints(data.UpgradeExp[card.Level]);
             card.Level++;
         }
 

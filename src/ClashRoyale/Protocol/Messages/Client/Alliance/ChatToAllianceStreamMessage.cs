@@ -96,12 +96,12 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
                         break;
                     }
 
-                    case "/free":
+                    /*case "/free":
                     {
                         Device.Player.Home.FreeChestTime = Device.Player.Home.FreeChestTime.Subtract(TimeSpan.FromMinutes(245));
                         Device.Disconnect();
                         break;
-                    }
+                    }*/
 
                         /*case "/replay":
                         {
