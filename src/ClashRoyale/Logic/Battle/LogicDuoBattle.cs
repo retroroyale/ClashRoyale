@@ -52,7 +52,7 @@ namespace ClashRoyale.Logic.Battle
             {
                 foreach (var player in this)
                 {
-                    Commands.Add(new Queue<byte[]>());
+                    Commands.Add(player.Home.Id, new Queue<byte[]>());
 
                     await new DuoSectorStateMessage(player.Device)
                     {
@@ -532,11 +532,12 @@ namespace ClashRoyale.Logic.Battle
 
             player.DuoBattle = null;
             this[index] = null;
+            Commands[player.Home.Id] = null;
         }
 
         public Player GetTeammate(long userId)
         {
-            var index = FindIndex(x => x.Home.Id == userId);
+            var index = FindIndex(x => x?.Home.Id == userId);
             return this[index % 2 == 0 ? index == 0 ? 2 : 0 : index == 1 ? 3 : 1];
         }
 
@@ -547,23 +548,23 @@ namespace ClashRoyale.Logic.Battle
 
         public Queue<byte[]> GetOwnQueue(long userId)
         {
-            var index = FindIndex(x => x?.Home.Id == userId);
-            return index > -1 ? Commands[index] : new Queue<byte[]>();
+            return Commands.FirstOrDefault(cmd => cmd.Key == userId).Value;
         }
 
         public List<Queue<byte[]>> GetOtherQueues(long userId)
         {
-            var index = FindIndex(x => x.Home.Id == userId);
-            var cmd = Commands.ToList();
+            var cmds = new List<Queue<byte[]>>();
 
-            cmd.RemoveAt(index);
+            foreach (var (key, value) in Commands)
+                if (key != userId && value != null)
+                    cmds.Add(value);
 
-            return cmd;
+            return cmds;
         }
 
         #region Objects
 
-        public List<Queue<byte[]>> Commands = new List<Queue<byte[]>>();
+        public Dictionary<long, Queue<byte[]>> Commands = new Dictionary<long, Queue<byte[]>>();
         public Timer BattleTimer;
         public bool IsFriendly { get; set; }
         public int Arena { get; set; }

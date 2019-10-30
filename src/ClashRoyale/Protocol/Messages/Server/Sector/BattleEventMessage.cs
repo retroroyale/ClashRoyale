@@ -19,6 +19,7 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public int Unknown { get; set; }
         public int Unknown2 { get; set; }
+        public int Unknown3 { get; set; }
         public int HandIndex { get; set; }
 
         public override void Encode()
@@ -28,7 +29,7 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteVInt(LowId);
             Writer.WriteVInt(1);
             Writer.WriteVInt(Tick);
-            Writer.WriteVInt(0);
+            Writer.WriteVInt(Unknown3);
             Writer.WriteVInt(Value1);
             Writer.WriteVInt(Value2);
 

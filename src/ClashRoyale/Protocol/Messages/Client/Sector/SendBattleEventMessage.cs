@@ -19,14 +19,20 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
         public int Value1 { get; set; }
         public int Value2 { get; set; }
 
+        public int SenderHighId { get; set; }
+        public int SenderLowId { get; set; }
+
+        public int Unknown3 { get; set; }
+
         public override void Decode()
         {
             Type = Reader.ReadVInt();
-            Reader.ReadVInt();
-            Reader.ReadVInt();
+            SenderHighId = Reader.ReadVInt();
+            SenderLowId = Reader.ReadVInt();
+
             Reader.ReadVInt();
             Tick = Reader.ReadVInt();
-            Reader.ReadVInt();
+            Unknown3 = Reader.ReadVInt();
 
             Value1 = Reader.ReadVInt();
             Value2 = Reader.ReadVInt();
@@ -52,9 +58,10 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
                             {
                                 Type = Type,
                                 Tick = Tick,
+                                Value1 = Value1,
                                 Value2 = Value2,
-                                HighId = Device.Player.Home.HighId,
-                                LowId = Device.Player.Home.LowId
+                                HighId = SenderHighId,
+                                LowId = SenderLowId
                             }.SendAsync();
 
                         break;
@@ -77,20 +84,22 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
 
                         var teammate = duoBattle.GetTeammate(home.Id);
 
-                        await new BattleEventMessage(teammate.Device)
-                        {
-                            Type = Type,
-                            Tick = Tick,
-                            Value1 = Value1,
-                            Value2 = Value2,
-                            HighId = Device.Player.Home.HighId,
-                            LowId = Device.Player.Home.LowId,
-                            Unknown = unknown,
-                            Unknown2 = unknown2,
-                            HandIndex = handIndex
-                        }.SendAsync();
+                        if(teammate != null)
+                            await new BattleEventMessage(teammate.Device)
+                            {
+                                Type = Type,
+                                Tick = Tick,
+                                Value1 = Value1,
+                                Value2 = Value2,
+                                HighId = SenderHighId,
+                                LowId = SenderLowId,
+                                Unknown = unknown,
+                                Unknown2 = unknown2,
+                                Unknown3 = Unknown3,
+                                HandIndex = handIndex
+                            }.SendAsync();
 
-                            break;
+                        break;
                     }
 
                     case 3:
@@ -104,9 +113,10 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
                                 {
                                     Type = Type,
                                     Tick = Tick,
+                                    Value1 = Value1,
                                     Value2 = Value2,
-                                    HighId = Device.Player.Home.HighId,
-                                    LowId = Device.Player.Home.LowId
+                                    HighId = SenderHighId,
+                                    LowId = SenderLowId
                                 }.SendAsync();
                         }
 
@@ -117,14 +127,16 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
                     {
                         var teammate = duoBattle.GetTeammate(home.Id);
 
-                        await new BattleEventMessage(teammate.Device)
-                        {
-                            Type = Type,
-                            Tick = Tick,
-                            Value2 = Value2,
-                            HighId = Device.Player.Home.HighId,
-                            LowId = Device.Player.Home.LowId
-                        }.SendAsync();
+                        if(teammate != null)
+                            await new BattleEventMessage(teammate.Device)
+                            {
+                                Type = Type,
+                                Tick = Tick,
+                                Value1 = Value1,
+                                Value2 = Value2,
+                                HighId = SenderHighId,
+                                LowId = SenderLowId
+                            }.SendAsync();
 
                         break;
                     }

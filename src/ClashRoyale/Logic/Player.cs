@@ -128,7 +128,7 @@ namespace ClashRoyale.Logic
 
                 packet.WriteVInt(8);
                 packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
-                packet.WriteVInt(1601510400);
+                packet.WriteVInt(1609462800);
                 packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
 
                 packet.WriteVInt(0);
@@ -142,7 +142,7 @@ namespace ClashRoyale.Logic
                 packet.WriteVInt(0);
 
                 packet.WriteScString("2v2 Button");
-                packet.WriteScString("{\"HideTimer\":true,\"HidePopupTimer\":true}\"");
+                packet.WriteScString("{\"HideTimer\":false,\"HidePopupTimer\":false}\"");
             }
 
             packet.WriteVInt(0);
