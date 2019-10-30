@@ -42,6 +42,7 @@ namespace ClashRoyale.Logic.Battle
         public int BattleTime => (int) DateTime.UtcNow.Subtract(StartTime).TotalSeconds * 2;
         public int BattleSeconds => BattleTime / 2;
 
+        public bool IsRunning => BattleTimer.Enabled;
         public bool IsReady => Count >= 4;
 
         public async void Start()
