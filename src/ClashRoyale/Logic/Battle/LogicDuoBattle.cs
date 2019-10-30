@@ -50,10 +50,8 @@ namespace ClashRoyale.Logic.Battle
 
             try
             {
-                for (var i = 0; i < Count; i++)
+                foreach (var player in this)
                 {
-                    var player = this[i];
-
                     Commands.Add(new Queue<byte[]>());
 
                     await new DuoSectorStateMessage(player.Device)
@@ -244,7 +242,6 @@ namespace ClashRoyale.Logic.Battle
             packet.WriteVInt(0);
             packet.WriteVInt(0);
             packet.WriteVInt(0);
-
             packet.WriteVInt(0);
             packet.WriteVInt(5);
 
@@ -445,11 +442,11 @@ namespace ClashRoyale.Logic.Battle
 
             packet.WriteVInt(0);
             packet.WriteHex("FE01");
-            enemy1.Home.Deck.EncodeAttack(packet);
+            home2.Home.Deck.EncodeAttack(packet);
 
             packet.WriteVInt(0);
             packet.WriteHex("FE03");
-            home2.Home.Deck.EncodeAttack(packet);
+            enemy1.Home.Deck.EncodeAttack(packet);
 
             packet.WriteVInt(0);
             packet.WriteHex("FE03");
