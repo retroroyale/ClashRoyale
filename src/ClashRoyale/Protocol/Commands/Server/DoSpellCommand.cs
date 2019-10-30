@@ -102,7 +102,7 @@ namespace ClashRoyale.Protocol.Commands.Server
                 enemyBuffer.WriteVInt(X);
                 enemyBuffer.WriteVInt(Y);
 
-                if (battle.Is2v2)
+                if (battle.Is2V2)
                 {
                     var others = battle.GetOtherQueues(Device.Player.Home.Id);
 

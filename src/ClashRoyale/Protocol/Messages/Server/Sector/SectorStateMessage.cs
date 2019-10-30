@@ -103,13 +103,13 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Writer.WriteVInt(0);
                 Writer.WriteVInt(1);
 
-                if (Battle.Is2v2)
+                if (Battle.Is2V2)
                     Writer.WriteVInt(p == 3 ? 9 : 2);
                 else
                     Writer.WriteVInt(p == 0 ? 2 : 0);
             }
 
-            if (Battle.Is2v2)
+            if (Battle.Is2V2)
                 Battle.EncodeDuo(Writer);
             else
                 Battle.Encode(Writer);

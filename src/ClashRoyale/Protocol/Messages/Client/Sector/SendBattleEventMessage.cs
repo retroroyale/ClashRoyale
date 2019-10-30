@@ -44,7 +44,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
 
             if (battle != null)
             {
-                if (battle.Is2v2)
+                if (battle.Is2V2)
                 {
                     var home = Device.Player.Home;
 

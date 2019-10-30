@@ -49,7 +49,7 @@ namespace ClashRoyale.Logic.Battle
             }
 
             IsFriendly = isFriendly;
-            Is2v2 = true;
+            Is2V2 = true;
 
             Arena = arena;
             Location = Csv.Tables.Get(Csv.Files.Locations)
@@ -68,7 +68,7 @@ namespace ClashRoyale.Logic.Battle
         public int BattleSeconds => BattleTime / 2;
 
         public bool IsRunning => BattleTimer.Enabled;
-        public bool IsReady => Count >= (Is2v2 ? 4 : 2);
+        public bool IsReady => Count >= (Is2V2 ? 4 : 2);
 
         public async void Start()
         {
@@ -819,7 +819,7 @@ namespace ClashRoyale.Logic.Battle
                             if (BattleSeconds <= 10) continue;
 
                             var rnd = new Random();
-                            var trophies = IsFriendly || Is2v2 ? 0 : rnd.Next(15, 30);
+                            var trophies = IsFriendly || Is2V2 ? 0 : rnd.Next(15, 30);
 
                             if (!IsFriendly)
                             {
@@ -870,7 +870,7 @@ namespace ClashRoyale.Logic.Battle
 
             player.Battle = null;
 
-            if (Is2v2)
+            if (Is2V2)
             {
                 var index = FindIndex(x => x?.Home.Id == player.Home.Id);
                 if (index <= -1) return;
@@ -896,7 +896,7 @@ namespace ClashRoyale.Logic.Battle
             if (player == null) return;
 
             var rnd = new Random();
-            var trophies = IsFriendly || Is2v2 ? 0 : rnd.Next(15, 30);
+            var trophies = IsFriendly || Is2V2 ? 0 : rnd.Next(15, 30);
 
             if (!IsFriendly)
             {
@@ -965,7 +965,7 @@ namespace ClashRoyale.Logic.Battle
         public Dictionary<long, Queue<byte[]>> Commands = new Dictionary<long, Queue<byte[]>>();
         public long BattleId { get; set; }
         private DateTime StartTime { get; set; }
-        public bool Is2v2 { get; set; }
+        public bool Is2V2 { get; set; }
         public bool IsFriendly { get; set; }
         public int Arena { get; set; }
         public int Location { get; set; }
@@ -973,6 +973,11 @@ namespace ClashRoyale.Logic.Battle
         public static int[] KingTowerHp =
         {
             2400, 2568, 2736, 2904, 3096, 3312, 3528, 3768, 4008, 4392, 4824, 5304, 5832
+        };
+
+        public static int[] DuoKingTowerHp =
+        {
+            2880, 3082, 3284, 3485, 3716, 3975, 4234, 4522, 4810, 5271, 5789, 6365, 6999
         };
 
         public static int[] PrincessTowerHp =
