@@ -41,75 +41,93 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
         public override async void Process()
         {
             var battle = Device.Player.Battle;
-            var duoBattle = Device.Player.DuoBattle;
 
             if (battle != null)
             {
-                var home = Device.Player.Home;
-
-                switch (Type)
+                if (battle.Is2v2)
                 {
-                    case 3:
+                    var home = Device.Player.Home;
+
+                    switch (Type)
                     {
-                        var enemy = battle.GetEnemy(home.Id);
-
-                        if (enemy != null)
-                            await new BattleEventMessage(enemy)
+                        case 6:
                             {
-                                Type = Type,
-                                Tick = Tick,
-                                Value1 = Value1,
-                                Value2 = Value2,
-                                HighId = SenderHighId,
-                                LowId = SenderLowId
-                            }.SendAsync();
+                                var unknown = Reader.ReadVInt();
+                                var handIndex = Reader.ReadVInt();
+                                var unknown2 = Reader.ReadVInt();
 
-                        break;
+                                var teammate = battle.GetTeammate(home.Id);
+
+                                if (teammate != null)
+                                    await new BattleEventMessage(teammate.Device)
+                                    {
+                                        Type = Type,
+                                        Tick = Tick,
+                                        Value1 = Value1,
+                                        Value2 = Value2,
+                                        HighId = SenderHighId,
+                                        LowId = SenderLowId,
+                                        Unknown = unknown,
+                                        Unknown2 = unknown2,
+                                        Unknown3 = Unknown3,
+                                        HandIndex = handIndex
+                                    }.SendAsync();
+
+                                break;
+                            }
+
+                        case 3:
+                            {
+                                var players = battle.GetAllOthers(home.Id);
+
+                                foreach (var player in players)
+                                {
+                                    if (player?.Device != null)
+                                        await new BattleEventMessage(player.Device)
+                                        {
+                                            Type = Type,
+                                            Tick = Tick,
+                                            Value1 = Value1,
+                                            Value2 = Value2,
+                                            HighId = SenderHighId,
+                                            LowId = SenderLowId
+                                        }.SendAsync();
+                                }
+
+                                break;
+                            }
+
+                        case 1:
+                            {
+                                var teammate = battle.GetTeammate(home.Id);
+
+                                if (teammate != null)
+                                    await new BattleEventMessage(teammate.Device)
+                                    {
+                                        Type = Type,
+                                        Tick = Tick,
+                                        Value1 = Value1,
+                                        Value2 = Value2,
+                                        HighId = SenderHighId,
+                                        LowId = SenderLowId
+                                    }.SendAsync();
+
+                                break;
+                            }
                     }
                 }
-
-                //battle.Replay.AddEvent(Type, home.HighId, home.LowId, Tick, Value);
-            }
-            else if (duoBattle != null)
-            {
-                var home = Device.Player.Home;
-
-                switch (Type)
+                else
                 {
-                    case 6:
+                    var home = Device.Player.Home;
+
+                    switch (Type)
                     {
-                        var unknown = Reader.ReadVInt();
-                        var handIndex = Reader.ReadVInt();
-                        var unknown2 = Reader.ReadVInt();
-
-                        var teammate = duoBattle.GetTeammate(home.Id);
-
-                        if(teammate != null)
-                            await new BattleEventMessage(teammate.Device)
-                            {
-                                Type = Type,
-                                Tick = Tick,
-                                Value1 = Value1,
-                                Value2 = Value2,
-                                HighId = SenderHighId,
-                                LowId = SenderLowId,
-                                Unknown = unknown,
-                                Unknown2 = unknown2,
-                                Unknown3 = Unknown3,
-                                HandIndex = handIndex
-                            }.SendAsync();
-
-                        break;
-                    }
-
-                    case 3:
-                    {
-                        var players = duoBattle.GetAllOthers(home.Id);
-
-                        foreach (var player in players)
+                        case 3:
                         {
-                            if (player?.Device != null)
-                                await new BattleEventMessage(player.Device)
+                            var enemy = battle.GetEnemy(home.Id);
+
+                            if (enemy != null)
+                                await new BattleEventMessage(enemy)
                                 {
                                     Type = Type,
                                     Tick = Tick,
@@ -118,29 +136,13 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
                                     HighId = SenderHighId,
                                     LowId = SenderLowId
                                 }.SendAsync();
+
+                            break;
                         }
-
-                        break;
-                    }
-
-                    case 1:
-                    {
-                        var teammate = duoBattle.GetTeammate(home.Id);
-
-                        if(teammate != null)
-                            await new BattleEventMessage(teammate.Device)
-                            {
-                                Type = Type,
-                                Tick = Tick,
-                                Value1 = Value1,
-                                Value2 = Value2,
-                                HighId = SenderHighId,
-                                LowId = SenderLowId
-                            }.SendAsync();
-
-                        break;
                     }
                 }
+
+                //battle.Replay.AddEvent(Type, home.HighId, home.LowId, Tick, Value);
             }
         }
     }

@@ -35,11 +35,6 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
                 if (!battle.IsRunning && !Resources.Configuration.UseUdp)
                     battle.BattleTimer.Start();
 
-            var duoBattle = Device.Player.DuoBattle;
-            if (duoBattle != null)
-                if (!duoBattle.IsRunning && !Resources.Configuration.UseUdp)
-                    duoBattle.BattleTimer.Start();
-
             for (var i = 0; i < Count; i++)
             {
                 var type = Reader.ReadVInt();

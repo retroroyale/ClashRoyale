@@ -6,7 +6,7 @@ using ClashRoyale.Protocol.Messages.Server;
 
 namespace ClashRoyale.Database.Cache
 {
-    public class DuoBattles : Dictionary<long, LogicDuoBattle>
+    public class DuoBattles : Dictionary<long, LogicBattle>
     {
         private readonly List<Player> _duoPlayerQueue = new List<Player>();
 
@@ -85,7 +85,7 @@ namespace ClashRoyale.Database.Cache
         ///     Adds a battle to the list
         /// </summary>
         /// <param name="battle"></param>
-        public void Add(LogicDuoBattle battle)
+        public void Add(LogicBattle battle)
         {
             battle.BattleId = _seed++;
 
