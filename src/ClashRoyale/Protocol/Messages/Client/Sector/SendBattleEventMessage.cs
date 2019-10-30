@@ -15,7 +15,9 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
 
         public int Type { get; set; }
         public int Tick { get; set; }
-        public int Value { get; set; }
+
+        public int Value1 { get; set; }
+        public int Value2 { get; set; }
 
         public override void Decode()
         {
@@ -25,8 +27,9 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
             Reader.ReadVInt();
             Tick = Reader.ReadVInt();
             Reader.ReadVInt();
-            Reader.ReadVInt();
-            Value = Reader.ReadVInt();
+
+            Value1 = Reader.ReadVInt();
+            Value2 = Reader.ReadVInt();
         }
 
         public override async void Process()
@@ -47,9 +50,9 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
                         if (enemy != null)
                             await new BattleEventMessage(enemy)
                             {
-                                EventId = Type,
+                                Type = Type,
                                 Tick = Tick,
-                                Value = Value,
+                                Value2 = Value2,
                                 HighId = Device.Player.Home.HighId,
                                 LowId = Device.Player.Home.LowId
                             }.SendAsync();
@@ -66,6 +69,30 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
 
                 switch (Type)
                 {
+                    case 6:
+                    {
+                        var unknown = Reader.ReadVInt();
+                        var handIndex = Reader.ReadVInt();
+                        var unknown2 = Reader.ReadVInt();
+
+                        var teammate = duoBattle.GetTeammate(home.Id);
+
+                        await new BattleEventMessage(teammate.Device)
+                        {
+                            Type = Type,
+                            Tick = Tick,
+                            Value1 = Value1,
+                            Value2 = Value2,
+                            HighId = Device.Player.Home.HighId,
+                            LowId = Device.Player.Home.LowId,
+                            Unknown = unknown,
+                            Unknown2 = unknown2,
+                            HandIndex = handIndex
+                        }.SendAsync();
+
+                            break;
+                    }
+
                     case 3:
                     {
                         var players = duoBattle.GetAllOthers(home.Id);
@@ -75,13 +102,29 @@ namespace ClashRoyale.Protocol.Messages.Client.Sector
                             if (player?.Device != null)
                                 await new BattleEventMessage(player.Device)
                                 {
-                                    EventId = Type,
+                                    Type = Type,
                                     Tick = Tick,
-                                    Value = Value,
+                                    Value2 = Value2,
                                     HighId = Device.Player.Home.HighId,
                                     LowId = Device.Player.Home.LowId
                                 }.SendAsync();
                         }
+
+                        break;
+                    }
+
+                    case 1:
+                    {
+                        var teammate = duoBattle.GetTeammate(home.Id);
+
+                        await new BattleEventMessage(teammate.Device)
+                        {
+                            Type = Type,
+                            Tick = Tick,
+                            Value2 = Value2,
+                            HighId = Device.Player.Home.HighId,
+                            LowId = Device.Player.Home.LowId
+                        }.SendAsync();
 
                         break;
                     }

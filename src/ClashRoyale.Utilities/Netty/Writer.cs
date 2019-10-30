@@ -97,7 +97,7 @@ namespace ClashRoyale.Utilities.Netty
         /// <param name="value"></param>
         public static void WriteHex(this IByteBuffer buffer, string value)
         {
-            var tmp = value.Replace("-", string.Empty);
+            var tmp = value.Replace("-", string.Empty).Replace(" ", string.Empty);
             buffer.WriteBytes(Enumerable.Range(0, tmp.Length).Where(x => x % 2 == 0)
                 .Select(x => Convert.ToByte(tmp.Substring(x, 2), 16)).ToArray());
         }

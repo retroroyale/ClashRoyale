@@ -14,7 +14,6 @@ namespace ClashRoyale.Protocol.Messages.Server
         }
 
         public LogicDuoBattle Battle { get; set; }
-        public bool EnemyTeam { get; set; }
 
         public override void Encode()
         {
@@ -106,7 +105,7 @@ namespace ClashRoyale.Protocol.Messages.Server
                 Writer.WriteVInt(p == 3 ? 9 : 2);
             }
 
-            Battle.Encode(Writer, EnemyTeam);
+            Battle.Encode(Writer);
         }
     }
 }
