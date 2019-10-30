@@ -26,7 +26,7 @@ namespace ClashRoyale.Protocol.Commands.Client
 
         public override void Process()
         {
-            if (Is2V2)
+            //if (Is2V2)
             {
                 //await new MatchmakeFailedMessage(Device).SendAsync();
                 //await new CancelMatchmakeDoneMessage(Device).SendAsync();
@@ -52,7 +52,7 @@ namespace ClashRoyale.Protocol.Commands.Client
                     Resources.DuoBattles.Enqueue(Device.Player);
                 }
             }
-            else
+            /*else
             {
                 var enemy = Resources.Battles.Dequeue;
                 if (enemy != null)
@@ -73,7 +73,7 @@ namespace ClashRoyale.Protocol.Commands.Client
                 {
                     Resources.Battles.Enqueue(Device.Player);
                 }
-            }
+            }*/
         }
     }
 }
