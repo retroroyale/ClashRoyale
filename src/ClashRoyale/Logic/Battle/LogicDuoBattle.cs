@@ -407,7 +407,8 @@ namespace ClashRoyale.Logic.Battle
             packet.WriteVInt(0);
             packet.WriteVInt(0);
 
-            packet.WriteHex("000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+            packet.WriteHex(
+                "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
 
             // LogicHitpointComponent
             packet.WriteVInt(2352);
@@ -476,19 +477,15 @@ namespace ClashRoyale.Logic.Battle
         {
             try
             {
-                foreach (var player in this)
-                    if(player != null)
+                foreach (var player in ToArray())
+                    if (player != null)
                         if (player.Device.IsConnected)
                         {
                             if (player.Device.SecondsSinceLastCommand > 2)
                             {
                                 if (BattleSeconds <= 8) continue;
 
-                                if (!IsFriendly)
-                                {
-                                    player.Home.AddCrowns(3);
-                                    player.Home.Arena.AddTrophies(31);
-                                }
+                                if (!IsFriendly) player.Home.AddCrowns(3);
 
                                 await new BattleResultMessage(player.Device).SendAsync();
 
@@ -511,9 +508,9 @@ namespace ClashRoyale.Logic.Battle
                 if (FindIndex(p => p?.Device.SecondsSinceLastCommand < 10) <= -1)
                     Stop();
             }
-            catch (Exception)
+            catch (Exception exc)
             {
-                Logger.Log("DuoBattleTick failed.", GetType(), ErrorLevel.Error);
+                Logger.Log($"DuoBattleTick failed. {exc}", GetType(), ErrorLevel.Error);
                 Stop();
             }
         }
@@ -527,13 +524,14 @@ namespace ClashRoyale.Logic.Battle
             if (Count <= 1)
                 Stop();
 
-            var index = FindIndex(x => x.Home.Id == player.Home.Id);
+            if (player == null) return;
 
-            if (index > -1)
-            {
-                player.DuoBattle = null;
-                this[index] = null;
-            }
+            var index = FindIndex(x => x?.Home.Id == player.Home.Id);
+
+            if (index <= -1) return;
+
+            player.DuoBattle = null;
+            this[index] = null;
         }
 
         public Player GetTeammate(long userId)
@@ -547,6 +545,12 @@ namespace ClashRoyale.Logic.Battle
             return this.Where(x => x?.Home.Id != userId).ToList();
         }
 
+        public Queue<byte[]> GetOwnQueue(long userId)
+        {
+            var index = FindIndex(x => x?.Home.Id == userId);
+            return index > -1 ? Commands[index] : new Queue<byte[]>();
+        }
+
         public List<Queue<byte[]>> GetOtherQueues(long userId)
         {
             var index = FindIndex(x => x.Home.Id == userId);
@@ -555,18 +559,6 @@ namespace ClashRoyale.Logic.Battle
             cmd.RemoveAt(index);
 
             return cmd;
-        }
-
-        public Queue<byte[]> GetOwnQueue(long userId)
-        {
-            var index = FindIndex(x => x.Home.Id == userId);
-
-            if (index > -1)
-            { 
-                return Commands[index];
-            }
-
-            return new Queue<byte[]>();
         }
 
         #region Objects
