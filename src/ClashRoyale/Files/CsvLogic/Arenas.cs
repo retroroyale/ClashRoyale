@@ -46,10 +46,10 @@ namespace ClashRoyale.Files.CsvLogic
         public Arenas GetChestArena() => Csv.Tables.Get(Csv.Files.Arenas).GetData(ChestArena) as Arenas;
         public Arenas GetTvArena() => Csv.Tables.Get(Csv.Files.Arenas).GetData(TvArena) as Arenas;
 
-        public Locations GetPvpLocation() => Csv.Tables.Get(Csv.Files.Locations).GetData(PvpLocation) as Locations;
-        public Locations GetTeamVsTeamLocation() => Csv.Tables.Get(Csv.Files.Locations).GetData(TeamVsTeamLocation) as Locations;
+        public Locations GetPvpLocation() => Csv.Tables.Get(Csv.Files.Locations).GetData<Locations>(PvpLocation) as Locations;
+        public Locations GetTeamVsTeamLocation() => Csv.Tables.Get(Csv.Files.Locations).GetData<Locations>(TeamVsTeamLocation) as Locations;
 
-        public TreasureChests GetSeasonRewardChest() => Csv.Tables.Get(Csv.Files.TreasureChests).GetData(SeasonRewardChest) as TreasureChests;
+        public TreasureChests GetSeasonRewardChest() => Csv.Tables.Get(Csv.Files.TreasureChests).GetData<TreasureChests>(SeasonRewardChest) as TreasureChests;
 
     }
 }
