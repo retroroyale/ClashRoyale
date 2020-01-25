@@ -1,4 +1,5 @@
-﻿using ClashRoyale.Logic;
+﻿using System.Collections.Generic;
+using ClashRoyale.Logic;
 using ClashRoyale.Protocol.Messages.Server;
 using DotNetty.Buffers;
 
@@ -16,7 +17,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
             // TODO:
             await new AllianceListMessage(Device)
             {
-                Alliances = await Resources.Alliances.GetRandomAlliancesAsync()
+                Alliances = new List<Logic.Clan.Alliance>(0)
             }.SendAsync();
         }
     }

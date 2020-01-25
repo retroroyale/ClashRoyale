@@ -234,7 +234,7 @@ namespace ClashRoyale.Logic.Clan
             var st = new Stopwatch();
             st.Start();
 
-            await Redis.CacheAsync(this);
+            Resources.ObjectCache.CacheAlliance(this);
             await AllianceDb.SaveAsync(this);
 
             st.Stop();

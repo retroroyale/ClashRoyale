@@ -237,9 +237,6 @@ namespace ClashRoyale.Database
                 )
                 {
                     await ExecuteAsync(cmd);
-
-                    if (Redis.IsConnected)
-                        await Redis.UncacheAllianceAsync(id);
                 }
             }
             catch (Exception exception)

@@ -33,8 +33,6 @@ namespace ClashRoyale.Core
         [JsonProperty("mysql_user")] public string MySqlUserId = "root";
 
         [JsonProperty("patch_url")] public string PatchUrl = "";
-        [JsonProperty("redis_password")] public string RedisPassword = "";
-        [JsonProperty("redis_server")] public string RedisServer = "127.0.0.1";
         [JsonProperty("sentry_api")] public string SentryApiUrl = "";
 
         [JsonProperty("server_port")] public int ServerPort = 9339;
@@ -60,8 +58,6 @@ namespace ClashRoyale.Core
                     MySqlServer = config.MySqlServer;
                     MySqlPassword = config.MySqlPassword;
                     MySqlDatabase = config.MySqlDatabase;
-                    RedisPassword = config.RedisPassword;
-                    RedisServer = config.RedisServer;
 
                     PatchUrl = config.PatchUrl;
                     UseContentPatch = config.UseContentPatch;

@@ -58,46 +58,15 @@ namespace ClashRoyale.Database.Cache
 
             if (onlineOnly) return null;
 
-            if (!Redis.IsConnected) return await AllianceDb.GetAsync(allianceId);
-
-            var alliance = await Redis.GetAllianceAsync(allianceId);
+            var alliance = Resources.ObjectCache.GetCachedAlliance(allianceId);
 
             if (alliance != null) return alliance;
 
             alliance = await AllianceDb.GetAsync(allianceId);
 
-            await Redis.CacheAsync(alliance);
+            Resources.ObjectCache.CacheAlliance(alliance);
 
             return alliance;
-        }
-
-        /// <summary>
-        ///     Returns a list of random cached Alliances
-        /// </summary>
-        /// <param name="count"></param>
-        /// <returns></returns>
-        public async Task<List<Alliance>> GetRandomAlliancesAsync(int count = 40, bool notFull = true)
-        {
-            var alliances = new List<Alliance>(count);
-
-            for (var i = 0; i < count; i++)
-            {
-                var alliance = await Redis.GetRandomAllianceAsync();
-
-                if (alliance != null && alliances.FindIndex(a => a.Id == alliance.Id) == -1)
-                {
-                    if (notFull)
-                    {
-                        if (alliance.Members.Count < 50) alliances.Add(alliance);
-                    }
-                    else
-                    {
-                        alliances.Add(alliance);
-                    }
-                }
-            }
-
-            return alliances;
         }
     }
 }

@@ -49,7 +49,7 @@ namespace ClashRoyale.Protocol.Messages.Client.Alliance
             else
             {
                 await AllianceDb.DeleteAsync(alliance.Id);
-                await Redis.UncacheAllianceAsync(alliance.Id);
+                Resources.ObjectCache.UncacheAlliance(alliance.Id);
             }
         }
     }

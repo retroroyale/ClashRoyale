@@ -19,7 +19,7 @@ namespace ClashRoyale
         public static Configuration Configuration { get; set; }
         public static PlayerDb PlayerDb { get; set; }
         public static AllianceDb AllianceDb { get; set; }
-        public static Redis Redis { get; set; }
+        public static ObjectCache ObjectCache { get; set; }
         public static Leaderboard Leaderboard { get; set; }
 
         public static NettyService Netty { get; set; }
@@ -61,7 +61,7 @@ namespace ClashRoyale
                 $"Successfully loaded MySql with {await PlayerDb.CountAsync()} player(s) & {await AllianceDb.CountAsync()} clan(s)",
                 null);
 
-            Redis = new Redis();
+            ObjectCache = new ObjectCache();
 
             Battles = new Battles();
             DuoBattles = new DuoBattles();

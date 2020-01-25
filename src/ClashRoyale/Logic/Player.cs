@@ -664,13 +664,13 @@ namespace ClashRoyale.Logic
             var st = new Stopwatch();
             st.Start();
 
-            await Redis.CacheAsync(this);
+            Resources.ObjectCache.CachePlayer(this);
             await PlayerDb.SaveAsync(this);
 
             st.Stop();
             Logger.Log($"Player {Home.Id} saved in {st.ElapsedMilliseconds}ms.", GetType(), ErrorLevel.Debug);
 #else
-            await Redis.CacheAsync(this);
+            Resources.ObjectCache.CachePlayer(this);
             await PlayerDb.SaveAsync(this);
 #endif
         }

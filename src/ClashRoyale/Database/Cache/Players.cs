@@ -24,7 +24,7 @@ namespace ClashRoyale.Database.Cache
             }
             else
             {
-                var p = await Redis.GetPlayerAsync(userId);
+                var p = Resources.ObjectCache.GetCachedPlayer(userId);
 
                 if (p != null)
                     player = p;
@@ -121,15 +121,13 @@ namespace ClashRoyale.Database.Cache
 
             if (onlineOnly) return null;
 
-            if (!Redis.IsConnected) return await PlayerDb.GetAsync(userId);
-
-            var player = await Redis.GetPlayerAsync(userId);
+            var player = Resources.ObjectCache.GetCachedPlayer(userId);
 
             if (player != null) return player;
 
             player = await PlayerDb.GetAsync(userId);
 
-            await Redis.CacheAsync(player);
+            Resources.ObjectCache.CachePlayer(player);
 
             return player;
         }
