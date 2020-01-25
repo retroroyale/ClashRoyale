@@ -5,6 +5,7 @@
 
 #### A .NET Core Clash Royale Server (v1.9)
 ##### If you want to test the current build you can download [this](https://retroroyale.xyz) client.
+##### Need help? Join our [Discord](https://discord.gg/XdTw2PZ)
 
 ## Battles
 The server supports battles, for those a patched client is neccessary.
