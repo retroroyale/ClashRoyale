@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.IO;
+using Microsoft.VisualBasic.FileIO;
 
 namespace ClashRoyale.Files.CsvReader
 {
@@ -17,31 +17,29 @@ namespace ClashRoyale.Files.CsvReader
             _types = new List<string>();
             _columns = new List<Column>();
 
-            using (var reader = new StreamReader(path))
+            using (var reader = new TextFieldParser(path))
             {
-                var columns = reader.ReadLine()?.Replace("\"", string.Empty).Replace(" ", string.Empty).Split(',');
-                if (columns != null)
-                    foreach (var column in columns)
-                    {
-                        _headers.Add(column);
-                        _columns.Add(new Column());
-                    }
+                reader.SetDelimiters(",");
 
-                var types = reader.ReadLine()?.Replace("\"", string.Empty).Split(',');
-                if (types != null)
-                    foreach (var type in types)
-                        _types.Add(type);
+                var columns = reader.ReadFields();
 
-                while (!reader.EndOfStream)
+                foreach (var column in columns)
                 {
-                    var values = reader.ReadLine()?.Replace("\"", string.Empty).Split(',');
+                    _headers.Add(column);
+                    _columns.Add(new Column());
+                }
 
-                    if (!string.IsNullOrEmpty(values?[0]))
-                        new Row(this);
+                var types = reader.ReadFields();
 
-                    for (var i = 0; i < _headers.Count; i++)
-                        if (values != null)
-                            _columns[i].Add(values[i]);
+                foreach (var type in types) _types.Add(type);
+
+                while (!reader.EndOfData)
+                {
+                    var values = reader.ReadFields();
+
+                    if (!string.IsNullOrEmpty(values[0])) AddRow(new Row(this));
+
+                    for (var i = 0; i < _headers.Count; i++) _columns[i].Add(values[i]);
                 }
             }
         }
@@ -53,9 +51,8 @@ namespace ClashRoyale.Files.CsvReader
 
         public int GetArraySizeAt(Row row, int columnIndex)
         {
-            var index = _rows.IndexOf(row);
-            if (index == -1)
-                return 0;
+            var index = _rows.IndexOf(row) + 1;
+            if (index == -1) return 0;
 
             int nextOffset;
             if (index + 1 >= _rows.Count)
@@ -65,11 +62,10 @@ namespace ClashRoyale.Files.CsvReader
             else
             {
                 var nextRow = _rows[index + 1];
-                nextOffset = nextRow.GetRowOffset();
+                nextOffset = nextRow.Offset;
             }
 
-            var offset = row.GetRowOffset();
-            return Column.GetArraySize(offset, nextOffset);
+            return Column.GetArraySize(row.Offset, nextOffset);
         }
 
         public int GetColumnIndexByName(string name)

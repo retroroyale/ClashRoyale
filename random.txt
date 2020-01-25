@@ -1,0 +1,32 @@
+RND: -237100689
+
+!!DECK 0!!
+JSON:
+1: 26000021 // Hogrider
+2: 28000008 // Zap
+3: 28000011 // Log
+4: 26000046 // Bandit
+5: 26000043 // Angrybarbarians
+6: 26000015 // Babydragon
+7: 26000039 // Megaminion
+8: 26000041 // Goblingang
+
+REPLAY:
+
+1: 26000021 // Hogrider
+2: 26000043 // Angrybarbarians
+3: 26000041 // Goblingang
+4: 26000039 // Megaminion
+5: 26000046 // Bandit
+6: 26000015 // Babydragon
+7: 28000008 // Zap
+8: 28000011 // Log
+
+1. SAME
+2. will be 7
+3. will be 8
+4. will be 5
+5. will be 2
+6. SAME
+7. will be 4
+8. will be 3

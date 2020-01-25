@@ -5,53 +5,52 @@ namespace ClashRoyale.Files.CsvHelpers
 {
     public class DataTable
     {
-        public List<Data> Data;
+        public List<Data> Datas;
         public Csv.Files Index;
 
         public DataTable()
         {
-            Data = new List<Data>();
+            Datas = new List<Data>();
         }
 
         public DataTable(Table table, Csv.Files index)
         {
             Index = index;
-            Data = new List<Data>();
+            Datas = new List<Data>();
 
-            for (var i = 0; i < table.GetRowCount(); i++)
+            for (var i = 0; i < table.GetRowCount(); i += 2)
             {
                 var row = table.GetRowAt(i);
                 var data = Csv.Create(Index, row, this);
-
-                Data.Add(data);
+                Datas.Add(data);
             }
         }
 
         public int Count()
         {
-            return Data?.Count ?? 0;
+            return Datas?.Count ?? 0;
         }
 
         public List<Data> GetDatas()
         {
-            return Data;
+            return Datas;
         }
 
         public Data GetDataWithId(int id)
         {
-            return Data[GlobalId.GetInstanceId(id)];
+            return Datas[GlobalId.GetInstanceId(id)];
         }
 
         public T GetDataWithInstanceId<T>(int id) where T : Data
         {
-            if (Data.Count < id) return null;
+            if (Datas.Count < id) return null;
 
-            return Data[id] as T;
+            return Datas[id] as T;
         }
 
         public T GetData<T>(string name) where T : Data
         {
-            return Data.Find(data => data.GetName() == name) as T;
+            return Datas.Find(data => data.GetName() == name) as T;
         }
 
         public int GetIndex()

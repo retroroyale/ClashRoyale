@@ -91,9 +91,9 @@ namespace ClashRoyale.Logic.Home
             try
             {
                 var table = Csv.Tables.Get(Csv.Files.Arenas);
-                var index = table.Data.FindIndex(x => ((Arenas) x).Arena == arena);
+                var index = table.Datas.FindIndex(x => ((Arenas) x).Arena == arena);
 
-                return index == -1 ? null : table.Data[index] as Arenas;
+                return index == -1 ? null : table.Datas[index] as Arenas;
             }
             catch (Exception)
             {
