@@ -1,8 +1,8 @@
-FROM microsoft/dotnet:2.2-runtime-stretch-slim AS base
+FROM microsoft/dotnet:3.1-runtime-stretch-slim AS base
 WORKDIR /app
 
 
-FROM microsoft/dotnet:2.2-sdk-stretch AS build
+FROM microsoft/dotnet:3.1-sdk-stretch AS build
 WORKDIR /src
 COPY ["ClashRoyale/ClashRoyale.csproj", "ClashRoyale/"]
 RUN dotnet restore "ClashRoyale/ClashRoyale.csproj"
