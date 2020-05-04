@@ -15,7 +15,7 @@ namespace ClashRoyale.Core.Network.Handlers
 
             var header = Unpooled.Buffer(7);
             header.WriteUnsignedShort(message.Id);
-            header.WriteMedium(message.Length);
+            header.WriteMedium(message.Writer.ReadableBytes);
             header.WriteUnsignedShort(message.Version);
 
             base.WriteAsync(context, header);

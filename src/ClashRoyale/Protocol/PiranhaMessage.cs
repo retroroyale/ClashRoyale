@@ -49,8 +49,6 @@ namespace ClashRoyale.Protocol
             var buffer = Writer;
 
             Device.Rc4.Encrypt(ref buffer);
-
-            Length = buffer.ReadableBytes;
         }
 
         public virtual void Decode()
