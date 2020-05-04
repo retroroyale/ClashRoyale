@@ -42,8 +42,8 @@ namespace ClashRoyale.Protocol.Messages.Client.Login
         public override async void Process()
         {
             if (Resources.Configuration.UseContentPatch)
-            {
                 if (FingerprintSha != Resources.Fingerprint.Sha)
+                {
                     await new LoginFailedMessage(Device)
                     {
                         ErrorCode = 7,
@@ -51,16 +51,16 @@ namespace ClashRoyale.Protocol.Messages.Client.Login
                         ResourceFingerprintData = Resources.Fingerprint.Json,
                         SkipCrypto = true
                     }.SendAsync();
-            }
-            else
+                    return;
+                }
+
+
+            await new LoginFailedMessage(Device)
             {
-                await new LoginFailedMessage(Device)
-                {
-                    Reason =
-                        "You are using an unpatched client. Please setup a content patch in the apk or on the server.",
-                    SkipCrypto = true
-                }.SendAsync();
-            }
+                Reason =
+                    "You are using an unpatched client. Please setup a content patch in the apk or on the server.",
+                SkipCrypto = true
+            }.SendAsync();
         }
     }
 }
