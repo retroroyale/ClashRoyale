@@ -43,7 +43,8 @@ namespace ClashRoyale.Protocol.Messages.Client.Login
         {
             await new LoginFailedMessage(Device)
             {
-                ErrorCode = 8
+                ErrorCode = 8,
+                SkipCrypto = true
             }.SendAsync();
         }
     }

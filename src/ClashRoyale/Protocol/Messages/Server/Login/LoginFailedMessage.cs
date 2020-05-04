@@ -17,6 +17,7 @@ namespace ClashRoyale.Protocol.Messages.Server
         public string ResourceFingerprintData { get; set; }
         public string ContentUrl { get; set; }
         public string UpdateUrl { get; set; }
+        public bool SkipCrypto { get; set; }
 
         // After login
         // 7  = Content Update
@@ -29,6 +30,12 @@ namespace ClashRoyale.Protocol.Messages.Server
         // 8  = Maintenance
         // 9  = Banned
         // 10 = Update available
+
+        public override void Encrypt()
+        {
+            if(!SkipCrypto)
+                base.Encrypt();
+        }
 
         public override void Encode()
         {

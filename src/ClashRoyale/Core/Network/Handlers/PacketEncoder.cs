@@ -13,9 +13,6 @@ namespace ClashRoyale.Core.Network.Handlers
 
             message.Encode();
 
-            if (message.Id != 20103)
-                message.Encrypt();
-
             var header = Unpooled.Buffer(7);
             header.WriteUnsignedShort(message.Id);
             header.WriteMedium(message.Length);
