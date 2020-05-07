@@ -14,7 +14,7 @@ namespace ClashRoyale.Core.Cluster.Protocol
         public ClusterMessage(Node server)
         {
             Server = server;
-            Writer = Unpooled.Buffer(5);
+            Writer = PooledByteBufferAllocator.Default.Buffer();
         }
 
         /// <summary>

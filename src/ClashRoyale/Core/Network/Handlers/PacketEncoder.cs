@@ -14,7 +14,7 @@ namespace ClashRoyale.Core.Network.Handlers
             message.Encode();
             message.Encrypt();
 
-            var header = Unpooled.Buffer(7);
+            var header = PooledByteBufferAllocator.Default.Buffer(7);
             header.WriteUnsignedShort(message.Id);
             header.WriteMedium(message.Writer.WriterIndex);
             header.WriteUnsignedShort(message.Version);

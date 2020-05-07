@@ -13,7 +13,7 @@ namespace ClashRoyale.Protocol
         public PiranhaMessage(Device device)
         {
             Device = device;
-            Writer = Unpooled.Buffer(7);
+            Writer = PooledByteBufferAllocator.Default.Buffer();
         }
 
         public PiranhaMessage(Device device, IByteBuffer buffer)
