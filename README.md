@@ -4,7 +4,6 @@
 ![Build Status](https://action-badges.now.sh/retroroyale/ClashRoyale)
 
 #### A .NET Core Clash Royale Server (v1.9)
-##### If you want to test the current build you can download [this](https://retroroyale.xyz) client.
 ##### Need help? Join our [Discord](https://discord.gg/XdTw2PZ)
 
 ## Battles
