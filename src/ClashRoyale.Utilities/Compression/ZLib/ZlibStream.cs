@@ -123,47 +123,39 @@ namespace ClashRoyale.Utilities.Compression.ZLib
 
         public static byte[] CompressBuffer(byte[] b, CompressionLevel compressionLevel)
         {
-            using (var ms = new MemoryStream())
-            {
-                Stream compressor =
-                    new ZlibStream(ms, CompressionMode.Compress, compressionLevel);
+            using var ms = new MemoryStream();
+            Stream compressor =
+                new ZlibStream(ms, CompressionMode.Compress, compressionLevel);
 
-                ZlibBaseStream.CompressBuffer(b, compressor);
-                return ms.ToArray();
-            }
+            ZlibBaseStream.CompressBuffer(b, compressor);
+            return ms.ToArray();
         }
 
         public static byte[] CompressString(string s, CompressionLevel compressionLevel)
         {
-            using (var ms = new MemoryStream())
-            {
-                Stream compressor =
-                    new ZlibStream(ms, CompressionMode.Compress, compressionLevel);
-                ZlibBaseStream.CompressString(s, compressor);
-                return ms.ToArray();
-            }
+            using var ms = new MemoryStream();
+            Stream compressor =
+                new ZlibStream(ms, CompressionMode.Compress, compressionLevel);
+            ZlibBaseStream.CompressString(s, compressor);
+            return ms.ToArray();
         }
 
         public static byte[] UncompressBuffer(byte[] compressed)
         {
-            using (var input = new MemoryStream(compressed))
-            {
-                Stream decompressor =
-                    new ZlibStream(input, CompressionMode.Decompress);
+            using var input = new MemoryStream(compressed);
+            Stream decompressor =
+                new ZlibStream(input, CompressionMode.Decompress);
 
-                return ZlibBaseStream.UncompressBuffer(compressed, decompressor);
-            }
+            return ZlibBaseStream.UncompressBuffer(compressed, decompressor);
         }
 
         public static string UncompressString(byte[] compressed)
         {
-            using (var input = new MemoryStream(compressed))
-            {
-                Stream decompressor =
-                    new ZlibStream(input, CompressionMode.Decompress);
+            using var input = new MemoryStream(compressed);
+            Stream decompressor =
+                new ZlibStream(input, CompressionMode.Decompress);
 
-                return ZlibBaseStream.UncompressString(compressed, decompressor);
-            }
+            return ZlibBaseStream.UncompressString(compressed, decompressor);
         }
 
         public override void Flush()

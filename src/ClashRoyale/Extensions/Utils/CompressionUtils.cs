@@ -27,14 +27,7 @@ namespace ClashRoyale.Extensions.Utils
                         CoderPropID.EndMarker
                     }, new object[]
                     {
-                        262144,
-                        2,
-                        3,
-                        0,
-                        2,
-                        32,
-                        "bt4",
-                        false
+                        262144, 2, 3, 0, 2, 32, "bt4", false
                     });
 
                     encoder.WriteCoderProperties(compressed);

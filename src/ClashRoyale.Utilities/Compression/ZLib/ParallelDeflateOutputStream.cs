@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Threading;
 
@@ -472,7 +471,7 @@ namespace ClashRoyale.Utilities.Compression.ZLib
             }
         }
 
-        private bool DeflateOneSegment(WorkItem workitem)
+        private void DeflateOneSegment(WorkItem workitem)
         {
             var compressor = workitem.Compressor;
             compressor.ResetDeflate();
@@ -490,7 +489,6 @@ namespace ClashRoyale.Utilities.Compression.ZLib
             compressor.Deflate(FlushType.Sync);
 
             workitem.CompressedBytesAvailable = (int) compressor.TotalBytesOut;
-            return true;
         }
 
         [Flags]

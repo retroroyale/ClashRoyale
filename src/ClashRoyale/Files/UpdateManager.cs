@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
+using System.Threading.Tasks;
 using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Utilities.Utils;
+using SharpRaven.Data;
 
 namespace ClashRoyale.Files
 {
@@ -12,84 +12,99 @@ namespace ClashRoyale.Files
         public const string PatchDir = BaseDir + "update/";
         public const string TempDir = PatchDir + "temp/";
 
-        public UpdateManager()
+        public async Task Initialize()
         {
             if (!Resources.Configuration.UseContentPatch) return;
-            if (!AssetsChanged) return;
+            var assetsChanged = await CheckForChanges();
+            if (!assetsChanged) return;
 
-            Logger.Log("Assets have been updated. Creating patch...", GetType());
+            Logger.Log("Assets have been updated. Creating patch...", GetType(), ErrorLevel.Warning);
 
-            CreatePatch();
+            await CreatePatch();
 
-            Logger.Log($"Fingerprint updated to v.{Resources.Fingerprint.GetVersion}", GetType());
+            Logger.Log($"Fingerprint updated to [v{Resources.Fingerprint.GetVersion}]", GetType());
         }
 
         /// <summary>
-        ///     Returns true wether the files have been updated
+        /// This task checks if there have been made any changes to an asset for a new patch
         /// </summary>
-        public bool AssetsChanged
+        /// <returns></returns>
+        public async Task<bool> CheckForChanges()
         {
-            get
+            var modified = false;
+
+            foreach (var asset in Resources.Fingerprint.Files)
             {
-                var files = Resources.Fingerprint.Files;
-                return Directory.GetDirectories(BaseDir).Where(d => !d.Contains("update")).Any(dir =>
-                    (from file in Directory.GetFiles(dir)
-                        let sha = ServerUtils.GetChecksum(file.Contains("sc")
-                            ? File.ReadAllBytes(file)
-                            : CompressionUtils.CompressData(File.ReadAllBytes(file)))
-                        let name = file.Replace(BaseDir, string.Empty).Replace('\\', '/')
-                        let index = files.FindIndex(x => x.File == name)
-                        where index > -1
-                        let check = files[index]
-                        where check.Sha != sha
-                        select sha).Any());
+                var hasChanged = await asset.HasFileChanged();
+                if (!hasChanged) continue;
+
+                modified = true;
+                break;
             }
+
+            return modified;
         }
 
         /// <summary>
         ///     Creates a new patch if the files have been updated
         /// </summary>
-        public void CreatePatch()
+        public async Task CreatePatch()
         {
             if (!Directory.Exists(PatchDir)) Directory.CreateDirectory(PatchDir);
 
-            var files = new List<Asset>();
             var fingerprint = Resources.Fingerprint;
 
-            foreach (var dir in Directory.GetDirectories(BaseDir))
+            foreach (var asset in fingerprint.Files)
             {
-                if (dir.Contains("update")) continue;
+                var path = Path.Combine(BaseDir, asset.File);
+                if (!File.Exists(path)) return;
 
-                var newDir = dir.Replace(BaseDir, TempDir) + "/";
+                var expression = Path.GetExtension(asset.File).Replace(".", string.Empty);
+                var newPath = Path.Combine(TempDir, asset.File);
+                var newDir = Path.GetDirectoryName(newPath);
 
-                if (!Directory.Exists(newDir))
+                if (!Directory.Exists(newDir)) 
                     Directory.CreateDirectory(newDir);
 
-                foreach (var updatedFile in Directory.GetFiles(dir))
+                switch (expression)
                 {
-                    var data = updatedFile.Contains("sc")
-                        ? File.ReadAllBytes(updatedFile)
-                        : CompressionUtils.CompressData(File.ReadAllBytes(updatedFile)); // only compress csv
-                    var name = Path.GetFileName(updatedFile);
-                    var newPath = newDir + name;
-
-                    files.Add(new Asset
+                    case "csv":
                     {
-                        File = dir.Split('/').Last() + "/" + name,
-                        Sha = ServerUtils.GetChecksum(data)
-                    });
+                        var rawData = await File.ReadAllBytesAsync(path);
+                        var compressedData = CompressionUtils.CompressData(rawData);
+                        var sha = ServerUtils.GetChecksum(compressedData);
 
-                    File.WriteAllBytes(newPath, data);
+                        asset.Sha = sha;
+                        await File.WriteAllBytesAsync(newPath, compressedData);
+                        break;
+                    }
+
+                    case "sc":
+                    {
+                        var compressedData = await File.ReadAllBytesAsync(path);
+                        var sha = ServerUtils.GetChecksum(compressedData);
+
+                        asset.Sha = sha;
+                        await File.WriteAllBytesAsync(newPath, compressedData);
+                        break;
+                    }
+
+                    default:
+                    {
+                        Logger.Log($"Unknown file expression {expression}", GetType(), ErrorLevel.Warning);
+                        break;
+                    }
                 }
             }
 
-            fingerprint.Files = files;
             fingerprint.Version[2]++;
 
             fingerprint.Sha = ServerUtils.GetChecksum(fingerprint.GetVersion);
             fingerprint.Save();
 
-            Directory.Move(TempDir, PatchDir + fingerprint.Sha);
+            Directory.Move(TempDir, Path.Combine(PatchDir, fingerprint.Sha));
+            File.Copy(Path.Combine(BaseDir, "fingerprint.json"),
+                Path.Combine(PatchDir, fingerprint.Sha, "fingerprint.json"));
         }
     }
 }

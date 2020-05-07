@@ -77,7 +77,7 @@ namespace ClashRoyale.Utilities.Compression.ZLib
             }
         }
 
-        private byte[] WorkingBuffer => _workingBuffer ?? (_workingBuffer = new byte[BufferSize]);
+        private byte[] WorkingBuffer => _workingBuffer ??= new byte[BufferSize];
 
         public override void Write(byte[] buffer, int offset, int count)
         {
@@ -458,33 +458,29 @@ namespace ClashRoyale.Utilities.Compression.ZLib
         {
             var working = new byte[1024];
             var encoding = Encoding.UTF8;
-            using (var output = new MemoryStream())
+            using var output = new MemoryStream();
+            using (decompressor)
             {
-                using (decompressor)
-                {
-                    int n;
-                    while ((n = decompressor.Read(working, 0, working.Length)) != 0) output.Write(working, 0, n);
-                }
-
-                output.Seek(0, SeekOrigin.Begin);
-                var sr = new StreamReader(output, encoding);
-                return sr.ReadToEnd();
+                int n;
+                while ((n = decompressor.Read(working, 0, working.Length)) != 0) output.Write(working, 0, n);
             }
+
+            output.Seek(0, SeekOrigin.Begin);
+            var sr = new StreamReader(output, encoding);
+            return sr.ReadToEnd();
         }
 
         public static byte[] UncompressBuffer(byte[] compressed, Stream decompressor)
         {
             var working = new byte[1024];
-            using (var output = new MemoryStream())
+            using var output = new MemoryStream();
+            using (decompressor)
             {
-                using (decompressor)
-                {
-                    int n;
-                    while ((n = decompressor.Read(working, 0, working.Length)) != 0) output.Write(working, 0, n);
-                }
-
-                return output.ToArray();
+                int n;
+                while ((n = decompressor.Read(working, 0, working.Length)) != 0) output.Write(working, 0, n);
             }
+
+            return output.ToArray();
         }
     }
 }

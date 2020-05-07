@@ -48,11 +48,14 @@ namespace ClashRoyale
             NodeManager = new NodeManager();
 
             Fingerprint = new Fingerprint();
+
             Sentry = new SentryReport();
             Csv = new Csv();
-            Cards.Initialize();
 
             UpdateManager = new UpdateManager();
+            await UpdateManager.Initialize();
+
+            Cards.Initialize();
 
             PlayerDb = new PlayerDb();
             AllianceDb = new AllianceDb();

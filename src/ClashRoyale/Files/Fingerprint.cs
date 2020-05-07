@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using ClashRoyale.Extensions.Utils;
+using ClashRoyale.Utilities.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SharpRaven.Data;
 
 namespace ClashRoyale.Files
 {
@@ -61,7 +65,7 @@ namespace ClashRoyale.Files
         {
             var json = JsonConvert.SerializeObject(this, new JsonSerializerSettings
             {
-                DefaultValueHandling = DefaultValueHandling.Include,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
                 Formatting = Formatting.None
             });
 
@@ -73,7 +77,44 @@ namespace ClashRoyale.Files
 
     public class Asset
     {
+        [JsonProperty("defer")] public bool Defer { get; set; }
         [JsonProperty("file")] public string File { get; set; }
         [JsonProperty("sha")] public string Sha { get; set; }
+
+        public async Task<bool> HasFileChanged()
+        {
+            var path = Path.Combine(UpdateManager.BaseDir, File);
+            if (!System.IO.File.Exists(path)) return false;
+
+            var expression = Path.GetExtension(File).Replace(".", string.Empty);
+
+            switch (expression)
+            {
+                case "csv":
+                {
+                    var rawData = await System.IO.File.ReadAllBytesAsync(path);
+                    var compressedData = CompressionUtils.CompressData(rawData);
+                    var sha = ServerUtils.GetChecksum(compressedData);
+
+                    return sha != Sha;
+                }
+
+                case "sc":
+                {
+                    var compressedData = await System.IO.File.ReadAllBytesAsync(path);
+                    var sha = ServerUtils.GetChecksum(compressedData);
+
+                    return sha != Sha;
+                }
+
+                default:
+                {
+                    Logger.Log($"Unknown file expression {expression}", GetType(), ErrorLevel.Warning);
+                    break;
+                }
+            }
+
+            return false;
+        }
     }
 }

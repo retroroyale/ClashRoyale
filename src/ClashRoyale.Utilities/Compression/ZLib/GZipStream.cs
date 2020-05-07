@@ -282,45 +282,37 @@ namespace ClashRoyale.Utilities.Compression.ZLib
 
         public static byte[] CompressString(string s)
         {
-            using (var ms = new MemoryStream())
-            {
-                Stream compressor =
-                    new GZipStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression);
-                ZlibBaseStream.CompressString(s, compressor);
-                return ms.ToArray();
-            }
+            using var ms = new MemoryStream();
+            Stream compressor =
+                new GZipStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression);
+            ZlibBaseStream.CompressString(s, compressor);
+            return ms.ToArray();
         }
 
         public static byte[] CompressBuffer(byte[] b)
         {
-            using (var ms = new MemoryStream())
-            {
-                Stream compressor =
-                    new GZipStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression);
+            using var ms = new MemoryStream();
+            Stream compressor =
+                new GZipStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression);
 
-                ZlibBaseStream.CompressBuffer(b, compressor);
-                return ms.ToArray();
-            }
+            ZlibBaseStream.CompressBuffer(b, compressor);
+            return ms.ToArray();
         }
 
         public static string UncompressString(byte[] compressed)
         {
-            using (var input = new MemoryStream(compressed))
-            {
-                Stream decompressor = new GZipStream(input, CompressionMode.Decompress);
-                return ZlibBaseStream.UncompressString(compressed, decompressor);
-            }
+            using var input = new MemoryStream(compressed);
+            Stream decompressor = new GZipStream(input, CompressionMode.Decompress);
+            return ZlibBaseStream.UncompressString(compressed, decompressor);
         }
 
         public static byte[] UncompressBuffer(byte[] compressed)
         {
-            using (var input = new MemoryStream(compressed))
-            {
-                Stream decompressor =
-                    new GZipStream(input, CompressionMode.Decompress);
+            using var input = new MemoryStream(compressed);
+            Stream decompressor =
+                new GZipStream(input, CompressionMode.Decompress);
 
-                return ZlibBaseStream.UncompressBuffer(compressed, decompressor);
-            }
+            return ZlibBaseStream.UncompressBuffer(compressed, decompressor);
         }
     }
 }
