@@ -104,7 +104,7 @@ namespace ClashRoyale.Files
 
             Directory.Move(TempDir, Path.Combine(PatchDir, fingerprint.Sha));
             File.Copy(Path.Combine(BaseDir, "fingerprint.json"),
-                Path.Combine(PatchDir, fingerprint.Sha, "fingerprint.json"));
+                Path.Combine(PatchDir, fingerprint.Sha, "fingerprint.json"), true);
         }
     }
 }

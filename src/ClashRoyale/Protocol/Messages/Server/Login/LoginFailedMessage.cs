@@ -33,8 +33,8 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encrypt()
         {
-            if (!SkipCrypto)
-                base.Encrypt();
+            if (SkipCrypto) return;
+            base.Encrypt();
         }
 
         public override void Encode()
