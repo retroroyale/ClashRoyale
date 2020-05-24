@@ -15,7 +15,7 @@ The server supports battles, for those a patched client is neccessary.
 
 #### Requirements:
   - [.NET Core SDK 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
-  - MySql Database (on Ubuntu i suggest WAMP with PhpMyAdmin)
+  - MySql Database (on Debian i suggest LAMP with PhpMyAdmin)
 
 for Ubuntu use these commands to set it up:
 
