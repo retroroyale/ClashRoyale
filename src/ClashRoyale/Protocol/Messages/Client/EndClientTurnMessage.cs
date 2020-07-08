@@ -1,5 +1,6 @@
 ﻿using System;
 using ClashRoyale.Logic;
+using ClashRoyale.Protocol.Messages.Server;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 using SharpRaven.Data;
@@ -16,15 +17,16 @@ namespace ClashRoyale.Protocol.Messages.Client
 
         public int Tick { get; set; }
         public int Count { get; set; }
+        public int Checksum { get; set; }
 
         public override void Decode()
         {
             Tick = Reader.ReadVInt();
-            Reader.ReadVInt();
+            Checksum = Reader.ReadVInt();
             Count = Reader.ReadVInt();
         }
 
-        public override void Process()
+        public override async void Process()
         {
             if (Tick < 0)
             {
@@ -50,6 +52,10 @@ namespace ClashRoyale.Protocol.Messages.Client
 
             if (Count < 0 && Count > 128) return;
 
+            var home = Device.Player.Home;
+            var cardCount = home.Deck.Count - 8;
+            var oldChestOpenedCount = home.ChestsOpened;
+
             for (var i = 0; i < Count; i++)
             {
                 var type = Reader.ReadVInt();
@@ -68,7 +74,8 @@ namespace ClashRoyale.Protocol.Messages.Client
                             command.Decode();
                             command.Process();
 
-                            Logger.Log($"Command {type} ({command.GetType().Name}) with Tick {command.Tick} has been processed.",
+                            Logger.Log(
+                                $"Command {type} ({command.GetType().Name}) with Tick {command.Tick} has been processed.",
                                 GetType(), ErrorLevel.Debug);
 
                             Save = true;
@@ -86,6 +93,16 @@ namespace ClashRoyale.Protocol.Messages.Client
                         GetType(), ErrorLevel.Warning);
                     break;
                 }
+            }
+
+            var serverChecksum = home.ChestsOpened == oldChestOpenedCount
+                ? ((home.Deck.Count - 8) << 16) | home.ChestsOpened
+                : (cardCount << 16) | home.ChestsOpened;
+
+            if (Device.CurrentState == Device.State.Home && serverChecksum != Checksum)
+            {
+                await new OutOfSyncMessage(Device).SendAsync();
+                Console.WriteLine($"Checksum: {Checksum}, Server: {serverChecksum}");
             }
         }
     }

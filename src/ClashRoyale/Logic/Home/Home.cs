@@ -60,6 +60,7 @@ namespace ClashRoyale.Logic.Home
             Arena.Home = this;
         }
 
+        [JsonProperty("chestsOpened")] public int ChestsOpened { get; set; }
         [JsonProperty("name")] public string Name { get; set; }
         [JsonProperty("token")] public string UserToken { get; set; }
         [JsonProperty("name_set")] public int NameSet { get; set; }

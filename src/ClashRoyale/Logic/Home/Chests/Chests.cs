@@ -173,6 +173,7 @@ namespace ClashRoyale.Logic.Home.Chests
 
             Home.Gold += chest.Gold;
             Home.Diamonds += chest.Gems;
+            Home.ChestsOpened++;
 
             /*var price =
                 ((baseChest.ShopPriceWithoutSpeedUp * Home.Arena.GetCurrentArenaData().ChestShopPriceMultiplier) / 100);

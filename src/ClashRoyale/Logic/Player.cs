@@ -95,7 +95,7 @@ namespace ClashRoyale.Logic
 
             // Unknown
             {
-                packet.WriteVInt(0);
+                packet.WriteVInt(Home.ChestsOpened); // CurrentChestId
                 packet.WriteVInt(Home.GetFreeChestId()); // Current Freechest Id
 
                 // Free Chest Timer
