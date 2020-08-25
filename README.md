@@ -3,6 +3,8 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![Build Status](https://action-badges.now.sh/retroroyale/ClashRoyale)
 
+## make sure to checkout my [latest project](https://github.com/Incr3dible/sc-utility)
+
 #### A .NET Core Clash Royale Server (v1.9)
 ##### Need help? Join our [Discord](https://discord.gg/XdTw2PZ)
 
