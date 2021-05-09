@@ -1,5 +1,6 @@
 using ClashRoyale.Files.CsvHelpers;
 using ClashRoyale.Files.CsvReader;
+using ClashRoyale.Files;
 
 namespace ClashRoyale.Files.CsvLogic
 {
@@ -41,5 +42,14 @@ namespace ClashRoyale.Files.CsvLogic
         public int BattleRewardGold { get; set; }
         public string ReleaseDate { get; set; }
         public string SeasonRewardChest { get; set; }
+
+        public Arenas GetChestArena() => Csv.Tables.Get(Csv.Files.Arenas).GetData(ChestArena) as Arenas;
+        public Arenas GetTvArena() => Csv.Tables.Get(Csv.Files.Arenas).GetData(TvArena) as Arenas;
+
+        public Locations GetPvpLocation() => Csv.Tables.Get(Csv.Files.Locations).GetData<Locations>(PvpLocation) as Locations;
+        public Locations GetTeamVsTeamLocation() => Csv.Tables.Get(Csv.Files.Locations).GetData<Locations>(TeamVsTeamLocation) as Locations;
+
+        public TreasureChests GetSeasonRewardChest() => Csv.Tables.Get(Csv.Files.TreasureChests).GetData<TreasureChests>(SeasonRewardChest) as TreasureChests;
+
     }
 }
