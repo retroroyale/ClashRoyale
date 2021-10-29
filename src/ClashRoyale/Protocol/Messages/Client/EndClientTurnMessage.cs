@@ -48,7 +48,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                 Device.AdjustTick(Tick);
             }
 
-            if (Count < 0 && Count > 128) return;
+            if (Count < 0 || Count > 128) return;
 
             for (var i = 0; i < Count; i++)
             {
