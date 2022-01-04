@@ -50,7 +50,7 @@ namespace ClashRoyale.Protocol.Messages.Client
                 Device.AdjustTick(Tick);
             }
 
-            if (Count < 0 && Count > 128) return;
+            if (Count < 0 || Count > 128) return;
 
             var home = Device.Player.Home;
             var cardCount = home.Deck.Count - 8;

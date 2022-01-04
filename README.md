@@ -3,8 +3,10 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![Build Status](https://action-badges.now.sh/retroroyale/ClashRoyale)
 
+## make sure to checkout my [latest project](https://github.com/Incr3dible/sc-utility)
+
 #### A .NET Core Clash Royale Server (v1.9)
-##### Need help? Join our [Discord](https://discord.gg/XdTw2PZ)
+##### Need help? Join our [Discord](https://discord.gg/8cHkNE6)
 
 ## Battles
 The server supports battles, for those a patched client is neccessary.
@@ -15,7 +17,7 @@ The server supports battles, for those a patched client is neccessary.
 
 #### Requirements:
   - [.NET Core SDK 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
-  - MySql Database (on Ubuntu i suggest WAMP with PhpMyAdmin)
+  - MySql Database (on Debian i suggest LAMP with PhpMyAdmin)
 
 for Ubuntu use these commands to set it up:
 
